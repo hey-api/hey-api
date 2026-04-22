@@ -13,6 +13,11 @@ import type { State } from '../types/state';
  * no `operationId` is present, or when `operation.id` was disambiguated
  * (suffix appended) because the sanitized operationId collided — in that
  * case the disambiguator is carried in `operation.id` and must be kept.
+ *
+ * The comparison is case- and separator-insensitive because `operation.id`
+ * is built via `toCase(sanitized, output.case)` and the target casing is
+ * not available here. Stripping non-alphanumerics and lowercasing both
+ * sides isolates the disambiguation signal (the numeric suffix).
  */
 export const operationBaseName = (
   operation: Pick<IROperationObject, 'id' | 'operationId'>,
@@ -21,8 +26,10 @@ export const operationBaseName = (
     return operation.id;
   }
 
-  const normalized = toCase(sanitizeNamespaceIdentifier(operation.operationId), 'camelCase');
-  return operation.id === normalized ? operation.operationId : operation.id;
+  const canonical = (value: string) => value.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+  return canonical(operation.id) === canonical(operation.operationId)
+    ? operation.operationId
+    : operation.id;
 };
 
 export const httpMethods = [
