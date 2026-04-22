@@ -1,6 +1,7 @@
 import type { StructureLocation } from '@hey-api/codegen-core';
 
 import type { IR } from '../../../ir/types';
+import { operationBaseName } from '../utils/operation';
 
 /**
  * A function that derives path segments from an operation.
@@ -200,5 +201,5 @@ export const OperationPath = {
    * // operation.id: 'getUserById'
    * // Result: ['getUserById']
    */
-  id: (): OperationPathStrategy => (operation) => [operation.id],
+  id: (): OperationPathStrategy => (operation) => [operationBaseName(operation)],
 };
