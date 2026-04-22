@@ -1,5 +1,5 @@
 import type { IR } from '@hey-api/shared';
-import { operationResponsesMap } from '@hey-api/shared';
+import { operationBaseName, operationResponsesMap } from '@hey-api/shared';
 
 import { buildOperationSchema } from './operation-schema';
 import type { ProcessorContext, ProcessorResult } from './processor';
@@ -25,7 +25,7 @@ export function irOperationToAst({
           role: 'request-body',
         },
         naming: plugin.config.requests.body,
-        namingAnchor: operation.id,
+        namingAnchor: operationBaseName(operation),
         path: [...path, 'body'],
         plugin,
         schema: schema.properties.body,
@@ -43,7 +43,7 @@ export function irOperationToAst({
           role: 'request-headers',
         },
         naming: plugin.config.requests.headers,
-        namingAnchor: operation.id,
+        namingAnchor: operationBaseName(operation),
         path: [...path, 'headers'],
         plugin,
         schema: schema.properties.headers,
@@ -59,7 +59,7 @@ export function irOperationToAst({
           role: 'request-path',
         },
         naming: plugin.config.requests.path,
-        namingAnchor: operation.id,
+        namingAnchor: operationBaseName(operation),
         path: [...path, 'path'],
         plugin,
         schema: schema.properties.path,
@@ -75,7 +75,7 @@ export function irOperationToAst({
           role: 'request-query',
         },
         naming: plugin.config.requests.query,
-        namingAnchor: operation.id,
+        namingAnchor: operationBaseName(operation),
         path: [...path, 'query'],
         plugin,
         schema: schema.properties.query,
@@ -96,7 +96,7 @@ export function irOperationToAst({
             role: 'responses',
           },
           naming: plugin.config.responses,
-          namingAnchor: operation.id,
+          namingAnchor: operationBaseName(operation),
           path: [...path, 'responses'],
           plugin,
           schema: response,
