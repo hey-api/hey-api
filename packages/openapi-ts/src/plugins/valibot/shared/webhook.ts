@@ -1,4 +1,5 @@
 import type { IR } from '@hey-api/shared';
+import { operationBaseName } from '@hey-api/shared';
 
 import { buildOperationSchema } from './operation-schema';
 import type { ProcessorContext, ProcessorResult } from './processor';
@@ -23,7 +24,7 @@ export function irWebhookToAst({
         role: 'data',
       },
       naming: plugin.config.webhooks,
-      namingAnchor: operation.id,
+      namingAnchor: operationBaseName(operation),
       path,
       plugin,
       schema,
