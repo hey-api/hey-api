@@ -173,6 +173,19 @@ describe(`OpenAPI ${version}`, () => {
       }),
       description: 'handles various schema types and formats',
     },
+    {
+      config: createConfig({
+        input: 'acronym-operationid-preserve.yaml',
+        output: 'acronym-operationid-preserve',
+        plugins: [
+          {
+            case: 'preserve',
+            name: 'valibot',
+          },
+        ],
+      }),
+      description: 'preserves acronym casing from operationId when case is preserve',
+    },
   ];
 
   it.each(scenarios)('$description', async ({ config }) => {
