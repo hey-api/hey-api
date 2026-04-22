@@ -1,0 +1,43 @@
+openapi: 3.1.0
+info:
+  title: Acronym Casing Preserve
+  version: 1.0.0
+paths:
+  /requests/{id}:
+    get:
+      operationId: RequestOperations_describeHTTPRequest
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPRequest'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPError'
+components:
+  schemas:
+    HTTPRequest:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+        - id
+    HTTPError:
+      type: object
+      properties:
+        message:
+          type: string
+      required:
+        - message

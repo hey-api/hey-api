@@ -130,6 +130,19 @@ describe(`OpenAPI ${version}`, () => {
     },
     {
       config: createConfig({
+        input: 'acronym-operationid-preserve.yaml',
+        output: 'acronym-operationid-preserve',
+        plugins: [
+          {
+            case: 'preserve',
+            name: '@hey-api/typescript',
+          },
+        ],
+      }),
+      description: 'preserves acronym casing from operationId when case is preserve',
+    },
+    {
+      config: createConfig({
         input: 'case.yaml',
         output: 'case-PascalCase',
         plugins: [
