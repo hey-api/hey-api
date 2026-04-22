@@ -1,5 +1,10 @@
 import type { IR } from '@hey-api/shared';
-import { buildSymbolIn, deduplicateSchema, operationResponsesMap } from '@hey-api/shared';
+import {
+  buildSymbolIn,
+  deduplicateSchema,
+  operationBaseName,
+  operationResponsesMap,
+} from '@hey-api/shared';
 
 import { $ } from '../../../../ts-dsl';
 import type { HeyApiTypeScriptPlugin } from '../types';
@@ -125,7 +130,7 @@ export const operationToType = ({
         role: 'data',
         tags,
       },
-      name: operation.id,
+      name: operationBaseName(operation),
       naming: plugin.config.requests,
       operation,
       path,
@@ -163,7 +168,7 @@ export const operationToType = ({
           role: 'errors',
           tags,
         },
-        name: operation.id,
+        name: operationBaseName(operation),
         naming: plugin.config.errors,
         operation,
         path,
@@ -187,7 +192,7 @@ export const operationToType = ({
             role: 'error',
             tags,
           },
-          name: operation.id,
+          name: operationBaseName(operation),
           naming: {
             case: plugin.config.errors.case,
             name: plugin.config.errors.error,
@@ -228,7 +233,7 @@ export const operationToType = ({
           role: 'responses',
           tags,
         },
-        name: operation.id,
+        name: operationBaseName(operation),
         naming: plugin.config.responses,
         operation,
         path,
@@ -252,7 +257,7 @@ export const operationToType = ({
             role: 'response',
             tags,
           },
-          name: operation.id,
+          name: operationBaseName(operation),
           naming: {
             case: plugin.config.responses.case,
             name: plugin.config.responses.response,

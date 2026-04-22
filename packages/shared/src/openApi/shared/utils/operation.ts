@@ -1,7 +1,29 @@
 import type { Context } from '../../../ir/context';
 import { createOperationKey } from '../../../ir/operation';
+import type { IROperationObject } from '../../../ir/types';
 import { toCase } from '../../../utils/naming/naming';
 import type { State } from '../types/state';
+
+/**
+ * Returns the best raw string to use as the base for deriving names
+ * (types, SDK method names, etc.) from an operation.
+ *
+ * Prefers the spec's `operationId` verbatim so acronyms and separators
+ * survive `case: 'preserve'`. Falls back to the normalized IR `id` when
+ * no `operationId` is present, or when `operation.id` was disambiguated
+ * (suffix appended) because the sanitized operationId collided — in that
+ * case the disambiguator is carried in `operation.id` and must be kept.
+ */
+export const operationBaseName = (
+  operation: Pick<IROperationObject, 'id' | 'operationId'>,
+): string => {
+  if (!operation.operationId) {
+    return operation.id;
+  }
+
+  const normalized = toCase(sanitizeNamespaceIdentifier(operation.operationId), 'camelCase');
+  return operation.id === normalized ? operation.operationId : operation.id;
+};
 
 export const httpMethods = [
   'delete',
