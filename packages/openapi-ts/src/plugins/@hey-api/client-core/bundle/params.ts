@@ -140,20 +140,21 @@ export const buildClientParams = (args: ReadonlyArray<unknown>, fields: FieldsCo
             const name = field.map || key;
             (params[field.in] as Record<string, unknown>)[name] = value;
           } else {
-            params[field.map] = value;
+            // `field.map` is the transport slot when `in` is omitted.
+            (params as unknown as Record<Slot, Record<string, unknown>>)[field.map][key] = value;
           }
-        } else {
-          const extra = extraPrefixes.find(([prefix]) => key.startsWith(prefix));
+          continue;
+        }
 
-          if (extra) {
-            const [prefix, slot] = extra;
-            (params[slot] as Record<string, unknown>)[key.slice(prefix.length)] = value;
-          } else if ('allowExtra' in config && config.allowExtra) {
-            for (const [slot, allowed] of Object.entries(config.allowExtra)) {
-              if (allowed) {
-                (params[slot as Slot] as Record<string, unknown>)[key] = value;
-                break;
-              }
+        const extra = extraPrefixes.find(([prefix]) => key.startsWith(prefix));
+        if (extra) {
+          const [prefix, slot] = extra;
+          (params[slot] as Record<string, unknown>)[key.slice(prefix.length)] = value;
+        } else if ('allowExtra' in config && config.allowExtra) {
+          for (const [slot, allowed] of Object.entries(config.allowExtra)) {
+            if (allowed) {
+              (params[slot as Slot] as Record<string, unknown>)[key] = value;
+              break;
             }
           }
         }
