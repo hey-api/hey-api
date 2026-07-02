@@ -55,6 +55,7 @@ export const defaultConfig: OrpcPlugin['Config'] = {
       strategyDefaultTag: 'default',
     },
     includeInEntry: false,
+    inferQueryStyles: true,
     validator: {
       $coerceAny: ({ type, value }) => ({
         ...(type === 'boolean' || type === 'string'
@@ -82,6 +83,7 @@ export const defaultConfig: OrpcPlugin['Config'] = {
         return value;
       }),
     },
+    version: 'v1',
   },
   handler,
   imports: orpcImports,

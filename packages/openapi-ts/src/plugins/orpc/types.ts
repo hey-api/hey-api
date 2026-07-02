@@ -22,6 +22,14 @@ export type UserConfig = Plugin.Name<'orpc'> &
      */
     contracts?: OperationsStrategy | UserContractsConfig;
     /**
+     * Infer `queryStyles` metadata for query parameters from OpenAPI serialization styles.
+     *
+     * Only applies when `version` is set to `'v2'`.
+     *
+     * @default true
+     */
+    inferQueryStyles?: boolean;
+    /**
      * Validate input/output schemas.
      *
      * @default true
@@ -49,6 +57,12 @@ export type UserConfig = Plugin.Name<'orpc'> &
            */
           output?: PluginValidatorNames | boolean;
         };
+    /**
+     * Version of oRPC contracts to generate.
+     *
+     * @default 'v1'
+     */
+    version?: 'v1' | 'v2';
   };
 
 export type Config = Plugin.Name<'orpc'> &
@@ -56,6 +70,8 @@ export type Config = Plugin.Name<'orpc'> &
   Plugin.Exports & {
     /** Define the structure of generated oRPC contracts. */
     contracts: ContractsConfig;
+    /** Infer `queryStyles` metadata for query parameters from OpenAPI serialization styles. */
+    inferQueryStyles: boolean;
     /** Validate input/output schemas. */
     validator: {
       /** The validator plugin to use for input schemas. */
@@ -63,6 +79,8 @@ export type Config = Plugin.Name<'orpc'> &
       /** The validator plugin to use for output schemas. */
       output: PluginValidatorNames | false;
     };
+    /** Version of oRPC contracts to generate. */
+    version: 'v1' | 'v2';
   };
 
 export type OrpcPlugin = DefinePlugin<UserConfig, Config, never, OrpcImports>;

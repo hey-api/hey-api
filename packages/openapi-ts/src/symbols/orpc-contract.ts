@@ -5,5 +5,8 @@ export function ORPC_CONTRACT(factory: SymbolFactory) {
     oc: factory.register('oc', {
       external: '@orpc/contract',
     }),
+    openapi: factory.register('openapi', {
+      external: '@orpc/openapi',
+    }),
   };
 }

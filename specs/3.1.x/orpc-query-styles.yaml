@@ -1,0 +1,85 @@
+openapi: 3.1.1
+info:
+  title: OpenAPI 3.1.1 oRPC query styles example
+  version: 1
+paths:
+  /items:
+    get:
+      tags:
+        - items
+      operationId: getItems
+      summary: Get all items
+      parameters:
+        - name: ids
+          in: query
+          description: Filter by item IDs
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: tags
+          in: query
+          description: Filter by tags
+          required: false
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: names
+          in: query
+          description: Filter by names
+          required: false
+          style: spaceDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: codes
+          in: query
+          description: Filter by codes
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: category
+          in: query
+          description: Filter by category
+          required: false
+          schema:
+            type: string
+        - name: filters
+          in: query
+          description: Filter by field pairs
+          required: false
+          style: form
+          explode: false
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+      responses:
+        '200':
+          description: List of items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Item'
+components:
+  schemas:
+    Item:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: string
+        name:
+          type: string
