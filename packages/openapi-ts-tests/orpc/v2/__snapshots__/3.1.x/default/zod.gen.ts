@@ -3,17 +3,17 @@
 import * as z from 'zod';
 
 export const zItem = z.object({
-    id: z.string(),
-    name: z.string()
+  id: z.string(),
+  name: z.string()
 });
 
 export const zGetItemsQuery = z.object({
-    ids: z.array(z.string()).optional(),
-    tags: z.array(z.string()).optional(),
-    names: z.array(z.string()).optional(),
-    codes: z.array(z.string()).optional(),
-    category: z.string().optional(),
-    filters: z.record(z.string(), z.string()).optional()
+  ids: z.array(z.string()).optional(),
+  tags: z.array(z.string()).optional(),
+  names: z.array(z.string()).optional(),
+  codes: z.array(z.string()).optional(),
+  category: z.string().optional(),
+  filters: z.record(z.string(), z.string()).optional()
 });
 
 /**

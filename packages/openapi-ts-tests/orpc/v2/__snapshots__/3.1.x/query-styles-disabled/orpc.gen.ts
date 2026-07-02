@@ -10,14 +10,14 @@ import { zGetItemsQuery, zGetItemsResponse } from './zod.gen';
  * Get all items
  */
 export const getItems = oc.meta(openapi({
-    inputStructure: 'detailed',
-    method: 'GET',
-    operationId: 'getItems',
-    path: '/items',
-    summary: 'Get all items',
-    tags: ['items']
+  inputStructure: 'detailed',
+  method: 'GET',
+  operationId: 'getItems',
+  path: '/items',
+  summary: 'Get all items',
+  tags: ['items']
 })).input(z.object({ query: zGetItemsQuery.optional() }).optional()).output(zGetItemsResponse);
 
 export const contract = {
-    getItems
+  getItems
 };
