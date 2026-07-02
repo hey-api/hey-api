@@ -1,10 +1,10 @@
 ---
-title: oRPC v1 Plugin
-description: Generate oRPC v1 contracts from OpenAPI with the oRPC plugin for openapi-ts. Fully compatible with validators, transformers, and all core features.
+title: oRPC v2 Plugin
+description: Generate oRPC v2 contracts from OpenAPI with the oRPC plugin for openapi-ts. Fully compatible with validators, transformers, and all core features.
 sidebar:
   label: oRPC
 custom:
-  version: v1
+  version: v2
 ---
 
 import { Tabs, TabItem } from '@astrojs/starlight/components';
@@ -30,7 +30,7 @@ The oRPC plugin for Hey API generates contracts from your OpenAPI spec, fully co
 
 ## Features
 
-- oRPC v1 support
+- oRPC v2 support
 - seamless integration with `@hey-api/openapi-ts` ecosystem
 - generated contracts
 - minimal learning curve thanks to extending the underlying technology
@@ -62,16 +62,19 @@ Contracts are generated from all endpoints.
   <TabItem label="example">
 ```ts title="orpc.gen.ts"
 import { oc } from '@orpc/contract';
+import { openapi } from '@orpc/openapi';
 
-const addPet = oc.route({
-  description: 'Add a new pet to the store.',
-  inputStructure: 'detailed',
-  method: 'POST',
-  operationId: 'addPet',
-  path: '/pet',
-  summary: 'Add a new pet to the store.',
-  tags: ['pet'],
-});
+const addPet = oc.meta(
+  openapi({
+    description: 'Add a new pet to the store.',
+    inputStructure: 'detailed',
+    method: 'POST',
+    operationId: 'addPet',
+    path: '/pet',
+    summary: 'Add a new pet to the store.',
+    tags: ['pet'],
+  }),
+);
 ```
   </TabItem>
   <TabItem label="config">
@@ -88,6 +91,43 @@ export default {
   </TabItem>
 </Tabs>
 
+### Query Styles
+
+When generating oRPC v2 contracts, `queryStyles` metadata is inferred by default so OpenAPI query parameters keep their original serialization behavior.
+
+```ts title="orpc.gen.ts"
+const getItems = oc.meta(
+  openapi({
+    inputStructure: 'detailed',
+    method: 'GET',
+    operationId: 'getItems',
+    path: '/items',
+    queryStyles: {
+      ids: 'array',
+      filters: 'comma-delimited-object',
+      tags: 'comma-delimited-array',
+    },
+    tags: ['items'],
+  }),
+);
+```
+
+You can disable this metadata when you want oRPC's default bracket notation.
+
+```js {9} title="openapi-ts.config.ts"
+export default {
+  input: 'hey-api/backend', // sign up at app.heyapi.dev
+  output: 'src/client',
+  plugins: [
+    // ...other plugins
+    {
+      inferQueryStyles: false,
+      name: 'orpc',
+    },
+  ],
+};
+```
+
 ### Validators
 
 To enable schema validation, set `validator` to `zod` or one of the available [validator plugins](/docs/openapi/typescript/validators). This will automatically add the selected plugin with its default configuration.
@@ -96,21 +136,24 @@ For a more granular approach, manually add a validator plugin and set `validator
 
 <Tabs>
   <TabItem label="example">
-```ts {15,16} title="orpc.gen.ts"
+```ts {18,19} title="orpc.gen.ts"
 import { oc } from '@orpc/contract';
+import { openapi } from '@orpc/openapi';
 
 import { vAddPetBody, vAddPetResponse } from './valibot.gen';
 
 const addPet = oc
-  .route({
-    description: 'Add a new pet to the store.',
-    inputStructure: 'detailed',
-    method: 'POST',
-    operationId: 'addPet',
-    path: '/pet',
-    summary: 'Add a new pet to the store.',
-    tags: ['pet'],
-  })
+  .meta(
+    openapi({
+      description: 'Add a new pet to the store.',
+      inputStructure: 'detailed',
+      method: 'POST',
+      operationId: 'addPet',
+      path: '/pet',
+      summary: 'Add a new pet to the store.',
+      tags: ['pet'],
+    }),
+  )
   .input(v.object({ body: vAddPetBody }))
   .output(vAddPetResponse);
 ```

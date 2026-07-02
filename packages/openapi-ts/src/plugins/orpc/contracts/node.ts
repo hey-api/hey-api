@@ -21,6 +21,17 @@ export interface ContractItem {
 
 export const source = globalThis.Symbol('orpc');
 
+type QueryStyle =
+  | 'array'
+  | 'comma-delimited-array'
+  | 'comma-delimited-object'
+  | 'json'
+  | 'pipe-delimited-array'
+  | 'pipe-delimited-object'
+  | 'primitive'
+  | 'space-delimited-array'
+  | 'space-delimited-object';
+
 function createShellMeta(node: StructureNode): SymbolMeta {
   return {
     category: 'contract',
@@ -47,29 +58,92 @@ function createContractSymbol(
   });
 }
 
+function getQueryStyle(parameter: IR.ParameterObject): QueryStyle | undefined {
+  if (parameter.schema.type === 'array' || parameter.schema.type === 'tuple') {
+    if (parameter.style === 'form') {
+      return parameter.explode ? 'array' : 'comma-delimited-array';
+    }
+
+    if (parameter.style === 'pipeDelimited') {
+      return 'pipe-delimited-array';
+    }
+
+    if (parameter.style === 'spaceDelimited') {
+      return 'space-delimited-array';
+    }
+  }
+
+  if (parameter.schema.type === 'object') {
+    if (parameter.style === 'form' && !parameter.explode) {
+      return 'comma-delimited-object';
+    }
+
+    if (parameter.style === 'pipeDelimited') {
+      return 'pipe-delimited-object';
+    }
+
+    if (parameter.style === 'spaceDelimited') {
+      return 'space-delimited-object';
+    }
+  }
+}
+
+function createQueryStylesObject(
+  operation: IR.OperationObject,
+): ReturnType<typeof $.object> | undefined {
+  const parameters = Object.values(operation.parameters?.query ?? {}).sort((a, b) =>
+    a.name.localeCompare(b.name),
+  );
+  const queryStyles = $.object();
+
+  for (const parameter of parameters) {
+    const style = getQueryStyle(parameter);
+    if (style) {
+      queryStyles.prop(parameter.name, $.literal(style));
+    }
+  }
+
+  return queryStyles.hasProps() ? queryStyles : undefined;
+}
+
+function createRouteMetadataObject(
+  plugin: OrpcPlugin['Instance'],
+  operation: IR.OperationObject,
+): ReturnType<typeof $.object> {
+  const successResponse = getSuccessResponse(operation);
+  const tags = getTags(operation, plugin.config.contracts.strategyDefaultTag);
+  const metadata = $.object()
+    .$if(operation.deprecated, (o, v) => o.prop('deprecated', $.literal(v)))
+    .$if(operation.description, (o, v) => o.prop('description', $.literal(v)))
+    .prop('inputStructure', $.literal('detailed'))
+    .prop('method', $.literal(operation.method.toUpperCase()))
+    .$if(operation.operationId, (o, v) => o.prop('operationId', $.literal(v)))
+    .prop('path', $.literal(operation.path))
+    .$if(plugin.config.inferQueryStyles && plugin.config.compatibilityVersion === 2, (o) =>
+      o.prop('queryStyles', createQueryStylesObject(operation) ?? null),
+    )
+    .$if(successResponse.statusCode !== 200 && successResponse.statusCode, (o, v) =>
+      o.prop('successStatus', $.literal(v)),
+    )
+    .$if(operation.summary, (o, v) => o.prop('summary', $.literal(v)))
+    .$if(Boolean(tags.length) && tags, (o, v) => o.prop('tags', $.fromValue(v)));
+
+  return metadata;
+}
+
 function createContractExpression(
   plugin: OrpcPlugin['Instance'],
   operation: IR.OperationObject,
 ): ReturnType<typeof $.call> {
   const successResponse = getSuccessResponse(operation);
-  const tags = getTags(operation, plugin.config.contracts.strategyDefaultTag);
+  const routeMetadata = createRouteMetadataObject(plugin, operation);
 
-  let expression = $(plugin.imports.contract.oc)
-    .attr('route')
-    .call(
-      $.object()
-        .$if(operation.deprecated, (o, v) => o.prop('deprecated', $.literal(v)))
-        .$if(operation.description, (o, v) => o.prop('description', $.literal(v)))
-        .prop('inputStructure', $.literal('detailed'))
-        .prop('method', $.literal(operation.method.toUpperCase()))
-        .$if(operation.operationId, (o, v) => o.prop('operationId', $.literal(v)))
-        .prop('path', $.literal(operation.path))
-        .$if(successResponse.statusCode !== 200 && successResponse.statusCode, (o, v) =>
-          o.prop('successStatus', $.literal(v)),
-        )
-        .$if(operation.summary, (o, v) => o.prop('summary', $.literal(v)))
-        .$if(Boolean(tags.length) && tags, (o, v) => o.prop('tags', $.fromValue(v))),
-    );
+  let expression =
+    plugin.config.compatibilityVersion === 2
+      ? $(plugin.imports.contract.oc)
+          .attr('meta')
+          .call($(plugin.imports.contract.openapi).call(routeMetadata))
+      : $(plugin.imports.contract.oc).attr('route').call(routeMetadata);
 
   if (hasInput(operation) && plugin.config.validator.input) {
     const validator = plugin.getPluginOrThrow(plugin.config.validator.input);

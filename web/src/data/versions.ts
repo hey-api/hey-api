@@ -37,6 +37,20 @@ export const versionedRoutes: Record<string, VersionRoute> = {
       },
     ],
   },
+  '/docs/openapi/typescript/plugins/orpc': {
+    versions: [
+      {
+        href: '/docs/openapi/typescript/plugins/orpc/v2',
+        label: 'oRPC 2',
+        short: 'v2',
+      },
+      {
+        href: '/docs/openapi/typescript/plugins/orpc/v1',
+        label: 'oRPC 1',
+        short: 'v1',
+      },
+    ],
+  },
   '/docs/openapi/typescript/plugins/zod': {
     versions: [
       {
