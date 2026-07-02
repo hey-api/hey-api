@@ -28,7 +28,7 @@
     "oxfmt": "0.55.0",
     "svelte": "5.19.9",
     "svelte-check": "4.1.4",
-    "typescript": "6.0.3",
+    "typescript": "7.0.1-rc",
     "vite": "8.0.16",
     "vitest": "4.1.9"
   }

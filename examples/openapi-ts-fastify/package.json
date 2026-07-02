@@ -6,7 +6,7 @@
   "scripts": {
     "openapi-ts": "openapi-ts",
     "test": "vitest",
-    "typecheck": "tsgo --noEmit"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "fastify": "5.7.4",
@@ -15,7 +15,7 @@
   "devDependencies": {
     "@hey-api/openapi-ts": "workspace:*",
     "oxfmt": "0.55.0",
-    "typescript": "6.0.3",
+    "typescript": "7.0.1-rc",
     "vite": "8.0.16",
     "vitest": "4.1.9"
   }

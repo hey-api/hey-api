@@ -4,11 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "typecheck": "tsgo --noEmit"
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
     "@hey-api/openapi-ts": "workspace:*",
     "msw": "2.13.2",
-    "typescript": "6.0.3"
+    "typescript": "7.0.1-rc"
   }
 }

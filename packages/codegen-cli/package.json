@@ -45,13 +45,13 @@
     "build": "tsdown",
     "dev": "tsdown --watch",
     "prepublishOnly": "pnpm build",
-    "typecheck": "tsgo --noEmit"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "citty": "0.2.2"
   },
   "devDependencies": {
-    "typescript": "6.0.3"
+    "typescript": "7.0.1-rc"
   },
   "engines": {
     "node": ">=22.18.0"

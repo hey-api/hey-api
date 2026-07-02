@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "typecheck": "tsgo --noEmit"
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
     "@hey-api/openapi-ts": "workspace:*",
@@ -15,6 +15,6 @@
     "@tanstack/svelte-query": "5.90.2",
     "@tanstack/vue-query": "5.92.9",
     "axios": "1.13.4",
-    "typescript": "6.0.3"
+    "typescript": "7.0.1-rc"
   }
 }

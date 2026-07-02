@@ -5,6 +5,6 @@
   "type": "module",
   "devDependencies": {
     "@hey-api/openapi-python": "workspace:*",
-    "typescript": "6.0.3"
+    "typescript": "7.0.1-rc"
   }
 }

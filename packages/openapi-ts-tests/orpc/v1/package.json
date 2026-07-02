@@ -4,12 +4,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "typecheck": "tsgo --noEmit"
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
     "@hey-api/openapi-ts": "workspace:*",
     "@orpc/contract": "1.14.6",
-    "typescript": "6.0.3",
+    "typescript": "7.0.1-rc",
     "valibot": "1.4.1",
     "zod": "4.4.3"
   }

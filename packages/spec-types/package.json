@@ -61,12 +61,12 @@
     "build": "tsdown",
     "dev": "tsdown --watch",
     "prepublishOnly": "pnpm build",
-    "typecheck": "tsgo --noEmit"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@hey-api/types": "workspace:*"
   },
   "devDependencies": {
-    "typescript": "6.0.3"
+    "typescript": "7.0.1-rc"
   }
 }
