@@ -4,13 +4,27 @@ import { coerce, definePluginConfig } from '@hey-api/shared';
 import type { UserContractsConfig } from './contracts';
 import { orpcImports } from './imports';
 import { handler } from './plugin';
-import type { Config, OrpcPlugin } from './types';
+import type { Config, OrpcCompatibilityVersion, OrpcPlugin } from './types';
 
 const validatorInferWarn =
   'You set `validator: true` but no validator plugin was found in your plugins. Add a validator plugin like `zod` to enable this feature. The validator option has been disabled.';
 
 export const defaultConfig: OrpcPlugin['Config'] = {
   config: {
+    compatibilityVersion: coerce((value, context) => {
+      const packageName = '@orpc/contract';
+      const version = (context as PluginContext).package.getVersion(packageName);
+
+      function inferCompatibleVersion(): OrpcCompatibilityVersion {
+        if (version && (version.major === 1 || version.major === 2)) {
+          return version.major;
+        }
+        // default compatibility version
+        return 2;
+      }
+
+      return value ?? inferCompatibleVersion();
+    }),
     contracts: {
       $cascade: ['strategy'],
       $coerceAny: ({ type, value }) => ({
@@ -83,7 +97,6 @@ export const defaultConfig: OrpcPlugin['Config'] = {
         return value;
       }),
     },
-    version: 'v1',
   },
   handler,
   imports: orpcImports,

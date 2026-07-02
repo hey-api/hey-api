@@ -19,7 +19,7 @@ describe(`OpenAPI ${version}`, () => {
       config: createConfig({
         input: 'rpc.yaml',
         output: 'default',
-        plugins: ['orpc', 'zod'],
+        plugins: [{ compatibilityVersion: 1, name: 'orpc' }, 'zod'],
       }),
       description: 'generate oRPC contracts with Zod schemas',
     },
@@ -30,6 +30,7 @@ describe(`OpenAPI ${version}`, () => {
         plugins: [
           'valibot',
           {
+            compatibilityVersion: 1,
             contracts: {
               containerName: 'rpcContract',
               contractName: '{{name}}Rpc',

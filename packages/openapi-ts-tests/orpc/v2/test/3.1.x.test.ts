@@ -17,28 +17,22 @@ describe(`OpenAPI ${version}`, () => {
   const scenarios = [
     {
       config: createConfig({
-        input: 'orpc-query-styles.yaml',
+        input: 'rpc-query-styles.yaml',
         output: 'default',
-        plugins: [
-          'zod',
-          {
-            name: 'orpc',
-            version: 'v2',
-          },
-        ],
+        plugins: ['zod', 'orpc'],
       }),
       description: 'generate oRPC v2 contracts with query styles',
     },
     {
       config: createConfig({
-        input: 'orpc-query-styles.yaml',
+        input: 'rpc-query-styles.yaml',
         output: 'query-styles-disabled',
         plugins: [
           'zod',
           {
+            compatibilityVersion: 2,
             inferQueryStyles: false,
             name: 'orpc',
-            version: 'v2',
           },
         ],
       }),

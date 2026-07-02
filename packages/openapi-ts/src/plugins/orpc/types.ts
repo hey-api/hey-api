@@ -4,9 +4,21 @@ import type { PluginValidatorNames } from '../types';
 import type { ContractsConfig, UserContractsConfig } from './contracts/types';
 import type { OrpcImports } from './imports';
 
+export type OrpcCompatibilityVersion = 1 | 2;
+
 export type UserConfig = Plugin.Name<'orpc'> &
   Plugin.Hooks &
   Plugin.UserExports & {
+    /**
+     * The compatibility version to target for generated output.
+     *
+     * Can be:
+     * - `2`: oRPC v2 (default).
+     * - `1`: oRPC v1.
+     *
+     * @default 2
+     */
+    compatibilityVersion?: OrpcCompatibilityVersion;
     /**
      * Define the structure of generated oRPC contracts.
      *
@@ -24,7 +36,7 @@ export type UserConfig = Plugin.Name<'orpc'> &
     /**
      * Infer `queryStyles` metadata for query parameters from OpenAPI serialization styles.
      *
-     * Only applies when `version` is set to `'v2'`.
+     * Only applies when `compatibilityVersion` is set to `2`.
      *
      * @default true
      */
@@ -57,17 +69,13 @@ export type UserConfig = Plugin.Name<'orpc'> &
            */
           output?: PluginValidatorNames | boolean;
         };
-    /**
-     * Version of oRPC contracts to generate.
-     *
-     * @default 'v1'
-     */
-    version?: 'v1' | 'v2';
   };
 
 export type Config = Plugin.Name<'orpc'> &
   Plugin.Hooks &
   Plugin.Exports & {
+    /** The compatibility version to target for generated output. */
+    compatibilityVersion: OrpcCompatibilityVersion;
     /** Define the structure of generated oRPC contracts. */
     contracts: ContractsConfig;
     /** Infer `queryStyles` metadata for query parameters from OpenAPI serialization styles. */
@@ -79,8 +87,6 @@ export type Config = Plugin.Name<'orpc'> &
       /** The validator plugin to use for output schemas. */
       output: PluginValidatorNames | false;
     };
-    /** Version of oRPC contracts to generate. */
-    version: 'v1' | 'v2';
   };
 
 export type OrpcPlugin = DefinePlugin<UserConfig, Config, never, OrpcImports>;

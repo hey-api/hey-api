@@ -119,7 +119,7 @@ function createRouteMetadataObject(
     .prop('method', $.literal(operation.method.toUpperCase()))
     .$if(operation.operationId, (o, v) => o.prop('operationId', $.literal(v)))
     .prop('path', $.literal(operation.path))
-    .$if(plugin.config.inferQueryStyles && plugin.config.version === 'v2', (o) =>
+    .$if(plugin.config.inferQueryStyles && plugin.config.compatibilityVersion === 2, (o) =>
       o.prop('queryStyles', createQueryStylesObject(operation) ?? null),
     )
     .$if(successResponse.statusCode !== 200 && successResponse.statusCode, (o, v) =>
@@ -139,7 +139,7 @@ function createContractExpression(
   const routeMetadata = createRouteMetadataObject(plugin, operation);
 
   let expression =
-    plugin.config.version === 'v2'
+    plugin.config.compatibilityVersion === 2
       ? $(plugin.imports.contract.oc)
           .attr('meta')
           .call($(plugin.imports.contract.openapi).call(routeMetadata))
