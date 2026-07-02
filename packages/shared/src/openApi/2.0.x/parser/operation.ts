@@ -276,7 +276,13 @@ function operationToIrOperation({
     const securitySchemeObjects: Map<string, IR.SecurityObject> = new Map();
 
     for (const securityRequirementObject of operation.security) {
-      for (const name in securityRequirementObject) {
+      const names = Object.keys(securityRequirementObject);
+      if (!names.length) {
+        securitySchemeObjects.clear();
+        break;
+      }
+
+      for (const name of names) {
         const securitySchemeObject = securitySchemesMap.get(name);
 
         if (!securitySchemeObject) {

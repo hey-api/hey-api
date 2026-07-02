@@ -106,6 +106,29 @@ describe('operation', () => {
     });
   });
 
+  it('omits security when an empty requirement allows anonymous access', () => {
+    const localContext = createContext();
+    const securitySchemesMap = new Map<string, OpenAPIV2.SecuritySchemeObject>([
+      ['apiKeyAuth', { in: 'header', name: 'Auth', type: 'apiKey' }],
+    ]);
+
+    parsePathOperation({
+      ambiguousSecurityKeys: new Set(),
+      context: localContext,
+      method: 'get',
+      operation: {
+        operationId: 'getPublicData',
+        responses: {},
+        security: [{ apiKeyAuth: [] }, {}],
+      },
+      path: '/public-data',
+      securitySchemesMap,
+      state: { ids: new Map<string, string>() },
+    });
+
+    expect(localContext.ir.paths?.['/public-data']?.get?.security).toBeUndefined();
+  });
+
   it('should parse body parameter when consumes is undefined', () => {
     const context = createContext();
     const method = 'post';

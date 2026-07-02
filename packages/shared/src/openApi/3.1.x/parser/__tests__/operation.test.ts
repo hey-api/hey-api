@@ -143,4 +143,30 @@ describe('operation', () => {
       { scheme: 'basic', type: 'http' },
     ]);
   });
+
+  it('omits security when an empty requirement allows anonymous access', () => {
+    const localContext = {
+      config: { plugins: {} },
+      ir: { paths: {}, servers: [] },
+    } as unknown as Context;
+    const securitySchemesMap = new Map<string, OpenAPIV3_1.SecuritySchemeObject>([
+      ['apiKeyAuth', { in: 'header', name: 'Auth', type: 'apiKey' }],
+    ]);
+
+    parsePathOperation({
+      ambiguousSecurityKeys: new Set(),
+      context: localContext,
+      method: 'get',
+      operation: {
+        operationId: 'getPublicData',
+        responses: {},
+        security: [{ apiKeyAuth: [] }, {}],
+      },
+      path: '/public-data',
+      securitySchemesMap,
+      state: { ids: new Map<string, string>() },
+    });
+
+    expect(localContext.ir.paths?.['/public-data']?.get?.security).toBeUndefined();
+  });
 });
