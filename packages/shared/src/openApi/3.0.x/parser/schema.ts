@@ -794,6 +794,13 @@ function parseAnyOf({
     schema: irSchema,
   });
 
+  if (schema.discriminator && irSchema.logicalOperator === 'or') {
+    irSchema.discriminator = {
+      ...(schema.discriminator.mapping && { mapping: schema.discriminator.mapping }),
+      propertyName: schema.discriminator.propertyName,
+    };
+  }
+
   if (schemaType === 'object') {
     // nest composition to avoid producing a union with object properties
     const irObjectSchema = parseOneType({
@@ -811,13 +818,6 @@ function parseAnyOf({
         logicalOperator: 'and',
       };
     }
-  }
-
-  if (schema.discriminator && irSchema.logicalOperator === 'or') {
-    irSchema.discriminator = {
-      ...(schema.discriminator.mapping && { mapping: schema.discriminator.mapping }),
-      propertyName: schema.discriminator.propertyName,
-    };
   }
 
   return irSchema;
@@ -953,6 +953,13 @@ function parseOneOf({
     schema: irSchema,
   });
 
+  if (schema.discriminator && irSchema.logicalOperator === 'or') {
+    irSchema.discriminator = {
+      ...(schema.discriminator.mapping && { mapping: schema.discriminator.mapping }),
+      propertyName: schema.discriminator.propertyName,
+    };
+  }
+
   if (schemaType === 'object') {
     // nest composition to avoid producing a union with object properties
     const irObjectSchema = parseOneType({
@@ -970,13 +977,6 @@ function parseOneOf({
         logicalOperator: 'and',
       };
     }
-  }
-
-  if (schema.discriminator && irSchema.logicalOperator === 'or') {
-    irSchema.discriminator = {
-      ...(schema.discriminator.mapping && { mapping: schema.discriminator.mapping }),
-      propertyName: schema.discriminator.propertyName,
-    };
   }
 
   return irSchema;
