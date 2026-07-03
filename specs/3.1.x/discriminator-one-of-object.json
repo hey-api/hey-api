@@ -1,0 +1,85 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Discriminator oneOf object example",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/mock/items": {
+      "get": {
+        "operationId": "getMockItems",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["items"],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/MockItem"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "FooItem": {
+        "type": "object",
+        "required": ["fooValue"],
+        "properties": {
+          "fooValue": {
+            "type": "string"
+          }
+        }
+      },
+      "BarItem": {
+        "type": "object",
+        "required": ["barValue"],
+        "properties": {
+          "barValue": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "MockItem": {
+        "type": "object",
+        "discriminator": {
+          "propertyName": "kind",
+          "mapping": {
+            "FOO": "#/components/schemas/FooItem",
+            "BAR": "#/components/schemas/BarItem"
+          }
+        },
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/FooItem"
+          },
+          {
+            "$ref": "#/components/schemas/BarItem"
+          }
+        ],
+        "required": ["kind", "id"],
+        "properties": {
+          "kind": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

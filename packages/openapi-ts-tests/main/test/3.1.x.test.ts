@@ -233,6 +233,13 @@ describe(`OpenAPI ${version}`, () => {
     },
     {
       config: createConfig({
+        input: 'discriminator-one-of-object.json',
+        output: 'discriminator-one-of-object',
+      }),
+      description: 'handles oneOf discriminator mapping with object properties',
+    },
+    {
+      config: createConfig({
         input: 'discriminator-allof-nested.json',
         output: 'discriminator-allof-nested',
       }),
