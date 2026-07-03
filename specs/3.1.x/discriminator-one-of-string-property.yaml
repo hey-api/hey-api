@@ -1,0 +1,39 @@
+openapi: 3.1.0
+info:
+  title: OpenAPI 3.1.0 discriminator one of with parent property
+  version: 1
+paths: {}
+components:
+  schemas:
+    MockItem:
+      type: object
+      required:
+        - id
+        - kind
+      properties:
+        id:
+          type: string
+        kind:
+          type: string
+      oneOf:
+        - $ref: '#/components/schemas/FooItem'
+        - $ref: '#/components/schemas/BarItem'
+      discriminator:
+        propertyName: kind
+        mapping:
+          FOO: '#/components/schemas/FooItem'
+          BAR: '#/components/schemas/BarItem'
+    FooItem:
+      type: object
+      required:
+        - foo
+      properties:
+        foo:
+          type: string
+    BarItem:
+      type: object
+      required:
+        - bar
+      properties:
+        bar:
+          type: string

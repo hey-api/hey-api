@@ -878,9 +878,16 @@ function parseAnyOf({
   });
 
   if (schema.discriminator && irSchema.logicalOperator === 'or') {
+    const propertyType = findDiscriminatorPropertyType({
+      context,
+      propertyName: schema.discriminator.propertyName,
+      schemas: [schema],
+    });
+
     irSchema.discriminator = {
       ...(schema.discriminator.mapping && { mapping: schema.discriminator.mapping }),
       propertyName: schema.discriminator.propertyName,
+      propertyType,
     };
   }
 
@@ -1028,9 +1035,16 @@ function parseOneOf({
   });
 
   if (schema.discriminator && irSchema.logicalOperator === 'or') {
+    const propertyType = findDiscriminatorPropertyType({
+      context,
+      propertyName: schema.discriminator.propertyName,
+      schemas: [schema],
+    });
+
     irSchema.discriminator = {
       ...(schema.discriminator.mapping && { mapping: schema.discriminator.mapping }),
       propertyName: schema.discriminator.propertyName,
+      propertyType,
     };
   }
 

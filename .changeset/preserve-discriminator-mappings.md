@@ -1,4 +1,5 @@
 ---
+"@hey-api/shared": patch
 "@hey-api/openapi-ts": patch
 ---
 

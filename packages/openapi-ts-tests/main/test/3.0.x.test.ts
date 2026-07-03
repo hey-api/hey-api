@@ -215,6 +215,14 @@ describe(`OpenAPI ${version}`, () => {
     },
     {
       config: createConfig({
+        input: 'discriminator-one-of-integer-property.yaml',
+        output: 'discriminator-one-of-integer-property',
+      }),
+      description:
+        'handles integer discriminator mapping when the parent defines the discriminator property',
+    },
+    {
+      config: createConfig({
         input: 'discriminator-allof-nested.json',
         output: 'discriminator-allof-nested',
       }),

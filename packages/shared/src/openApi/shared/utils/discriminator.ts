@@ -162,7 +162,9 @@ export function buildDiscriminatedUnion({
     const values = discriminatorValues(ref, parentSchema.discriminator!.mapping);
     if (!values.length) return null;
 
-    const propType = discriminatorProp?.type as DiscriminatorPropertyType | undefined;
+    const propType =
+      (discriminatorProp?.type as DiscriminatorPropertyType | undefined) ??
+      parentSchema.discriminator?.propertyType;
 
     for (const value of values) {
       const discriminatedValue =

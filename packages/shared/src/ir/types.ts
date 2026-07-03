@@ -151,6 +151,7 @@ export interface IRSchemaObject
   discriminator?: {
     mapping?: Record<string, string>;
     propertyName: string;
+    propertyType?: 'boolean' | 'integer' | 'number' | 'string';
   };
   /**
    * Any string value is accepted as `format`.

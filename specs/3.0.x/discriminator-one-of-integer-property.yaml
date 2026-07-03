@@ -1,0 +1,39 @@
+openapi: 3.0.3
+info:
+  title: OpenAPI 3.0.3 discriminator one of with integer parent property
+  version: 1
+paths: {}
+components:
+  schemas:
+    MockItem:
+      type: object
+      required:
+        - id
+        - kind
+      properties:
+        id:
+          type: string
+        kind:
+          type: integer
+      oneOf:
+        - $ref: '#/components/schemas/FooItem'
+        - $ref: '#/components/schemas/BarItem'
+      discriminator:
+        propertyName: kind
+        mapping:
+          '1': '#/components/schemas/FooItem'
+          '2': '#/components/schemas/BarItem'
+    FooItem:
+      type: object
+      required:
+        - foo
+      properties:
+        foo:
+          type: string
+    BarItem:
+      type: object
+      required:
+        - bar
+      properties:
+        bar:
+          type: string
