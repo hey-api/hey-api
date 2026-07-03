@@ -4,6 +4,8 @@ import type { OpenAPIV3_1 } from '@hey-api/spec-types';
 import { Context } from '../../../../ir/context';
 import { parseV3_1_X } from '../index';
 
+type CompositionKeyword = 'anyOf' | 'oneOf';
+
 function createContext(spec: OpenAPIV3_1.Document) {
   return new Context({
     config: {
@@ -35,6 +37,68 @@ function createContext(spec: OpenAPIV3_1.Document) {
     logger: new Logger(),
     spec,
   });
+}
+
+function createDiscriminatorCompositionSpec({
+  compositionKeyword,
+  mapping,
+}: {
+  compositionKeyword: CompositionKeyword;
+  mapping?: OpenAPIV3_1.DiscriminatorObject['mapping'];
+}): OpenAPIV3_1.Document {
+  const mockItem = {
+    [compositionKeyword]: [
+      {
+        $ref: '#/components/schemas/FooItem',
+      },
+      {
+        $ref: '#/components/schemas/BarItem',
+      },
+    ],
+    discriminator: {
+      ...(mapping && { mapping }),
+      propertyName: 'kind',
+    },
+    properties: {
+      id: {
+        type: 'string',
+      },
+      kind: {
+        type: 'string',
+      },
+    },
+    required: ['kind', 'id'],
+    type: 'object',
+  } as OpenAPIV3_1.SchemaObject;
+
+  return {
+    components: {
+      schemas: {
+        BarItem: {
+          properties: {
+            barValue: {
+              format: 'int32',
+              type: 'integer',
+            },
+          },
+          required: ['barValue'],
+          type: 'object',
+        },
+        FooItem: {
+          properties: {
+            fooValue: {
+              type: 'string',
+            },
+          },
+          required: ['fooValue'],
+          type: 'object',
+        },
+        MockItem: mockItem,
+      },
+    },
+    info: { title: 'Test', version: '1' },
+    openapi: '3.1.0',
+  };
 }
 
 describe('parseV3_1_X', () => {
@@ -137,4 +201,49 @@ describe('parseV3_1_X', () => {
     parseV3_1_X(context);
     expect(context.ir.components?.requestBodies?.['body/special~name']).toBeDefined();
   });
+
+  it.each([
+    {
+      compositionKeyword: 'anyOf' as const,
+      mapping: {
+        BAR: '#/components/schemas/BarItem',
+        FOO: '#/components/schemas/FooItem',
+      },
+    },
+    {
+      compositionKeyword: 'oneOf' as const,
+      mapping: {
+        BAR: '#/components/schemas/BarItem',
+        FOO: '#/components/schemas/FooItem',
+      },
+    },
+    {
+      compositionKeyword: 'anyOf' as const,
+      mapping: undefined,
+    },
+    {
+      compositionKeyword: 'oneOf' as const,
+      mapping: undefined,
+    },
+  ])(
+    'preserves discriminator metadata before wrapping object $compositionKeyword composition',
+    ({ compositionKeyword, mapping }) => {
+      const context = createContext(
+        createDiscriminatorCompositionSpec({ compositionKeyword, mapping }),
+      );
+
+      parseV3_1_X(context);
+
+      const mockItem = context.ir.components?.schemas?.MockItem;
+      const unionSchema = mockItem?.items?.[0];
+      expect(mockItem?.logicalOperator).toBe('and');
+      expect(unionSchema).toMatchObject({
+        discriminator: {
+          ...(mapping && { mapping }),
+          propertyName: 'kind',
+        },
+        logicalOperator: 'or',
+      });
+    },
+  );
 });
