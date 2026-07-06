@@ -195,6 +195,13 @@ for (const zodVersion of zodVersions) {
       },
       {
         config: createConfig({
+          input: 'discriminator-one-of-pydantic-default.yaml',
+          output: 'discriminator-one-of-pydantic-default',
+        }),
+        description: 'extends discriminated union members when discriminator has const+default',
+      },
+      {
+        config: createConfig({
           input: 'enum-null.json',
           output: 'enum-resolver-permissive',
           plugins: [
