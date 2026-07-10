@@ -171,7 +171,7 @@ export const mergeConfigs = (a: Config, b: Config): Config => {
   if (config.baseUrl?.endsWith('/')) {
     config.baseUrl = config.baseUrl.substring(0, config.baseUrl.length - 1);
   }
-  config.headers = mergeHeaders(a.headers, b.headers);
+  config.headers = mergeHeadersToObject(a.headers, b.headers);
   return config;
 };
 
@@ -214,11 +214,36 @@ export const mergeHeaders = (
   return mergedHeaders;
 };
 
+export const mergeHeadersToObject = (
+  ...headers: Array<Required<Config>['headers'] | undefined>
+): Record<string, unknown> => {
+  const mergedHeaders: Record<string, unknown> = {};
+
+  for (const header of headers) {
+    if (!header) {
+      continue;
+    }
+    const isHeaders = header instanceof Headers;
+    const iterator = isHeaders ? headersEntries(header) : Object.entries(header);
+
+    for (const [key, value] of iterator) {
+      if (value === null) {
+        delete mergedHeaders[key];
+      }
+      else if (value !== undefined) {
+        mergedHeaders[key] = value;
+      }
+    }
+  }
+
+  return mergedHeaders;
+}
+
 export function headersToObject(
   headers: Headers,
   original?: Config['headers'],
-): Record<string, string | string[]> {
-  const result: Record<string, string | string[]> = {};
+): Record<string, unknown | unknown[]> {
+  const result: Record<string, unknown | unknown[]> = {};
   const originalEntries = original instanceof Headers ? [] : Object.entries(original || {});
 
   headers.forEach((rawValue, rawKey) => {

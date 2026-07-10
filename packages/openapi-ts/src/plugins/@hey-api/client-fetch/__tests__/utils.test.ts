@@ -1,6 +1,12 @@
 import type { Auth } from '../../client-core/bundle/auth';
 import type { Client } from '../bundle/types';
-import { buildUrl, getParseAs, headersToObject, setAuthParams } from '../bundle/utils';
+import {
+  buildUrl,
+  getParseAs,
+  mergeHeaders,
+  mergeHeadersToObject,
+  setAuthParams,
+} from '../bundle/utils';
 
 describe('buildUrl', () => {
   const scenarios: Array<{
@@ -282,31 +288,38 @@ describe('setAuthParams', () => {
   });
 });
 
-describe('headersToObject', () => {
-  it('builds headers with multiple values correctly', () => {
+describe('mergeHeadersToObject', () => {
+  it('merges multiple headers to an object without converting everyting to a string', () => {
     const headers = new Headers();
 
-    headers.append('x-some-header-arr', 'something');
-    headers.append('x-some-header-arr', '');
-    headers.append('x-some-header-arr', '123');
-
-    headers.set('content-type', '*/*');
+    headers.append('set-cookie', 'a=b');
+    headers.append('set-cookie', 'c=d');
     headers.set('x-some-header', 'something');
 
-    headers.append('set-cookie', 'a=b');
-    headers.append('set-cookie', '1=2');
-    headers.append('set-cookie', '#-%');
+    const date = new Date();
+    const url = new URL('https://heyapi.dev/');
+    const urls = [url, url];
 
-    headers.set('x-empty-header', '');
+    const result = mergeHeadersToObject(
+      headers,
+      {
+        'x-some-header': 123, // overwrites 'something' from above
+      },
+      {
+        date: new Date(),
+      },
+      {
+        urls,
+      },
+    );
 
-    headers.append('x-empty-header-arr', '');
-    headers.append('x-empty-header-arr', '');
-
-    expect(headersToObject(headers)).toEqual({
-      'content-type': '*/*',
-      'set-cookie': ['a=b', '1=2', '#-%'],
-      'x-some-header': 'something',
-      'x-some-header-arr': ['something', '123'],
-    });
+    expect(result).toEqual(
+      expect.objectContaining({
+        date,
+        'set-cookie': 'c=d',
+        urls,
+        'x-some-header': 123,
+      }),
+    );
   });
 });

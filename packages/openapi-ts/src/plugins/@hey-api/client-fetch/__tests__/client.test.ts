@@ -553,23 +553,30 @@ describe('request validator', () => {
     });
     const mockFetch: MockFetch = vi.fn().mockRejectedValue(mockResponse);
     const mockRequestValidator = vi.fn();
-
+    const body = {
+      testBody: new ReadableStream(),
+      testBodyDate: new Date(),
+    };
+    const headers = {
+      testHeader: 'header',
+      testHeaderArr: ['123', 'abc'],
+      testHeaderBlob: new Blob([]),
+    };
+    const path = {
+      testPath: 'path',
+      testPathUrl: new URL('https://heyapi.dev/'),
+    };
+    const query = {
+      testQuery: 123,
+      testQueryRegex: /something/,
+    };
     await client.request({
-      body: {
-        testBody: 'body',
-      },
+      body,
       fetch: mockFetch,
-      headers: {
-        testHeader: 'header',
-        testHeaderArr: ['123', 'abc'],
-      },
+      headers,
       method: 'GET',
-      path: {
-        testPath: 'path',
-      },
-      query: {
-        testQuery: 'query',
-      },
+      path,
+      query,
       async requestValidator(data) {
         mockRequestValidator(data);
       },
@@ -577,21 +584,12 @@ describe('request validator', () => {
     });
 
     expect(mockRequestValidator).toHaveBeenCalledExactlyOnceWith(
+      // path, query, headers and body must retain their full shape and must not be serialized
       expect.objectContaining({
-        path: {
-          testPath: 'path',
-        },
-        query: {
-          testQuery: 'query',
-        },
-        // headers have same casing as they were defined with
-        headers: expect.objectContaining({
-          testHeader: 'header',
-          testHeaderArr: ['123', 'abc'],
-        }),
-        body: {
-          testBody: 'body',
-        },
+        body: expect.objectContaining(body),
+        headers: expect.objectContaining(headers),
+        path: expect.objectContaining(path),
+        query: expect.objectContaining(query),
       }),
     );
   });
