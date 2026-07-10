@@ -9,7 +9,6 @@ import {
   createConfig,
   createInterceptors,
   getParseAs,
-  headersToObject,
   mergeConfigs,
   mergeHeaders,
   mergeHeadersToObject,
