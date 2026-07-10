@@ -171,7 +171,7 @@ export const mergeConfigs = (a: Config, b: Config): Config => {
   if (config.baseUrl?.endsWith('/')) {
     config.baseUrl = config.baseUrl.substring(0, config.baseUrl.length - 1);
   }
-  config.headers = mergeHeaders(a.headers, b.headers);
+  config.headers = mergeHeadersToObject(a.headers, b.headers);
   return config;
 };
 
@@ -213,6 +213,64 @@ export const mergeHeaders = (
   }
   return mergedHeaders;
 };
+
+export const mergeHeadersToObject = (
+  ...headers: Array<Required<Config>['headers'] | undefined>
+): Record<string, unknown> => {
+  const mergedHeaders: Record<string, unknown> = {};
+
+  for (const header of headers) {
+    if (!header) {
+      continue;
+    }
+    const isHeaders = header instanceof Headers;
+    const iterator = isHeaders ? headersEntries(header) : Object.entries(header);
+
+    for (const [key, value] of iterator) {
+      if (value === null) {
+        delete mergedHeaders[key];
+      } else if (value !== undefined) {
+        mergedHeaders[key] = value;
+      }
+    }
+  }
+
+  return mergedHeaders;
+};
+
+export function headersToObject(
+  headers: Headers,
+  original?: Config['headers'],
+): Record<string, unknown | unknown[]> {
+  const result: Record<string, unknown | unknown[]> = {};
+  const originalEntries = original instanceof Headers ? [] : Object.entries(original || {});
+
+  headers.forEach((rawValue, rawKey) => {
+    const splits = rawValue.split(', ');
+    const keyLower = rawKey.toLowerCase();
+    const resultValue = result[rawKey];
+    const originalIndex = originalEntries.findIndex(
+      ([originalEntryKey]) => originalEntryKey.toLowerCase() === keyLower,
+    );
+    const originalEntry = originalEntries[originalIndex] || [];
+    const originalCasingKey = originalEntry[0] || rawKey;
+
+    const newResultValue = [
+      ...(Array.isArray(resultValue) ? resultValue : resultValue ? [resultValue] : []),
+      ...splits,
+    ].filter(Boolean);
+
+    if (!newResultValue.length) {
+      delete result[originalCasingKey];
+      return;
+    }
+
+    result[originalCasingKey] =
+      newResultValue.length === 1 && newResultValue[0] ? newResultValue[0] : newResultValue;
+  });
+
+  return result;
+}
 
 type ErrInterceptor<Err, Res, Req, Options> = (
   error: Err,
