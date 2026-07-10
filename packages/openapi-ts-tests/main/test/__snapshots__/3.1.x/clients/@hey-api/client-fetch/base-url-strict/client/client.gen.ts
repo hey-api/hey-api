@@ -55,7 +55,7 @@ export const createClient = (config: Config = {}): Client => {
     if (opts.requestValidator) {
       await opts.requestValidator({
         ...opts,
-        headers: headersToObject(opts.headers),
+        headers: headersToObject(opts.headers, options.headers),
       });
     }
 
