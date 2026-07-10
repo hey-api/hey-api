@@ -1,6 +1,6 @@
 import type { Auth } from '../../client-core/bundle/auth';
 import type { Client } from '../bundle/types';
-import { buildUrl, getParseAs, headersToObject,setAuthParams } from '../bundle/utils';
+import { buildUrl, getParseAs, headersToObject, setAuthParams } from '../bundle/utils';
 
 describe('buildUrl', () => {
   const scenarios: Array<{
