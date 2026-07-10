@@ -1,6 +1,6 @@
 import type { Auth } from '../../client-core/bundle/auth';
 import type { Client } from '../bundle/types';
-import { buildUrl, getParseAs, setAuthParams } from '../bundle/utils';
+import { buildUrl, getParseAs, headersToObject,setAuthParams } from '../bundle/utils';
 
 describe('buildUrl', () => {
   const scenarios: Array<{
@@ -279,5 +279,34 @@ describe('setAuthParams', () => {
     expect(headers.get('baz')).toBe('Bearer foo');
     expect(headers.get('fiz')).toBe('buz');
     expect(Object.keys(query).length).toBe(0);
+  });
+});
+
+describe('headersToObject', () => {
+  it('builds headers with multiple values correctly', () => {
+    const headers = new Headers();
+
+    headers.append('x-some-header-arr', 'something');
+    headers.append('x-some-header-arr', '');
+    headers.append('x-some-header-arr', '123');
+
+    headers.set('content-type', '*/*');
+    headers.set('x-some-header', 'something');
+
+    headers.append('set-cookie', 'a=b');
+    headers.append('set-cookie', '1=2');
+    headers.append('set-cookie', '#-%');
+
+    headers.set('x-empty-header', '');
+
+    headers.append('x-empty-header-arr', '');
+    headers.append('x-empty-header-arr', '');
+
+    expect(headersToObject(headers)).toEqual({
+      'content-type': '*/*',
+      'set-cookie': ['a=b', '1=2', '#-%'],
+      'x-some-header': 'something',
+      'x-some-header-arr': ['something', '123'],
+    });
   });
 });

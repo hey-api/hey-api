@@ -538,3 +538,61 @@ describe('error interceptor for fetch exceptions', () => {
     expect(result.error).toBe(abortError);
   });
 });
+
+describe('request validator', () => {
+  it('receives expected parameters', async () => {
+    const client = createClient({ baseUrl: 'https://example.com' });
+
+    const mockHeaders = new Headers();
+    mockHeaders.append('content-length', '0');
+    mockHeaders.append('set-cookie', 'a=b');
+    mockHeaders.append('set-cookie', '1=2');
+    const mockResponse = new Response(null, {
+      headers: mockHeaders,
+      status: 200,
+    });
+    const mockFetch: MockFetch = vi.fn().mockRejectedValue(mockResponse);
+    const mockRequestValidator = vi.fn();
+
+    await client.request({
+      body: {
+        testBody: 'body',
+      },
+      fetch: mockFetch,
+      headers: {
+        testHeader: 'header',
+        testHeaderArr: ['123', 'abc'],
+      },
+      method: 'GET',
+      path: {
+        testPath: 'path',
+      },
+      query: {
+        testQuery: 'query',
+      },
+      async requestValidator(data) {
+        mockRequestValidator(data);
+      },
+      url: '/test',
+    });
+
+    expect(mockRequestValidator).toHaveBeenCalledExactlyOnceWith(
+      expect.objectContaining({
+        path: {
+          testPath: 'path',
+        },
+        query: {
+          testQuery: 'query',
+        },
+        // headers have same casing as they were defined with
+        headers: expect.objectContaining({
+          testHeader: 'header',
+          testHeaderArr: ['123', 'abc'],
+        }),
+        body: {
+          testBody: 'body',
+        },
+      }),
+    );
+  });
+});

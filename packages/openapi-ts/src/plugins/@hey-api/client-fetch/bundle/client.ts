@@ -7,6 +7,7 @@ import {
   createConfig,
   createInterceptors,
   getParseAs,
+  headersToObject,
   mergeConfigs,
   mergeHeaders,
   setAuthParams,
@@ -50,7 +51,10 @@ export const createClient = (config: Config = {}): Client => {
     }
 
     if (opts.requestValidator) {
-      await opts.requestValidator(opts);
+      await opts.requestValidator({
+        ...opts,
+        headers: headersToObject(opts.headers, options.headers),
+      });
     }
 
     if (opts.body !== undefined && opts.bodySerializer) {
