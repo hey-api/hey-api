@@ -229,15 +229,14 @@ export const mergeHeadersToObject = (
     for (const [key, value] of iterator) {
       if (value === null) {
         delete mergedHeaders[key];
-      }
-      else if (value !== undefined) {
+      } else if (value !== undefined) {
         mergedHeaders[key] = value;
       }
     }
   }
 
   return mergedHeaders;
-}
+};
 
 export function headersToObject(
   headers: Headers,

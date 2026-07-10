@@ -56,7 +56,7 @@ export const createClient = (config: Config = {}): Client => {
     const opts = {
       ...optsForValidation,
       headers: mergeHeaders(_config.headers, options.headers),
-    }
+    };
 
     if (opts.security) {
       await setAuthParams(opts);
