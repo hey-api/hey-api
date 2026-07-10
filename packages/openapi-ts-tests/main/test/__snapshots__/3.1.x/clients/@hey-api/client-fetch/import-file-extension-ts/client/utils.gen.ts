@@ -214,6 +214,31 @@ export const mergeHeaders = (
   return mergedHeaders;
 };
 
+export function headersToObject(headers: Headers): Record<string, string | string[]> {
+  const result: Record<string, string | string[]> = {};
+
+  headers.forEach((value, key) => {
+    const splits = value.split(', ');
+    const resultValue = result[key];
+
+    const newResultValue = [
+      ...(Array.isArray(resultValue) ? resultValue : resultValue ? [resultValue] : []), 
+      ...splits
+    ].filter(Boolean);
+
+    if (!newResultValue.length) {
+      delete result[key];
+      return;
+    }
+
+    result[key] = newResultValue.length === 1 && newResultValue[0] 
+      ? newResultValue[0] 
+      : newResultValue;
+  })
+
+  return result;
+}
+
 type ErrInterceptor<Err, Res, Req, Options> = (
   error: Err,
   /** response may be undefined due to a network error where no response object is produced */
