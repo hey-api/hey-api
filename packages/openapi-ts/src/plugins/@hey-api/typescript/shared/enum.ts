@@ -114,7 +114,9 @@ export function exportEnumAst({
 
     const objectNode = $.const(symbolObject)
       .export()
-      .$if(plugin.config.comments && createSchemaComment(schema), (c, v) => c.styledDoc(v))
+      .$if(plugin.config.comments && createSchemaComment(schema), (c, v) =>
+        c.styledDoc(v, plugin.config.commentsStyle),
+      )
       .assign(
         $.object(
           ...itemsWithKeys
@@ -122,7 +124,7 @@ export function exportEnumAst({
             .map(({ item, key }) =>
               $.prop({ kind: 'prop' as const, name: key })
                 .$if(plugin.config.comments && createSchemaComment(item.schema), (p, v) =>
-                  p.styledDoc(v),
+                  p.styledDoc(v, plugin.config.commentsStyle),
                 )
                 .value($.fromValue(item.schema.const)),
             ),
@@ -179,7 +181,7 @@ export function exportEnumAst({
         ...itemsWithKeys.map(({ item, key }) =>
           $.member(key)
             .$if(plugin.config.comments && createSchemaComment(item.schema), (m, v) =>
-              m.styledDoc(v),
+              m.styledDoc(v, plugin.config.commentsStyle),
             )
             .value($.fromValue(item.schema.const)),
         ),
