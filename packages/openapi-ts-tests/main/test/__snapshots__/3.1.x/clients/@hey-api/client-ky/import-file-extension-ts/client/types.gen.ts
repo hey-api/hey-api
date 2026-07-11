@@ -46,6 +46,11 @@ export interface Config<T extends ClientOptions = ClientOptions>
   /**
    * Additional ky-specific options that will be passed directly to ky.
    * This allows you to use any ky option not explicitly exposed in the config.
+   *
+   * Note that `parseJson` and `stringifyJson` have no effect on the data
+   * returned or sent by this client: request bodies are serialized with
+   * `bodySerializer` before they reach ky, and response bodies are parsed
+   * by the client itself, bypassing ky's JSON handling.
    */
   kyOptions?: Omit<KyOptions, 'method' | 'prefixUrl'>;
   /**
