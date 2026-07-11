@@ -238,40 +238,6 @@ export const mergeHeadersToObject = (
   return mergedHeaders;
 };
 
-export function headersToObject(
-  headers: Headers,
-  original?: Config['headers'],
-): Record<string, unknown | unknown[]> {
-  const result: Record<string, unknown | unknown[]> = {};
-  const originalEntries = original instanceof Headers ? [] : Object.entries(original || {});
-
-  headers.forEach((rawValue, rawKey) => {
-    const splits = rawValue.split(', ');
-    const keyLower = rawKey.toLowerCase();
-    const resultValue = result[rawKey];
-    const originalIndex = originalEntries.findIndex(
-      ([originalEntryKey]) => originalEntryKey.toLowerCase() === keyLower,
-    );
-    const originalEntry = originalEntries[originalIndex] || [];
-    const originalCasingKey = originalEntry[0] || rawKey;
-
-    const newResultValue = [
-      ...(Array.isArray(resultValue) ? resultValue : resultValue ? [resultValue] : []),
-      ...splits,
-    ].filter(Boolean);
-
-    if (!newResultValue.length) {
-      delete result[originalCasingKey];
-      return;
-    }
-
-    result[originalCasingKey] =
-      newResultValue.length === 1 && newResultValue[0] ? newResultValue[0] : newResultValue;
-  });
-
-  return result;
-}
-
 type ErrInterceptor<Err, Res, Req, Options> = (
   error: Err,
   /** response may be undefined due to a network error where no response object is produced */
