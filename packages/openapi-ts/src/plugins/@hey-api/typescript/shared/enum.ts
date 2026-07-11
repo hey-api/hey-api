@@ -175,7 +175,7 @@ export function exportEnumAst({
     );
     const enumNode = $.enum(symbol)
       .export()
-      .$if(plugin.config.comments && createSchemaComment(schema), (e, v) => e.styledDoc(v))
+      .$if(plugin.config.comments && createSchemaComment(schema), (e, v) => e.styledDoc(v, plugin.config.commentsStyle))
       .const(mode === 'typescript-const')
       .members(
         ...itemsWithKeys.map(({ item, key }) =>
