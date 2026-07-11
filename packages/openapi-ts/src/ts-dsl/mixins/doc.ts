@@ -1,13 +1,14 @@
 import type { AnalysisContext, Node } from '@hey-api/codegen-core';
 
 import type { ts } from '../../ts-compiler';
-import type { DocFn, DocLines } from '../layout/doc';
+import type { DocFn, DocLines, DocStyle } from '../layout/doc';
 import { DocTsDsl } from '../layout/doc';
 import type { BaseCtor, MixinCtor } from './types';
 
 export interface DocMethods extends Node {
   $docs<T extends ts.Node>(node: T): T;
   doc(lines?: DocLines, fn?: DocFn): this;
+  styledDoc(lines?: DocLines, style?: DocStyle, fn?: DocFn): this;
 }
 
 export function DocMixin<T extends ts.Node, TBase extends BaseCtor<T>>(Base: TBase) {
@@ -20,6 +21,11 @@ export function DocMixin<T extends ts.Node, TBase extends BaseCtor<T>>(Base: TBa
 
     protected doc(lines?: DocLines, fn?: DocFn): this {
       this._doc = new DocTsDsl(lines, fn);
+      return this;
+    }
+
+    protected styledDoc(lines?: DocLines, style?: DocStyle, fn?: DocFn): this {
+      this._doc = new DocTsDsl(lines, fn, style);
       return this;
     }
 

@@ -59,7 +59,7 @@ export type UserConfig = Plugin.Name<'@hey-api/python-sdk'> &
 
 export type Config = Plugin.Name<'@hey-api/python-sdk'> &
   Plugin.Hooks &
-  Plugin.Comments &
+  Omit<Plugin.Comments, 'commentsStyle'> &
   Plugin.Exports & {
     /**
      * Use an internal client instance to send HTTP requests? This is useful if

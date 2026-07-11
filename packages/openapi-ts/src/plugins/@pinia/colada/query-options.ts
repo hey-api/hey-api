@@ -125,7 +125,9 @@ export const createQueryOptions = ({
   );
   const statement = $.const(symbolQueryOptionsFn)
     .export()
-    .$if(plugin.config.comments && createOperationComment(operation), (c, v) => c.doc(v))
+    .$if(plugin.config.comments && createOperationComment(operation), (c, v) =>
+      c.styledDoc(v, plugin.config.commentsStyle),
+    )
     .assign(
       $(plugin.imports.defineQueryOptions)
         .call(

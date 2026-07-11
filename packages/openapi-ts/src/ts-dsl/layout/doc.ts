@@ -10,14 +10,17 @@ import { ctx } from '../utils/context';
 type DocMaybeLazy<T> = ((ctx: TsDslContext) => T) | T;
 export type DocFn = (d: DocTsDsl) => void;
 export type DocLines = DocMaybeLazy<MaybeArray<string>>;
+export type DocStyle = 'default' | 'compact';
 
 export class DocTsDsl extends TsDsl<ts.Node> {
   readonly '~dsl' = 'DocTsDsl';
 
   protected _lines: Array<DocLines> = [];
+  protected _style: DocStyle | undefined;
 
-  constructor(lines?: DocLines, fn?: DocFn) {
+  constructor(lines?: DocLines, fn?: DocFn, style?: DocStyle) {
     super();
+    this._style = style;
     if (lines) this.add(lines);
     fn?.(this);
   }
@@ -41,14 +44,14 @@ export class DocTsDsl extends TsDsl<ts.Node> {
     }, []);
     if (!lines.length) return node;
 
-    const body = [
-      '*',
-      ...lines
-        .flatMap((line) => line.split('\n'))
-        .map((line) => line.replace(/\s+$/, ''))
-        .map((line) => (line ? ` * ${line}` : ' *')),
-      ' ',
-    ].join('\n');
+    const normalizedLines = lines
+      .flatMap((line) => line.split('\n'))
+      .map((line) => line.replace(/\s+$/, ''));
+
+    const body =
+      this._style === 'compact' && normalizedLines.length === 1
+        ? `* ${normalizedLines[0]} `
+        : ['*', ...normalizedLines.map((line) => (line ? ` * ${line}` : ' *')), ' '].join('\n');
 
     ts.addSyntheticLeadingComment(node, ts.SyntaxKind.MultiLineCommentTrivia, body, true);
 

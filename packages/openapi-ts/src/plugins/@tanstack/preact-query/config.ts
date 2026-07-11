@@ -22,6 +22,7 @@ export const defaultConfig: TanStackPreactQueryPlugin['Config'] = {
     },
     case: 'camelCase',
     comments: true,
+    commentsStyle: 'default',
     getQueryData: {
       $coerceAny: ({ type, value }) => ({
         enabled: Boolean(value),

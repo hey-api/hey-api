@@ -33,7 +33,9 @@ export const handlerV2: MswPlugin['Handler'] = ({ plugin }) => {
       pickType.prop(name, (p) =>
         p
           .type($(symbolHandler).typeofType())
-          .$if(plugin.config.comments && getOperationComment(operation), (f, v) => f.doc(v)),
+          .$if(plugin.config.comments && getOperationComment(operation), (f, v) =>
+            f.styledDoc(v, plugin.config.commentsStyle),
+          ),
       );
       pickObject.prop(name, $(symbolWrap).call(symbolHandler));
       handlerInfo.push({ name, path: operation.path });

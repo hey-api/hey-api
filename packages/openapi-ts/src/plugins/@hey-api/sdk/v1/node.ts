@@ -42,7 +42,7 @@ function attachComment<T extends ReturnType<typeof $.var | typeof $.method>>(arg
 }): T {
   const { node, operation, plugin } = args;
   return node.$if(plugin.config.comments && createOperationComment(operation), (n, v) =>
-    n.doc(v),
+    n.styledDoc(v, plugin.config.commentsStyle),
   ) as T;
 }
 

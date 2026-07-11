@@ -52,7 +52,9 @@ export function createUseMutation({
 
   const statement = $.const(symbolUseMutationFn)
     .export()
-    .$if(plugin.config.comments && createOperationComment(operation), (c, v) => c.doc(v))
+    .$if(plugin.config.comments && createOperationComment(operation), (c, v) =>
+      c.styledDoc(v, plugin.config.commentsStyle),
+    )
     .assign(func);
   plugin.node(statement);
 }

@@ -11,6 +11,7 @@ export const defaultConfig: PiniaColadaPlugin['Config'] = {
     $cascade: ['case'],
     case: 'camelCase',
     comments: true,
+    commentsStyle: 'default',
     includeInEntry: false,
     mutationOptions: {
       $coerceAny: ({ type, value }) => ({
