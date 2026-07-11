@@ -33,6 +33,7 @@
   "js/ts.preferences.autoImportSpecifierExcludeRegexes": ["^(node:)?os$"],
   "js/ts.tsdk.path": "node_modules/typescript/lib",
   "vitest.rootConfig": "vitest.config.ts",
+  "yaml.format.singleQuote": true,
   "[javascript]": {
     "editor.defaultFormatter": "oxc.oxc-vscode"
   },
