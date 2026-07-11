@@ -39,13 +39,16 @@ The oRPC plugin for Hey API generates contracts from your OpenAPI spec, fully co
 
 In your [configuration](/docs/openapi/typescript/get-started), add `orpc` to your plugins and you'll be ready to generate oRPC artifacts. 🎉
 
-```js {6} title="openapi-ts.config.ts"
+```js {6-9} title="openapi-ts.config.ts"
 export default {
   input: 'hey-api/backend', // sign up at app.heyapi.dev
   output: 'src/client',
   plugins: [
     // ...other plugins
-    'orpc',
+    {
+      name: 'orpc',
+      compatibilityVersion: '2',
+    },
   ],
 };
 ```
@@ -84,7 +87,10 @@ export default {
   output: 'src/client',
   plugins: [
     // ...other plugins
-    'orpc',
+    {
+      name: 'orpc',
+      compatibilityVersion: '2',
+    },
   ],
 };
 ```
@@ -116,13 +122,14 @@ You can disable this metadata when you want oRPC's default bracket notation.
 
 oRPC does not currently expose a `queryStyles` value for form-exploded objects, so those parameters use oRPC's default bracket notation.
 
-```js {7} title="openapi-ts.config.ts"
+```js {8} title="openapi-ts.config.ts"
 export default {
   input: 'hey-api/backend', // sign up at app.heyapi.dev
   output: 'src/client',
   plugins: [
     // ...other plugins
     {
+      compatibilityVersion: '2',
       inferQueryStyles: false,
       name: 'orpc',
     },
@@ -161,13 +168,14 @@ const addPet = oc
 ```
   </TabItem>
   <TabItem label="config">
-```js {8,11} title="openapi-ts.config.ts"
+```js {9,12} title="openapi-ts.config.ts"
 export default {
   input: 'hey-api/backend', // sign up at app.heyapi.dev
   output: 'src/client',
   plugins: [
     // ...other plugins
     {
+      compatibilityVersion: '2',
       name: 'orpc',
       validator: true, // or 'valibot'
     },

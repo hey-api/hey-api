@@ -1,6 +1,8 @@
 ---
 title: oRPC v1 Plugin
 description: Generate oRPC v1 contracts from OpenAPI with the oRPC plugin for openapi-ts. Fully compatible with validators, transformers, and all core features.
+sidebar:
+  label: oRPC
 custom:
   version: v1
 ---
@@ -35,18 +37,15 @@ The oRPC plugin for Hey API generates contracts from your OpenAPI spec, fully co
 
 ## Installation
 
-In your [configuration](/docs/openapi/typescript/get-started), add `orpc` to your plugins and set `compatibilityVersion` to `1`.
+In your [configuration](/docs/openapi/typescript/get-started), add `orpc` to your plugins and you'll be ready to generate oRPC artifacts. 🎉
 
-```js {6-9} title="openapi-ts.config.ts"
+```js {6} title="openapi-ts.config.ts"
 export default {
   input: 'hey-api/backend', // sign up at app.heyapi.dev
   output: 'src/client',
   plugins: [
     // ...other plugins
-    {
-      name: 'orpc',
-      compatibilityVersion: 1,
-    },
+    'orpc',
   ],
 };
 ```
@@ -76,16 +75,13 @@ const addPet = oc.route({
 ```
   </TabItem>
   <TabItem label="config">
-```js {7-10} title="openapi-ts.config.ts"
+```js title="openapi-ts.config.ts"
 export default {
   input: 'hey-api/backend', // sign up at app.heyapi.dev
   output: 'src/client',
   plugins: [
     // ...other plugins
-    {
-      name: 'orpc',
-      compatibilityVersion: 1,
-    },
+    'orpc',
   ],
 };
 ```
@@ -120,7 +116,7 @@ const addPet = oc
 ```
   </TabItem>
   <TabItem label="config">
-```js {8-9,12} title="openapi-ts.config.ts"
+```js {8,11} title="openapi-ts.config.ts"
 export default {
   input: 'hey-api/backend', // sign up at app.heyapi.dev
   output: 'src/client',
@@ -128,7 +124,6 @@ export default {
     // ...other plugins
     {
       name: 'orpc',
-      compatibilityVersion: 1,
       validator: true, // or 'valibot'
     },
     {
@@ -145,7 +140,7 @@ You can choose to validate only inputs or outputs.
 
 <Tabs>
   <TabItem label="inputs">
-```js {8,10} title="openapi-ts.config.ts"
+```js {9} title="openapi-ts.config.ts"
 export default {
   input: 'hey-api/backend', // sign up at app.heyapi.dev
   output: 'src/client',
@@ -153,7 +148,6 @@ export default {
     // ...other plugins
     {
       name: 'orpc',
-      compatibilityVersion: 1,
       validator: {
         input: 'zod',
       },
@@ -163,7 +157,7 @@ export default {
 ```
   </TabItem>
   <TabItem label="outputs">
-```js {8,10} title="openapi-ts.config.ts"
+```js {9} title="openapi-ts.config.ts"
 export default {
   input: 'hey-api/backend', // sign up at app.heyapi.dev
   output: 'src/client',
@@ -171,7 +165,6 @@ export default {
     // ...other plugins
     {
       name: 'orpc',
-      compatibilityVersion: 1,
       validator: {
         output: 'zod',
       },
