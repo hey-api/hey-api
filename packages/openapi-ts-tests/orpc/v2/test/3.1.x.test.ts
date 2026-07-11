@@ -1,17 +1,17 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { createClient } from '@hey-api/openapi-ts';
+import { createClient, plugins } from '@hey-api/openapi-ts';
 
 import { getFilePaths } from '../../../utils';
 import { snapshotsDir, tmpDir } from './constants';
 import { createConfigFactory } from './utils';
 
-const version = '3.1.x';
+const versions = ['3.1.x'] as const;
 
-const outputDir = path.join(tmpDir, version);
+describe.each(versions)('OpenAPI %s', (version) => {
+  const outputDir = path.join(tmpDir, version);
 
-describe(`OpenAPI ${version}`, () => {
   const createConfig = createConfigFactory({ openApiVersion: version, outputDir });
 
   const scenarios = [
@@ -19,7 +19,7 @@ describe(`OpenAPI ${version}`, () => {
       config: createConfig({
         input: 'rpc-query-styles.yaml',
         output: 'default',
-        plugins: ['zod', 'orpc'],
+        plugins: [plugins.zod(), plugins.orpc({ compatibilityVersion: '2' })],
       }),
       description: 'generate oRPC v2 contracts with query styles',
     },
@@ -28,12 +28,11 @@ describe(`OpenAPI ${version}`, () => {
         input: 'rpc-query-styles.yaml',
         output: 'query-styles-disabled',
         plugins: [
-          'zod',
-          {
-            compatibilityVersion: 2,
+          plugins.zod(),
+          plugins.orpc({
+            compatibilityVersion: '2',
             inferQueryStyles: false,
-            name: 'orpc',
-          },
+          }),
         ],
       }),
       description: 'generate oRPC v2 contracts without query styles',

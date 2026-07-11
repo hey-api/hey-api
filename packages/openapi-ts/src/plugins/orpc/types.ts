@@ -4,7 +4,7 @@ import type { PluginValidatorNames } from '../types';
 import type { ContractsConfig, UserContractsConfig } from './contracts/types';
 import type { OrpcImports } from './imports';
 
-export type OrpcCompatibilityVersion = 1 | 2;
+export type OrpcCompatibilityVersion = '1' | '2';
 
 export type UserConfig = Plugin.Name<'orpc'> &
   Plugin.Hooks &
@@ -13,10 +13,10 @@ export type UserConfig = Plugin.Name<'orpc'> &
      * The compatibility version to target for generated output.
      *
      * Can be:
-     * - `2`: oRPC v2 (default).
-     * - `1`: oRPC v1.
+     * - `'1'`: oRPC v1 (default).
+     * - `'2'`: oRPC v2.
      *
-     * @default 2
+     * @default '2'
      */
     compatibilityVersion?: OrpcCompatibilityVersion;
     /**
@@ -36,7 +36,7 @@ export type UserConfig = Plugin.Name<'orpc'> &
     /**
      * Infer `queryStyles` metadata for query parameters from OpenAPI serialization styles.
      *
-     * Only applies when `compatibilityVersion` is set to `2`.
+     * Only applies when `compatibilityVersion` is set to `'2'`.
      *
      * @default true
      */

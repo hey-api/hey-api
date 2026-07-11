@@ -1,17 +1,17 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { createClient } from '@hey-api/openapi-ts';
+import { createClient, plugins } from '@hey-api/openapi-ts';
 
 import { getFilePaths } from '../../../utils';
 import { snapshotsDir, tmpDir } from './constants';
 import { createConfigFactory } from './utils';
 
-const version = '3.0.x';
+const versions = ['3.0.x'] as const;
 
-const outputDir = path.join(tmpDir, version);
+describe.each(versions)('OpenAPI %s', (version) => {
+  const outputDir = path.join(tmpDir, version);
 
-describe(`OpenAPI ${version}`, () => {
   const createConfig = createConfigFactory({ openApiVersion: version, outputDir });
 
   const scenarios = [
@@ -19,7 +19,7 @@ describe(`OpenAPI ${version}`, () => {
       config: createConfig({
         input: 'rpc.yaml',
         output: 'default',
-        plugins: [{ compatibilityVersion: 1, name: 'orpc' }, 'zod'],
+        plugins: [plugins.orpc({ compatibilityVersion: '1' }), plugins.zod()],
       }),
       description: 'generate oRPC contracts with Zod schemas',
     },
@@ -28,15 +28,14 @@ describe(`OpenAPI ${version}`, () => {
         input: 'rpc.yaml',
         output: 'custom-names',
         plugins: [
-          'valibot',
-          {
-            compatibilityVersion: 1,
+          plugins.valibot(),
+          plugins.orpc({
+            compatibilityVersion: '1',
             contracts: {
               containerName: 'rpcContract',
               contractName: '{{name}}Rpc',
             },
-            name: 'orpc',
-          },
+          }),
         ],
       }),
       description: 'generate oRPC contracts with custom names and Valibot schemas',

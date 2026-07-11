@@ -184,7 +184,7 @@ describe('oRPC plugin', () => {
   it('generates oRPC v2 OpenAPI metadata by default', async () => {
     const content = await renderOrpc({
       input: baseSpec,
-      plugins: [{ name: 'orpc', validator: false }],
+      plugins: [{ compatibilityVersion: '2', name: 'orpc', validator: false }],
     });
 
     expect(content).toContain("import { oc } from '@orpc/contract';");
@@ -198,7 +198,7 @@ describe('oRPC plugin', () => {
     const content = await renderOrpc(
       {
         input: baseSpec,
-        plugins: [{ name: 'orpc', validator: false }],
+        plugins: [{ compatibilityVersion: '1', name: 'orpc', validator: false }],
       },
       {
         cwd: path.resolve(import.meta.dirname, '../../../openapi-ts-tests/orpc/v1'),
@@ -214,7 +214,7 @@ describe('oRPC plugin', () => {
   it('infers oRPC v2 query styles from OpenAPI serialization metadata', async () => {
     const content = await renderOrpc({
       input: queryStyleSpec(),
-      plugins: [{ name: 'orpc', validator: false }],
+      plugins: [{ compatibilityVersion: '2', name: 'orpc', validator: false }],
     });
 
     expect(content).toContain('queryStyles: {');
@@ -236,6 +236,7 @@ describe('oRPC plugin', () => {
       input: queryStyleSpec(),
       plugins: [
         {
+          compatibilityVersion: '2',
           inferQueryStyles: false,
           name: 'orpc',
           validator: false,

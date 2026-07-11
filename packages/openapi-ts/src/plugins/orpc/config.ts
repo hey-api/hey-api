@@ -17,10 +17,10 @@ export const defaultConfig: OrpcPlugin['Config'] = {
 
       function inferCompatibleVersion(): OrpcCompatibilityVersion {
         if (version && (version.major === 1 || version.major === 2)) {
-          return version.major;
+          return String(version.major) as OrpcCompatibilityVersion;
         }
         // default compatibility version
-        return 2;
+        return '1';
       }
 
       return value ?? inferCompatibleVersion();

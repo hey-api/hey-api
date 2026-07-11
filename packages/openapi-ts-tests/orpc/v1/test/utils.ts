@@ -21,7 +21,7 @@ export function createConfigFactory({
     const output = userConfig.output instanceof Array ? userConfig.output[0]! : userConfig.output;
     const outputPath = typeof output === 'string' ? output : (output?.path ?? '');
     return {
-      plugins: ['orpc'],
+      plugins: [{ compatibilityVersion: '1', name: 'orpc' }],
       ...userConfig,
       input:
         typeof userConfig.input === 'string'
