@@ -3,7 +3,7 @@ import { buildSymbolIn, deduplicateSchema, operationResponsesMap } from '@hey-ap
 
 import { $ } from '../../../../ts-dsl';
 import type { HeyApiTypeScriptPlugin } from '../types';
-import { createProcessor } from '../v1/processor';
+import type { ProcessorResult } from './processor';
 
 const irParametersToIrSchema = ({
   parameters,
@@ -45,15 +45,15 @@ export const operationToType = ({
   operation,
   path,
   plugin,
+  processor,
   tags,
 }: {
   operation: IR.OperationObject;
   path: ReadonlyArray<string | number>;
   plugin: HeyApiTypeScriptPlugin['Instance'];
+  processor: ProcessorResult;
   tags?: ReadonlyArray<string>;
 }): void => {
-  const processor = createProcessor(plugin);
-
   const data: IR.SchemaObject = {
     properties: {
       body: operation.body?.schema ?? { type: 'never' },

@@ -31,5 +31,4 @@ export interface TypeScriptResult {
 /**
  * Finalized result after applyModifiers.
  */
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface TypeScriptFinal extends Pick<TypeScriptResult, 'enumData' | 'type'> {}

@@ -51,7 +51,6 @@
     "citty": "0.2.2"
   },
   "devDependencies": {
-    "eslint": "9.39.4",
     "typescript": "6.0.3"
   },
   "engines": {

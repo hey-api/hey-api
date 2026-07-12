@@ -3,5 +3,5 @@
 import * as z from 'zod/v4-mini';
 
 export const zFoo = z.object({
-    foo: z.optional(z.coerce.bigint().check(z.gte(BigInt(0)), z.lte(BigInt(100))))
+  foo: z.optional(z.coerce.bigint().check(z.gte(BigInt(0)), z.lte(BigInt(100))))
 });

@@ -49,12 +49,12 @@ export type ResourceMetadata = {
  * Builds a resource metadata map from a Graph, matching the old Graph interface
  * for compatibility with filtering code.
  */
-export const buildResourceMetadata = (
+export function buildResourceMetadata(
   graph: Graph,
   logger: Logger,
 ): {
   resourceMetadata: ResourceMetadata;
-} => {
+} {
   const eventBuildResourceMetadata = logger.timeEvent('build-resource-metadata');
   const resourceMetadata: ResourceMetadata = {
     operations: new Map(),
@@ -159,4 +159,4 @@ export const buildResourceMetadata = (
 
   eventBuildResourceMetadata.timeEnd();
   return { resourceMetadata };
-};
+}

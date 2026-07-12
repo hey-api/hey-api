@@ -48,7 +48,7 @@ const requestBodyToIrRequestBody = ({
   return irRequestBody;
 };
 
-export const parseRequestBody = ({
+export function parseRequestBody({
   $ref,
   context,
   requestBody,
@@ -56,7 +56,7 @@ export const parseRequestBody = ({
   $ref: string;
   context: Context;
   requestBody: OpenAPIV3.RequestBodyObject;
-}) => {
+}): void {
   if (!context.ir.components) {
     context.ir.components = {};
   }
@@ -70,4 +70,4 @@ export const parseRequestBody = ({
     context,
     requestBody,
   });
-};
+}

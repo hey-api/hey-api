@@ -5,20 +5,21 @@ import { buildSymbolIn } from '@hey-api/shared';
 import { $ } from '../../../../ts-dsl';
 import { createSchemaComment } from '../../../shared/utils/schema';
 import type { HeyApiTypeScriptPlugin } from '../types';
-import { createProcessor } from '../v1/processor';
+import type { ProcessorResult } from './processor';
 
 export function webhookToType({
   operation,
   path,
   plugin,
+  processor,
   tags,
 }: {
   operation: IR.OperationObject;
   path: ReadonlyArray<string | number>;
   plugin: HeyApiTypeScriptPlugin['Instance'];
+  processor: ProcessorResult;
   tags?: ReadonlyArray<string>;
 }): Symbol {
-  const processor = createProcessor(plugin);
   let symbolWebhookPayload: Symbol | undefined;
 
   if (operation.body) {

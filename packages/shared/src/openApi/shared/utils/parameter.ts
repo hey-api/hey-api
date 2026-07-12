@@ -1,12 +1,12 @@
 import type { IR } from '../../../ir/types';
 
-export const mergeParametersObjects = ({
+export function mergeParametersObjects({
   source,
   target,
 }: {
   source: IR.ParametersObject | undefined;
   target: IR.ParametersObject | undefined;
-}): IR.ParametersObject | undefined => {
+}): IR.ParametersObject | undefined {
   const result = { ...target };
 
   if (source) {
@@ -60,4 +60,4 @@ export const mergeParametersObjects = ({
   }
 
   return result;
-};
+}

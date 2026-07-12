@@ -1,0 +1,4 @@
+type Pair = [
+  A,
+  B?
+];

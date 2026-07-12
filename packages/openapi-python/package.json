@@ -63,6 +63,7 @@
   },
   "scripts": {
     "build": "tsdown",
+    "build:exe": "tsdown --config tsdown.exe.config.ts",
     "dev": "tsdown --watch",
     "prepublishOnly": "pnpm build",
     "typecheck": "tsgo --noEmit",
@@ -80,7 +81,6 @@
     "color-support": "1.1.3"
   },
   "devDependencies": {
-    "eslint": "9.39.4",
     "typescript": "6.0.3"
   },
   "engines": {

@@ -1,4 +1,5 @@
 import path from 'node:path';
 
-export const getSpecsPath = (): string =>
-  path.join(import.meta.dirname, '..', '..', '..', '..', 'specs');
+export function getSpecsPath(): string {
+  return path.join(import.meta.dirname, '..', '..', '..', '..', 'specs');
+}

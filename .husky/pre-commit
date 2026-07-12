@@ -1,1 +1,9 @@
+# auto-fix executable bit on shell scripts
+git diff --cached --name-only --diff-filter=ACM | grep '\.sh$' | while read -r f; do
+  if [ -f "$f" ] && ! test -x "$f"; then
+    chmod +x "$f"
+    git add "$f"
+  fi
+done
+
 pnpm lint-staged

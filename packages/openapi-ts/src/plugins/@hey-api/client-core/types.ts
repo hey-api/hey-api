@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-namespace */
 import type { Plugin } from '@hey-api/shared';
 
 import type { HeyApiClientAngularPlugin } from '../client-angular';

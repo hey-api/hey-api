@@ -9,6 +9,7 @@ npm-debug.log*
 temp
 
 *.iml
+build
 dist
 coverage
 .env

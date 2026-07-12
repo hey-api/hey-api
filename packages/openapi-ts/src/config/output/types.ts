@@ -2,6 +2,7 @@ import type { BaseOutput, BaseUserOutput, UserPostProcessor } from '@hey-api/sha
 import type { AnyString } from '@hey-api/types';
 import type { TsConfigJsonResolved } from 'get-tsconfig';
 
+import type { UserPrinter } from '../../ts-dsl';
 import type { Formatters, Linters, PostProcessorPreset } from './postprocess';
 
 export type UserOutput = BaseUserOutput<'.js' | '.ts'> & {
@@ -49,6 +50,14 @@ export type UserOutput = BaseUserOutput<'.js' | '.ts'> & {
    */
   preferExportAll?: boolean;
   /**
+   * Options to configure the printer used to render output files.
+   * Accepts a static value, or a function of the render context
+   * for dynamically resolved configuration.
+   *
+   * @default undefined
+   */
+  printer?: UserPrinter;
+  /**
    * Relative or absolute path to the tsconfig file we should use to
    * generate the output. If a path to tsconfig file is not provided, we
    * attempt to find one starting from the location of the
@@ -65,16 +74,10 @@ export type Output = BaseOutput<'.js' | '.ts'> & {
    * instead of named exports.
    */
   preferExportAll: boolean;
-  /**
-   * The parsed TypeScript configuration used to generate the output.
-   * If no `tsconfig` file path was provided or found, this will be `null`.
-   */
+  /** Options to configure the printer used to render output files. */
+  printer: UserPrinter;
+  /** The parsed TypeScript configuration used to generate the output. */
   tsConfig: TsConfigJsonResolved | null;
-  /**
-   * Relative or absolute path to the tsconfig file we should use to
-   * generate the output. If a path to tsconfig file is not provided, we
-   * attempt to find one starting from the location of the
-   * `@hey-api/openapi-ts` configuration file and traversing up.
-   */
+  /** Path to the tsconfig file we should use to generate the output. */
   tsConfigPath: AnyString | null | undefined;
 };

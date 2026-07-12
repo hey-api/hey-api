@@ -1,6 +1,6 @@
 import type { AnalysisContext, Node } from '@hey-api/codegen-core';
-import type ts from 'typescript';
 
+import type { ts } from '../../ts-compiler';
 import type { MaybeTsDsl } from '../base';
 import type { ParamCtor, ParamFn, ParamName } from '../decl/param';
 import { ParamTsDsl } from '../decl/param';

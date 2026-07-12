@@ -1,8 +1,8 @@
 import type { BindingKind, NodeScope, Symbol } from '@hey-api/codegen-core';
 import { isSymbol } from '@hey-api/codegen-core';
 import type { MaybeFunc } from '@hey-api/types';
-import type ts from 'typescript';
 
+import type { ts } from '../../ts-compiler';
 import type { DollarTsDsl } from '../../ts-dsl';
 import { $, TypeScriptRenderer } from '../../ts-dsl';
 import type { TsDsl } from '../base';

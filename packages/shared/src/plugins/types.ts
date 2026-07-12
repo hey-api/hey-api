@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-namespace */
 import type { Symbol, SymbolIn, SymbolMeta } from '@hey-api/codegen-core';
 import type { AnyString } from '@hey-api/types';
 
@@ -13,7 +12,6 @@ import type { ConfigTable } from '../normalize/config';
 import type { Hooks as ParserHooks } from '../parser/hooks';
 import type { PluginInstance } from './shared/utils/instance';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface PluginConfigMap {}
 
 export type PluginNames = keyof PluginConfigMap extends never ? string : keyof PluginConfigMap;

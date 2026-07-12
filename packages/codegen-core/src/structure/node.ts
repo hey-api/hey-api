@@ -54,7 +54,7 @@ export class StructureNode {
    */
   getPath(): ReadonlyArray<string> {
     const path: Array<string> = [];
-    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    // oxlint-disable-next-line typescript/no-this-alias
     let cursor: StructureNode | undefined = this;
     while (cursor) {
       path.unshift(cursor.name);

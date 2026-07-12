@@ -30,11 +30,12 @@ export const httpMethods = [
  *
  * @deprecated
  */
-export const sanitizeNamespaceIdentifier = (name: string) =>
-  name
+export function sanitizeNamespaceIdentifier(name: string) {
+  return name
     .replace(/^[^\p{ID_Start}]+/u, '')
     .replace(/[^$\u200c\u200d\p{ID_Continue}]/gu, '-')
     .replace(/[$+]/g, '-');
+}
 
 /**
  * Returns an operation ID to use across the application. By default, we try

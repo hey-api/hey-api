@@ -5,19 +5,19 @@ import { faker, type Faker } from '@faker-js/faker';
 import type { Comment, Department, Employee, Member, Org, Pair, Project, TreeNode, Wrapper } from '../types.gen';
 
 export type Options = {
-    faker?: Faker;
-    /**
-     * Whether to include optional properties, including add property to record object.
-     * Provide a number between 0 and 1 to randomly include based on that probability.
-     * @default true
-     */
-    includeOptional?: boolean | number;
-    /**
-     * Whether to use schema default values instead of generating fake data.
-     * Provide a number between 0 and 1 to randomly use defaults based on that probability.
-     * @default false
-     */
-    useDefault?: boolean | number;
+  faker?: Faker;
+  /**
+   * Whether to include optional properties, including add property to record object.
+   * Provide a number between 0 and 1 to randomly include based on that probability.
+   * @default true
+   */
+  includeOptional?: boolean | number;
+  /**
+   * Whether to use schema default values instead of generating fake data.
+   * Provide a number between 0 and 1 to randomly use defaults based on that probability.
+   * @default false
+   */
+  useDefault?: boolean | number;
 };
 
 const MAX_CALL_DEPTH = 10;
@@ -25,76 +25,76 @@ const MAX_CALL_DEPTH = 10;
 const resolveCondition = (condition: boolean | number, faker: Faker): boolean => condition === true || typeof condition === 'number' && faker.datatype.boolean({ probability: condition });
 
 export const fakeTreeNode = (options: Options = {}, _callDepth = 0): TreeNode => {
-    const f = options?.faker ?? faker;
-    return {
-        id: f.string.uuid(),
-        value: f.string.sample(),
-        ..._callDepth > MAX_CALL_DEPTH || !resolveCondition(options?.includeOptional ?? true, f) ? {} : { children: _callDepth > MAX_CALL_DEPTH ? [] : f.helpers.multiple(() => fakeTreeNode(options, _callDepth + 1)) }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    id: f.string.uuid(),
+    value: f.string.sample(),
+    ..._callDepth > MAX_CALL_DEPTH || !resolveCondition(options?.includeOptional ?? true, f) ? {} : { children: _callDepth > MAX_CALL_DEPTH ? [] : f.helpers.multiple(() => fakeTreeNode(options, _callDepth + 1)) }
+  };
 };
 
 export const fakeWrapper = (options?: Options): Wrapper => {
-    const f = options?.faker ?? faker;
-    return {
-        label: f.string.sample(),
-        tree: fakeTreeNode(options)
-    };
+  const f = options?.faker ?? faker;
+  return {
+    label: f.string.sample(),
+    tree: fakeTreeNode(options)
+  };
 };
 
 export const fakePair = (options?: Options): Pair => ({
-    nodes: [fakeTreeNode(options), fakeTreeNode(options)]
+  nodes: [fakeTreeNode(options), fakeTreeNode(options)]
 });
 
 export const fakeComment = (options: Options = {}, _callDepth = 0): Comment => {
-    const f = options?.faker ?? faker;
-    return {
-        id: f.string.uuid(),
-        text: f.string.sample(),
-        parent: _callDepth > MAX_CALL_DEPTH ? null : f.datatype.boolean() ? fakeComment(options, _callDepth + 1) : null
-    };
+  const f = options?.faker ?? faker;
+  return {
+    id: f.string.uuid(),
+    text: f.string.sample(),
+    parent: _callDepth > MAX_CALL_DEPTH ? null : f.datatype.boolean() ? fakeComment(options, _callDepth + 1) : null
+  };
 };
 
 export const fakeOrg = (options: Options = {}, _callDepth = 0): Org => {
-    const f = options?.faker ?? faker;
-    return {
-        id: f.string.uuid(),
-        name: f.string.sample(),
-        ..._callDepth > MAX_CALL_DEPTH || !resolveCondition(options?.includeOptional ?? true, f) ? {} : { members: _callDepth > MAX_CALL_DEPTH ? [] : f.helpers.multiple(() => fakeMember(options, _callDepth + 1)) }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    id: f.string.uuid(),
+    name: f.string.sample(),
+    ..._callDepth > MAX_CALL_DEPTH || !resolveCondition(options?.includeOptional ?? true, f) ? {} : { members: _callDepth > MAX_CALL_DEPTH ? [] : f.helpers.multiple(() => fakeMember(options, _callDepth + 1)) }
+  };
 };
 
 export const fakeMember = (options: Options = {}, _callDepth = 0): Member => {
-    const f = options?.faker ?? faker;
-    return {
-        id: f.string.uuid(),
-        name: f.string.sample(),
-        ..._callDepth > MAX_CALL_DEPTH || !resolveCondition(options?.includeOptional ?? true, f) ? {} : { org: fakeOrg(options, _callDepth + 1) }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    id: f.string.uuid(),
+    name: f.string.sample(),
+    ..._callDepth > MAX_CALL_DEPTH || !resolveCondition(options?.includeOptional ?? true, f) ? {} : { org: fakeOrg(options, _callDepth + 1) }
+  };
 };
 
 export const fakeDepartment = (options: Options = {}, _callDepth = 0): Department => {
-    const f = options?.faker ?? faker;
-    return {
-        id: f.string.uuid(),
-        name: f.string.sample(),
-        ..._callDepth > MAX_CALL_DEPTH || !resolveCondition(options?.includeOptional ?? true, f) ? {} : { employees: _callDepth > MAX_CALL_DEPTH ? [] : f.helpers.multiple(() => fakeEmployee(options, _callDepth + 1)) }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    id: f.string.uuid(),
+    name: f.string.sample(),
+    ..._callDepth > MAX_CALL_DEPTH || !resolveCondition(options?.includeOptional ?? true, f) ? {} : { employees: _callDepth > MAX_CALL_DEPTH ? [] : f.helpers.multiple(() => fakeEmployee(options, _callDepth + 1)) }
+  };
 };
 
 export const fakeEmployee = (options: Options = {}, _callDepth = 0): Employee => {
-    const f = options?.faker ?? faker;
-    return {
-        id: f.string.uuid(),
-        name: f.person.fullName(),
-        projects: _callDepth > MAX_CALL_DEPTH ? [] : f.helpers.multiple(() => fakeProject(options, _callDepth + 1))
-    };
+  const f = options?.faker ?? faker;
+  return {
+    id: f.string.uuid(),
+    name: f.person.fullName(),
+    projects: _callDepth > MAX_CALL_DEPTH ? [] : f.helpers.multiple(() => fakeProject(options, _callDepth + 1))
+  };
 };
 
 export const fakeProject = (options: Options = {}, _callDepth = 0): Project => {
-    const f = options?.faker ?? faker;
-    return {
-        id: f.string.uuid(),
-        name: f.string.sample(),
-        ..._callDepth > MAX_CALL_DEPTH || !resolveCondition(options?.includeOptional ?? true, f) ? {} : { department: fakeDepartment(options, _callDepth + 1) }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    id: f.string.uuid(),
+    name: f.string.sample(),
+    ..._callDepth > MAX_CALL_DEPTH || !resolveCondition(options?.includeOptional ?? true, f) ? {} : { department: fakeDepartment(options, _callDepth + 1) }
+  };
 };

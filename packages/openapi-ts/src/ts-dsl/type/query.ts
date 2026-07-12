@@ -1,13 +1,13 @@
 import type { AnalysisContext, NodeName, NodeScope, Ref } from '@hey-api/codegen-core';
 import { ref } from '@hey-api/codegen-core';
-import ts from 'typescript';
 
+import { ts } from '../../ts-compiler';
 import type { MaybeTsDsl, TypeTsDsl } from '../base';
 import { TsDsl } from '../base';
 import { TypeExprMixin } from '../mixins/type-expr';
 import { f } from '../utils/factories';
 
-export type TypeQueryExpr = NodeName | MaybeTsDsl<TypeTsDsl | ts.Expression>;
+export type TypeQueryExpr = NodeName | MaybeTsDsl<TypeTsDsl> | MaybeTsDsl<ts.Expression>;
 export type TypeQueryCtor = (expr: TypeQueryExpr) => TypeQueryTsDsl;
 
 const Mixed = TypeExprMixin(TsDsl<ts.TypeQueryNode>);

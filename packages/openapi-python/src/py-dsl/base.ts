@@ -23,7 +23,6 @@ export abstract class PyDsl<
   T extends py.Node = py.Node,
   L extends Language = 'python',
 > implements Node<T, L> {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   analyze(_: AnalysisContext): void {}
   clone(): this {
     const cloned = Object.create(Object.getPrototypeOf(this));

@@ -5,14 +5,14 @@ import { z } from 'zod/v3';
 export const zEmpty = z.record(z.unknown());
 
 export const zWithValue = z.object({
-    value: z.string()
+  value: z.string()
 });
 
 export const zTestResponse = z.union([
-    z.object({
-        type: z.literal('Empty')
-    }).and(zEmpty),
-    z.object({
-        type: z.literal('WithValue')
-    }).and(zWithValue)
+  z.object({
+    type: z.literal('Empty')
+  }).and(zEmpty),
+  z.object({
+    type: z.literal('WithValue')
+  }).and(zWithValue)
 ]);

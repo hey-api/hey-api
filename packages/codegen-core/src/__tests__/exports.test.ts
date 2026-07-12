@@ -56,6 +56,7 @@ export type _TypeExports = [
   index.ProjectMeta,
   index.Ref<any>,
   index.Refs<any>,
+  index.RegistryDumpEntry,
   index.RenderContext,
   index.Renderer,
   index.StructureInsert,
@@ -67,10 +68,12 @@ export type _TypeExports = [
   index.StructureShellResult,
   index.Symbol,
   index.SymbolChild,
+  index.SymbolDump,
   index.SymbolIdentifier,
   index.SymbolIn,
   index.SymbolKind,
   index.SymbolMeta,
+  index.SymbolOrigin,
   index.SymbolRegistry,
 ];
 

@@ -1,13 +1,10 @@
-import type ts from 'typescript';
-
 import type { $ } from '../../../../ts-dsl';
-import type { MaybeTsDsl } from '../../../../ts-dsl/base';
 
 /**
  * Any DSL node or raw TS node that represents an expression.
  * Broad enough to accept ExprTsDsl, CallTsDsl, ObjectTsDsl, LiteralTsDsl, etc.
  */
-export type Expression = MaybeTsDsl<ts.Expression>;
+export type Expression = ReturnType<typeof $.fromValue>;
 
 /**
  * Result from walking a schema node.

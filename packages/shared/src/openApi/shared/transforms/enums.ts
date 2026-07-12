@@ -255,7 +255,7 @@ const rootMode = ({ config, spec }: { config: EnumsConfig; spec: unknown }) => {
  * @param config - The enums transform config
  * @param spec - The OpenAPI spec object to transform
  */
-export const enumsTransform = ({ config, spec }: { config: EnumsConfig; spec: unknown }) => {
+export function enumsTransform({ config, spec }: { config: EnumsConfig; spec: unknown }) {
   if (config.mode === 'inline') {
     inlineMode({ spec });
     return;
@@ -265,4 +265,4 @@ export const enumsTransform = ({ config, spec }: { config: EnumsConfig; spec: un
     rootMode({ config, spec });
     return;
   }
-};
+}

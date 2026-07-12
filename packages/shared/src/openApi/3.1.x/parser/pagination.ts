@@ -6,16 +6,19 @@ import type { SchemaType } from '../../../openApi/shared/types/schema';
 import { mediaTypeObjects } from './mediaType';
 import { getSchemaTypes } from './schema';
 
-const isPaginationType = (
+function isPaginationType(
   schemaTypes: ReadonlyArray<SchemaType<OpenAPIV3_1.SchemaObject>>,
-): boolean =>
-  schemaTypes.includes('boolean') ||
-  schemaTypes.includes('integer') ||
-  schemaTypes.includes('number') ||
-  schemaTypes.includes('string');
+): boolean {
+  return (
+    schemaTypes.includes('boolean') ||
+    schemaTypes.includes('integer') ||
+    schemaTypes.includes('number') ||
+    schemaTypes.includes('string')
+  );
+}
 
 // We handle only simple values for now, up to 1 nested field
-export const paginationField = ({
+export function paginationField({
   context,
   name,
   schema,
@@ -23,7 +26,7 @@ export const paginationField = ({
   context: Context;
   name: string;
   schema: OpenAPIV3_1.SchemaObject;
-}): boolean | string => {
+}): boolean | string {
   const paginationRegExp = getPaginationKeywordsRegExp(context.config.parser.pagination);
   if (paginationRegExp.test(name)) {
     return true;
@@ -111,4 +114,4 @@ export const paginationField = ({
   }
 
   return false;
-};
+}

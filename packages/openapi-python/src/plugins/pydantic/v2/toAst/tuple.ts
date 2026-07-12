@@ -16,7 +16,6 @@ function baseNode(ctx: TupleResolverContext): PydanticType {
   return { type: $$.constrainedType($.type.tuple(...itemTypes)) };
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function constNode(_ctx: TupleResolverContext): PydanticType | undefined {
   return;
 }

@@ -9,9 +9,8 @@ import type {
   Walker,
 } from '@hey-api/shared';
 import type { MaybeArray } from '@hey-api/types';
-import type ts from 'typescript';
 
-import type { $, DollarTsDsl, TsDsl } from '../../ts-dsl';
+import type { $, DollarTsDsl } from '../../ts-dsl';
 import type { MaybeBigInt, ShouldCoerceToBigInt } from '../shared/utils/coerce';
 import type { GetIntegerLimit } from '../shared/utils/formats';
 import type { Chain, ChainResult } from './shared/chain';
@@ -131,7 +130,7 @@ export type ZodResolvers = Plugin.Resolvers<{
    * Returning `undefined` will execute the default resolver logic.
    */
   validator?:
-    | ((ctx: ValidatorResolverContext) => MaybeArray<TsDsl<ts.Statement>> | null | undefined)
+    | ((ctx: ValidatorResolverContext) => MaybeArray<ReturnType<typeof $.stmt>> | null | undefined)
     | {
         /**
          * Controls how the request validator function body is generated.
@@ -140,7 +139,7 @@ export type ZodResolvers = Plugin.Resolvers<{
          */
         request?: (
           ctx: RequestValidatorResolverContext,
-        ) => MaybeArray<TsDsl<ts.Statement>> | null | undefined;
+        ) => MaybeArray<ReturnType<typeof $.stmt>> | null | undefined;
         /**
          * Controls how the response validator function body is generated.
          *
@@ -148,7 +147,7 @@ export type ZodResolvers = Plugin.Resolvers<{
          */
         response?: (
           ctx: ResponseValidatorResolverContext,
-        ) => MaybeArray<TsDsl<ts.Statement>> | null | undefined;
+        ) => MaybeArray<ReturnType<typeof $.stmt>> | null | undefined;
       };
   /**
    * Resolver for void schemas.

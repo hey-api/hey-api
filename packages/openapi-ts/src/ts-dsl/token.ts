@@ -1,5 +1,4 @@
-import ts from 'typescript';
-
+import { ts } from '../ts-compiler';
 import { TsDsl } from './base';
 
 export class TokenTsDsl<K extends ts.SyntaxKind = never> extends TsDsl<ts.Token<K>> {

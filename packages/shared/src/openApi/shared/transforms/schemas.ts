@@ -28,13 +28,7 @@ const rewriteRefs = (node: unknown, renameMap: Record<string, string>) => {
  * the spec. Handles collisions by skipping renames when the target name
  * already exists or conflicts with another rename.
  */
-export const schemaNameTransform = ({
-  config,
-  spec,
-}: {
-  config: SchemaNameConfig;
-  spec: unknown;
-}) => {
+export function schemaNameTransform({ config, spec }: { config: SchemaNameConfig; spec: unknown }) {
   if (!config) {
     return;
   }
@@ -76,4 +70,4 @@ export const schemaNameTransform = ({
   if (Object.keys(renameMap).length) {
     rewriteRefs(spec, renameMap);
   }
-};
+}

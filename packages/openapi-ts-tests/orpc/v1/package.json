@@ -10,7 +10,7 @@
     "@hey-api/openapi-ts": "workspace:*",
     "@orpc/contract": "1.14.6",
     "typescript": "6.0.3",
-    "valibot": "1.4.1",
+    "valibot": "1.4.2",
     "zod": "4.4.3"
   }
 }

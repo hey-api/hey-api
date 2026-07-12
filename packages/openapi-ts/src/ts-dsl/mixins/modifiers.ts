@@ -1,6 +1,6 @@
 import type { AnalysisContext } from '@hey-api/codegen-core';
-import ts from 'typescript';
 
+import { ts } from '../../ts-compiler';
 import type { BaseCtor, MixinCtor } from './types';
 
 export type Modifiers = {
@@ -78,7 +78,7 @@ function ModifiersMixin<T extends ts.Node, TBase extends BaseCtor<T>>(Base: TBas
 
     protected hasModifier(modifier: Modifier): boolean {
       const kind = modifierToKind(modifier);
-      return Boolean(this.modifiers.find((mod) => mod.kind === kind));
+      return Boolean(this.modifiers.find((mod) => mod.syntaxKind === kind));
     }
 
     protected _m(modifier: Modifier, condition: boolean): this {

@@ -1,6 +1,6 @@
 import type { Graph } from '../graph';
 
-const analyzeStructure = (graph: Graph) => {
+function analyzeStructure(graph: Graph) {
   let maxDepth = 0;
   let maxChildren = 0;
 
@@ -24,9 +24,9 @@ const analyzeStructure = (graph: Graph) => {
   }
 
   return { maxChildren, maxDepth, totalNodes };
-};
+}
 
-const exportForVisualization = (graph: Graph) => {
+function exportForVisualization(graph: Graph) {
   const childrenMap = new Map<string, string[]>();
 
   for (const [pointer, nodeInfo] of graph.nodes) {
@@ -44,7 +44,7 @@ const exportForVisualization = (graph: Graph) => {
   }));
 
   return nodes;
-};
+}
 
 export const graph = {
   analyzeStructure,

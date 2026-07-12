@@ -3,80 +3,80 @@
 import type { CallToTestOrderOfParamsData, CallWithDefaultOptionalParametersData, CallWithDefaultParametersData, CallWithDescriptionsData, CallWithDuplicateResponsesResponse, CallWithParametersData, CallWithResponseAndNoContentResponseResponse, CallWithResponseResponse, CallWithResponsesResponse, CallWithWeirdParameterNamesData, CollectionFormatData, ComplexTypesData, ComplexTypesResponse, NonAsciiæøåÆøÅöôêÊ字符串Data, NonAsciiæøåÆøÅöôêÊ字符串Response, PostApiVbyApiVersionBodyData, PostApiVbyApiVersionBodyResponse, TestErrorCodeData, TypesData, TypesResponse } from './types.gen';
 
 export type DefaultControllerMethods = {
-    serviceWithEmptyTag: () => Promise<void>;
-    patchApiVbyApiVersionNoTag: () => Promise<void>;
-    fooWow: () => Promise<void>;
-    postApiVbyApiVersionBody: (body: PostApiVbyApiVersionBodyData['body']) => Promise<PostApiVbyApiVersionBodyResponse>;
+  serviceWithEmptyTag: () => Promise<void>;
+  patchApiVbyApiVersionNoTag: () => Promise<void>;
+  fooWow: () => Promise<void>;
+  postApiVbyApiVersionBody: (body: PostApiVbyApiVersionBodyData['body']) => Promise<PostApiVbyApiVersionBodyResponse>;
 };
 
 export type SimpleControllerMethods = {
-    deleteCallWithoutParametersAndResponse: () => Promise<void>;
-    getCallWithoutParametersAndResponse: () => Promise<void>;
-    headCallWithoutParametersAndResponse: () => Promise<void>;
-    optionsCallWithoutParametersAndResponse: () => Promise<void>;
-    patchCallWithoutParametersAndResponse: () => Promise<void>;
-    postCallWithoutParametersAndResponse: () => Promise<void>;
-    putCallWithoutParametersAndResponse: () => Promise<void>;
+  deleteCallWithoutParametersAndResponse: () => Promise<void>;
+  getCallWithoutParametersAndResponse: () => Promise<void>;
+  headCallWithoutParametersAndResponse: () => Promise<void>;
+  optionsCallWithoutParametersAndResponse: () => Promise<void>;
+  patchCallWithoutParametersAndResponse: () => Promise<void>;
+  postCallWithoutParametersAndResponse: () => Promise<void>;
+  putCallWithoutParametersAndResponse: () => Promise<void>;
 };
 
 export type DescriptionsControllerMethods = {
-    callWithDescriptions: (query?: CallWithDescriptionsData['query']) => Promise<void>;
+  callWithDescriptions: (query?: CallWithDescriptionsData['query']) => Promise<void>;
 };
 
 export type ParametersControllerMethods = {
-    callWithParameters: (path: CallWithParametersData['path'], query: CallWithParametersData['query'], headers: CallWithParametersData['headers']) => Promise<void>;
-    callWithWeirdParameterNames: (path: CallWithWeirdParameterNamesData['path'], query: CallWithWeirdParameterNamesData['query'], body: CallWithWeirdParameterNamesData['body'], headers: CallWithWeirdParameterNamesData['headers']) => Promise<void>;
+  callWithParameters: (path: CallWithParametersData['path'], query: CallWithParametersData['query'], headers: CallWithParametersData['headers']) => Promise<void>;
+  callWithWeirdParameterNames: (path: CallWithWeirdParameterNamesData['path'], query: CallWithWeirdParameterNamesData['query'], body: CallWithWeirdParameterNamesData['body'], headers: CallWithWeirdParameterNamesData['headers']) => Promise<void>;
 };
 
 export type DefaultsControllerMethods = {
-    callWithDefaultParameters: (query: CallWithDefaultParametersData['query']) => Promise<void>;
-    callWithDefaultOptionalParameters: (query?: CallWithDefaultOptionalParametersData['query']) => Promise<void>;
-    callToTestOrderOfParams: (query: CallToTestOrderOfParamsData['query']) => Promise<void>;
+  callWithDefaultParameters: (query: CallWithDefaultParametersData['query']) => Promise<void>;
+  callWithDefaultOptionalParameters: (query?: CallWithDefaultOptionalParametersData['query']) => Promise<void>;
+  callToTestOrderOfParams: (query: CallToTestOrderOfParamsData['query']) => Promise<void>;
 };
 
 export type DuplicateControllerMethods = {
-    duplicateName: () => Promise<void>;
-    duplicateName2: () => Promise<void>;
-    duplicateName3: () => Promise<void>;
-    duplicateName4: () => Promise<void>;
+  duplicateName: () => Promise<void>;
+  duplicateName2: () => Promise<void>;
+  duplicateName3: () => Promise<void>;
+  duplicateName4: () => Promise<void>;
 };
 
 export type NoContentControllerMethods = {
-    callWithNoContentResponse: () => Promise<void>;
+  callWithNoContentResponse: () => Promise<void>;
 };
 
 export type ResponseControllerMethods = {
-    callWithResponseAndNoContentResponse: () => Promise<CallWithResponseAndNoContentResponseResponse>;
-    callWithResponse: () => Promise<CallWithResponseResponse>;
-    callWithDuplicateResponses: () => Promise<CallWithDuplicateResponsesResponse>;
-    callWithResponses: () => Promise<CallWithResponsesResponse>;
+  callWithResponseAndNoContentResponse: () => Promise<CallWithResponseAndNoContentResponseResponse>;
+  callWithResponse: () => Promise<CallWithResponseResponse>;
+  callWithDuplicateResponses: () => Promise<CallWithDuplicateResponsesResponse>;
+  callWithResponses: () => Promise<CallWithResponsesResponse>;
 };
 
 export type MultipleTags1ControllerMethods = {
-    dummyA: () => Promise<void>;
-    dummyB: () => Promise<void>;
+  dummyA: () => Promise<void>;
+  dummyB: () => Promise<void>;
 };
 
 export type CollectionFormatControllerMethods = {
-    collectionFormat: (query: CollectionFormatData['query']) => Promise<void>;
+  collectionFormat: (query: CollectionFormatData['query']) => Promise<void>;
 };
 
 export type TypesControllerMethods = {
-    types: (query: TypesData['query'], path?: TypesData['path']) => Promise<TypesResponse>;
+  types: (query: TypesData['query'], path?: TypesData['path']) => Promise<TypesResponse>;
 };
 
 export type ComplexControllerMethods = {
-    complexTypes: (query: ComplexTypesData['query']) => Promise<ComplexTypesResponse>;
+  complexTypes: (query: ComplexTypesData['query']) => Promise<ComplexTypesResponse>;
 };
 
 export type HeaderControllerMethods = {
-    callWithResultFromHeader: () => Promise<void>;
+  callWithResultFromHeader: () => Promise<void>;
 };
 
 export type ErrorControllerMethods = {
-    testErrorCode: (query: TestErrorCodeData['query']) => Promise<void>;
+  testErrorCode: (query: TestErrorCodeData['query']) => Promise<void>;
 };
 
 export type NonAsciiÆøåÆøÅöôêÊControllerMethods = {
-    nonAsciiæøåÆøÅöôêÊ字符串: (query: NonAsciiæøåÆøÅöôêÊ字符串Data['query']) => Promise<NonAsciiæøåÆøÅöôêÊ字符串Response>;
+  nonAsciiæøåÆøÅöôêÊ字符串: (query: NonAsciiæøåÆøÅöôêÊ字符串Data['query']) => Promise<NonAsciiæøåÆøÅöôêÊ字符串Response>;
 };

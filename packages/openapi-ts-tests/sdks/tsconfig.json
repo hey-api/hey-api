@@ -1,6 +1,6 @@
 {
   "extends": "../tsconfig.base.json",
-  "include": ["test/**/*", "__snapshots__/**/*"],
+  "include": ["test/**/*", "__snapshots__/**/*", "vitest.setup.ts"],
   "exclude": [".gen/**/*"],
   "references": [{ "path": "../../openapi-ts" }]
 }

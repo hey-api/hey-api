@@ -5,7 +5,7 @@ import { parseEnv } from 'node:util';
 import { defineConfig } from '@hey-api/openapi-ts';
 
 import { getInput } from './inputs';
-import { getPreset } from './typescript/presets';
+import { getPlugins } from './typescript/plugins';
 
 process.env = {
   ...process.env,
@@ -21,6 +21,6 @@ export default defineConfig(() => [
     output: {
       path: path.resolve(import.meta.dirname, 'gen', 'typescript'),
     },
-    plugins: [...getPreset()],
+    plugins: [...getPlugins()],
   },
 ]);

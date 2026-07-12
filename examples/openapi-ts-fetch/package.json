@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsgo --noEmit && vite build",
     "dev": "vite",
-    "lint": "eslint . --report-unused-disable-directives --max-warnings 0",
+    "lint": "oxfmt --check . && oxlint .",
     "openapi-ts": "openapi-ts",
     "preview": "vite preview",
     "test": "vitest run",
@@ -23,19 +23,14 @@
     "@hey-api/openapi-ts": "workspace:*",
     "@types/react": "19.0.1",
     "@types/react-dom": "19.0.1",
-    "@typescript-eslint/eslint-plugin": "8.29.1",
-    "@typescript-eslint/parser": "8.29.1",
     "@vitejs/plugin-react": "4.4.0-beta.1",
     "autoprefixer": "10.5.0",
-    "eslint": "9.39.4",
-    "eslint-plugin-react-hooks": "5.2.0",
-    "eslint-plugin-react-refresh": "0.4.7",
     "msw": "2.13.2",
-    "oxfmt": "0.55.0",
+    "oxfmt": "0.57.0",
     "postcss": "8.5.15",
     "tailwindcss": "3.4.19",
     "typescript": "6.0.3",
-    "vite": "8.0.16",
+    "vite": "8.1.3",
     "vitest": "4.1.9"
   }
 }

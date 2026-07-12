@@ -1,7 +1,7 @@
 import type { AnalysisContext, NodeName, Ref } from '@hey-api/codegen-core';
 import { isNode, isSymbol, ref } from '@hey-api/codegen-core';
-import type ts from 'typescript';
 
+import type { ts } from '../../ts-compiler';
 import type { MaybeTsDsl } from '../base';
 import { TsDsl } from '../base';
 import { AsMixin } from '../mixins/as';

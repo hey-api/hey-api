@@ -10,7 +10,7 @@ import { parseExtensions, schemaToIrSchema } from './schema';
 /**
  * Returns default parameter `allowReserved` based on value of `in`.
  */
-const defaultAllowReserved = (_in: OpenAPIV3.ParameterObject['in']): boolean | undefined => {
+function defaultAllowReserved(_in: OpenAPIV3.ParameterObject['in']): boolean | undefined {
   switch (_in) {
     // this keyword only applies to parameters with an `in` value of `query`
     case 'query':
@@ -18,12 +18,12 @@ const defaultAllowReserved = (_in: OpenAPIV3.ParameterObject['in']): boolean | u
     default:
       return;
   }
-};
+}
 
 /**
  * Returns default parameter `explode` based on value of `style`.
  */
-const defaultExplode = (style: Required<OpenAPIV3.ParameterObject>['style']): boolean => {
+function defaultExplode(style: Required<OpenAPIV3.ParameterObject>['style']): boolean {
   switch (style) {
     // default value for `deepObject` is `false`, but that behavior is undefined
     // so we use `true` to make this work with the `client-fetch` package
@@ -33,14 +33,12 @@ const defaultExplode = (style: Required<OpenAPIV3.ParameterObject>['style']): bo
     default:
       return false;
   }
-};
+}
 
 /**
  * Returns default parameter `style` based on value of `in`.
  */
-const defaultStyle = (
-  _in: OpenAPIV3.ParameterObject['in'],
-): Required<IR.ParameterObject>['style'] => {
+function defaultStyle(_in: OpenAPIV3.ParameterObject['in']): Required<IR.ParameterObject>['style'] {
   switch (_in) {
     case 'header':
     case 'path':
@@ -49,15 +47,15 @@ const defaultStyle = (
     case 'query':
       return 'form';
   }
-};
+}
 
-export const parametersArrayToObject = ({
+export function parametersArrayToObject({
   context,
   parameters,
 }: {
   context: Context;
   parameters?: ReadonlyArray<OpenAPIV3.ParameterObject | OpenAPIV3.ReferenceObject>;
-}): IR.ParametersObject | undefined => {
+}): IR.ParametersObject | undefined {
   if (!parameters || !Object.keys(parameters).length) {
     return;
   }
@@ -83,9 +81,9 @@ export const parametersArrayToObject = ({
   }
 
   return parametersObject;
-};
+}
 
-const parameterToIrParameter = ({
+function parameterToIrParameter({
   $ref,
   context,
   parameter,
@@ -93,7 +91,7 @@ const parameterToIrParameter = ({
   $ref: string;
   context: Context;
   parameter: OpenAPIV3.ParameterObject;
-}): IR.ParameterObject => {
+}): IR.ParameterObject {
   // TODO: parser - fix
   let schema = parameter.schema;
 
@@ -170,9 +168,9 @@ const parameterToIrParameter = ({
   });
 
   return irParameter;
-};
+}
 
-export const parseParameter = ({
+export function parseParameter({
   $ref,
   context,
   parameter,
@@ -180,7 +178,7 @@ export const parseParameter = ({
   $ref: string;
   context: Context;
   parameter: OpenAPIV3.ParameterObject;
-}) => {
+}): void {
   if (!context.ir.components) {
     context.ir.components = {};
   }
@@ -194,4 +192,4 @@ export const parseParameter = ({
     context,
     parameter,
   });
-};
+}

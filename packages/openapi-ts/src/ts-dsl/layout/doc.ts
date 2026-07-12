@@ -1,7 +1,7 @@
 import type { AnalysisContext } from '@hey-api/codegen-core';
 import type { MaybeArray } from '@hey-api/types';
-import ts from 'typescript';
 
+import { ts } from '../../ts-compiler';
 import { TsDsl } from '../base';
 import { IdTsDsl } from '../expr/id';
 import type { TsDslContext } from '../utils/context';
@@ -41,21 +41,16 @@ export class DocTsDsl extends TsDsl<ts.Node> {
     }, []);
     if (!lines.length) return node;
 
-    const jsdocTexts = lines.map((line) => ts.factory.createJSDocText(`${line}\n`));
+    const body = [
+      '*',
+      ...lines
+        .flatMap((line) => line.split('\n'))
+        .map((line) => line.replace(/\s+$/, ''))
+        .map((line) => (line ? ` * ${line}` : ' *')),
+      ' ',
+    ].join('\n');
 
-    const jsdoc = ts.factory.createJSDocComment(ts.factory.createNodeArray(jsdocTexts), undefined);
-
-    const cleanedJsdoc = ts
-      .createPrinter()
-      .printNode(
-        ts.EmitHint.Unspecified,
-        jsdoc,
-        node.getSourceFile?.() ?? ts.createSourceFile('', '', ts.ScriptTarget.Latest),
-      )
-      .replace('/*', '')
-      .replace('*  */', '');
-
-    ts.addSyntheticLeadingComment(node, ts.SyntaxKind.MultiLineCommentTrivia, cleanedJsdoc, true);
+    ts.addSyntheticLeadingComment(node, ts.SyntaxKind.MultiLineCommentTrivia, body, true);
 
     return node;
   }

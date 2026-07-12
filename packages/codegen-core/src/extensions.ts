@@ -5,7 +5,6 @@ import type { Language } from './languages/types';
  *
  * Implementers should extend this interface for their own needs.
  */
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface IProjectMeta extends Partial<Record<Language, unknown>> {}
 
 /**

@@ -333,8 +333,7 @@ function generateOperationFactory({
   const statusCodes = Array.from(operationExamples.statusCodes.entries());
 
   const defaultStatusCode = operationExamples.defaultStatusCode || statusCodes[0]?.[0];
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const defaultCodeNum = defaultStatusCode ? parseInt(defaultStatusCode.replace('X', '0')) : 200;
+  const _defaultCodeNum = defaultStatusCode ? parseInt(defaultStatusCode.replace('X', '0')) : 200;
 
   const symbol = plugin.symbol(functionName, {
     meta: {
@@ -352,7 +351,6 @@ function generateOperationFactory({
       $.return(
         $.fromValue(
           statusCodes[0]?.[1]?.examples.basic ??
-            // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
             statusCodes[0]?.[1]?.examples[Object.keys(statusCodes[0]?.[1]?.examples ?? {})[0]!]!,
           { layout: 'pretty' },
         ),

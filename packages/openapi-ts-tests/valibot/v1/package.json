@@ -9,6 +9,6 @@
   "devDependencies": {
     "@hey-api/openapi-ts": "workspace:*",
     "typescript": "6.0.3",
-    "valibot": "1.4.1"
+    "valibot": "1.4.2"
   }
 }

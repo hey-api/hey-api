@@ -32,6 +32,7 @@ export const handlerV1: HeyApiTypeScriptPlugin['Handler'] = ({ plugin }) => {
             operation: event.operation,
             path: event._path,
             plugin,
+            processor,
             tags: event.tags,
           });
           break;
@@ -83,6 +84,7 @@ export const handlerV1: HeyApiTypeScriptPlugin['Handler'] = ({ plugin }) => {
               operation: event.operation,
               path: event._path,
               plugin,
+              processor,
               tags: event.tags,
             }),
           );

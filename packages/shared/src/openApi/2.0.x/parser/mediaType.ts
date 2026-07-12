@@ -9,11 +9,11 @@ interface Content {
   type: IRMediaType | undefined;
 }
 
-export const contentToSchema = ({
+export function contentToSchema({
   content,
 }: {
   content: Content;
-}): OpenAPIV2.SchemaObject | undefined => {
+}): OpenAPIV2.SchemaObject | undefined {
   const { mediaType, schema } = content;
 
   if (schema && '$ref' in schema) {
@@ -40,15 +40,15 @@ export const contentToSchema = ({
   }
 
   return schema;
-};
+}
 
-export const mediaTypeObjects = ({
+export function mediaTypeObjects({
   mimeTypes,
   response,
 }: {
   mimeTypes: ReadonlyArray<string> | undefined;
   response: Pick<OpenAPIV2.ResponseObject, 'schema'>;
-}): ReadonlyArray<Content> => {
+}): ReadonlyArray<Content> {
   const objects: Array<Content> = [];
 
   for (const mediaType of mimeTypes ?? []) {
@@ -60,4 +60,4 @@ export const mediaTypeObjects = ({
   }
 
   return objects;
-};
+}

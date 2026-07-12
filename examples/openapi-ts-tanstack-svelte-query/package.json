@@ -9,7 +9,7 @@
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "dev": "vite dev",
     "format": "oxfmt .",
-    "lint": "oxfmt --check . && eslint .",
+    "lint": "oxfmt --check . && oxlint .",
     "openapi-ts": "openapi-ts",
     "prepare": "svelte-kit sync",
     "preview": "vite preview",
@@ -25,16 +25,11 @@
     "@sveltejs/adapter-auto": "4.0.0",
     "@sveltejs/kit": "2.17.1",
     "@sveltejs/vite-plugin-svelte": "5.0.3",
-    "@types/eslint": "9.6.1",
-    "eslint": "9.39.4",
-    "eslint-plugin-svelte": "2.36.0",
-    "globals": "17.6.0",
-    "oxfmt": "0.55.0",
+    "oxfmt": "0.57.0",
     "svelte": "5.19.9",
     "svelte-check": "4.1.4",
     "typescript": "6.0.3",
-    "typescript-eslint": "8.29.1",
-    "vite": "8.0.16",
+    "vite": "8.1.3",
     "vitest": "4.1.9"
   }
 }

@@ -19,4 +19,6 @@ export function getFilePaths(dirPath: string): Array<string> {
   return filePaths;
 }
 
-export const getSpecsPath = (): string => path.join(import.meta.dirname, '..', '..', 'specs');
+export function getSpecsPath(): string {
+  return path.join(import.meta.dirname, '..', '..', 'specs');
+}

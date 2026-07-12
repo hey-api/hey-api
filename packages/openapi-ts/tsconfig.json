@@ -2,11 +2,13 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "composite": true,
+    "lib": ["ES2022", "DOM"],
     "rootDir": "src",
     "outDir": "dist",
     "types": ["vitest/globals", "node"]
   },
   "include": ["src"],
+  "exclude": ["src/ts-compiler/__snapshots__"],
   "references": [
     { "path": "../codegen-cli" },
     { "path": "../codegen-core" },

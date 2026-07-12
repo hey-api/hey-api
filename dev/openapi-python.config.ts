@@ -5,7 +5,7 @@ import { parseEnv } from 'node:util';
 import { defineConfig } from '@hey-api/openapi-python';
 
 import { getInput } from './inputs';
-import { getPreset } from './python/presets';
+import { getPlugins } from './python/plugins';
 
 process.env = {
   ...process.env,
@@ -21,6 +21,6 @@ export default defineConfig(() => [
     output: {
       path: path.resolve(import.meta.dirname, 'gen', 'python'),
     },
-    plugins: [...getPreset()],
+    plugins: [...getPlugins()],
   },
 ]);

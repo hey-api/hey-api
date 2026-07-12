@@ -1,5 +1,4 @@
 import type { FeatureToggle, IR, NamingOptions } from '@hey-api/shared';
-import type ts from 'typescript';
 
 import type { ZodPlugin } from '../types';
 import type { Chain } from './chain';
@@ -53,7 +52,7 @@ export interface ZodResult {
  */
 export interface ZodFinal extends Pick<ZodResult, 'chain'> {
   /** Type annotation for schemas requiring explicit typing (e.g., lazy). */
-  typeName?: string | ts.Identifier;
+  typeName?: string;
 }
 
 /**

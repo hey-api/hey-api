@@ -14,9 +14,9 @@
     "@hey-api/openapi-python": "workspace:*",
     "@hey-api/openapi-ts": "workspace:*",
     "@msw/source": "0.6.1",
-    "@opencode-ai/sdk": "1.17.8",
+    "@opencode-ai/sdk": "1.17.11",
     "@orpc/contract": "1.14.6",
-    "@pinia/colada": "0.19.1",
+    "@pinia/colada": "0.21.7",
     "@tanstack/angular-query-experimental": "5.90.25",
     "@tanstack/preact-query": "5.93.0",
     "@tanstack/react-query": "5.90.21",
@@ -29,7 +29,7 @@
     "swr": "2.4.1",
     "tsx": "4.21.0",
     "typescript": "6.0.3",
-    "valibot": "1.4.1",
+    "valibot": "1.4.2",
     "vue": "3.5.25",
     "zod": "4.4.3"
   }

@@ -3,7 +3,15 @@ import type { ISymbolMeta } from '../extensions';
 import type { File } from '../files/file';
 import { log } from '../log';
 import type { INode } from '../nodes/node';
-import type { BindingKind, ISymbolChild, ISymbolIn, SymbolEventMap, SymbolKind } from './types';
+import type {
+  BindingKind,
+  ISymbolChild,
+  ISymbolIn,
+  SymbolDump,
+  SymbolEventMap,
+  SymbolKind,
+  SymbolOrigin,
+} from './types';
 
 export class Symbol<Node extends INode = INode> {
   /**
@@ -98,6 +106,12 @@ export class Symbol<Node extends INode = INode> {
    */
   private _node?: Node;
   /**
+   * Provenance tag indicating which pipeline phase created this symbol.
+   *
+   * @default undefined
+   */
+  private _origin?: SymbolOrigin;
+  /**
    * Indicates whether this symbol overrides another declaration.
    *
    * @default false
@@ -127,6 +141,7 @@ export class Symbol<Node extends INode = INode> {
     this._kind = input.kind ?? 'var';
     this._meta = input.meta;
     this._name = input.name;
+    this._origin = input.origin;
     this._override = input.override ?? false;
     this._priority = input.priority ?? 0;
   }
@@ -252,6 +267,13 @@ export class Symbol<Node extends INode = INode> {
    */
   get node(): Node | undefined {
     return this.canonical._node as Node | undefined;
+  }
+
+  /**
+   * Provenance tag indicating which pipeline phase created this symbol.
+   */
+  get origin(): SymbolOrigin | undefined {
+    return this.canonical._origin;
   }
 
   /**
@@ -416,6 +438,27 @@ export class Symbol<Node extends INode = INode> {
     this._override = override;
   }
 
+  toDump(): SymbolDump {
+    return {
+      canonicalId: this.isCanonical ? undefined : this.canonical.id,
+      exported: this.exported,
+      external: this.external,
+      finalName: this.canonical._finalName,
+      id: this.canonical.id,
+      importIds: this.imports.map((imp) => imp.id).join(', '),
+      importKind: this.importKind,
+      isCanonical: this.isCanonical,
+      isRenamed: this.isRenamed,
+      kind: this.kind,
+      logicalFilePath: this.file?.logicalFilePath,
+      meta: this.meta ? this.flattenMetaArrayValues(this.meta) : undefined,
+      name: this.name,
+      origin: this.origin,
+      override: this.override,
+      priority: this.priority,
+    };
+  }
+
   /**
    * Returns a debug‑friendly string representation identifying the symbol.
    */
@@ -464,5 +507,19 @@ export class Symbol<Node extends INode = INode> {
     for (const listener of listeners) {
       (listener as (...args: Parameters<SymbolEventMap[K]>) => void)(...args);
     }
+  }
+
+  private flattenMetaArrayValues(obj: Record<string, unknown>): Record<string, unknown> {
+    const result: Record<string, unknown> = {};
+    for (const [key, value] of Object.entries(obj)) {
+      if (Array.isArray(value)) {
+        result[key] = value.join('/');
+      } else if (value && typeof value === 'object') {
+        result[key] = this.flattenMetaArrayValues(value as Record<string, unknown>);
+      } else {
+        result[key] = value;
+      }
+    }
+    return result;
   }
 }

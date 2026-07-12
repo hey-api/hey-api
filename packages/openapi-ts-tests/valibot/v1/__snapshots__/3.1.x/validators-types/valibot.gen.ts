@@ -5,24 +5,24 @@ import * as v from 'valibot';
 export const vBaz = v.optional(v.pipe(v.pipe(v.string(), v.regex(/foo\nbar/)), v.readonly()), 'baz');
 
 export const vQux = v.record(v.string(), v.object({
-    qux: v.optional(v.string())
+  qux: v.optional(v.string())
 }));
 
 /**
  * This is Foo schema.
  */
 export const vFoo: v.GenericSchema = v.nullish(v.object({
-    foo: v.optional(v.pipe(v.string(), v.regex(/^\d{3}-\d{2}-\d{4}$/, 'Must be a valid SSN format (###-##-####)'))),
-    bar: v.optional(v.lazy(() => vBar)),
-    baz: v.optional(v.array(v.lazy(() => vFoo))),
-    qux: v.optional(v.pipe(v.number(), v.integer(), v.gtValue(0)), 0)
+  foo: v.optional(v.pipe(v.string(), v.regex(/^\d{3}-\d{2}-\d{4}$/, 'Must be a valid SSN format (###-##-####)'))),
+  bar: v.optional(v.lazy(() => vBar)),
+  baz: v.optional(v.array(v.lazy(() => vFoo))),
+  qux: v.optional(v.pipe(v.number(), v.integer(), v.gtValue(0)), 0)
 }), null);
 
 /**
  * This is Bar schema.
  */
 export const vBar = v.object({
-    foo: v.optional(vFoo)
+  foo: v.optional(vFoo)
 });
 
 /**
@@ -31,21 +31,21 @@ export const vBar = v.object({
 export const vFoo2 = v.string();
 
 export const vFoo3 = v.object({
-    foo: v.optional(vBar)
+  foo: v.optional(vBar)
 });
 
 export const vPatchFooBody = v.object({
-    foo: v.optional(v.string())
+  foo: v.optional(v.string())
 });
 
 export const vPatchFooQuery = v.object({
-    foo: v.optional(v.string()),
-    bar: v.optional(vBar),
-    baz: v.optional(v.object({
-        baz: v.optional(v.string())
-    })),
-    qux: v.optional(v.pipe(v.string(), v.isoDate())),
-    quux: v.optional(v.pipe(v.string(), v.isoTimestamp()))
+  foo: v.optional(v.string()),
+  bar: v.optional(vBar),
+  baz: v.optional(v.object({
+    baz: v.optional(v.string())
+  })),
+  qux: v.optional(v.pipe(v.string(), v.isoDate())),
+  quux: v.optional(v.pipe(v.string(), v.isoTimestamp()))
 });
 
 export const vPostFooBody = vFoo3;

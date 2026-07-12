@@ -4,7 +4,7 @@ import { propertiesRequiredByDefaultTransform } from './propertiesRequiredByDefa
 import { readWriteTransform } from './readWrite';
 import { schemaNameTransform } from './schemas';
 
-export const transformOpenApiSpec = ({ context }: { context: Context }) => {
+export function transformOpenApiSpec({ context }: { context: Context }) {
   const { logger } = context;
   const eventTransformOpenApiSpec = logger.timeEvent('transform-openapi-spec');
 
@@ -34,4 +34,4 @@ export const transformOpenApiSpec = ({ context }: { context: Context }) => {
     });
   }
   eventTransformOpenApiSpec.timeEnd();
-};
+}

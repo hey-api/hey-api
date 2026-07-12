@@ -20,6 +20,20 @@ const irPatterns: Record<IrTopLevelKind, RegExp> = {
   webhook: /^#\/webhooks\/[^/]+\/(get|put|post|delete|options|head|patch|trace)$/,
 };
 
+// Every pattern in `irPatterns` requires a fixed literal prefix. Checking the
+// prefix with `startsWith` first lets us skip the regex entirely for the vast
+// majority of pointers (deeply nested leaf nodes — properties, items, etc.)
+// that can never match any top-level kind, since this runs once per graph
+// node on every walk/priority lookup.
+const irPrefixes: ReadonlyArray<readonly [prefix: string, kind: IrTopLevelKind]> = [
+  ['#/paths/', 'operation'],
+  ['#/components/parameters/', 'parameter'],
+  ['#/components/requestBodies/', 'requestBody'],
+  ['#/components/schemas/', 'schema'],
+  ['#/servers/', 'server'],
+  ['#/webhooks/', 'webhook'],
+];
+
 /**
  * Checks if a pointer matches a known top-level IR component (schema, parameter, etc) and returns match info.
  *
@@ -31,8 +45,9 @@ export const matchIrPointerToGroup: MatchPointerToGroupFn<IrTopLevelKind> = (poi
   if (kind) {
     return irPatterns[kind].test(pointer) ? { kind, matched: true } : { matched: false };
   }
-  for (const key of irTopLevelKinds) {
-    if (irPatterns[key].test(pointer)) {
+  for (let i = 0, len = irPrefixes.length; i < len; i++) {
+    const [prefix, key] = irPrefixes[i]!;
+    if (pointer.startsWith(prefix) && irPatterns[key].test(pointer)) {
       return { kind: key, matched: true };
     }
   }

@@ -1,0 +1,131 @@
+openapi: 3.1.1
+info:
+  title: OpenAPI 3.1.1 RPC query styles example
+  version: 1
+paths:
+  /items:
+    get:
+      tags:
+        - items
+      operationId: getItems
+      summary: Get all items
+      parameters:
+        - name: ids
+          in: query
+          description: Filter by item IDs
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: tags
+          in: query
+          description: Filter by tags
+          required: false
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: names
+          in: query
+          description: Filter by names
+          required: false
+          style: spaceDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: codes
+          in: query
+          description: Filter by codes
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: category
+          in: query
+          description: Filter by category
+          required: false
+          schema:
+            type: string
+        - name: keyword
+          in: query
+          description: Filter by keyword
+          required: false
+          style: form
+          explode: false
+          schema:
+            type: string
+        - name: refIds
+          in: query
+          description: Filter by referenced item IDs
+          required: false
+          schema:
+            $ref: '#/components/schemas/Ids'
+        - name: filters
+          in: query
+          description: Filter by field pairs
+          required: false
+          style: form
+          explode: false
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+        - name: pipeFilters
+          in: query
+          description: Filter by pipe-delimited field pairs
+          required: false
+          style: pipeDelimited
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+        - name: spaceFilters
+          in: query
+          description: Filter by space-delimited field pairs
+          required: false
+          style: spaceDelimited
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+        - name: facets
+          in: query
+          description: Filter by exploded field pairs
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+      responses:
+        '200':
+          description: List of items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Item'
+components:
+  schemas:
+    Ids:
+      type: array
+      items:
+        type: string
+    Item:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: string
+        name:
+          type: string

@@ -1,7 +1,7 @@
 import type { AnalysisContext, Node, NodeName, Ref } from '@hey-api/codegen-core';
 import { ref } from '@hey-api/codegen-core';
-import type ts from 'typescript';
 
+import type { ts } from '../../ts-compiler';
 import type { MaybeTsDsl } from '../base';
 import type { BaseCtor, MixinCtor } from './types';
 

@@ -1,0 +1,5 @@
+try {
+  risky;
+} catch {
+  handle;
+}

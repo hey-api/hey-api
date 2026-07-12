@@ -1,5 +1,4 @@
-import type ts from 'typescript';
-
+import type { ts } from '../../ts-compiler';
 import type { TsDsl } from '../base';
 import { IdTsDsl } from '../expr/id';
 import { LiteralTsDsl } from '../expr/literal';

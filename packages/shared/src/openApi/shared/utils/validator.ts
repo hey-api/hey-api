@@ -77,13 +77,13 @@ const shouldPrint = ({ context, issue }: { context: Context; issue: ValidatorIss
   return true;
 };
 
-export const handleValidatorResult = ({
+export function handleValidatorResult({
   context,
   result,
 }: {
   context: Context;
   result: ValidatorResult;
-}) => {
+}) {
   for (const issue of result.issues) {
     if (shouldPrint({ context, issue })) {
       console.log(formatValidatorIssue(issue));
@@ -93,4 +93,4 @@ export const handleValidatorResult = ({
   if (!result.valid) {
     process.exit(1);
   }
-};
+}

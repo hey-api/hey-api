@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-namespace */
 // OVERRIDES
 // hard-coded here because build process doesn't pick up overrides from separate files
 import '@hey-api/codegen-core';

@@ -38,7 +38,7 @@ export async function assertPrintedMatchesSnapshot(
   file: py.SourceFile,
   filename: string,
 ): Promise<void> {
-  const result = py.createPrinter().printFile(file);
+  const result = py.createPrinter().format(file);
 
   const caller = getCallerFile();
   const relPath = path

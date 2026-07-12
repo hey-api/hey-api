@@ -156,7 +156,7 @@ export type UserConfig = Plugin.Name<'@hey-api/sdk'> &
      * @deprecated Use `operations: { strategy: "byTags" }` or `operations: { strategy: "single" }` instead.
      * @default false
      */
-    // eslint-disable-next-line typescript-sort-keys/interface
+    // oxlint-disable-next-line typescript-sort-keys/interface
     asClass?: boolean;
     /**
      * Customize the generated class names. The name variable is obtained from
@@ -251,7 +251,7 @@ export type Config = Plugin.Name<'@hey-api/sdk'> &
      * @deprecated
      * @default 'body'
      */
-    // eslint-disable-next-line typescript-sort-keys/interface
+    // oxlint-disable-next-line typescript-sort-keys/interface
     response: 'body' | 'response';
   };
 

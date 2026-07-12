@@ -1,6 +1,6 @@
 import type { AnalysisContext } from '@hey-api/codegen-core';
-import type ts from 'typescript';
 
+import type { ts } from '../../ts-compiler';
 import { TsDsl } from '../base';
 import type { TsDslContext } from './context';
 import { ctx } from './context';

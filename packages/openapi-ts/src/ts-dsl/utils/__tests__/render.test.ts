@@ -1,7 +1,7 @@
 import type { RenderContext } from '@hey-api/codegen-core';
 import { Project } from '@hey-api/codegen-core';
-import ts from 'typescript';
 
+import { ts } from '../../../ts-compiler';
 import type { TsDsl } from '../../../ts-dsl';
 import { TypeScriptRenderer } from '../render';
 import type { ModuleExport, ModuleImport } from '../render-utils';

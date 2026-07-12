@@ -1,7 +1,7 @@
 import type { Context } from '../../../ir/context';
 import { parseUrl } from '../../../utils/url';
 
-export const parseServers = ({ context }: { context: Context }) => {
+export function parseServers({ context }: { context: Context }) {
   if (context.spec.servers) {
     context.ir.servers = context.spec.servers;
     return;
@@ -25,4 +25,4 @@ export const parseServers = ({ context }: { context: Context }) => {
       },
     ];
   }
-};
+}

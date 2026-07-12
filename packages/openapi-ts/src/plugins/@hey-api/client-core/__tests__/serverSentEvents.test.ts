@@ -437,7 +437,6 @@ describe('createSseClient', () => {
 
     stream[Symbol.asyncIterator]();
     // pull all events until done
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     for await (const _ of stream) {
       /* noop */
     }

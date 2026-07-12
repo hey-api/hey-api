@@ -1,15 +1,13 @@
 {
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit"
+    "source.fixAll.oxc": "explicit"
   },
   "editor.defaultFormatter": "oxc.oxc-vscode",
+  "editor.formatOnSave": true,
   "editor.quickSuggestions": {
     "other": "on",
     "strings": "on"
   },
-  "eslint.format.enable": true,
-  "eslint.nodePath": "./node_modules",
-  "eslint.workingDirectories": [{ "pattern": "./packages/*/" }],
   "oxc.fmt.configPath": ".oxfmtrc.json",
   "search.exclude": {
     "**/*-lock.yaml": true,
@@ -30,11 +28,12 @@
   "workbench.editorAssociations": {
     "*.svg": "default"
   },
-  "typescript.experimental.useTsgo": true,
-  "typescript.preferences.autoImportFileExcludePatterns": ["dist/**"],
-  "typescript.preferences.autoImportSpecifierExcludeRegexes": ["^(node:)?os$"],
-  "typescript.tsdk": "node_modules/typescript/lib",
+  "js/ts.experimental.useTsgo": true,
+  "js/ts.preferences.autoImportFileExcludePatterns": ["dist/**"],
+  "js/ts.preferences.autoImportSpecifierExcludeRegexes": ["^(node:)?os$"],
+  "js/ts.tsdk.path": "node_modules/typescript/lib",
   "vitest.rootConfig": "vitest.config.ts",
+  "yaml.format.singleQuote": true,
   "[javascript]": {
     "editor.defaultFormatter": "oxc.oxc-vscode"
   },

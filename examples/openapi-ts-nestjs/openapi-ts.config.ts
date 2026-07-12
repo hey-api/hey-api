@@ -7,7 +7,7 @@ const config: Promise<UserConfig> = defineConfig({
   },
   output: {
     path: './src/client',
-    postProcess: ['oxfmt', 'eslint'],
+    postProcess: ['oxfmt', 'oxlint'],
   },
   plugins: ['nestjs', '@hey-api/sdk'],
 });

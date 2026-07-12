@@ -8,16 +8,16 @@ const octetStreamMimeRegExp = /^application\/octet-stream(;.*)?$/i;
 
 export type IRMediaType = 'form-data' | 'json' | 'text' | 'url-search-params' | 'octet-stream';
 
-export const isMediaTypeFileLike = ({ mediaType }: { mediaType: string }): boolean => {
+export function isMediaTypeFileLike({ mediaType }: { mediaType: string }): boolean {
   fileLikeRegExp.lastIndex = 0;
   return fileLikeRegExp.test(mediaType);
-};
+}
 
-export const mediaTypeToIrMediaType = ({
+export function mediaTypeToIrMediaType({
   mediaType,
 }: {
   mediaType: string;
-}): IRMediaType | undefined => {
+}): IRMediaType | undefined {
   jsonMimeRegExp.lastIndex = 0;
   if (jsonMimeRegExp.test(mediaType)) {
     return 'json';
@@ -44,4 +44,4 @@ export const mediaTypeToIrMediaType = ({
   }
 
   return;
-};
+}

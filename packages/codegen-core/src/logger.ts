@@ -1,11 +1,14 @@
 import colors from 'ansi-colors';
 
+type PerformanceMarkResult = ReturnType<typeof performance.mark>;
+type PerformanceMeasureResult = ReturnType<typeof performance.measure>;
+
 interface LoggerEvent {
-  end?: PerformanceMark;
+  end?: PerformanceMarkResult;
   events: Array<LoggerEvent>;
   id: string; // unique internal key
   name: string;
-  start: PerformanceMark;
+  start: PerformanceMarkResult;
 }
 
 interface Severity {
@@ -83,7 +86,7 @@ export class Logger {
     }
   }
 
-  report(print: boolean = true): PerformanceMeasure | undefined {
+  report(print: boolean = true): PerformanceMeasureResult | undefined {
     const firstEvent = this.events[0];
     if (!firstEvent) return;
 
@@ -124,7 +127,7 @@ export class Logger {
     ...parent
   }: LoggerEvent & {
     indent: number;
-    measure: PerformanceMeasure;
+    measure: PerformanceMeasureResult;
   }): void {
     const color = !indent ? colors.cyan : colors.gray;
     const lastIndex = parent.events.length - 1;
@@ -166,7 +169,7 @@ export class Logger {
     });
   }
 
-  private start(id: string): PerformanceMark {
+  private start(id: string): PerformanceMarkResult {
     return performance.mark(idStart(id));
   }
 

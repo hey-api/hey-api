@@ -195,6 +195,7 @@ export class Planner {
           importKind: symbol.importKind,
           kind: symbol.kind,
           name: symbol.finalName,
+          origin: 'planner:export',
         });
         exp.setFile(target);
         sourceFile.set(exp.id, file);
@@ -301,6 +302,7 @@ export class Planner {
             importKind: dep.importKind,
             kind: dep.kind,
             name: dep.finalName,
+            origin: 'planner:import',
           });
           imp.setFile(file);
           // TODO: pass node

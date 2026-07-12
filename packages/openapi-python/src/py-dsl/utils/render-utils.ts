@@ -2,18 +2,6 @@ import path from 'node:path';
 
 import type { ExportModule, File, ImportModule } from '@hey-api/codegen-core';
 
-import { py } from '../../py-compiler';
-
-const printer = py.createPrinter({
-  indentSize: 4,
-});
-
-/** Print a Python node to a string. */
-export function astToString(node: py.Node): string {
-  const result = printer.printFile(node);
-  return result;
-}
-
 export type SortGroup = number;
 export type SortDistance = number;
 export type SortModule = string;

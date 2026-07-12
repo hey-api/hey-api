@@ -3,1018 +3,1018 @@
 import { z } from 'zod/v3';
 
 export const zSessionUserPhoneCalloutRingingWebhookRequest = z.object({
-    body: z.object({
-        event: z.string(),
-        event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
-        payload: z.object({
-            account_id: z.string(),
-            object: z.object({
-                id: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }).optional(),
-                uuid: z.string().optional(),
-                session_id: z.string(),
-                session_name: z.string(),
-                session_key: z.string(),
-                user_key: z.string(),
-                host_id: z.string(),
-                participant: z.object({
-                    invitee_name: z.string(),
-                    phone_number: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
-                    from_number: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' })
-                })
-            })
+  body: z.object({
+    event: z.string(),
+    event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
+    payload: z.object({
+      account_id: z.string(),
+      object: z.object({
+        id: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }).optional(),
+        uuid: z.string().optional(),
+        session_id: z.string(),
+        session_name: z.string(),
+        session_key: z.string(),
+        user_key: z.string(),
+        host_id: z.string(),
+        participant: z.object({
+          invitee_name: z.string(),
+          phone_number: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
+          from_number: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' })
         })
-    }).optional(),
-    path: z.never().optional(),
-    query: z.never().optional()
+      })
+    })
+  }).optional(),
+  path: z.never().optional(),
+  query: z.never().optional()
 });
 
 export const zSessionUserRoomSystemCalloutRingingWebhookRequest = z.object({
-    body: z.object({
-        event: z.string(),
-        event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
-        payload: z.object({
-            account_id: z.string(),
-            object: z.object({
-                id: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }).optional(),
-                uuid: z.string().optional(),
-                session_id: z.string(),
-                session_name: z.string(),
-                host_id: z.string(),
-                message_id: z.string(),
-                inviter_name: z.string(),
-                participant: z.object({
-                    call_type: z.string(),
-                    device_ip: z.string()
-                })
-            })
+  body: z.object({
+    event: z.string(),
+    event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
+    payload: z.object({
+      account_id: z.string(),
+      object: z.object({
+        id: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }).optional(),
+        uuid: z.string().optional(),
+        session_id: z.string(),
+        session_name: z.string(),
+        host_id: z.string(),
+        message_id: z.string(),
+        inviter_name: z.string(),
+        participant: z.object({
+          call_type: z.string(),
+          device_ip: z.string()
         })
-    }).optional(),
-    path: z.never().optional(),
-    query: z.never().optional()
+      })
+    })
+  }).optional(),
+  path: z.never().optional(),
+  query: z.never().optional()
 });
 
 export const zSessionRecordingStartedWebhookRequest = z.object({
-    body: z.object({
-        event: z.enum(['session.recording_started']),
-        event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
-        payload: z.object({
-            account_id: z.string(),
-            object: z.object({
-                session_id: z.string(),
-                session_name: z.string(),
-                session_key: z.string(),
-                start_time: z.string().datetime(),
-                timezone: z.string(),
-                recording_file: z.object({
-                    recording_start: z.string().optional(),
-                    recording_end: z.string().optional()
-                })
-            })
+  body: z.object({
+    event: z.enum(['session.recording_started']),
+    event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
+    payload: z.object({
+      account_id: z.string(),
+      object: z.object({
+        session_id: z.string(),
+        session_name: z.string(),
+        session_key: z.string(),
+        start_time: z.string().datetime(),
+        timezone: z.string(),
+        recording_file: z.object({
+          recording_start: z.string().optional(),
+          recording_end: z.string().optional()
         })
-    }).optional(),
-    path: z.never().optional(),
-    query: z.never().optional()
+      })
+    })
+  }).optional(),
+  path: z.never().optional(),
+  query: z.never().optional()
 });
 
 export const zSessionRecordingResumedWebhookRequest = z.object({
-    body: z.object({
-        event: z.enum(['session.recording_resumed']),
-        event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
-        payload: z.object({
-            account_id: z.string(),
-            object: z.object({
-                session_id: z.string(),
-                session_name: z.string(),
-                session_key: z.string(),
-                start_time: z.string().datetime(),
-                timezone: z.string(),
-                recording_file: z.object({
-                    recording_start: z.string().optional(),
-                    recording_end: z.string().optional()
-                })
-            })
+  body: z.object({
+    event: z.enum(['session.recording_resumed']),
+    event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
+    payload: z.object({
+      account_id: z.string(),
+      object: z.object({
+        session_id: z.string(),
+        session_name: z.string(),
+        session_key: z.string(),
+        start_time: z.string().datetime(),
+        timezone: z.string(),
+        recording_file: z.object({
+          recording_start: z.string().optional(),
+          recording_end: z.string().optional()
         })
-    }).optional(),
-    path: z.never().optional(),
-    query: z.never().optional()
+      })
+    })
+  }).optional(),
+  path: z.never().optional(),
+  query: z.never().optional()
 });
 
 export const zSessionLiveStreamingStoppedWebhookRequest = z.object({
-    body: z.object({
-        event: z.enum(['session.live_streaming_stopped']),
-        event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
-        payload: z.object({
-            account_id: z.string(),
-            object: z.object({
-                id: z.string(),
-                session_id: z.string(),
-                session_name: z.string(),
-                session_key: z.string().optional(),
-                start_time: z.string().datetime(),
-                live_streaming: z.object({
-                    service: z.enum([
-                        'Facebook',
-                        'Workplace_by_Facebook',
-                        'YouTube',
-                        'Custom_Live_Streaming_Service'
-                    ]),
-                    custom_live_streaming_settings: z.object({
-                        stream_url: z.string(),
-                        stream_key: z.string(),
-                        page_url: z.string(),
-                        resolution: z.string().optional()
-                    }),
-                    date_time: z.string().datetime()
-                })
-            })
+  body: z.object({
+    event: z.enum(['session.live_streaming_stopped']),
+    event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
+    payload: z.object({
+      account_id: z.string(),
+      object: z.object({
+        id: z.string(),
+        session_id: z.string(),
+        session_name: z.string(),
+        session_key: z.string().optional(),
+        start_time: z.string().datetime(),
+        live_streaming: z.object({
+          service: z.enum([
+            'Facebook',
+            'Workplace_by_Facebook',
+            'YouTube',
+            'Custom_Live_Streaming_Service'
+          ]),
+          custom_live_streaming_settings: z.object({
+            stream_url: z.string(),
+            stream_key: z.string(),
+            page_url: z.string(),
+            resolution: z.string().optional()
+          }),
+          date_time: z.string().datetime()
         })
-    }).optional(),
-    path: z.never().optional(),
-    query: z.never().optional()
+      })
+    })
+  }).optional(),
+  path: z.never().optional(),
+  query: z.never().optional()
 });
 
 export const zSessionStreamIngestionStoppedWebhookRequest = z.object({
-    body: z.object({
-        event: z.enum(['session.stream_ingestion_stopped']),
-        event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
-        payload: z.object({
-            account_id: z.string(),
-            object: z.object({
-                session_id: z.string(),
-                session_name: z.string(),
-                session_key: z.string().optional(),
-                stream_ingestion: z.object({
-                    stream_id: z.string(),
-                    stream_name: z.string(),
-                    stream_description: z.string().optional(),
-                    stream_key: z.string(),
-                    stream_url: z.string(),
-                    backup_stream_url: z.string()
-                })
-            })
+  body: z.object({
+    event: z.enum(['session.stream_ingestion_stopped']),
+    event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
+    payload: z.object({
+      account_id: z.string(),
+      object: z.object({
+        session_id: z.string(),
+        session_name: z.string(),
+        session_key: z.string().optional(),
+        stream_ingestion: z.object({
+          stream_id: z.string(),
+          stream_name: z.string(),
+          stream_description: z.string().optional(),
+          stream_key: z.string(),
+          stream_url: z.string(),
+          backup_stream_url: z.string()
         })
-    }).optional(),
-    path: z.never().optional(),
-    query: z.never().optional()
+      })
+    })
+  }).optional(),
+  path: z.never().optional(),
+  query: z.never().optional()
 });
 
 export const zSessionUserRoomSystemCalloutRejectedWebhookRequest = z.object({
-    body: z.object({
-        event: z.string(),
-        event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
-        payload: z.object({
-            account_id: z.string(),
-            object: z.object({
-                id: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }).optional(),
-                uuid: z.string().optional(),
-                session_id: z.string(),
-                session_name: z.string(),
-                host_id: z.string(),
-                message_id: z.string(),
-                inviter_name: z.string(),
-                participant: z.object({
-                    call_type: z.string(),
-                    device_ip: z.string()
-                })
-            })
+  body: z.object({
+    event: z.string(),
+    event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
+    payload: z.object({
+      account_id: z.string(),
+      object: z.object({
+        id: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }).optional(),
+        uuid: z.string().optional(),
+        session_id: z.string(),
+        session_name: z.string(),
+        host_id: z.string(),
+        message_id: z.string(),
+        inviter_name: z.string(),
+        participant: z.object({
+          call_type: z.string(),
+          device_ip: z.string()
         })
-    }).optional(),
-    path: z.never().optional(),
-    query: z.never().optional()
+      })
+    })
+  }).optional(),
+  path: z.never().optional(),
+  query: z.never().optional()
 });
 
 export const zSessionAlertWebhookRequest = z.object({
-    body: z.object({
-        event: z.enum(['session.alert']),
-        event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
-        payload: z.object({
-            account_id: z.string(),
-            object: z.object({
-                id: z.string(),
-                session_id: z.string(),
-                session_name: z.string(),
-                session_key: z.string().optional(),
-                issues: z.array(z.enum([
-                    'Unstable audio quality',
-                    'Unstable video quality',
-                    'Unstable screen share quality',
-                    'High CPU occupation',
-                    'Call Reconnection'
-                ]))
-            })
-        })
-    }).optional(),
-    path: z.never().optional(),
-    query: z.never().optional()
+  body: z.object({
+    event: z.enum(['session.alert']),
+    event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
+    payload: z.object({
+      account_id: z.string(),
+      object: z.object({
+        id: z.string(),
+        session_id: z.string(),
+        session_name: z.string(),
+        session_key: z.string().optional(),
+        issues: z.array(z.enum([
+          'Unstable audio quality',
+          'Unstable video quality',
+          'Unstable screen share quality',
+          'High CPU occupation',
+          'Call Reconnection'
+        ]))
+      })
+    })
+  }).optional(),
+  path: z.never().optional(),
+  query: z.never().optional()
 });
 
 export const zSessionSharingEndedWebhookRequest = z.object({
-    body: z.object({
-        event: z.enum(['session.sharing_ended']),
-        event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
-        payload: z.object({
-            account_id: z.string(),
-            object: z.object({
-                id: z.string(),
-                session_id: z.string(),
-                session_name: z.string(),
-                session_key: z.string().optional(),
-                user: z.object({
-                    id: z.string(),
-                    name: z.string(),
-                    user_key: z.string().optional(),
-                    sharing_details: z.object({
-                        content: z.enum([
-                            'application',
-                            'whiteboard',
-                            'desktop',
-                            'unknown'
-                        ]),
-                        date_time: z.string().datetime()
-                    })
-                })
-            })
+  body: z.object({
+    event: z.enum(['session.sharing_ended']),
+    event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
+    payload: z.object({
+      account_id: z.string(),
+      object: z.object({
+        id: z.string(),
+        session_id: z.string(),
+        session_name: z.string(),
+        session_key: z.string().optional(),
+        user: z.object({
+          id: z.string(),
+          name: z.string(),
+          user_key: z.string().optional(),
+          sharing_details: z.object({
+            content: z.enum([
+              'application',
+              'whiteboard',
+              'desktop',
+              'unknown'
+            ]),
+            date_time: z.string().datetime()
+          })
         })
-    }).optional(),
-    path: z.never().optional(),
-    query: z.never().optional()
+      })
+    })
+  }).optional(),
+  path: z.never().optional(),
+  query: z.never().optional()
 });
 
 export const zSessionRecordingPausedWebhookRequest = z.object({
-    body: z.object({
-        event: z.enum(['session.recording_paused']),
-        event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
-        payload: z.object({
-            account_id: z.string(),
-            object: z.object({
-                session_id: z.string(),
-                session_name: z.string(),
-                session_key: z.string(),
-                start_time: z.string().datetime(),
-                timezone: z.string(),
-                recording_file: z.object({
-                    recording_start: z.string().optional(),
-                    recording_end: z.string().optional()
-                })
-            })
+  body: z.object({
+    event: z.enum(['session.recording_paused']),
+    event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
+    payload: z.object({
+      account_id: z.string(),
+      object: z.object({
+        session_id: z.string(),
+        session_name: z.string(),
+        session_key: z.string(),
+        start_time: z.string().datetime(),
+        timezone: z.string(),
+        recording_file: z.object({
+          recording_start: z.string().optional(),
+          recording_end: z.string().optional()
         })
-    }).optional(),
-    path: z.never().optional(),
-    query: z.never().optional()
+      })
+    })
+  }).optional(),
+  path: z.never().optional(),
+  query: z.never().optional()
 });
 
 export const zSessionEndedWebhookRequest = z.object({
-    body: z.object({
-        event: z.enum(['session.ended']),
-        event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
-        payload: z.object({
-            account_id: z.string(),
-            object: z.object({
-                id: z.string(),
-                session_id: z.string(),
-                session_name: z.string(),
-                session_key: z.string().optional(),
-                start_time: z.string().datetime(),
-                end_time: z.string().datetime()
-            })
-        })
-    }).optional(),
-    path: z.never().optional(),
-    query: z.never().optional()
+  body: z.object({
+    event: z.enum(['session.ended']),
+    event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
+    payload: z.object({
+      account_id: z.string(),
+      object: z.object({
+        id: z.string(),
+        session_id: z.string(),
+        session_name: z.string(),
+        session_key: z.string().optional(),
+        start_time: z.string().datetime(),
+        end_time: z.string().datetime()
+      })
+    })
+  }).optional(),
+  path: z.never().optional(),
+  query: z.never().optional()
 });
 
 export const zSessionStartedWebhookRequest = z.object({
-    body: z.object({
-        event: z.enum(['session.started']),
-        event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
-        payload: z.object({
-            account_id: z.string(),
-            object: z.object({
-                id: z.string(),
-                session_id: z.string(),
-                session_name: z.string(),
-                session_key: z.string().optional(),
-                start_time: z.string().datetime()
-            })
-        })
-    }).optional(),
-    path: z.never().optional(),
-    query: z.never().optional()
+  body: z.object({
+    event: z.enum(['session.started']),
+    event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
+    payload: z.object({
+      account_id: z.string(),
+      object: z.object({
+        id: z.string(),
+        session_id: z.string(),
+        session_name: z.string(),
+        session_key: z.string().optional(),
+        start_time: z.string().datetime()
+      })
+    })
+  }).optional(),
+  path: z.never().optional(),
+  query: z.never().optional()
 });
 
 export const zSessionStreamIngestionUnbindWebhookRequest = z.object({
-    body: z.object({
-        event: z.enum(['session.stream_ingestion_unbind']),
-        event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
-        payload: z.object({
-            account_id: z.string(),
-            object: z.object({
-                session_id: z.string(),
-                session_name: z.string(),
-                session_key: z.string().optional(),
-                stream_ingestion: z.object({
-                    stream_id: z.string(),
-                    stream_name: z.string(),
-                    stream_description: z.string().optional(),
-                    stream_key: z.string(),
-                    stream_url: z.string(),
-                    backup_stream_url: z.string()
-                })
-            })
+  body: z.object({
+    event: z.enum(['session.stream_ingestion_unbind']),
+    event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
+    payload: z.object({
+      account_id: z.string(),
+      object: z.object({
+        session_id: z.string(),
+        session_name: z.string(),
+        session_key: z.string().optional(),
+        stream_ingestion: z.object({
+          stream_id: z.string(),
+          stream_name: z.string(),
+          stream_description: z.string().optional(),
+          stream_key: z.string(),
+          stream_url: z.string(),
+          backup_stream_url: z.string()
         })
-    }).optional(),
-    path: z.never().optional(),
-    query: z.never().optional()
+      })
+    })
+  }).optional(),
+  path: z.never().optional(),
+  query: z.never().optional()
 });
 
 export const zSessionLiveStreamingStartedWebhookRequest = z.object({
-    body: z.object({
-        event: z.enum(['session.live_streaming_started']),
-        event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
-        payload: z.object({
-            account_id: z.string(),
-            object: z.object({
-                id: z.string(),
-                session_id: z.string(),
-                session_name: z.string(),
-                session_key: z.string().optional(),
-                start_time: z.string().datetime(),
-                live_streaming: z.object({
-                    service: z.enum([
-                        'Facebook',
-                        'Workplace_by_Facebook',
-                        'YouTube',
-                        'Custom_Live_Streaming_Service'
-                    ]),
-                    custom_live_streaming_settings: z.object({
-                        stream_url: z.string(),
-                        stream_key: z.string(),
-                        page_url: z.string(),
-                        resolution: z.string().optional()
-                    }),
-                    date_time: z.string().datetime()
-                })
-            })
+  body: z.object({
+    event: z.enum(['session.live_streaming_started']),
+    event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
+    payload: z.object({
+      account_id: z.string(),
+      object: z.object({
+        id: z.string(),
+        session_id: z.string(),
+        session_name: z.string(),
+        session_key: z.string().optional(),
+        start_time: z.string().datetime(),
+        live_streaming: z.object({
+          service: z.enum([
+            'Facebook',
+            'Workplace_by_Facebook',
+            'YouTube',
+            'Custom_Live_Streaming_Service'
+          ]),
+          custom_live_streaming_settings: z.object({
+            stream_url: z.string(),
+            stream_key: z.string(),
+            page_url: z.string(),
+            resolution: z.string().optional()
+          }),
+          date_time: z.string().datetime()
         })
-    }).optional(),
-    path: z.never().optional(),
-    query: z.never().optional()
+      })
+    })
+  }).optional(),
+  path: z.never().optional(),
+  query: z.never().optional()
 });
 
 export const zSessionUserRoomSystemCalloutMissedWebhookRequest = z.object({
-    body: z.object({
-        event: z.string(),
-        event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
-        payload: z.object({
-            account_id: z.string(),
-            object: z.object({
-                id: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }).optional(),
-                uuid: z.string().optional(),
-                session_id: z.string(),
-                session_name: z.string(),
-                host_id: z.string(),
-                message_id: z.string(),
-                inviter_name: z.string(),
-                participant: z.object({
-                    call_type: z.string(),
-                    device_ip: z.string()
-                })
-            })
+  body: z.object({
+    event: z.string(),
+    event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
+    payload: z.object({
+      account_id: z.string(),
+      object: z.object({
+        id: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }).optional(),
+        uuid: z.string().optional(),
+        session_id: z.string(),
+        session_name: z.string(),
+        host_id: z.string(),
+        message_id: z.string(),
+        inviter_name: z.string(),
+        participant: z.object({
+          call_type: z.string(),
+          device_ip: z.string()
         })
-    }).optional(),
-    path: z.never().optional(),
-    query: z.never().optional()
+      })
+    })
+  }).optional(),
+  path: z.never().optional(),
+  query: z.never().optional()
 });
 
 export const zSessionUserPhoneCalloutAcceptedWebhookRequest = z.object({
-    body: z.object({
-        event: z.string(),
-        event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
-        payload: z.object({
-            account_id: z.string(),
-            object: z.object({
-                id: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }).optional(),
-                uuid: z.string().optional(),
-                session_id: z.string(),
-                session_name: z.string(),
-                session_key: z.string(),
-                user_key: z.string(),
-                host_id: z.string(),
-                participant: z.object({
-                    invitee_name: z.string(),
-                    phone_number: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
-                    from_number: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' })
-                })
-            })
+  body: z.object({
+    event: z.string(),
+    event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
+    payload: z.object({
+      account_id: z.string(),
+      object: z.object({
+        id: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }).optional(),
+        uuid: z.string().optional(),
+        session_id: z.string(),
+        session_name: z.string(),
+        session_key: z.string(),
+        user_key: z.string(),
+        host_id: z.string(),
+        participant: z.object({
+          invitee_name: z.string(),
+          phone_number: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
+          from_number: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' })
         })
-    }).optional(),
-    path: z.never().optional(),
-    query: z.never().optional()
+      })
+    })
+  }).optional(),
+  path: z.never().optional(),
+  query: z.never().optional()
 });
 
 export const zSessionUserLeftWebhookRequest = z.object({
-    body: z.object({
-        event: z.enum(['session.user_left']),
-        event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
-        payload: z.object({
-            account_id: z.string(),
-            object: z.object({
-                id: z.string(),
-                session_id: z.string(),
-                session_name: z.string(),
-                session_key: z.string().optional(),
-                user: z.object({
-                    id: z.string(),
-                    name: z.string(),
-                    leave_time: z.string().datetime(),
-                    leave_reason: z.string().optional(),
-                    user_key: z.string().optional(),
-                    phone_number: z.string().optional(),
-                    participant_uuid: z.string()
-                })
-            })
+  body: z.object({
+    event: z.enum(['session.user_left']),
+    event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
+    payload: z.object({
+      account_id: z.string(),
+      object: z.object({
+        id: z.string(),
+        session_id: z.string(),
+        session_name: z.string(),
+        session_key: z.string().optional(),
+        user: z.object({
+          id: z.string(),
+          name: z.string(),
+          leave_time: z.string().datetime(),
+          leave_reason: z.string().optional(),
+          user_key: z.string().optional(),
+          phone_number: z.string().optional(),
+          participant_uuid: z.string()
         })
-    }).optional(),
-    path: z.never().optional(),
-    query: z.never().optional()
+      })
+    })
+  }).optional(),
+  path: z.never().optional(),
+  query: z.never().optional()
 });
 
 export const zSessionSharingStartedWebhookRequest = z.object({
-    body: z.object({
-        event: z.enum(['session.sharing_started']),
-        event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
-        payload: z.object({
-            account_id: z.string(),
-            object: z.object({
-                id: z.string(),
-                session_id: z.string(),
-                session_name: z.string(),
-                session_key: z.string().optional(),
-                user: z.object({
-                    id: z.string(),
-                    name: z.string(),
-                    user_key: z.string().optional(),
-                    sharing_details: z.object({
-                        content: z.enum([
-                            'application',
-                            'whiteboard',
-                            'desktop',
-                            'unknown'
-                        ]),
-                        date_time: z.string().datetime()
-                    })
-                })
-            })
+  body: z.object({
+    event: z.enum(['session.sharing_started']),
+    event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
+    payload: z.object({
+      account_id: z.string(),
+      object: z.object({
+        id: z.string(),
+        session_id: z.string(),
+        session_name: z.string(),
+        session_key: z.string().optional(),
+        user: z.object({
+          id: z.string(),
+          name: z.string(),
+          user_key: z.string().optional(),
+          sharing_details: z.object({
+            content: z.enum([
+              'application',
+              'whiteboard',
+              'desktop',
+              'unknown'
+            ]),
+            date_time: z.string().datetime()
+          })
         })
-    }).optional(),
-    path: z.never().optional(),
-    query: z.never().optional()
+      })
+    })
+  }).optional(),
+  path: z.never().optional(),
+  query: z.never().optional()
 });
 
 export const zSessionUserPhoneCalloutCanceledWebhookRequest = z.object({
-    body: z.object({
-        event: z.string(),
-        event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
-        payload: z.object({
-            account_id: z.string(),
-            object: z.object({
-                session_id: z.string(),
-                session_name: z.string(),
-                session_key: z.string(),
-                user_key: z.string(),
-                participant: z.object({
-                    invitee_name: z.string(),
-                    phone_number: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
-                    from_number: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' })
-                })
-            })
+  body: z.object({
+    event: z.string(),
+    event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
+    payload: z.object({
+      account_id: z.string(),
+      object: z.object({
+        session_id: z.string(),
+        session_name: z.string(),
+        session_key: z.string(),
+        user_key: z.string(),
+        participant: z.object({
+          invitee_name: z.string(),
+          phone_number: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
+          from_number: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' })
         })
-    }).optional(),
-    path: z.never().optional(),
-    query: z.never().optional()
+      })
+    })
+  }).optional(),
+  path: z.never().optional(),
+  query: z.never().optional()
 });
 
 export const zSessionRecordingTranscriptCompletedWebhookRequest = z.object({
-    body: z.object({
-        event: z.enum(['session.recording_transcript_completed']),
-        event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
-        download_token: z.string(),
-        payload: z.object({
-            account_id: z.string(),
-            object: z.object({
-                session_id: z.string(),
-                session_name: z.string(),
-                session_key: z.string(),
-                start_time: z.string().datetime(),
-                timezone: z.string(),
-                recording_files: z.array(z.object({
-                    id: z.string().optional(),
-                    recording_start: z.string().optional(),
-                    recording_end: z.string().optional(),
-                    file_name: z.string().optional(),
-                    file_path: z.string().optional(),
-                    file_type: z.enum([
-                        'MP4',
-                        'M4A',
-                        'CHAT',
-                        'TRANSCRIPT',
-                        'CSV',
-                        'CC',
-                        'TB',
-                        'CHAT_MESSAGE',
-                        'TIMELINE'
-                    ]).optional(),
-                    file_size: z.number().optional(),
-                    file_extension: z.enum([
-                        'MP4',
-                        'M4A',
-                        'TXT',
-                        'VTT',
-                        'CSV',
-                        'JSON',
-                        'JPG'
-                    ]).optional(),
-                    download_url: z.string().optional(),
-                    status: z.enum(['completed']).optional(),
-                    recording_type: z.enum([
-                        'shared_screen_with_speaker_view(CC)',
-                        'shared_screen_with_speaker_view',
-                        'shared_screen_with_gallery_view',
-                        'gallery_view',
-                        'shared_screen',
-                        'audio_only',
-                        'audio_transcript',
-                        'chat_file',
-                        'active_speaker',
-                        'host_video',
-                        'audio_only_each_participant',
-                        'cc_transcript',
-                        'closed_caption',
-                        'poll',
-                        'timeline',
-                        'thumbnail',
-                        'chat_message'
-                    ]).optional()
-                }))
-            })
-        })
-    }).optional(),
-    path: z.never().optional(),
-    query: z.never().optional()
+  body: z.object({
+    event: z.enum(['session.recording_transcript_completed']),
+    event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
+    download_token: z.string(),
+    payload: z.object({
+      account_id: z.string(),
+      object: z.object({
+        session_id: z.string(),
+        session_name: z.string(),
+        session_key: z.string(),
+        start_time: z.string().datetime(),
+        timezone: z.string(),
+        recording_files: z.array(z.object({
+          id: z.string().optional(),
+          recording_start: z.string().optional(),
+          recording_end: z.string().optional(),
+          file_name: z.string().optional(),
+          file_path: z.string().optional(),
+          file_type: z.enum([
+            'MP4',
+            'M4A',
+            'CHAT',
+            'TRANSCRIPT',
+            'CSV',
+            'CC',
+            'TB',
+            'CHAT_MESSAGE',
+            'TIMELINE'
+          ]).optional(),
+          file_size: z.number().optional(),
+          file_extension: z.enum([
+            'MP4',
+            'M4A',
+            'TXT',
+            'VTT',
+            'CSV',
+            'JSON',
+            'JPG'
+          ]).optional(),
+          download_url: z.string().optional(),
+          status: z.enum(['completed']).optional(),
+          recording_type: z.enum([
+            'shared_screen_with_speaker_view(CC)',
+            'shared_screen_with_speaker_view',
+            'shared_screen_with_gallery_view',
+            'gallery_view',
+            'shared_screen',
+            'audio_only',
+            'audio_transcript',
+            'chat_file',
+            'active_speaker',
+            'host_video',
+            'audio_only_each_participant',
+            'cc_transcript',
+            'closed_caption',
+            'poll',
+            'timeline',
+            'thumbnail',
+            'chat_message'
+          ]).optional()
+        }))
+      })
+    })
+  }).optional(),
+  path: z.never().optional(),
+  query: z.never().optional()
 });
 
 export const zSessionRecordingDeletedWebhookRequest = z.object({
-    body: z.object({
-        event: z.enum(['session.recording_deleted']),
-        event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
-        payload: z.object({
-            account_id: z.string(),
-            operator: z.string().email(),
-            operator_id: z.string(),
-            object: z.object({
-                session_id: z.string(),
-                session_name: z.string(),
-                session_key: z.string(),
-                start_time: z.string().datetime(),
-                timezone: z.string()
-            })
-        })
-    }).optional(),
-    path: z.never().optional(),
-    query: z.never().optional()
+  body: z.object({
+    event: z.enum(['session.recording_deleted']),
+    event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
+    payload: z.object({
+      account_id: z.string(),
+      operator: z.string().email(),
+      operator_id: z.string(),
+      object: z.object({
+        session_id: z.string(),
+        session_name: z.string(),
+        session_key: z.string(),
+        start_time: z.string().datetime(),
+        timezone: z.string()
+      })
+    })
+  }).optional(),
+  path: z.never().optional(),
+  query: z.never().optional()
 });
 
 export const zSessionUserRoomSystemCalloutFailedWebhookRequest = z.object({
-    body: z.object({
-        event: z.string(),
-        event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
-        payload: z.object({
-            account_id: z.string(),
-            object: z.object({
-                id: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }).optional(),
-                uuid: z.string().optional(),
-                session_id: z.string(),
-                session_name: z.string(),
-                host_id: z.string(),
-                message_id: z.string(),
-                inviter_name: z.string(),
-                reason_type: z.union([
-                    z.literal(0),
-                    z.literal(1),
-                    z.literal(2),
-                    z.literal(3),
-                    z.literal(4),
-                    z.literal(7),
-                    z.literal(8),
-                    z.literal(9),
-                    z.literal(10),
-                    z.literal(11),
-                    z.literal(12),
-                    z.literal(13),
-                    z.literal(14)
-                ]),
-                participant: z.object({
-                    call_type: z.string(),
-                    device_ip: z.string()
-                })
-            })
+  body: z.object({
+    event: z.string(),
+    event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
+    payload: z.object({
+      account_id: z.string(),
+      object: z.object({
+        id: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }).optional(),
+        uuid: z.string().optional(),
+        session_id: z.string(),
+        session_name: z.string(),
+        host_id: z.string(),
+        message_id: z.string(),
+        inviter_name: z.string(),
+        reason_type: z.union([
+          z.literal(0),
+          z.literal(1),
+          z.literal(2),
+          z.literal(3),
+          z.literal(4),
+          z.literal(7),
+          z.literal(8),
+          z.literal(9),
+          z.literal(10),
+          z.literal(11),
+          z.literal(12),
+          z.literal(13),
+          z.literal(14)
+        ]),
+        participant: z.object({
+          call_type: z.string(),
+          device_ip: z.string()
         })
-    }).optional(),
-    path: z.never().optional(),
-    query: z.never().optional()
+      })
+    })
+  }).optional(),
+  path: z.never().optional(),
+  query: z.never().optional()
 });
 
 export const zSessionRecordingCompletedWebhookRequest = z.object({
-    body: z.object({
-        event: z.enum(['session.recording_completed']),
-        event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
-        download_token: z.string(),
-        payload: z.object({
-            account_id: z.string(),
-            object: z.object({
-                session_id: z.string(),
-                session_name: z.string(),
-                session_key: z.string(),
-                start_time: z.string().datetime(),
-                timezone: z.string(),
-                recording_files: z.array(z.object({
-                    id: z.string().optional(),
-                    recording_start: z.string().optional(),
-                    recording_end: z.string().optional(),
-                    file_name: z.string().optional(),
-                    file_path: z.string().optional(),
-                    file_type: z.enum([
-                        'MP4',
-                        'M4A',
-                        'CHAT',
-                        'TRANSCRIPT',
-                        'CSV',
-                        'CC',
-                        'TB',
-                        'CHAT_MESSAGE'
-                    ]).optional(),
-                    file_size: z.number().optional(),
-                    file_extension: z.enum([
-                        'MP4',
-                        'M4A',
-                        'TXT',
-                        'VTT',
-                        'CSV',
-                        'JSON',
-                        'JPG'
-                    ]).optional(),
-                    download_url: z.string().optional(),
-                    status: z.enum(['completed']).optional(),
-                    recording_type: z.enum([
-                        'shared_screen_with_speaker_view(CC)',
-                        'shared_screen_with_speaker_view',
-                        'shared_screen_with_gallery_view',
-                        'gallery_view',
-                        'shared_screen',
-                        'audio_only',
-                        'audio_transcript',
-                        'chat_file',
-                        'active_speaker',
-                        'host_video',
-                        'audio_only_each_participant',
-                        'cc_transcript',
-                        'closed_caption',
-                        'poll',
-                        'timeline',
-                        'thumbnail',
-                        'chat_message'
-                    ]).optional()
-                })),
-                participant_audio_files: z.array(z.object({
-                    id: z.string().optional(),
-                    recording_start: z.string().optional(),
-                    recording_end: z.string().optional(),
-                    file_name: z.string().optional(),
-                    file_path: z.string().optional(),
-                    file_type: z.enum([
-                        'MP4',
-                        'M4A',
-                        'CHAT',
-                        'TRANSCRIPT',
-                        'CSV',
-                        'CC',
-                        'TB',
-                        'CHAT_MESSAGE'
-                    ]).optional(),
-                    file_size: z.number().optional(),
-                    file_extension: z.enum([
-                        'MP4',
-                        'M4A',
-                        'TXT',
-                        'VTT',
-                        'CSV',
-                        'JSON',
-                        'JPG'
-                    ]).optional(),
-                    download_url: z.string().optional(),
-                    status: z.enum(['completed']).optional(),
-                    recording_type: z.enum([
-                        'shared_screen_with_speaker_view(CC)',
-                        'shared_screen_with_speaker_view',
-                        'shared_screen_with_gallery_view',
-                        'gallery_view',
-                        'shared_screen',
-                        'audio_only',
-                        'audio_transcript',
-                        'chat_file',
-                        'active_speaker',
-                        'host_video',
-                        'audio_only_each_participant',
-                        'cc_transcript',
-                        'closed_caption',
-                        'poll',
-                        'timeline',
-                        'thumbnail',
-                        'chat_message'
-                    ]).optional(),
-                    user_id: z.string().optional(),
-                    user_key: z.string().optional()
-                })).optional(),
-                participant_video_files: z.array(z.object({
-                    id: z.string().optional(),
-                    recording_start: z.string().optional(),
-                    recording_end: z.string().optional(),
-                    file_name: z.string().optional(),
-                    file_path: z.string().optional(),
-                    file_type: z.enum(['MP4']).optional(),
-                    file_size: z.number().optional(),
-                    file_extension: z.enum(['MP4']).optional(),
-                    download_url: z.string().optional(),
-                    status: z.enum(['completed']).optional(),
-                    recording_type: z.enum(['individual_user', 'individual_shared_screen']).optional(),
-                    user_id: z.string().optional(),
-                    user_key: z.string().optional()
-                })).optional()
-            })
-        })
-    }).optional(),
-    path: z.never().optional(),
-    query: z.never().optional()
+  body: z.object({
+    event: z.enum(['session.recording_completed']),
+    event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
+    download_token: z.string(),
+    payload: z.object({
+      account_id: z.string(),
+      object: z.object({
+        session_id: z.string(),
+        session_name: z.string(),
+        session_key: z.string(),
+        start_time: z.string().datetime(),
+        timezone: z.string(),
+        recording_files: z.array(z.object({
+          id: z.string().optional(),
+          recording_start: z.string().optional(),
+          recording_end: z.string().optional(),
+          file_name: z.string().optional(),
+          file_path: z.string().optional(),
+          file_type: z.enum([
+            'MP4',
+            'M4A',
+            'CHAT',
+            'TRANSCRIPT',
+            'CSV',
+            'CC',
+            'TB',
+            'CHAT_MESSAGE'
+          ]).optional(),
+          file_size: z.number().optional(),
+          file_extension: z.enum([
+            'MP4',
+            'M4A',
+            'TXT',
+            'VTT',
+            'CSV',
+            'JSON',
+            'JPG'
+          ]).optional(),
+          download_url: z.string().optional(),
+          status: z.enum(['completed']).optional(),
+          recording_type: z.enum([
+            'shared_screen_with_speaker_view(CC)',
+            'shared_screen_with_speaker_view',
+            'shared_screen_with_gallery_view',
+            'gallery_view',
+            'shared_screen',
+            'audio_only',
+            'audio_transcript',
+            'chat_file',
+            'active_speaker',
+            'host_video',
+            'audio_only_each_participant',
+            'cc_transcript',
+            'closed_caption',
+            'poll',
+            'timeline',
+            'thumbnail',
+            'chat_message'
+          ]).optional()
+        })),
+        participant_audio_files: z.array(z.object({
+          id: z.string().optional(),
+          recording_start: z.string().optional(),
+          recording_end: z.string().optional(),
+          file_name: z.string().optional(),
+          file_path: z.string().optional(),
+          file_type: z.enum([
+            'MP4',
+            'M4A',
+            'CHAT',
+            'TRANSCRIPT',
+            'CSV',
+            'CC',
+            'TB',
+            'CHAT_MESSAGE'
+          ]).optional(),
+          file_size: z.number().optional(),
+          file_extension: z.enum([
+            'MP4',
+            'M4A',
+            'TXT',
+            'VTT',
+            'CSV',
+            'JSON',
+            'JPG'
+          ]).optional(),
+          download_url: z.string().optional(),
+          status: z.enum(['completed']).optional(),
+          recording_type: z.enum([
+            'shared_screen_with_speaker_view(CC)',
+            'shared_screen_with_speaker_view',
+            'shared_screen_with_gallery_view',
+            'gallery_view',
+            'shared_screen',
+            'audio_only',
+            'audio_transcript',
+            'chat_file',
+            'active_speaker',
+            'host_video',
+            'audio_only_each_participant',
+            'cc_transcript',
+            'closed_caption',
+            'poll',
+            'timeline',
+            'thumbnail',
+            'chat_message'
+          ]).optional(),
+          user_id: z.string().optional(),
+          user_key: z.string().optional()
+        })).optional(),
+        participant_video_files: z.array(z.object({
+          id: z.string().optional(),
+          recording_start: z.string().optional(),
+          recording_end: z.string().optional(),
+          file_name: z.string().optional(),
+          file_path: z.string().optional(),
+          file_type: z.enum(['MP4']).optional(),
+          file_size: z.number().optional(),
+          file_extension: z.enum(['MP4']).optional(),
+          download_url: z.string().optional(),
+          status: z.enum(['completed']).optional(),
+          recording_type: z.enum(['individual_user', 'individual_shared_screen']).optional(),
+          user_id: z.string().optional(),
+          user_key: z.string().optional()
+        })).optional()
+      })
+    })
+  }).optional(),
+  path: z.never().optional(),
+  query: z.never().optional()
 });
 
 export const zSessionRecordingTranscriptFailedWebhookRequest = z.object({
-    body: z.object({
-        event: z.enum(['session.recording_transcript_failed']),
-        event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
-        payload: z.object({
-            account_id: z.string(),
-            object: z.object({
-                session_id: z.string(),
-                session_name: z.string(),
-                session_key: z.string(),
-                start_time: z.string().datetime(),
-                timezone: z.string()
-            })
-        })
-    }).optional(),
-    path: z.never().optional(),
-    query: z.never().optional()
+  body: z.object({
+    event: z.enum(['session.recording_transcript_failed']),
+    event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
+    payload: z.object({
+      account_id: z.string(),
+      object: z.object({
+        session_id: z.string(),
+        session_name: z.string(),
+        session_key: z.string(),
+        start_time: z.string().datetime(),
+        timezone: z.string()
+      })
+    })
+  }).optional(),
+  path: z.never().optional(),
+  query: z.never().optional()
 });
 
 export const zSessionRecordingTrashedWebhookRequest = z.object({
-    body: z.object({
-        event: z.enum(['session.recording_trashed']),
-        event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
-        payload: z.object({
-            account_id: z.string(),
-            operator: z.string().email(),
-            operator_id: z.string(),
-            object: z.object({
-                session_id: z.string(),
-                session_name: z.string(),
-                session_key: z.string(),
-                start_time: z.string().datetime(),
-                timezone: z.string()
-            })
-        })
-    }).optional(),
-    path: z.never().optional(),
-    query: z.never().optional()
+  body: z.object({
+    event: z.enum(['session.recording_trashed']),
+    event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
+    payload: z.object({
+      account_id: z.string(),
+      operator: z.string().email(),
+      operator_id: z.string(),
+      object: z.object({
+        session_id: z.string(),
+        session_name: z.string(),
+        session_key: z.string(),
+        start_time: z.string().datetime(),
+        timezone: z.string()
+      })
+    })
+  }).optional(),
+  path: z.never().optional(),
+  query: z.never().optional()
 });
 
 export const zSessionUserJoinedWebhookRequest = z.object({
-    body: z.object({
-        event: z.enum(['session.user_joined']),
-        event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
-        payload: z.object({
-            account_id: z.string(),
-            object: z.object({
-                id: z.string(),
-                session_id: z.string(),
-                session_name: z.string(),
-                session_key: z.string().optional(),
-                user: z.object({
-                    id: z.string(),
-                    name: z.string(),
-                    join_time: z.string().datetime(),
-                    user_key: z.string().optional(),
-                    phone_number: z.string().optional(),
-                    participant_uuid: z.string()
-                })
-            })
+  body: z.object({
+    event: z.enum(['session.user_joined']),
+    event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
+    payload: z.object({
+      account_id: z.string(),
+      object: z.object({
+        id: z.string(),
+        session_id: z.string(),
+        session_name: z.string(),
+        session_key: z.string().optional(),
+        user: z.object({
+          id: z.string(),
+          name: z.string(),
+          join_time: z.string().datetime(),
+          user_key: z.string().optional(),
+          phone_number: z.string().optional(),
+          participant_uuid: z.string()
         })
-    }).optional(),
-    path: z.never().optional(),
-    query: z.never().optional()
+      })
+    })
+  }).optional(),
+  path: z.never().optional(),
+  query: z.never().optional()
 });
 
 export const zSessionStreamIngestionStartedWebhookRequest = z.object({
-    body: z.object({
-        event: z.enum(['session.stream_ingestion_started']),
-        event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
-        payload: z.object({
-            account_id: z.string(),
-            object: z.object({
-                session_id: z.string(),
-                session_name: z.string(),
-                session_key: z.string().optional(),
-                stream_ingestion: z.object({
-                    stream_id: z.string(),
-                    stream_name: z.string(),
-                    stream_description: z.string().optional(),
-                    stream_key: z.string(),
-                    stream_url: z.string(),
-                    backup_stream_url: z.string()
-                })
-            })
+  body: z.object({
+    event: z.enum(['session.stream_ingestion_started']),
+    event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
+    payload: z.object({
+      account_id: z.string(),
+      object: z.object({
+        session_id: z.string(),
+        session_name: z.string(),
+        session_key: z.string().optional(),
+        stream_ingestion: z.object({
+          stream_id: z.string(),
+          stream_name: z.string(),
+          stream_description: z.string().optional(),
+          stream_key: z.string(),
+          stream_url: z.string(),
+          backup_stream_url: z.string()
         })
-    }).optional(),
-    path: z.never().optional(),
-    query: z.never().optional()
+      })
+    })
+  }).optional(),
+  path: z.never().optional(),
+  query: z.never().optional()
 });
 
 export const zSessionStreamIngestionConnectedWebhookRequest = z.object({
-    body: z.object({
-        event: z.enum(['session.stream_ingestion_connected']),
-        event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
-        payload: z.object({
-            account_id: z.string(),
-            object: z.object({
-                session_id: z.string(),
-                session_name: z.string(),
-                session_key: z.string().optional(),
-                stream_ingestion: z.object({
-                    stream_id: z.string(),
-                    stream_name: z.string(),
-                    stream_description: z.string().optional(),
-                    stream_key: z.string(),
-                    stream_url: z.string(),
-                    backup_stream_url: z.string()
-                })
-            })
+  body: z.object({
+    event: z.enum(['session.stream_ingestion_connected']),
+    event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
+    payload: z.object({
+      account_id: z.string(),
+      object: z.object({
+        session_id: z.string(),
+        session_name: z.string(),
+        session_key: z.string().optional(),
+        stream_ingestion: z.object({
+          stream_id: z.string(),
+          stream_name: z.string(),
+          stream_description: z.string().optional(),
+          stream_key: z.string(),
+          stream_url: z.string(),
+          backup_stream_url: z.string()
         })
-    }).optional(),
-    path: z.never().optional(),
-    query: z.never().optional()
+      })
+    })
+  }).optional(),
+  path: z.never().optional(),
+  query: z.never().optional()
 });
 
 export const zSessionStreamIngestionDisconnectedWebhookRequest = z.object({
-    body: z.object({
-        event: z.enum(['session.stream_ingestion_disconnected']),
-        event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
-        payload: z.object({
-            account_id: z.string(),
-            object: z.object({
-                session_id: z.string(),
-                session_name: z.string(),
-                session_key: z.string().optional(),
-                stream_ingestion: z.object({
-                    stream_id: z.string(),
-                    stream_name: z.string(),
-                    stream_description: z.string().optional(),
-                    stream_key: z.string(),
-                    stream_url: z.string(),
-                    backup_stream_url: z.string()
-                })
-            })
+  body: z.object({
+    event: z.enum(['session.stream_ingestion_disconnected']),
+    event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
+    payload: z.object({
+      account_id: z.string(),
+      object: z.object({
+        session_id: z.string(),
+        session_name: z.string(),
+        session_key: z.string().optional(),
+        stream_ingestion: z.object({
+          stream_id: z.string(),
+          stream_name: z.string(),
+          stream_description: z.string().optional(),
+          stream_key: z.string(),
+          stream_url: z.string(),
+          backup_stream_url: z.string()
         })
-    }).optional(),
-    path: z.never().optional(),
-    query: z.never().optional()
+      })
+    })
+  }).optional(),
+  path: z.never().optional(),
+  query: z.never().optional()
 });
 
 export const zSessionRecordingRecoveredWebhookRequest = z.object({
-    body: z.object({
-        event: z.enum(['session.recording_recovered']),
-        event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
-        payload: z.object({
-            account_id: z.string(),
-            operator: z.string().email(),
-            operator_id: z.string(),
-            object: z.object({
-                session_id: z.string(),
-                session_name: z.string(),
-                session_key: z.string(),
-                start_time: z.string().datetime(),
-                timezone: z.string()
-            })
-        })
-    }).optional(),
-    path: z.never().optional(),
-    query: z.never().optional()
+  body: z.object({
+    event: z.enum(['session.recording_recovered']),
+    event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
+    payload: z.object({
+      account_id: z.string(),
+      operator: z.string().email(),
+      operator_id: z.string(),
+      object: z.object({
+        session_id: z.string(),
+        session_name: z.string(),
+        session_key: z.string(),
+        start_time: z.string().datetime(),
+        timezone: z.string()
+      })
+    })
+  }).optional(),
+  path: z.never().optional(),
+  query: z.never().optional()
 });
 
 export const zSessionUserPhoneCalloutMissedWebhookRequest = z.object({
-    body: z.object({
-        event: z.string(),
-        event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
-        payload: z.object({
-            account_id: z.string(),
-            object: z.object({
-                id: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }).optional(),
-                uuid: z.string().optional(),
-                session_id: z.string(),
-                session_name: z.string(),
-                session_key: z.string(),
-                user_key: z.string(),
-                host_id: z.string(),
-                participant: z.object({
-                    invitee_name: z.string(),
-                    phone_number: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
-                    from_number: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' })
-                })
-            })
+  body: z.object({
+    event: z.string(),
+    event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
+    payload: z.object({
+      account_id: z.string(),
+      object: z.object({
+        id: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }).optional(),
+        uuid: z.string().optional(),
+        session_id: z.string(),
+        session_name: z.string(),
+        session_key: z.string(),
+        user_key: z.string(),
+        host_id: z.string(),
+        participant: z.object({
+          invitee_name: z.string(),
+          phone_number: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
+          from_number: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' })
         })
-    }).optional(),
-    path: z.never().optional(),
-    query: z.never().optional()
+      })
+    })
+  }).optional(),
+  path: z.never().optional(),
+  query: z.never().optional()
 });
 
 export const zSessionUserPhoneCalloutRejectedWebhookRequest = z.object({
-    body: z.object({
-        event: z.string(),
-        event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
-        payload: z.object({
-            account_id: z.string(),
-            object: z.object({
-                id: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }).optional(),
-                uuid: z.string().optional(),
-                session_id: z.string(),
-                session_name: z.string(),
-                session_key: z.string(),
-                user_key: z.string(),
-                host_id: z.string(),
-                participant: z.object({
-                    invitee_name: z.string(),
-                    phone_number: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
-                    from_number: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' })
-                })
-            })
+  body: z.object({
+    event: z.string(),
+    event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
+    payload: z.object({
+      account_id: z.string(),
+      object: z.object({
+        id: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }).optional(),
+        uuid: z.string().optional(),
+        session_id: z.string(),
+        session_name: z.string(),
+        session_key: z.string(),
+        user_key: z.string(),
+        host_id: z.string(),
+        participant: z.object({
+          invitee_name: z.string(),
+          phone_number: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
+          from_number: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' })
         })
-    }).optional(),
-    path: z.never().optional(),
-    query: z.never().optional()
+      })
+    })
+  }).optional(),
+  path: z.never().optional(),
+  query: z.never().optional()
 });
 
 export const zSessionUserRoomSystemCalloutAcceptedWebhookRequest = z.object({
-    body: z.object({
-        event: z.string(),
-        event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
-        payload: z.object({
-            account_id: z.string(),
-            object: z.object({
-                id: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }).optional(),
-                uuid: z.string().optional(),
-                session_id: z.string(),
-                session_name: z.string(),
-                host_id: z.string(),
-                message_id: z.string(),
-                inviter_name: z.string(),
-                participant: z.object({
-                    call_type: z.string(),
-                    device_ip: z.string()
-                })
-            })
+  body: z.object({
+    event: z.string(),
+    event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
+    payload: z.object({
+      account_id: z.string(),
+      object: z.object({
+        id: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }).optional(),
+        uuid: z.string().optional(),
+        session_id: z.string(),
+        session_name: z.string(),
+        host_id: z.string(),
+        message_id: z.string(),
+        inviter_name: z.string(),
+        participant: z.object({
+          call_type: z.string(),
+          device_ip: z.string()
         })
-    }).optional(),
-    path: z.never().optional(),
-    query: z.never().optional()
+      })
+    })
+  }).optional(),
+  path: z.never().optional(),
+  query: z.never().optional()
 });
 
 export const zSessionRecordingStoppedWebhookRequest = z.object({
-    body: z.object({
-        event: z.enum(['session.recording_stopped']),
-        event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
-        payload: z.object({
-            account_id: z.string(),
-            object: z.object({
-                session_id: z.string(),
-                session_name: z.string(),
-                session_key: z.string(),
-                start_time: z.string().datetime(),
-                timezone: z.string(),
-                recording_file: z.object({
-                    recording_start: z.string().optional(),
-                    recording_end: z.string().optional()
-                })
-            })
+  body: z.object({
+    event: z.enum(['session.recording_stopped']),
+    event_ts: z.coerce.bigint().min(BigInt('-9223372036854775808'), { message: 'Invalid value: Expected int64 to be >= -9223372036854775808' }).max(BigInt('9223372036854775807'), { message: 'Invalid value: Expected int64 to be <= 9223372036854775807' }),
+    payload: z.object({
+      account_id: z.string(),
+      object: z.object({
+        session_id: z.string(),
+        session_name: z.string(),
+        session_key: z.string(),
+        start_time: z.string().datetime(),
+        timezone: z.string(),
+        recording_file: z.object({
+          recording_start: z.string().optional(),
+          recording_end: z.string().optional()
         })
-    }).optional(),
-    path: z.never().optional(),
-    query: z.never().optional()
+      })
+    })
+  }).optional(),
+  path: z.never().optional(),
+  query: z.never().optional()
 });

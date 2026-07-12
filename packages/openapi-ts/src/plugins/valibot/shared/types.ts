@@ -1,5 +1,4 @@
 import type { IR } from '@hey-api/shared';
-import type ts from 'typescript';
 
 import type { ValibotPlugin } from '../types';
 import type { Pipes } from './pipes';
@@ -39,7 +38,7 @@ export interface ValibotResult {
  */
 export interface ValibotFinal extends Pick<ValibotResult, 'pipes'> {
   /** Type annotation for schemas requiring explicit typing (e.g., lazy). */
-  typeName?: string | ts.Identifier;
+  typeName?: string;
 }
 
 /**

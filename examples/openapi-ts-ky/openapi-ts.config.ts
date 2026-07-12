@@ -8,7 +8,7 @@ const config: Promise<UserConfig> = defineConfig({
   },
   output: {
     path: './src/client',
-    postProcess: ['oxfmt', 'eslint'],
+    postProcess: ['oxfmt', 'oxlint'],
   },
   plugins: [
     '@hey-api/client-ky',

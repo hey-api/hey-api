@@ -1,0 +1,1 @@
+type Box<T> = string;

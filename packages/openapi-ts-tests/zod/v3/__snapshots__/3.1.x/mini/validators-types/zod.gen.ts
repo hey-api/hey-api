@@ -11,7 +11,7 @@ export type BazZodInput = z.input<typeof zBaz>;
 export type BazZodOutput = z.output<typeof zBaz>;
 
 export const zQux = z.record(z.string(), z.object({
-    qux: z.optional(z.string())
+  qux: z.optional(z.string())
 }));
 
 export type QuxZodType = z.infer<typeof zQux>;
@@ -24,10 +24,10 @@ export type QuxZodOutput = z.output<typeof zQux>;
  * This is Foo schema.
  */
 export const zFoo = z._default(z.nullable(z.object({
-    foo: z.optional(z.string().check(z.regex(/^\d{3}-\d{2}-\d{4}$/, 'Must be a valid SSN format (###-##-####)'))),
-    bar: z.optional(z.lazy((): any => zBar)),
-    baz: z.optional(z.array(z.lazy((): any => zFoo))),
-    qux: z._default(z.optional(z.int().check(z.gt(0))), 0)
+  foo: z.optional(z.string().check(z.regex(/^\d{3}-\d{2}-\d{4}$/, 'Must be a valid SSN format (###-##-####)'))),
+  bar: z.optional(z.lazy((): any => zBar)),
+  baz: z.optional(z.array(z.lazy((): any => zFoo))),
+  qux: z._default(z.optional(z.int().check(z.gt(0))), 0)
 })), null);
 
 export type FooZodType = z.infer<typeof zFoo>;
@@ -40,7 +40,7 @@ export type FooZodOutput = z.output<typeof zFoo>;
  * This is Bar schema.
  */
 export const zBar = z.object({
-    foo: z.optional(zFoo)
+  foo: z.optional(zFoo)
 });
 
 export type BarZodType = z.infer<typeof zBar>;
@@ -61,7 +61,7 @@ export type FooZodInput2 = z.input<typeof zFoo2>;
 export type FooZodOutput2 = z.output<typeof zFoo2>;
 
 export const zFoo3 = z.object({
-    foo: z.optional(zBar)
+  foo: z.optional(zBar)
 });
 
 export type FooZodType3 = z.infer<typeof zFoo3>;
@@ -71,7 +71,7 @@ export type FooZodInput3 = z.input<typeof zFoo3>;
 export type FooZodOutput3 = z.output<typeof zFoo3>;
 
 export const zPatchFooBody = z.object({
-    foo: z.optional(z.string())
+  foo: z.optional(z.string())
 });
 
 export type PatchFooBodyZodType = z.infer<typeof zPatchFooBody>;
@@ -81,13 +81,13 @@ export type PatchFooBodyZodInput = z.input<typeof zPatchFooBody>;
 export type PatchFooBodyZodOutput = z.output<typeof zPatchFooBody>;
 
 export const zPatchFooQuery = z.object({
-    foo: z.optional(z.string()),
-    bar: z.optional(zBar),
-    baz: z.optional(z.object({
-        baz: z.optional(z.string())
-    })),
-    qux: z.optional(z.iso.date()),
-    quux: z.optional(z.iso.datetime())
+  foo: z.optional(z.string()),
+  bar: z.optional(zBar),
+  baz: z.optional(z.object({
+    baz: z.optional(z.string())
+  })),
+  qux: z.optional(z.iso.date()),
+  quux: z.optional(z.iso.datetime())
 });
 
 export type PatchFooQueryZodType = z.infer<typeof zPatchFooQuery>;

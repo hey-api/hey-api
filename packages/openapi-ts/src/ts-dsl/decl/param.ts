@@ -1,6 +1,6 @@
 import type { AnalysisContext, NodeName } from '@hey-api/codegen-core';
-import ts from 'typescript';
 
+import { ts } from '../../ts-compiler';
 import { TsDsl, TypeTsDsl } from '../base';
 import { DecoratorMixin } from '../mixins/decorator';
 import { OptionalMixin } from '../mixins/optional';

@@ -7,119 +7,119 @@ import { getFoo, type Options, postFoo } from '../sdk.gen';
 import type { GetFooData, GetFooResponse, PostFooData } from '../types.gen';
 
 export type QueryKey<TOptions extends Options> = [
-    Pick<TOptions, 'baseUrl' | 'body' | 'headers' | 'path' | 'query'> & {
-        _id: string;
-        _infinite?: boolean;
-        tags?: ReadonlyArray<string>;
-    }
+  Pick<TOptions, 'baseUrl' | 'body' | 'headers' | 'path' | 'query'> & {
+    _id: string;
+    _infinite?: boolean;
+    tags?: ReadonlyArray<string>;
+  }
 ];
 
 const createQueryKey = <TOptions extends Options>(id: string, options?: TOptions, infinite?: boolean, tags?: ReadonlyArray<string>): [
-    QueryKey<TOptions>[0]
+  QueryKey<TOptions>[0]
 ] => {
-    const params: QueryKey<TOptions>[0] = { _id: id, baseUrl: options?.baseUrl || (options?.client ?? client).getConfig().baseUrl } as QueryKey<TOptions>[0];
-    if (infinite) {
-        params._infinite = infinite;
-    }
-    if (tags) {
-        params.tags = tags;
-    }
-    if (options?.body) {
-        params.body = options.body;
-    }
-    if (options?.headers) {
-        params.headers = options.headers;
-    }
-    if (options?.path) {
-        params.path = options.path;
-    }
-    if (options?.query) {
-        params.query = options.query;
-    }
-    return [params];
+  const params: QueryKey<TOptions>[0] = { _id: id, baseUrl: options?.baseUrl || (options?.client ?? client).getConfig().baseUrl } as QueryKey<TOptions>[0];
+  if (infinite) {
+    params._infinite = infinite;
+  }
+  if (tags) {
+    params.tags = tags;
+  }
+  if (options?.body) {
+    params.body = options.body;
+  }
+  if (options?.headers) {
+    params.headers = options.headers;
+  }
+  if (options?.path) {
+    params.path = options.path;
+  }
+  if (options?.query) {
+    params.query = options.query;
+  }
+  return [params];
 };
 
 export const getFooQueryKey = (options: Options<GetFooData>) => createQueryKey('getFoo', options);
 
 export const getFooOptions = (options: Options<GetFooData>) => queryOptions<GetFooResponse, DefaultError, GetFooResponse, ReturnType<typeof getFooQueryKey>>({
-    queryFn: async ({ queryKey, signal }) => {
-        const { data } = await getFoo({
-            ...options,
-            ...queryKey[0],
-            signal,
-            throwOnError: true
-        });
-        return data;
-    },
-    queryKey: getFooQueryKey(options)
+  queryFn: async ({ queryKey, signal }) => {
+    const { data } = await getFoo({
+      ...options,
+      ...queryKey[0],
+      signal,
+      throwOnError: true
+    });
+    return data;
+  },
+  queryKey: getFooQueryKey(options)
 });
 
 const createInfiniteParams = <K extends Pick<QueryKey<Options>[0], 'body' | 'headers' | 'path' | 'query'>>(queryKey: QueryKey<Options>, page: K) => {
-    const params = { ...queryKey[0] };
-    if (page.body) {
-        params.body = {
-            ...queryKey[0].body as any,
-            ...page.body as any
-        };
-    }
-    if (page.headers) {
-        params.headers = {
-            ...queryKey[0].headers,
-            ...page.headers
-        };
-    }
-    if (page.path) {
-        params.path = {
-            ...queryKey[0].path as any,
-            ...page.path as any
-        };
-    }
-    if (page.query) {
-        params.query = {
-            ...queryKey[0].query as any,
-            ...page.query as any
-        };
-    }
-    return params as unknown as typeof page;
+  const params = { ...queryKey[0] };
+  if (page.body) {
+    params.body = {
+      ...queryKey[0].body as any,
+      ...page.body as any
+    };
+  }
+  if (page.headers) {
+    params.headers = {
+      ...queryKey[0].headers,
+      ...page.headers
+    };
+  }
+  if (page.path) {
+    params.path = {
+      ...queryKey[0].path as any,
+      ...page.path as any
+    };
+  }
+  if (page.query) {
+    params.query = {
+      ...queryKey[0].query as any,
+      ...page.query as any
+    };
+  }
+  return params as unknown as typeof page;
 };
 
 export const getFooInfiniteQueryKey = (options: Options<GetFooData>): QueryKey<Options<GetFooData>> => createQueryKey('getFoo', options, true);
 
 export const getFooInfiniteOptions = (options: Options<GetFooData>) => {
-    const opts = infiniteQueryOptions<GetFooResponse, DefaultError, InfiniteData<GetFooResponse>, QueryKey<Options<GetFooData>>, number | null | Pick<QueryKey<Options<GetFooData>>[0], 'body' | 'headers' | 'path' | 'query'>>(
-    // @ts-ignore
-    {
-        queryFn: async ({ pageParam, queryKey, signal }) => {
-            // @ts-ignore
-            const page: Pick<QueryKey<Options<GetFooData>>[0], 'body' | 'headers' | 'path' | 'query'> = typeof pageParam === 'object' ? pageParam : {
-                query: {
-                    'foo.page': pageParam
-                }
-            };
-            const params = createInfiniteParams(queryKey, page);
-            const { data } = await getFoo({
-                ...options,
-                ...params,
-                signal,
-                throwOnError: true
-            });
-            return data;
-        },
-        queryKey: getFooInfiniteQueryKey(options)
-    });
-    return opts as Omit<typeof opts, 'initialData'>;
+  const opts = infiniteQueryOptions<GetFooResponse, DefaultError, InfiniteData<GetFooResponse>, QueryKey<Options<GetFooData>>, number | null | Pick<QueryKey<Options<GetFooData>>[0], 'body' | 'headers' | 'path' | 'query'>>(
+  // @ts-ignore
+  {
+    queryFn: async ({ pageParam, queryKey, signal }) => {
+      // @ts-ignore
+      const page: Pick<QueryKey<Options<GetFooData>>[0], 'body' | 'headers' | 'path' | 'query'> = typeof pageParam === 'object' ? pageParam : {
+        query: {
+          'foo.page': pageParam
+        }
+      };
+      const params = createInfiniteParams(queryKey, page);
+      const { data } = await getFoo({
+        ...options,
+        ...params,
+        signal,
+        throwOnError: true
+      });
+      return data;
+    },
+    queryKey: getFooInfiniteQueryKey(options)
+  });
+  return opts as Omit<typeof opts, 'initialData'>;
 };
 
 export const postFooMutation = (options?: Partial<Options<PostFooData>>): UseMutationOptions<unknown, DefaultError, Options<PostFooData>> => {
-    const mutationOptions: UseMutationOptions<unknown, DefaultError, Options<PostFooData>> = {
-        mutationFn: async (fnOptions) => {
-            const { data } = await postFoo({
-                ...options,
-                ...fnOptions,
-                throwOnError: true
-            });
-            return data;
-        }
-    };
-    return mutationOptions;
+  const mutationOptions: UseMutationOptions<unknown, DefaultError, Options<PostFooData>> = {
+    mutationFn: async (fnOptions) => {
+      const { data } = await postFoo({
+        ...options,
+        ...fnOptions,
+        throwOnError: true
+      });
+      return data;
+    }
+  };
+  return mutationOptions;
 };

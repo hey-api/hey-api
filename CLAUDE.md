@@ -10,7 +10,7 @@ pnpm build --filter="@hey-api/**"     # Build packages only
 pnpm build                            # Build everything (packages + examples + docs)
 pnpm test                             # Run all tests
 pnpm typecheck                        # Type check all packages
-pnpm lint                             # Check formatting (oxfmt) + linting (eslint)
+pnpm lint                             # Check formatting (oxfmt) + linting (oxlint)
 pnpm lint:fix                         # Auto-fix formatting and linting
 pnpm format                           # Format with oxfmt
 ```
@@ -73,7 +73,7 @@ web/                   # Astro website
 - **Build**: Turbo 2.8.0 + tsdown + Rollup
 - **Language**: TypeScript 5.9.3, ESM only
 - **Formatter**: oxfmt 0.27.0 (single quotes via .oxfmtrc.json)
-- **Linter**: ESLint 9 flat config with typescript-eslint, simple-import-sort, sort-destructure-keys, typescript-sort-keys
+- **Linter**: Oxlint with eslint, typescript, and oxc plugins; simple-import-sort, sort-destructure-keys, and typescript-sort-keys loaded as JS plugins
 - **Tests**: Vitest 3.2.4
 - **Pre-commit**: Husky + lint-staged (runs `pnpm format` + `pnpm lint:fix`)
 - **Python** (for openapi-python): Python >=3.10, mypy, ruff, line length 120
@@ -84,7 +84,7 @@ web/                   # Astro website
 - ESM modules only (`.mts`/`.mjs` extensions in builds)
 - UTF-8, LF line endings, 2-space indentation
 - Single quotes (enforced by oxfmt)
-- Imports sorted by eslint-plugin-simple-import-sort
+- Imports sorted by eslint-plugin-simple-import-sort (via Oxlint `jsPlugins`)
 - Object/interface keys sorted alphabetically
 - Destructured keys sorted alphabetically
 

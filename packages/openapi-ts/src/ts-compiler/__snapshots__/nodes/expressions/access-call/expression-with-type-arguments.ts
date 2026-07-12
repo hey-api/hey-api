@@ -1,0 +1,1 @@
+const g = factory;

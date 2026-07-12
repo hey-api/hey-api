@@ -1,6 +1,5 @@
 import type { Refs, SymbolMeta } from '@hey-api/codegen-core';
 import type { IR, SchemaExtractor } from '@hey-api/shared';
-import type ts from 'typescript';
 
 import type { $ } from '../../../ts-dsl';
 import type { ArktypePlugin } from '../types';
@@ -15,7 +14,7 @@ export type Ast = {
   def: string;
   expression: ReturnType<typeof $.call | typeof $.expr | typeof $.object>;
   hasLazyExpression?: boolean;
-  typeName?: string | ts.Identifier;
+  typeName?: string;
 };
 
 export type IrSchemaToAstOptions = {

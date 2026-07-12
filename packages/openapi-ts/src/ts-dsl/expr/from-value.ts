@@ -1,6 +1,6 @@
 import { isNode } from '@hey-api/codegen-core';
-import type ts from 'typescript';
 
+import type { ts } from '../../ts-compiler';
 import type { TsDsl } from '../base';
 import { ArrayTsDsl } from './array';
 import { LiteralTsDsl } from './literal';

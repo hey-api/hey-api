@@ -12,6 +12,18 @@
       ],
       "outputs": [".next/**", "!.next/cache/**", ".output/**", ".svelte-kit/**", "dist/**"]
     },
+    "build:exe": {
+      "dependsOn": ["build"],
+      "inputs": [
+        "src/**",
+        "!src/**/*.test.ts",
+        "package.json",
+        "tsconfig.json",
+        "tsdown-utils.ts",
+        "tsdown.exe.config.ts"
+      ],
+      "outputs": ["build/**"]
+    },
     "dev": {
       "cache": false,
       "persistent": true

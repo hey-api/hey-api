@@ -14,6 +14,7 @@ const validatorInferWarn =
   'You set `validator: true` but no validator plugin was found in your plugins. Add a validator plugin like `zod` to enable this feature. The validator option has been disabled.';
 
 export const defaultConfig: HeyApiSdkPlugin['Config'] = {
+  // oxlint-disable-next-line sort-keys
   config: {
     $dependencies: ['client'],
     $finalize(config, input) {
@@ -182,7 +183,6 @@ export const defaultConfig: HeyApiSdkPlugin['Config'] = {
     },
 
     // Deprecated - kept for backward compatibility
-    // eslint-disable-next-line sort-keys-fix/sort-keys-fix
     response: 'body',
   },
   dependencies: ['@hey-api/typescript'],

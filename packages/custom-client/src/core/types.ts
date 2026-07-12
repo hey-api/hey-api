@@ -82,7 +82,6 @@ export interface Config {
 /**
  * Arbitrary metadata passed through the `meta` request option.
  */
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface ClientMeta {}
 
 type IsExactlyNeverOrNeverUndefined<T> = [T] extends [never]

@@ -1,0 +1,1 @@
+const d = delete obj;

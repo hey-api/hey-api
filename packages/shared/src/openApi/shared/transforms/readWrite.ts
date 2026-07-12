@@ -49,7 +49,7 @@ const schemaKeys = new Set([
   'unevaluatedProperties',
 ]);
 
-const getComponentContext = (path: ReadonlyArray<string | number>): Scope | undefined => {
+function getComponentContext(path: ReadonlyArray<string | number>): Scope | undefined {
   // OpenAPI 3.x: #/components/{type}/{name}
   if (path.length === 3 && path[0] === 'components') {
     const type = path[1];
@@ -65,14 +65,14 @@ const getComponentContext = (path: ReadonlyArray<string | number>): Scope | unde
     if (type === 'responses') return 'read';
   }
   return;
-};
+}
 
 /**
  * Capture the original schema objects by pointer before splitting.
  * This is used to safely remove only the true originals after splitting,
  * even if names are swapped or overwritten by split variants.
  */
-const captureOriginalSchemas = (spec: unknown, logger: Logger): OriginalSchemas => {
+function captureOriginalSchemas(spec: unknown, logger: Logger): OriginalSchemas {
   const event = logger.timeEvent('capture-original-schemas');
   const originals: OriginalSchemas = {};
   if (hasComponentsSchemasObject(spec)) {
@@ -86,7 +86,7 @@ const captureOriginalSchemas = (spec: unknown, logger: Logger): OriginalSchemas 
   }
   event.timeEnd();
   return originals;
-};
+}
 
 /**
  * Inserts split schemas into the spec at the correct location (OpenAPI 3.x or 2.0).
@@ -96,7 +96,7 @@ const captureOriginalSchemas = (spec: unknown, logger: Logger): OriginalSchemas 
  * @param spec - The OpenAPI spec object
  * @param split - The split schemas (from splitSchemas)
  */
-const insertSplitSchemasIntoSpec = ({
+function insertSplitSchemasIntoSpec({
   logger,
   spec,
   split,
@@ -104,7 +104,7 @@ const insertSplitSchemasIntoSpec = ({
   logger: Logger;
   spec: unknown;
   split: Pick<SplitSchemas, 'schemas'>;
-}) => {
+}) {
   const event = logger.timeEvent('insert-split-schemas-into-spec');
   if (hasComponentsSchemasObject(spec)) {
     Object.assign((spec as any).components.schemas, split.schemas);
@@ -112,7 +112,7 @@ const insertSplitSchemasIntoSpec = ({
     Object.assign((spec as any).definitions, split.schemas);
   }
   event.timeEnd();
-};
+}
 
 /**
  * Prunes a schema by removing all child schemas (in any structural keyword)
@@ -127,11 +127,11 @@ const insertSplitSchemasIntoSpec = ({
  * @param scope - The scope to exclude ('readOnly' or 'writeOnly')
  * @returns boolean - Whether the schema should be removed from its parent
  */
-const pruneSchemaByScope = (
+function pruneSchemaByScope(
   graph: Graph,
   schema: unknown,
   scope: 'readOnly' | 'writeOnly',
-): boolean => {
+): boolean {
   if (schema && typeof schema === 'object') {
     // Handle $ref schemas
     if ('$ref' in schema && typeof schema.$ref === 'string') {
@@ -276,7 +276,7 @@ const pruneSchemaByScope = (
     }
   }
   return false;
-};
+}
 
 /**
  * Remove only the true original schemas that were split, by object identity.
@@ -286,7 +286,7 @@ const pruneSchemaByScope = (
  * @param spec - The OpenAPI spec object
  * @param split - The split mapping (from splitSchemas)
  */
-const removeOriginalSplitSchemas = ({
+function removeOriginalSplitSchemas({
   logger,
   originalSchemas,
   spec,
@@ -296,7 +296,7 @@ const removeOriginalSplitSchemas = ({
   originalSchemas: OriginalSchemas;
   spec: unknown;
   split: Pick<SplitSchemas, 'mapping'>;
-}) => {
+}) {
   const event = logger.timeEvent('remove-original-split-schemas');
   const schemasObj = getSchemasObject(spec);
 
@@ -313,7 +313,7 @@ const removeOriginalSplitSchemas = ({
     }
   }
   event.timeEnd();
-};
+}
 
 /**
  * Create writable variants of parent schemas that have discriminators
@@ -504,7 +504,7 @@ function splitDiscriminatorSchemas({
  * @param spec - The OpenAPI spec object
  * @returns SplitSchemas - The split schemas and pointer mappings
  */
-export const splitSchemas = ({
+export function splitSchemas({
   config,
   graph,
   logger,
@@ -514,7 +514,7 @@ export const splitSchemas = ({
   graph: Graph;
   logger: Logger;
   spec: unknown;
-}): SplitSchemas => {
+}): SplitSchemas {
   const event = logger.timeEvent('split-schemas');
   const existingNames = new Set<string>();
   const split: SplitSchemas = {
@@ -630,7 +630,7 @@ export const splitSchemas = ({
 
   event.timeEnd();
   return split;
-};
+}
 
 type WalkArgs = {
   context: Scope | null;
@@ -648,7 +648,7 @@ type WalkArgs = {
  * @param spec - The OpenAPI spec object
  * @param split - The split mapping (from splitSchemas)
  */
-export const updateRefsInSpec = ({
+export function updateRefsInSpec({
   logger,
   spec,
   split,
@@ -656,18 +656,18 @@ export const updateRefsInSpec = ({
   logger: Logger;
   spec: unknown;
   split: Omit<SplitSchemas, 'schemas'>;
-}): void => {
+}): void {
   const event = logger.timeEvent('update-refs-in-spec');
   const schemasPointerNamespace = specToSchemasPointerNamespace(spec);
 
-  const walk = ({
+  function walk({
     context,
     currentPointer,
     inSchema,
     node,
     path,
     visited = new Set(),
-  }: WalkArgs): void => {
+  }: WalkArgs): void {
     if (node instanceof Array) {
       node.forEach((item, index) =>
         walk({
@@ -864,7 +864,7 @@ export const updateRefsInSpec = ({
         }
       }
     }
-  };
+  }
   walk({
     context: null,
     currentPointer: null,
@@ -873,7 +873,7 @@ export const updateRefsInSpec = ({
     path: [],
   });
   event.timeEnd();
-};
+}
 
 /**
  * Orchestrates the full read/write transform:
@@ -886,7 +886,7 @@ export const updateRefsInSpec = ({
  * @param config - The readWrite transform config
  * @param spec - The OpenAPI spec object
  */
-export const readWriteTransform = ({
+export function readWriteTransform({
   config,
   logger,
   spec,
@@ -894,11 +894,11 @@ export const readWriteTransform = ({
   config: ReadWriteConfig;
   logger: Logger;
   spec: unknown;
-}) => {
+}) {
   const { graph } = buildGraph(spec, logger);
   const originalSchemas = captureOriginalSchemas(spec, logger);
   const split = splitSchemas({ config, graph, logger, spec });
   insertSplitSchemasIntoSpec({ logger, spec, split });
   updateRefsInSpec({ logger, spec, split });
   removeOriginalSplitSchemas({ logger, originalSchemas, spec, split });
-};
+}

@@ -81,7 +81,7 @@ export interface ComponentsObject extends SpecExtensions {
   /**
    * An object to hold reusable {@link https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.4.md#link-object Link Objects}.
    */
-  linkes?: Record<string, LinkObject | ReferenceObject>;
+  links?: Record<string, LinkObject | ReferenceObject>;
   /**
    * An object to hold reusable {@link https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.4.md#parameter-object Parameter Objects}.
    */

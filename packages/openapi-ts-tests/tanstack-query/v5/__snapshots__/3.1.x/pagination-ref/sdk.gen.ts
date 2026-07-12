@@ -5,26 +5,26 @@ import { client } from './client.gen';
 import type { GetFooData, GetFooResponses, PostFooData, PostFooResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
-    /**
-     * You can provide a client instance returned by `createClient()` instead of
-     * individual options. This might be also useful if you want to implement a
-     * custom client.
-     */
-    client?: Client;
-    /**
-     * You can pass arbitrary values through the `meta` object. This can be
-     * used to access values that aren't defined as part of the SDK function.
-     */
-    meta?: keyof ClientMeta extends never ? Record<string, unknown> : ClientMeta;
+  /**
+   * You can provide a client instance returned by `createClient()` instead of
+   * individual options. This might be also useful if you want to implement a
+   * custom client.
+   */
+  client?: Client;
+  /**
+   * You can pass arbitrary values through the `meta` object. This can be
+   * used to access values that aren't defined as part of the SDK function.
+   */
+  meta?: keyof ClientMeta extends never ? Record<string, unknown> : ClientMeta;
 };
 
 export const getFoo = <ThrowOnError extends boolean = false>(options: Options<GetFooData, ThrowOnError>): RequestResult<GetFooResponses, unknown, ThrowOnError> => (options.client ?? client).get<GetFooResponses, unknown, ThrowOnError>({ url: '/foo', ...options });
 
 export const postFoo = <ThrowOnError extends boolean = false>(options: Options<PostFooData, ThrowOnError>): RequestResult<PostFooResponses, unknown, ThrowOnError> => (options.client ?? client).post<PostFooResponses, unknown, ThrowOnError>({
-    url: '/foo',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+  url: '/foo',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });

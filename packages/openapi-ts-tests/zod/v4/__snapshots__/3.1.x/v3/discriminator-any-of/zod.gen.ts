@@ -5,8 +5,8 @@ import { z } from 'zod/v3';
 export const zQuux = z.enum(['Bar', 'Baz']);
 
 export const zQux = z.object({
-    id: z.string(),
-    type: zQuux
+  id: z.string(),
+  type: zQuux
 });
 
 export const zBaz = zQux;
@@ -14,14 +14,14 @@ export const zBaz = zQux;
 export const zBar = zQux;
 
 export const zFoo = z.discriminatedUnion('type', [
-    zBar.extend({ type: z.literal('Bar') }),
-    zBaz.extend({ type: z.literal('Baz') })
+  zBar.extend({ type: z.literal('Bar') }),
+  zBaz.extend({ type: z.literal('Baz') })
 ]);
 
 export const zSpæcial = zQux;
 
 export const zQuuz = z.discriminatedUnion('type', [
-    zBar.extend({ type: z.literal('bar') }),
-    zBaz.extend({ type: z.literal('baz') }),
-    zSpæcial.extend({ type: z.literal('non-ascii') })
+  zBar.extend({ type: z.literal('bar') }),
+  zBaz.extend({ type: z.literal('baz') }),
+  zSpæcial.extend({ type: z.literal('non-ascii') })
 ]);

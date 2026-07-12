@@ -19,7 +19,6 @@ function constNode(ctx: BooleanResolverContext): PydanticType | undefined {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function baseNode(_ctx: BooleanResolverContext): PydanticType {
   const type = $$.constrainedType('bool');
   return {

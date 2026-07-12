@@ -1,5 +1,4 @@
-import type ts from 'typescript';
-
+import type { ts } from '../../ts-compiler';
 import type { TsDsl } from '../base';
 
 export type BaseCtor<T extends ts.Node> = abstract new (...args: Array<any>) => TsDsl<T>;

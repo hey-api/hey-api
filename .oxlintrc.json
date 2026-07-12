@@ -1,0 +1,72 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["eslint", "typescript", "oxc"],
+  "env": { "node": true },
+  "ignorePatterns": [
+    "**/.tsdown/",
+    "**/debug/",
+    "**/dist/",
+    "**/node_modules/",
+    "temp/",
+    "dev/gen/",
+    "dev/playground.ts",
+    "**/test/generated/",
+    "**/__snapshots__/",
+    "**/.next/",
+    "**/.nuxt/",
+    "**/.output/",
+    "**/.svelte-kit/",
+    "**/.vercel",
+    "**/.angular",
+    "**/*.astro",
+    "**/*.svelte",
+    "**/*.vue",
+    "**/web/src/components/pages/**/previews/"
+  ],
+  "rules": {
+    "arrow-body-style": "error",
+    "object-shorthand": "error",
+    "consistent-type-imports": "warn",
+    "sort-keys": "warn",
+    "sort-imports": "off",
+    "no-prototype-builtins": "off",
+    "ban-ts-comment": "off",
+    "explicit-function-return-type": "off",
+    "explicit-module-boundary-types": "off",
+    "no-explicit-any": "off",
+    "no-inferrable-types": "off",
+    "no-non-null-assertion": "off",
+    "no-var-requires": "off",
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
+    "sort-destructure-keys/sort-destructure-keys": "warn",
+    "typescript-sort-keys/interface": "warn",
+    "typescript-sort-keys/string-enum": "off"
+  },
+  "overrides": [
+    {
+      "files": ["web/.astro/**/*"],
+      "rules": {
+        "no-empty-object-type": "off",
+        "triple-slash-reference": "off"
+      }
+    },
+    {
+      "files": ["**/*.cjs"],
+      "rules": { "no-require-imports": "off" }
+    },
+    {
+      "files": ["**/*.gen.ts"],
+      "rules": {
+        "sort-keys": "off",
+        "typescript-sort-keys/interface": "off",
+        "typescript-sort-keys/string-enum": "off"
+      }
+    }
+  ],
+  "jsPlugins": [
+    "eslint-plugin-simple-import-sort",
+    "eslint-plugin-sort-destructure-keys",
+    "eslint-plugin-typescript-sort-keys"
+  ]
+}

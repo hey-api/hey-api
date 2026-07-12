@@ -1,6 +1,6 @@
 import type { AnalysisContext, Node } from '@hey-api/codegen-core';
-import type ts from 'typescript';
 
+import type { ts } from '../../ts-compiler';
 import type { HintFn, HintLines } from '../layout/hint';
 import { HintTsDsl } from '../layout/hint';
 import type { BaseCtor, MixinCtor } from './types';

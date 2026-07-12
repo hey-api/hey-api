@@ -7,6 +7,8 @@ export function refToName($ref: string): string {
   return name;
 }
 
+const jsonPointerSegmentEscapeNeeded = /[~/]/;
+
 /**
  * Encodes a path segment for use in a JSON Pointer (RFC 6901).
  *
@@ -16,11 +18,45 @@ export function refToName($ref: string): string {
  * This ensures that path segments containing these characters are safely
  * represented in JSON Pointer strings.
  *
+ * Core idea: rather than always running two full-string `.replaceAll`
+ * passes, find the index of the first character that needs escaping. If
+ * there is none, the input is returned as-is with zero allocation. If there
+ * is one, only that point onward needs a char-by-char scan — the untouched
+ * prefix is reused verbatim via `slice`, and the loop copies unescaped runs
+ * in bulk (via a pending start index) instead of appending one character at
+ * a time.
+ *
  * @param segment - The path segment (string or number) to encode.
  * @returns The encoded segment as a string.
  */
 export function encodeJsonPointerSegment(segment: string | number): string {
-  return String(segment).replaceAll('~', '~0').replaceAll('/', '~1');
+  const str = typeof segment === 'string' ? segment : String(segment);
+
+  const match = jsonPointerSegmentEscapeNeeded.exec(str);
+  if (match === null) return str;
+
+  let result = str.slice(0, match.index);
+  let runStart = match.index;
+
+  for (let i = match.index, len = str.length; i < len; i++) {
+    let escape: string;
+    switch (str.charCodeAt(i)) {
+      case 126: // ~
+        escape = '~0';
+        break;
+      case 47: // /
+        escape = '~1';
+        break;
+      default:
+        continue;
+    }
+    if (runStart !== i) result += str.slice(runStart, i);
+    result += escape;
+    runStart = i + 1;
+  }
+
+  if (runStart !== str.length) result += str.slice(runStart);
+  return result;
 }
 
 /**
@@ -84,8 +120,14 @@ export function normalizeJsonPointer(pointer: string): string {
  * @returns
  */
 export function pathToJsonPointer(path: ReadonlyArray<string | number>): string {
-  const segments = path.map(encodeJsonPointerSegment).join('/');
-  return '#' + (segments ? `/${segments}` : '');
+  const len = path.length;
+  if (len === 0) return '#';
+  let segments = encodeJsonPointerSegment(path[0]!);
+  for (let i = 1; i < len; i++) {
+    segments += '/';
+    segments += encodeJsonPointerSegment(path[i]!);
+  }
+  return `#/${segments}`;
 }
 
 /**

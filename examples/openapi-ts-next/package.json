@@ -5,7 +5,7 @@
   "scripts": {
     "build": "next build",
     "dev": "next dev",
-    "lint": "next lint",
+    "lint": "oxfmt --check . && oxlint .",
     "openapi-ts": "openapi-ts",
     "start": "next start"
   },
@@ -19,8 +19,7 @@
     "@types/node": "24.13.2",
     "@types/react": "19.0.1",
     "@types/react-dom": "19.0.1",
-    "eslint": "9.39.4",
-    "eslint-config-next": "15.1.6",
+    "oxfmt": "0.57.0",
     "postcss": "8.5.15",
     "tailwindcss": "3.4.19",
     "typescript": "6.0.3"

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-namespace */
 import type { Symbol } from '@hey-api/codegen-core';
 import type { JSONSchemaDraft2020_12, OpenAPIV3_1, SpecExtensions } from '@hey-api/spec-types';
 
@@ -223,7 +222,6 @@ type IRSecurityObject = OpenAPIV3_1.SecuritySchemeObject & {
   key?: string;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type -- Interface rather than type alias avoids TS4023 errors when bundled dist is consumed by tsgo/TypeScript 7
 export interface IRServerObject extends OpenAPIV3_1.ServerObject {}
 
 type IRWebhookObject = IRPathItemObject;

@@ -8,7 +8,7 @@ import { httpMethods } from '../../../openApi/shared/utils/operation';
 /**
  * Replace source spec with filtered version.
  */
-export const filterSpec = ({
+export function filterSpec({
   logger,
   operations,
   parameters,
@@ -26,7 +26,7 @@ export const filterSpec = ({
   responses: Set<string>;
   schemas: Set<string>;
   spec: OpenAPIV3.Document;
-}) => {
+}): void {
   const eventFilterSpec = logger.timeEvent('filter-spec');
   if (spec.components) {
     if (spec.components.parameters) {
@@ -142,4 +142,4 @@ export const filterSpec = ({
     }
   }
   eventFilterSpec.timeEnd();
-};
+}

@@ -10,7 +10,7 @@ type Parameter = Exclude<OpenAPIV2.ParameterObject, { in: 'body' }>;
 /**
  * Returns default parameter `explode` based on value of `collectionFormat`.
  */
-const defaultExplode = (collectionFormat: Parameter['collectionFormat']): boolean => {
+function defaultExplode(collectionFormat: Parameter['collectionFormat']): boolean {
   switch (collectionFormat) {
     case 'multi':
       return true;
@@ -21,12 +21,12 @@ const defaultExplode = (collectionFormat: Parameter['collectionFormat']): boolea
     default:
       return false;
   }
-};
+}
 
 /**
  * Returns default parameter `style` based on value of `in`.
  */
-const defaultStyle = (_in: Parameter['in']): Required<IR.ParameterObject>['style'] => {
+function defaultStyle(_in: Parameter['in']): Required<IR.ParameterObject>['style'] {
   switch (_in) {
     case 'header':
     case 'path':
@@ -35,9 +35,9 @@ const defaultStyle = (_in: Parameter['in']): Required<IR.ParameterObject>['style
     default:
       return 'form';
   }
-};
+}
 
-export const parametersArrayToObject = ({
+export function parametersArrayToObject({
   context,
   operation,
   parameters,
@@ -45,7 +45,7 @@ export const parametersArrayToObject = ({
   context: Context;
   operation: OpenAPIV2.OperationObject;
   parameters?: ReadonlyArray<OpenAPIV2.ParameterObject | OpenAPIV2.ReferenceObject>;
-}): IR.ParametersObject | undefined => {
+}): IR.ParametersObject | undefined {
   if (!parameters || !Object.keys(parameters).length) {
     return;
   }
@@ -84,9 +84,9 @@ export const parametersArrayToObject = ({
   }
 
   return parametersObject;
-};
+}
 
-const parameterToIrParameter = ({
+function parameterToIrParameter({
   $ref,
   context,
   parameter,
@@ -94,7 +94,7 @@ const parameterToIrParameter = ({
   $ref: string;
   context: Context;
   parameter: Parameter;
-}): IR.ParameterObject => {
+}): IR.ParameterObject {
   const schema = parameter;
 
   const finalSchema: OpenAPIV2.SchemaObject =
@@ -161,4 +161,4 @@ const parameterToIrParameter = ({
   });
 
   return irParameter;
-};
+}

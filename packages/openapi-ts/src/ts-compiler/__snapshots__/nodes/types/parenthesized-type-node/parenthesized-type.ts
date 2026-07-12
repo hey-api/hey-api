@@ -1,0 +1,1 @@
+type Wrapped = (A | B)[];

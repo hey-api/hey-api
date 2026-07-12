@@ -4,7 +4,7 @@ import { PyNodeKind } from './nodes/kinds';
 export type QuoteStyle = 'single' | 'double';
 export type QuoteFallback = 'avoid-escape' | 'escape';
 
-export interface PyPrinterOptions {
+export type PyPrinterOptions = {
   /**
    * Number of spaces per indentation level.
    *
@@ -27,15 +27,43 @@ export interface PyPrinterOptions {
    * @default 'double'
    */
   quoteStyle?: QuoteStyle;
-}
+};
+
+export type PyPrinter = {
+  format: (node: PyNode) => string;
+  formatNode: (node: PyNode) => string;
+};
 
 const DEFAULT_INDENT_SIZE = 4;
+const DEFAULT_QUOTE_STYLE: QuoteStyle = 'double';
+const DEFAULT_QUOTE_CONFLICT: QuoteFallback = 'avoid-escape';
 const PARAMS_MULTILINE_THRESHOLD = 3;
 
-export function createPrinter(options?: PyPrinterOptions) {
-  const indentSize = options?.indentSize ?? DEFAULT_INDENT_SIZE;
-  const quoteStyle = options?.quoteStyle ?? 'double';
-  const quoteConflict = options?.quoteConflict ?? 'avoid-escape';
+const backslashEscapeNeeded = /\\/;
+
+function escapeBackslashes(value: string): string {
+  const match = backslashEscapeNeeded.exec(value);
+  if (match === null) return value;
+
+  let result = value.slice(0, match.index);
+  let runStart = match.index;
+
+  for (let i = match.index, len = value.length; i < len; i++) {
+    if (value.charCodeAt(i) !== 92) continue; // \
+    if (runStart !== i) result += value.slice(runStart, i);
+    result += '\\\\';
+    runStart = i + 1;
+  }
+
+  if (runStart !== value.length) result += value.slice(runStart);
+  return result;
+}
+
+export function createPrinter(options?: PyPrinterOptions): PyPrinter {
+  const indentUnit = ' '.repeat(options?.indentSize ?? DEFAULT_INDENT_SIZE);
+  const quoteStyle = options?.quoteStyle ?? DEFAULT_QUOTE_STYLE;
+  const quoteConflict = options?.quoteConflict ?? DEFAULT_QUOTE_CONFLICT;
+  let indentLevel = 0;
 
   function selectQuote(value: string): { conflict: boolean; quote: string } {
     const preferred = quoteStyle === 'double' ? '"' : "'";
@@ -54,12 +82,26 @@ export function createPrinter(options?: PyPrinterOptions) {
   function createStringLiteral(value: string): string {
     const result = selectQuote(value);
     if (result.conflict) {
-      return `${result.quote}${value.replaceAll(result.quote, `\\${result.quote}`)}${result.quote}`;
+      // `selectQuote` already confirmed `result.quote` occurs in `value` (via
+      // `.includes`), so unlike a general-purpose escaper there's no need to
+      // scan for a first-match index — go straight to the char-by-char pass,
+      // copying unescaped runs in bulk (via `runStart`) and only paying extra
+      // for the quote character itself.
+      const quoteCode = result.quote.charCodeAt(0);
+      const escape = `\\${result.quote}`;
+      let escaped = '';
+      let runStart = 0;
+      for (let i = 0, len = value.length; i < len; i++) {
+        if (value.charCodeAt(i) !== quoteCode) continue;
+        if (runStart !== i) escaped += value.slice(runStart, i);
+        escaped += escape;
+        runStart = i + 1;
+      }
+      if (runStart !== value.length) escaped += value.slice(runStart);
+      return `${result.quote}${escaped}${result.quote}`;
     }
     return `${result.quote}${value}${result.quote}`;
   }
-
-  let indentLevel = 0;
 
   function printComments(
     parts: Array<string>,
@@ -86,10 +128,10 @@ export function createPrinter(options?: PyPrinterOptions) {
 
   function printLine(line: string): string {
     if (line === '') return '';
-    return ' '.repeat(indentLevel * indentSize) + line;
+    return indentUnit.repeat(indentLevel) + line;
   }
 
-  function printNode(node: PyNode): string {
+  function formatNode(node: PyNode): string {
     const parts: Array<string> = [];
 
     if (node.leadingComments) {
@@ -100,42 +142,42 @@ export function createPrinter(options?: PyPrinterOptions) {
 
     switch (node.kind) {
       case PyNodeKind.Assignment: {
-        const target = printNode(node.target);
+        const target = formatNode(node.target);
         if (node.type) {
-          const type = printNode(node.type);
+          const type = formatNode(node.type);
           if (node.value) {
-            parts.push(printLine(`${target}: ${type} = ${printNode(node.value)}`));
+            parts.push(printLine(`${target}: ${type} = ${formatNode(node.value)}`));
           } else {
             parts.push(printLine(`${target}: ${type}`));
           }
         } else {
-          parts.push(printLine(`${target} = ${printNode(node.value!)}`));
+          parts.push(printLine(`${target} = ${formatNode(node.value!)}`));
         }
         break;
       }
 
       case PyNodeKind.AsyncExpression:
-        parts.push(`async ${printNode(node.expression)}`);
+        parts.push(`async ${formatNode(node.expression)}`);
         break;
 
       case PyNodeKind.AugmentedAssignment:
         parts.push(
-          printLine(`${printNode(node.target)} ${node.operator} ${printNode(node.value)}`),
+          printLine(`${formatNode(node.target)} ${node.operator} ${formatNode(node.value)}`),
         );
         break;
 
       case PyNodeKind.AwaitExpression:
-        parts.push(`await ${printNode(node.expression)}`);
+        parts.push(`await ${formatNode(node.expression)}`);
         break;
 
       case PyNodeKind.BinaryExpression:
-        parts.push(`${printNode(node.left)} ${node.operator} ${printNode(node.right)}`);
+        parts.push(`${formatNode(node.left)} ${node.operator} ${formatNode(node.right)}`);
         break;
 
       case PyNodeKind.Block:
         indentLevel += 1;
         if (node.statements.length) {
-          parts.push(...node.statements.map(printNode));
+          parts.push(...node.statements.map(formatNode));
         } else {
           parts.push(printLine('pass'));
         }
@@ -147,16 +189,16 @@ export function createPrinter(options?: PyPrinterOptions) {
         break;
 
       case PyNodeKind.CallExpression:
-        parts.push(`${printNode(node.callee)}(${node.args.map(printNode).join(', ')})`);
+        parts.push(`${formatNode(node.callee)}(${node.args.map(formatNode).join(', ')})`);
         break;
 
       case PyNodeKind.ClassDeclaration: {
         indentTrailingComments = true;
         if (node.decorators) {
-          parts.push(...node.decorators.map((decorator) => printLine(`@${printNode(decorator)}`)));
+          parts.push(...node.decorators.map((decorator) => printLine(`@${formatNode(decorator)}`)));
         }
         const bases = node.baseClasses?.length
-          ? `(${node.baseClasses.map(printNode).join(', ')})`
+          ? `(${node.baseClasses.map(formatNode).join(', ')})`
           : '';
         parts.push(printLine(`class ${node.name}${bases}:`));
         if (node.docstring) {
@@ -164,7 +206,7 @@ export function createPrinter(options?: PyPrinterOptions) {
           parts.push(...printDocstring(node.docstring));
           indentLevel -= 1;
         }
-        parts.push(printNode(node.body));
+        parts.push(formatNode(node.body));
         break;
       }
 
@@ -179,11 +221,11 @@ export function createPrinter(options?: PyPrinterOptions) {
       case PyNodeKind.DictComprehension: {
         const asyncPrefix = node.isAsync ? 'async ' : '';
         const children: Array<string> = [
-          `${printNode(node.key)}: ${printNode(node.value)} ${asyncPrefix}for ${printNode(node.target)} in ${printNode(node.iterable)}`,
+          `${formatNode(node.key)}: ${formatNode(node.value)} ${asyncPrefix}for ${formatNode(node.target)} in ${formatNode(node.iterable)}`,
         ];
         if (node.ifs) {
           for (const condition of node.ifs) {
-            children.push(`if ${printNode(condition)}`);
+            children.push(`if ${formatNode(condition)}`);
           }
         }
         parts.push(`{${children.join(' ')}}`);
@@ -192,7 +234,7 @@ export function createPrinter(options?: PyPrinterOptions) {
 
       case PyNodeKind.DictExpression: {
         const entries = node.entries
-          .map(({ key, value }) => `${printNode(key)}: ${printNode(value)}`)
+          .map(({ key, value }) => `${formatNode(key)}: ${formatNode(value)}`)
           .join(', ');
         parts.push(`{${entries}}`);
         break;
@@ -203,21 +245,21 @@ export function createPrinter(options?: PyPrinterOptions) {
         break;
 
       case PyNodeKind.ExpressionStatement:
-        parts.push(printLine(printNode(node.expression)));
+        parts.push(printLine(formatNode(node.expression)));
         break;
 
       case PyNodeKind.ForStatement:
-        parts.push(printLine(`for ${printNode(node.target)} in ${printNode(node.iterable)}:`));
-        parts.push(printNode(node.body));
+        parts.push(printLine(`for ${formatNode(node.target)} in ${formatNode(node.iterable)}:`));
+        parts.push(formatNode(node.body));
         if (node.elseBlock) {
           parts.push(`${printLine('else:')}`);
-          parts.push(`${printNode(node.elseBlock)}`);
+          parts.push(`${formatNode(node.elseBlock)}`);
         }
         break;
 
       case PyNodeKind.FStringExpression: {
         const children = node.parts.map((part) =>
-          typeof part === 'string' ? part : `{${printNode(part)}}`,
+          typeof part === 'string' ? part : `{${formatNode(part)}}`,
         );
         parts.push(`f${createStringLiteral(children.join(''))}`);
         break;
@@ -225,17 +267,17 @@ export function createPrinter(options?: PyPrinterOptions) {
 
       case PyNodeKind.FunctionDeclaration: {
         if (node.decorators) {
-          parts.push(...node.decorators.map((decorator) => printLine(`@${printNode(decorator)}`)));
+          parts.push(...node.decorators.map((decorator) => printLine(`@${formatNode(decorator)}`)));
         }
-        const modifiers = node.modifiers?.map(printNode).join(' ') ?? '';
+        const modifiers = node.modifiers?.map(formatNode).join(' ') ?? '';
         const defPrefix = modifiers ? `${modifiers} def` : 'def';
         const formatParameter = (parameter: (typeof node.parameters)[number]): string => {
           const children: Array<string> = [parameter.name];
-          if (parameter.type) children.push(`: ${printNode(parameter.type)}`);
-          if (parameter.defaultValue) children.push(` = ${printNode(parameter.defaultValue)}`);
+          if (parameter.type) children.push(`: ${formatNode(parameter.type)}`);
+          if (parameter.defaultValue) children.push(` = ${formatNode(parameter.defaultValue)}`);
           return children.join('');
         };
-        const returnAnnotation = node.returnType ? ` -> ${printNode(node.returnType)}` : '';
+        const returnAnnotation = node.returnType ? ` -> ${formatNode(node.returnType)}` : '';
         const preParams = `${defPrefix} ${node.name}(`;
         const postParams = `)${returnAnnotation}:`;
 
@@ -259,18 +301,18 @@ export function createPrinter(options?: PyPrinterOptions) {
           parts.push(...printDocstring(node.docstring));
           indentLevel -= 1;
         }
-        parts.push(printNode(node.body));
+        parts.push(formatNode(node.body));
         break;
       }
 
       case PyNodeKind.GeneratorExpression: {
         const asyncPrefix = node.isAsync ? 'async ' : '';
         const children: Array<string> = [
-          `${printNode(node.element)} ${asyncPrefix}for ${printNode(node.target)} in ${printNode(node.iterable)}`,
+          `${formatNode(node.element)} ${asyncPrefix}for ${formatNode(node.target)} in ${formatNode(node.iterable)}`,
         ];
         if (node.ifs) {
           for (const condition of node.ifs) {
-            children.push(`if ${printNode(condition)}`);
+            children.push(`if ${formatNode(condition)}`);
           }
         }
         parts.push(`(${children.join(' ')})`);
@@ -282,16 +324,16 @@ export function createPrinter(options?: PyPrinterOptions) {
         break;
 
       case PyNodeKind.IfStatement:
-        parts.push(printLine(`if ${printNode(node.condition)}:`));
-        parts.push(`${printNode(node.thenBlock)}`);
+        parts.push(printLine(`if ${formatNode(node.condition)}:`));
+        parts.push(`${formatNode(node.thenBlock)}`);
         if (node.elseBlock) {
           parts.push(`${printLine('else:')}`);
-          parts.push(`${printNode(node.elseBlock)}`);
+          parts.push(`${formatNode(node.elseBlock)}`);
         }
         break;
 
       case PyNodeKind.KeywordArgument:
-        parts.push(`${node.name}=${printNode(node.value)}`);
+        parts.push(`${node.name}=${formatNode(node.value)}`);
         break;
 
       case PyNodeKind.ImportStatement: {
@@ -321,22 +363,22 @@ export function createPrinter(options?: PyPrinterOptions) {
       case PyNodeKind.LambdaExpression: {
         const parameters = node.parameters.map((parameter) => {
           const children: Array<string> = [parameter.name];
-          if (parameter.type) children.push(`: ${printNode(parameter.type)}`);
-          if (parameter.defaultValue) children.push(` = ${printNode(parameter.defaultValue)}`);
+          if (parameter.type) children.push(`: ${formatNode(parameter.type)}`);
+          if (parameter.defaultValue) children.push(` = ${formatNode(parameter.defaultValue)}`);
           return children.join('');
         });
-        parts.push(`lambda ${parameters.join(', ')}: ${printNode(node.expression)}`);
+        parts.push(`lambda ${parameters.join(', ')}: ${formatNode(node.expression)}`);
         break;
       }
 
       case PyNodeKind.ListComprehension: {
         const asyncPrefix = node.isAsync ? 'async ' : '';
         const children: Array<string> = [
-          `${printNode(node.element)} ${asyncPrefix}for ${printNode(node.target)} in ${printNode(node.iterable)}`,
+          `${formatNode(node.element)} ${asyncPrefix}for ${formatNode(node.target)} in ${formatNode(node.iterable)}`,
         ];
         if (node.ifs) {
           for (const condition of node.ifs) {
-            children.push(`if ${printNode(condition)}`);
+            children.push(`if ${formatNode(condition)}`);
           }
         }
         parts.push(`[${children.join(' ')}]`);
@@ -344,7 +386,7 @@ export function createPrinter(options?: PyPrinterOptions) {
       }
 
       case PyNodeKind.ListExpression:
-        parts.push(`[${node.elements.map(printNode).join(', ')}]`);
+        parts.push(`[${node.elements.map(formatNode).join(', ')}]`);
         break;
 
       case PyNodeKind.Literal:
@@ -352,9 +394,10 @@ export function createPrinter(options?: PyPrinterOptions) {
           if (node.value.includes('\n')) {
             const { quote } = selectQuote(node.value);
             const tripleQuote = quote.repeat(3);
-            const escaped = node.value
-              .replaceAll('\\', '\\\\')
-              .replaceAll(tripleQuote, `\\${quote}${quote}${quote}`);
+            const escaped = escapeBackslashes(node.value).replaceAll(
+              tripleQuote,
+              `\\${quote}${quote}${quote}`,
+            );
             parts.push(`${tripleQuote}${escaped}${tripleQuote}`);
           } else {
             parts.push(createStringLiteral(node.value));
@@ -369,12 +412,12 @@ export function createPrinter(options?: PyPrinterOptions) {
         break;
 
       case PyNodeKind.MemberExpression:
-        parts.push(`${printNode(node.object)}.${printNode(node.member)}`);
+        parts.push(`${formatNode(node.object)}.${formatNode(node.member)}`);
         break;
 
       case PyNodeKind.RaiseStatement:
         if (node.expression) {
-          parts.push(printLine(`raise ${printNode(node.expression)}`));
+          parts.push(printLine(`raise ${formatNode(node.expression)}`));
         } else {
           parts.push(printLine('raise'));
         }
@@ -387,14 +430,14 @@ export function createPrinter(options?: PyPrinterOptions) {
           trailingBackslashes !== undefined &&
           trailingBackslashes[0].length % 2 !== 0;
         if (endsWithOddBackslashes) {
-          parts.push(createStringLiteral(node.value.replaceAll('\\', '\\\\')));
+          parts.push(createStringLiteral(escapeBackslashes(node.value)));
           break;
         }
         const result = selectQuote(node.value);
         if (result.conflict) {
           const tripleQuote = result.quote.repeat(3);
           if (node.value.includes(tripleQuote)) {
-            parts.push(createStringLiteral(node.value.replaceAll('\\', '\\\\')));
+            parts.push(createStringLiteral(escapeBackslashes(node.value)));
           } else {
             parts.push(`r${tripleQuote}${node.value}${tripleQuote}`);
           }
@@ -406,7 +449,7 @@ export function createPrinter(options?: PyPrinterOptions) {
 
       case PyNodeKind.ReturnStatement:
         if (node.expression) {
-          parts.push(printLine(`return ${printNode(node.expression)}`));
+          parts.push(printLine(`return ${formatNode(node.expression)}`));
         } else {
           parts.push(printLine('return'));
         }
@@ -415,11 +458,11 @@ export function createPrinter(options?: PyPrinterOptions) {
       case PyNodeKind.SetComprehension: {
         const asyncPrefix = node.isAsync ? 'async ' : '';
         const children: Array<string> = [
-          `${printNode(node.element)} ${asyncPrefix}for ${printNode(node.target)} in ${printNode(node.iterable)}`,
+          `${formatNode(node.element)} ${asyncPrefix}for ${formatNode(node.target)} in ${formatNode(node.iterable)}`,
         ];
         if (node.ifs) {
           for (const condition of node.ifs) {
-            children.push(`if ${printNode(condition)}`);
+            children.push(`if ${formatNode(condition)}`);
           }
         }
         parts.push(`{${children.join(' ')}}`);
@@ -430,7 +473,7 @@ export function createPrinter(options?: PyPrinterOptions) {
         if (!node.elements.length) {
           parts.push('set()');
         } else {
-          parts.push(`{${node.elements.map(printNode).join(', ')}}`);
+          parts.push(`{${node.elements.map(formatNode).join(', ')}}`);
         }
         break;
       }
@@ -439,31 +482,31 @@ export function createPrinter(options?: PyPrinterOptions) {
         if (node.docstring) {
           parts.push(...printDocstring(node.docstring));
         }
-        parts.push(...node.statements.map(printNode));
+        parts.push(...node.statements.map(formatNode));
         break;
 
       case PyNodeKind.SubscriptExpression:
-        parts.push(`${printNode(node.value)}[${printNode(node.slice)}]`);
+        parts.push(`${formatNode(node.value)}[${formatNode(node.slice)}]`);
         break;
 
       case PyNodeKind.SubscriptSlice:
-        parts.push(node.elements.map(printNode).join(', '));
+        parts.push(node.elements.map(formatNode).join(', '));
         break;
 
       case PyNodeKind.TryStatement: {
-        parts.push(printLine('try:'), printNode(node.tryBlock));
+        parts.push(printLine('try:'), formatNode(node.tryBlock));
         if (node.exceptClauses) {
           for (const clause of node.exceptClauses) {
-            const type = clause.exceptionType ? ` ${printNode(clause.exceptionType)}` : '';
-            const name = clause.exceptionName ? ` as ${printNode(clause.exceptionName)}` : '';
-            parts.push(printLine(`except${type}${name}:`), printNode(clause.block));
+            const type = clause.exceptionType ? ` ${formatNode(clause.exceptionType)}` : '';
+            const name = clause.exceptionName ? ` as ${formatNode(clause.exceptionName)}` : '';
+            parts.push(printLine(`except${type}${name}:`), formatNode(clause.block));
           }
         }
         if (node.elseBlock) {
-          parts.push(printLine(`else:`), printNode(node.elseBlock));
+          parts.push(printLine(`else:`), formatNode(node.elseBlock));
         }
         if (node.finallyBlock) {
-          parts.push(printLine(`finally:`), printNode(node.finallyBlock));
+          parts.push(printLine(`finally:`), formatNode(node.finallyBlock));
         }
         break;
       }
@@ -471,45 +514,45 @@ export function createPrinter(options?: PyPrinterOptions) {
       case PyNodeKind.TupleExpression: {
         // Single-element tuple needs trailing comma
         const trailingComma = node.elements.length === 1 ? ',' : '';
-        parts.push(`(${node.elements.map(printNode).join(', ')}${trailingComma})`);
+        parts.push(`(${node.elements.map(formatNode).join(', ')}${trailingComma})`);
         break;
       }
 
       case PyNodeKind.WhileStatement: {
-        parts.push(printLine(`while ${printNode(node.condition)}:`));
-        parts.push(printNode(node.body));
+        parts.push(printLine(`while ${formatNode(node.condition)}:`));
+        parts.push(formatNode(node.body));
         if (node.elseBlock) {
           parts.push(`${printLine('else:')}`);
-          parts.push(`${printNode(node.elseBlock)}`);
+          parts.push(`${formatNode(node.elseBlock)}`);
         }
         break;
       }
 
       case PyNodeKind.WithStatement: {
-        const modifiers = node.modifiers?.map(printNode).join(' ') ?? '';
+        const modifiers = node.modifiers?.map(formatNode).join(' ') ?? '';
         const withPrefix = modifiers ? `${modifiers} with` : 'with';
         const items = node.items
           .map((item) =>
             item.alias
-              ? `${printNode(item.contextExpr)} as ${printNode(item.alias)}`
-              : printNode(item.contextExpr),
+              ? `${formatNode(item.contextExpr)} as ${formatNode(item.alias)}`
+              : formatNode(item.contextExpr),
           )
           .join(', ');
         parts.push(printLine(`${withPrefix} ${items}:`));
-        parts.push(printNode(node.body));
+        parts.push(formatNode(node.body));
         break;
       }
 
       case PyNodeKind.YieldExpression:
         if (node.value) {
-          parts.push(`yield ${printNode(node.value)}`);
+          parts.push(`yield ${formatNode(node.value)}`);
         } else {
           parts.push('yield');
         }
         break;
 
       case PyNodeKind.YieldFromExpression:
-        parts.push(`yield from ${printNode(node.expression)}`);
+        parts.push(`yield from ${formatNode(node.expression)}`);
         break;
 
       default:
@@ -523,16 +566,13 @@ export function createPrinter(options?: PyPrinterOptions) {
     return parts.join('\n');
   }
 
-  function printFile(node: PyNode): string {
-    const parts: Array<string> = [printNode(node), ''];
-    return parts.join('\n');
+  function format(node: PyNode): string {
+    const text = formatNode(node);
+    return text === '' ? '' : `${text}\n`;
   }
 
   return {
-    printFile,
+    format,
+    formatNode,
   };
-}
-
-export function printAst(node: PyNode): string {
-  return JSON.stringify(node, null, 2);
 }

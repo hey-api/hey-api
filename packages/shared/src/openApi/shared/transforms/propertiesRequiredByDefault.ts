@@ -64,7 +64,7 @@ const walkSchemas = ({
  *
  * @param spec - The OpenAPI spec object to transform
  */
-export const propertiesRequiredByDefaultTransform = ({ spec }: { spec: unknown }) => {
+export function propertiesRequiredByDefaultTransform({ spec }: { spec: unknown }) {
   walkSchemas({
     key: null,
     node: spec,
@@ -88,4 +88,4 @@ export const propertiesRequiredByDefaultTransform = ({ spec }: { spec: unknown }
       }
     },
   });
-};
+}

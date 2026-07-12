@@ -1,7 +1,7 @@
 import type { AnalysisContext, NodeName, Ref } from '@hey-api/codegen-core';
 import { ref } from '@hey-api/codegen-core';
-import ts from 'typescript';
 
+import { ts } from '../../ts-compiler';
 import type { MaybeTsDsl } from '../base';
 import { TsDsl } from '../base';
 import { AsMixin } from '../mixins/as';
@@ -27,6 +27,26 @@ type Operator =
   | '??'
   | '??='
   | '||';
+
+const OPERATOR_TOKENS: Record<Operator, ts.BinaryOperator> = {
+  '!=': ts.SyntaxKind.ExclamationEqualsToken,
+  '!==': ts.SyntaxKind.ExclamationEqualsEqualsToken,
+  '&&': ts.SyntaxKind.AmpersandAmpersandToken,
+  '*': ts.SyntaxKind.AsteriskToken,
+  '+': ts.SyntaxKind.PlusToken,
+  '-': ts.SyntaxKind.MinusToken,
+  '/': ts.SyntaxKind.SlashToken,
+  '<': ts.SyntaxKind.LessThanToken,
+  '<=': ts.SyntaxKind.LessThanEqualsToken,
+  '=': ts.SyntaxKind.EqualsToken,
+  '==': ts.SyntaxKind.EqualsEqualsToken,
+  '===': ts.SyntaxKind.EqualsEqualsEqualsToken,
+  '>': ts.SyntaxKind.GreaterThanToken,
+  '>=': ts.SyntaxKind.GreaterThanEqualsToken,
+  '??': ts.SyntaxKind.QuestionQuestionToken,
+  '??=': ts.SyntaxKind.QuestionQuestionEqualsToken,
+  '||': ts.SyntaxKind.BarBarToken,
+};
 
 const Mixed = AsMixin(ExprMixin(TsDsl<ts.BinaryExpression>));
 
@@ -143,7 +163,9 @@ export class BinaryTsDsl extends Mixed {
   override toAst() {
     this.$validate();
     const base = this.$node(this._base);
-    const operator = typeof this._op === 'string' ? this.opToToken(this._op) : this._op;
+    const op = this._op as Op;
+    const operator =
+      op in OPERATOR_TOKENS ? this.opToToken(op as Operator) : (op as ts.BinaryOperator);
     return ts.factory.createBinaryExpression(base, operator, this.$node(this._expr));
   }
 
@@ -171,26 +193,7 @@ export class BinaryTsDsl extends Mixed {
   }
 
   private opToToken(op: Operator): ts.BinaryOperator | ts.BinaryOperatorToken {
-    const tokenMap: Record<Operator, ts.BinaryOperator> = {
-      '!=': ts.SyntaxKind.ExclamationEqualsToken,
-      '!==': ts.SyntaxKind.ExclamationEqualsEqualsToken,
-      '&&': ts.SyntaxKind.AmpersandAmpersandToken,
-      '*': ts.SyntaxKind.AsteriskToken,
-      '+': ts.SyntaxKind.PlusToken,
-      '-': ts.SyntaxKind.MinusToken,
-      '/': ts.SyntaxKind.SlashToken,
-      '<': ts.SyntaxKind.LessThanToken,
-      '<=': ts.SyntaxKind.LessThanEqualsToken,
-      '=': ts.SyntaxKind.EqualsToken,
-      '==': ts.SyntaxKind.EqualsEqualsToken,
-      '===': ts.SyntaxKind.EqualsEqualsEqualsToken,
-      '>': ts.SyntaxKind.GreaterThanToken,
-      '>=': ts.SyntaxKind.GreaterThanEqualsToken,
-      '??': ts.SyntaxKind.QuestionQuestionToken,
-      '??=': ts.SyntaxKind.QuestionQuestionEqualsToken,
-      '||': ts.SyntaxKind.BarBarToken,
-    };
-    const token = tokenMap[op];
+    const token = OPERATOR_TOKENS[op];
     if (!token) {
       throw new Error(`Unsupported operator: ${op}`);
     }

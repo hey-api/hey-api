@@ -3,12 +3,7 @@ import path from 'node:path';
 
 import { defineConfig } from 'tsdown';
 
-const replaceCoreImports = (filePath: string) => {
-  let content = fs.readFileSync(filePath, 'utf8');
-  // Replace '../../client-core/bundle' with '../core'
-  content = content.replace(/from ['"]\.\.\/\.\.\/client-core\/bundle/g, "from '../core");
-  fs.writeFileSync(filePath, content, 'utf8');
-};
+import { clientPlugins, getClientBundleDir, replaceCoreImports } from './tsdown-utils.ts';
 
 export default defineConfig({
   attw: {
@@ -30,26 +25,8 @@ export default defineConfig({
   entry: ['./src/{index,internal,plugins,run}.ts'],
   onSuccess: async () => {
     // Copy client files to dist folder for runtime access
-    const pluginNames = [
-      'client-angular',
-      'client-axios',
-      'client-core',
-      'client-fetch',
-      'client-ky',
-      'client-next',
-      'client-nuxt',
-      'client-ofetch',
-    ];
-
-    for (const pluginName of pluginNames) {
-      const srcPath = path.resolve(
-        import.meta.dirname,
-        'src',
-        'plugins',
-        '@hey-api',
-        pluginName,
-        'bundle',
-      );
+    for (const pluginName of clientPlugins) {
+      const srcPath = getClientBundleDir(pluginName);
       const destPath = path.resolve(
         import.meta.dirname,
         'dist',
@@ -64,7 +41,10 @@ export default defineConfig({
         // replace core imports in client bundle
         const clientFiles = fs.readdirSync(destPath);
         for (const file of clientFiles) {
-          replaceCoreImports(path.resolve(destPath, file));
+          const filePath = path.resolve(destPath, file);
+          let content = fs.readFileSync(filePath, 'utf8');
+          content = replaceCoreImports(content);
+          fs.writeFileSync(filePath, content, 'utf8');
         }
       }
     }

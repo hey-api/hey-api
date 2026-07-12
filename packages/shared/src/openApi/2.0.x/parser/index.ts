@@ -24,7 +24,7 @@ import { validateOpenApiSpec } from './validate';
 type PathKeys<T extends keyof OpenAPIV2.PathsObject = keyof OpenAPIV2.PathsObject> =
   keyof T extends infer K ? (K extends `/${string}` ? K : never) : never;
 
-export const parseV2_0_X = (context: Context<OpenAPIV2.Document>) => {
+export function parseV2_0_X(context: Context<OpenAPIV2.Document>): void {
   if (context.config.parser.validate_EXPERIMENTAL) {
     const result = validateOpenApiSpec(context.spec, context.logger);
     handleValidatorResult({ context, result });
@@ -250,4 +250,4 @@ export const parseV2_0_X = (context: Context<OpenAPIV2.Document>) => {
       });
     }
   }
-};
+}

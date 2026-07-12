@@ -1,6 +1,6 @@
 import type { AnalysisContext, NodeScope } from '@hey-api/codegen-core';
-import ts from 'typescript';
 
+import { ts } from '../../ts-compiler';
 import { TsDsl } from '../base';
 import { TypeIdxSigTsDsl } from './idx-sig';
 import { TypePropTsDsl } from './prop';

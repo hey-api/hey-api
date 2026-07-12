@@ -6,15 +6,9 @@ export interface TsIdentifier extends TsNodeBase {
   text: string;
 }
 
-export function createIdentifier(
-  text: string,
-  leadingComments?: ReadonlyArray<string>,
-  trailingComments?: ReadonlyArray<string>,
-): TsIdentifier {
+export function createIdentifier(text: string): TsIdentifier {
   return {
     kind: TsNodeKind.Identifier,
-    leadingComments,
     text,
-    trailingComments,
   };
 }

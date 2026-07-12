@@ -49,10 +49,13 @@ export type {
 export { Symbol } from './symbols/symbol';
 export type {
   BindingKind,
+  RegistryDumpEntry,
   ISymbolChild as SymbolChild,
+  SymbolDump,
   ISymbolIdentifier as SymbolIdentifier,
   ISymbolIn as SymbolIn,
   SymbolKind,
+  SymbolOrigin,
   ISymbolRegistry as SymbolRegistry,
 } from './symbols/types';
 export { Version } from './version';

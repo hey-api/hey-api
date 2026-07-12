@@ -2,6 +2,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 import { ts } from '../../index';
+import type { TsNode } from '../../nodes/base';
+import type { TsSourceFile } from '../../nodes/structure/source-file';
 import { snapshotsDir, tmpDir } from '../constants';
 
 function getCallerFile(): string {
@@ -18,11 +20,8 @@ function getCallerFile(): string {
   return match[1];
 }
 
-export async function assertPrintedMatchesSnapshot(
-  file: ts.SourceFile,
-  filename: string,
-): Promise<void> {
-  const result = ts.createPrinter().printFile(file);
+export async function assertNodePrintedMatchesSnapshot(node: TsNode, filename: string) {
+  const result = ts.createPrinter().format(node);
 
   const caller = getCallerFile();
   const relPath = path
@@ -35,9 +34,22 @@ export async function assertPrintedMatchesSnapshot(
   fs.writeFileSync(outputPath, result);
 
   const snapshotPath = path.join(snapshotsDir, relPath, filename);
+  await expect(result).toMatchFileSnapshot(snapshotPath);
+}
 
-  const snapshotDir = path.dirname(snapshotPath);
-  fs.mkdirSync(snapshotDir, { recursive: true });
+export async function assertPrintedMatchesSnapshot(file: TsSourceFile, filename: string) {
+  const result = ts.createPrinter().format(file);
 
+  const caller = getCallerFile();
+  const relPath = path
+    .relative(path.join(process.cwd(), 'src', 'ts-compiler', '__tests__'), caller)
+    .replace(/\.test\.ts$/, '');
+  const outputPath = path.join(tmpDir, relPath, filename);
+  const outputDir = path.dirname(outputPath);
+
+  fs.mkdirSync(outputDir, { recursive: true });
+  fs.writeFileSync(outputPath, result);
+
+  const snapshotPath = path.join(snapshotsDir, relPath, filename);
   await expect(result).toMatchFileSnapshot(snapshotPath);
 }

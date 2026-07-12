@@ -51,13 +51,13 @@ for dir in "$ROOT_DIR"/examples/*/; do
     # Format generated files in this example only to keep the step fast
     if command -v pnpm >/dev/null 2>&1 && pnpm -w -s --version >/dev/null 2>&1; then
       pnpm -s exec oxfmt "src/**/*.{ts,tsx,js,jsx}" || true
-      pnpm -s exec eslint --fix "src/**/*.{ts,tsx,js,jsx}" || true
+      pnpm -s exec oxlint --fix "src/**/*.{ts,tsx,js,jsx}" || true
     else
       if [ -x "node_modules/.bin/oxfmt" ]; then
         ./node_modules/.bin/oxfmt "src/**/*.{ts,tsx,js,jsx}" || true
       fi
-      if [ -x "node_modules/.bin/eslint" ]; then
-        ./node_modules/.bin/eslint --fix "src/**/*.{ts,tsx,js,jsx}" || true
+      if [ -x "node_modules/.bin/oxlint" ]; then
+        ./node_modules/.bin/oxlint --fix "src/**/*.{ts,tsx,js,jsx}" || true
       fi
     fi
 

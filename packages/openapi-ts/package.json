@@ -82,6 +82,7 @@
   },
   "scripts": {
     "build": "tsdown",
+    "build:exe": "tsdown --config tsdown.exe.config.ts",
     "dev": "tsdown --watch",
     "prepublishOnly": "pnpm build",
     "typecheck": "tsgo --noEmit"
@@ -104,10 +105,8 @@
     "@angular/compiler-cli": "21.2.17",
     "@angular/core": "21.2.17",
     "@angular/platform-browser": "21.2.17",
-    "@angular/platform-browser-dynamic": "21.2.17",
     "@angular/router": "21.2.17",
     "axios": "1.13.4",
-    "eslint": "9.39.4",
     "ky": "1.14.3",
     "nuxt": "3.14.1592",
     "ofetch": "1.5.1",
@@ -115,9 +114,6 @@
     "typescript": "6.0.3",
     "vue": "3.5.25",
     "zone.js": "0.16.2"
-  },
-  "peerDependencies": {
-    "typescript": ">=5.5.3 || >=6.0.0 || 6.0.1-rc"
   },
   "engines": {
     "node": ">=22.18.0"

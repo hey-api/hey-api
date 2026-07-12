@@ -63,7 +63,7 @@ jobs:
         with:
           enable-cache: true
 
-      - name: Install dependencies
+      - name: Install Node dependencies
         run: pnpm install --frozen-lockfile
 
       - name: Build packages
@@ -94,3 +94,87 @@ jobs:
         run: ./scripts/publish-preview-packages.sh
         env:
           TURBO_SCM_BASE: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
+
+  executables:
+    name: Executables (${{ matrix.package }})
+    needs: [setup, ci]
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        package: [openapi-ts, openapi-python]
+    env:
+      TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+      TURBO_TELEMETRY_DISABLED: 1
+      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
+
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        with:
+          node-version: ${{ needs.setup.outputs.node-version }}
+          cache: pnpm
+
+      - name: Install Node dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Cache Node.js SEA binaries
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.cache/tsdown/node
+          key: tsdown-sea-${{ hashFiles('.nvmrc') }}
+
+      # Workaround: @tsdown/exe uses `tar` for all platforms, but Windows
+      # Node.js binaries are .zip files. GNU tar on Linux cannot extract zip.
+      # Pre-extract with unzip into tsdown's cache so it skips the download.
+      # TODO: remove when https://github.com/rolldown/tsdown/issues/XXX is fixed
+      - name: Pre-extract Windows Node.js binary
+        run: |
+          NODE_VERSION=$(cat .nvmrc)
+          CACHE_DIR="$HOME/.cache/tsdown/node/v${NODE_VERSION}/win-x64"
+          if [ ! -f "$CACHE_DIR/node.exe" ]; then
+            mkdir -p "$CACHE_DIR"
+            curl -fsSL -o /tmp/node-win.zip \
+              "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-win-x64.zip"
+            unzip -jo /tmp/node-win.zip "node-v${NODE_VERSION}-win-x64/node.exe" -d "$CACHE_DIR"
+            rm /tmp/node-win.zip
+          fi
+
+      - name: Build executables
+        run: pnpm tb:exe "@hey-api/${{ matrix.package }}"
+
+      - name: Smoke test executables
+        run: |
+          build_dir="packages/${{ matrix.package }}/build"
+
+          # Verify all expected targets exist
+          found=0
+          for bin in "$build_dir"/*; do
+            [ -f "$bin" ] && found=$((found + 1))
+          done
+          if [ "$found" -eq 0 ]; then
+            echo "::error::No executables found in $build_dir"
+            exit 1
+          fi
+          echo "Found $found executable(s)"
+
+          # Execute the linux-x64 binary (only one we can run on this runner)
+          bin=$(find "$build_dir" -name '*-linux-x64' -type f | head -1)
+          if [ -n "$bin" ]; then
+            chmod +x "$bin"
+            echo "Testing $(basename "$bin")..."
+            "$bin" --version
+            "$bin" --help > /dev/null
+          fi
+
+      - name: Upload executables
+        if: github.ref == 'refs/heads/main'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: executable-${{ matrix.package }}
+          path: packages/${{ matrix.package }}/build/*
+          retention-days: 30

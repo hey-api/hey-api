@@ -6,7 +6,7 @@ import { refToName } from '../../../utils/ref';
 import { mediaTypeObjects } from './mediaType';
 import { schemaToIrSchema } from './schema';
 
-const requestBodyToIrRequestBody = ({
+function requestBodyToIrRequestBody({
   $ref,
   context,
   requestBody,
@@ -14,7 +14,7 @@ const requestBodyToIrRequestBody = ({
   $ref: string;
   context: Context;
   requestBody: OpenAPIV3_1.RequestBodyObject;
-}): IR.RequestBodyObject => {
+}): IR.RequestBodyObject {
   // TODO: parser - fix
   const contents = mediaTypeObjects({ content: requestBody.content });
   // TODO: add support for multiple content types, for now prefer JSON
@@ -46,9 +46,9 @@ const requestBodyToIrRequestBody = ({
   }
 
   return irRequestBody;
-};
+}
 
-export const parseRequestBody = ({
+export function parseRequestBody({
   $ref,
   context,
   requestBody,
@@ -56,7 +56,7 @@ export const parseRequestBody = ({
   $ref: string;
   context: Context;
   requestBody: OpenAPIV3_1.RequestBodyObject;
-}) => {
+}) {
   if (!context.ir.components) {
     context.ir.components = {};
   }
@@ -70,4 +70,4 @@ export const parseRequestBody = ({
     context,
     requestBody,
   });
-};
+}

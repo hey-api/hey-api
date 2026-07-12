@@ -14,7 +14,7 @@ export type SymbolEventMap = {
   import: (args: { symbol: Symbol }) => void;
 };
 
-export interface ISymbolChild {
+export type ISymbolChild = {
   /**
    * Kind of symbol (class, type, alias, etc.).
    *
@@ -33,7 +33,7 @@ export interface ISymbolChild {
    * @default false
    */
   overridable?: boolean;
-}
+};
 
 export type ISymbolIn = {
   /**
@@ -94,6 +94,12 @@ export type ISymbolIn = {
    */
   name: string;
   /**
+   * Provenance tag indicating which pipeline phase created this symbol.
+   *
+   * @default undefined
+   */
+  origin?: SymbolOrigin;
+  /**
    * When true, this symbol intentionally overrides another declaration with
    * the same name in the same scope.
    *
@@ -109,7 +115,13 @@ export type ISymbolIn = {
   priority?: number;
 };
 
-export interface ISymbolRegistry {
+export type ISymbolRegistry = {
+  /**
+   * Returns a serializable snapshot of all symbols in the registry.
+   *
+   * @returns Array of symbol entries.
+   */
+  dump(): ReadonlyArray<RegistryDumpEntry>;
   /**
    * Get a symbol.
    *
@@ -159,4 +171,29 @@ export interface ISymbolRegistry {
    * @returns Array of all registered symbols, in insert order.
    */
   registered(): IterableIterator<Symbol>;
-}
+};
+
+export type SymbolOrigin = 'planner:export' | 'planner:import';
+
+export type SymbolDump = {
+  canonicalId?: number;
+  exported: boolean;
+  external?: string;
+  finalName?: string;
+  id: number;
+  importIds: string;
+  importKind: BindingKind;
+  isCanonical: boolean;
+  isRenamed: boolean;
+  kind: SymbolKind;
+  logicalFilePath?: string;
+  meta?: ISymbolMeta;
+  name: string;
+  origin?: SymbolOrigin;
+  override: boolean;
+  priority: number;
+};
+
+export type RegistryDumpEntry = SymbolDump & {
+  status: 'registered' | 'stub';
+};

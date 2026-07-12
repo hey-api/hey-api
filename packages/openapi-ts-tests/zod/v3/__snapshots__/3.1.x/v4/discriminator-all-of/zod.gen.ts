@@ -3,56 +3,56 @@
 import * as z from 'zod/v4';
 
 export const zFoo = z.object({
-    id: z.string()
+  id: z.string()
 });
 
 export const zBar = zFoo.and(z.object({
-    bar: z.string().optional(),
-    id: z.literal('Bar')
+  bar: z.string().optional(),
+  id: z.literal('Bar')
 }));
 
 export const zBaz = zFoo.and(z.object({
-    baz: z.string().optional(),
-    id: z.literal('Baz')
+  baz: z.string().optional(),
+  id: z.literal('Baz')
 }));
 
 export const zQux = zFoo.and(z.object({
-    qux: z.boolean().optional(),
-    id: z.literal('Qux')
+  qux: z.boolean().optional(),
+  id: z.literal('Qux')
 }));
 
 export const zFooMapped = z.object({
-    id: z.string()
+  id: z.string()
 });
 
 export const zBarMapped = zFooMapped.and(z.object({
-    bar: z.string().optional(),
-    id: z.literal('bar')
+  bar: z.string().optional(),
+  id: z.literal('bar')
 }));
 
 export const zBazMapped = zFooMapped.and(z.object({
-    baz: z.string().optional(),
-    id: z.literal('baz')
+  baz: z.string().optional(),
+  id: z.literal('baz')
 }));
 
 export const zQuxMapped = zFooMapped.and(z.object({
-    qux: z.boolean().optional(),
-    id: z.literal('QuxMapped')
+  qux: z.boolean().optional(),
+  id: z.literal('QuxMapped')
 }));
 
 export const zBarUnion = z.object({
-    id: z.string().optional(),
-    bar: z.string().optional()
+  id: z.string().optional(),
+  bar: z.string().optional()
 });
 
 export const zBazUnion = z.object({
-    id: z.string().optional(),
-    baz: z.string().optional()
+  id: z.string().optional(),
+  baz: z.string().optional()
 });
 
 export const zFooUnion = z.discriminatedUnion('id', [
-    zBarUnion.extend({ id: z.literal('bar') }),
-    zBazUnion.extend({ id: z.literal('baz') })
+  zBarUnion.extend({ id: z.literal('bar') }),
+  zBazUnion.extend({ id: z.literal('baz') })
 ]);
 
 export const zQuxExtend = zFooUnion;

@@ -333,5 +333,6 @@ export type { ExampleOptions } from './utils/context';
 export { ctx, PyDslContext } from './utils/context';
 export { keywords } from './utils/keywords';
 export { regexp } from './utils/regexp';
+export type { UserPrinter } from './utils/render';
 export { PythonRenderer } from './utils/render';
 export { reserved } from './utils/reserved';

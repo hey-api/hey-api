@@ -87,41 +87,41 @@ export const zSimpleStringWithPattern = z.string().max(64).regex(/^[a-zA-Z0-9_]*
  * This is a simple enum with strings
  */
 export const zEnumWithStrings = z.enum([
-    'Success',
-    'Warning',
-    'Error',
-    '\'Single Quote\'',
-    '"Double Quotes"',
-    'Non-ascii: øæåôöØÆÅÔÖ字符串'
+  'Success',
+  'Warning',
+  'Error',
+  '\'Single Quote\'',
+  '"Double Quotes"',
+  'Non-ascii: øæåôöØÆÅÔÖ字符串'
 ]);
 
 export const zEnumWithReplacedCharacters = z.union([
-    z.literal('\'Single Quote\''),
-    z.literal('"Double Quotes"'),
-    z.literal('øæåôöØÆÅÔÖ字符串'),
-    z.literal(3.1),
-    z.literal('')
+  z.literal('\'Single Quote\''),
+  z.literal('"Double Quotes"'),
+  z.literal('øæåôöØÆÅÔÖ字符串'),
+  z.literal(3.1),
+  z.literal('')
 ]);
 
 /**
  * This is a simple enum with numbers
  */
 export const zEnumWithNumbers = z.union([
-    z.literal(1),
-    z.literal(2),
-    z.literal(3),
-    z.literal(1.1),
-    z.literal(1.2),
-    z.literal(1.3),
-    z.literal(100),
-    z.literal(200),
-    z.literal(300),
-    z.literal(-100),
-    z.literal(-200),
-    z.literal(-300),
-    z.literal(-1.1),
-    z.literal(-1.2),
-    z.literal(-1.3)
+  z.literal(1),
+  z.literal(2),
+  z.literal(3),
+  z.literal(1.1),
+  z.literal(1.2),
+  z.literal(1.3),
+  z.literal(100),
+  z.literal(200),
+  z.literal(300),
+  z.literal(-100),
+  z.literal(-200),
+  z.literal(-300),
+  z.literal(-1.1),
+  z.literal(-1.2),
+  z.literal(-1.3)
 ]).default(200);
 
 /**
@@ -133,15 +133,15 @@ export const zEnumFromDescription = z.number();
  * This is a simple enum with numbers
  */
 export const zEnumWithExtensions = z.union([
-    z.literal(200),
-    z.literal(400),
-    z.literal(500)
+  z.literal(200),
+  z.literal(400),
+  z.literal(500)
 ]);
 
 export const zEnumWithXEnumNames = z.union([
-    z.literal(0),
-    z.literal(1),
-    z.literal(2)
+  z.literal(0),
+  z.literal(1),
+  z.literal(2)
 ]);
 
 /**
@@ -163,32 +163,32 @@ export const zArrayWithStrings = z.array(z.string()).default(['test']);
  * This is a simple array with properties
  */
 export const zArrayWithProperties = z.array(z.object({
-    '16x16': zCamelCaseCommentWithBreaks.optional(),
-    bar: z.string().optional()
+  '16x16': zCamelCaseCommentWithBreaks.optional(),
+  bar: z.string().optional()
 }));
 
 /**
  * This is a simple array with any of properties
  */
 export const zArrayWithAnyOfProperties = z.array(z.union([z.object({
-        foo: z.string().optional().default('test')
-    }), z.object({
-        bar: z.string().optional()
-    })]));
+    foo: z.string().optional().default('test')
+  }), z.object({
+    bar: z.string().optional()
+  })]));
 
 export const zAnyOfAnyAndNull = z.object({
-    data: z.unknown().optional()
+  data: z.unknown().optional()
 });
 
 /**
  * This is a simple array with any of properties
  */
 export const zAnyOfArrays = z.object({
-    results: z.array(z.union([z.object({
-            foo: z.string().optional()
-        }), z.object({
-            bar: z.string().optional()
-        })])).optional()
+  results: z.array(z.union([z.object({
+      foo: z.string().optional()
+    }), z.object({
+      bar: z.string().optional()
+    })])).optional()
 });
 
 /**
@@ -197,8 +197,8 @@ export const zAnyOfArrays = z.object({
 export const zDictionaryWithString = z.record(z.string());
 
 export const zDictionaryWithPropertiesAndAdditionalProperties = z.object({
-    foo: z.number().optional(),
-    bar: z.boolean().optional()
+  foo: z.number().optional(),
+  bar: z.boolean().optional()
 });
 
 /**
@@ -210,29 +210,29 @@ export const zDictionaryWithDictionary = z.record(z.record(z.string()));
  * This is a complex dictionary
  */
 export const zDictionaryWithProperties = z.record(z.object({
-    foo: z.string().optional(),
-    bar: z.string().optional()
+  foo: z.string().optional(),
+  bar: z.string().optional()
 }));
 
 /**
  * This is a model with one number property
  */
 export const zModelWithInteger = z.object({
-    prop: z.number().int().optional()
+  prop: z.number().int().optional()
 });
 
 /**
  * This is a model with one boolean property
  */
 export const zModelWithBoolean = z.object({
-    prop: z.boolean().optional()
+  prop: z.boolean().optional()
 });
 
 /**
  * This is a model with one string property
  */
 export const zModelWithString = z.object({
-    prop: z.string().optional()
+  prop: z.string().optional()
 });
 
 /**
@@ -264,7 +264,7 @@ export const zDictionaryWithArray = z.record(z.array(zModelWithString));
  * This is a model with one string property
  */
 export const zModelWithStringError = z.object({
-    prop: z.string().optional()
+  prop: z.string().optional()
 });
 
 /**
@@ -276,91 +276,91 @@ export const zModelFromZendesk = z.string();
  * This is a model with one string property
  */
 export const zModelWithNullableString = z.object({
-    nullableProp1: z.string().nullish(),
-    nullableRequiredProp1: z.string().nullable(),
-    nullableProp2: z.string().nullish(),
-    nullableRequiredProp2: z.string().nullable(),
-    'foo_bar-enum': z.enum([
-        'Success',
-        'Warning',
-        'Error',
-        'ØÆÅ字符串'
-    ]).optional()
+  nullableProp1: z.string().nullish(),
+  nullableRequiredProp1: z.string().nullable(),
+  nullableProp2: z.string().nullish(),
+  nullableRequiredProp2: z.string().nullable(),
+  'foo_bar-enum': z.enum([
+    'Success',
+    'Warning',
+    'Error',
+    'ØÆÅ字符串'
+  ]).optional()
 });
 
 /**
  * This is a model with one enum
  */
 export const zModelWithEnum = z.object({
-    'foo_bar-enum': z.enum([
-        'Success',
-        'Warning',
-        'Error',
-        'ØÆÅ字符串'
-    ]).optional(),
-    statusCode: z.enum([
-        '100',
-        '200 FOO',
-        '300 FOO_BAR',
-        '400 foo-bar',
-        '500 foo.bar',
-        '600 foo&bar'
-    ]).optional(),
-    bool: z.literal(true).optional()
+  'foo_bar-enum': z.enum([
+    'Success',
+    'Warning',
+    'Error',
+    'ØÆÅ字符串'
+  ]).optional(),
+  statusCode: z.enum([
+    '100',
+    '200 FOO',
+    '300 FOO_BAR',
+    '400 foo-bar',
+    '500 foo.bar',
+    '600 foo&bar'
+  ]).optional(),
+  bool: z.literal(true).optional()
 });
 
 /**
  * This is a model with one enum with escaped name
  */
 export const zModelWithEnumWithHyphen = z.object({
-    'foo-bar-baz-qux': z.enum(['3.0']).optional().default('3.0')
+  'foo-bar-baz-qux': z.enum(['3.0']).optional().default('3.0')
 });
 
 /**
  * This is a model with one enum
  */
 export const zModelWithEnumFromDescription = z.object({
-    test: z.number().int().optional()
+  test: z.number().int().optional()
 });
 
 /**
  * This is a model with nested enums
  */
 export const zModelWithNestedEnums = z.object({
-    dictionaryWithEnum: z.record(z.enum([
-        'Success',
-        'Warning',
-        'Error'
-    ])).optional(),
-    dictionaryWithEnumFromDescription: z.record(z.number().int()).optional(),
-    arrayWithEnum: z.array(z.enum([
-        'Success',
-        'Warning',
-        'Error'
-    ])).optional(),
-    arrayWithDescription: z.array(z.number().int()).optional(),
-    'foo_bar-enum': z.enum([
-        'Success',
-        'Warning',
-        'Error',
-        'ØÆÅ字符串'
-    ]).optional()
+  dictionaryWithEnum: z.record(z.enum([
+    'Success',
+    'Warning',
+    'Error'
+  ])).optional(),
+  dictionaryWithEnumFromDescription: z.record(z.number().int()).optional(),
+  arrayWithEnum: z.array(z.enum([
+    'Success',
+    'Warning',
+    'Error'
+  ])).optional(),
+  arrayWithDescription: z.array(z.number().int()).optional(),
+  'foo_bar-enum': z.enum([
+    'Success',
+    'Warning',
+    'Error',
+    'ØÆÅ字符串'
+  ]).optional()
 });
 
 /**
  * This is a model with one property containing an array
  */
 export const zModelWithArray = z.object({
-    prop: z.array(zModelWithString).optional(),
-    propWithFile: z.array(z.string()).optional(),
-    propWithNumber: z.array(z.number()).optional()
+  prop: z.array(zModelWithString).optional(),
+  propWithFile: z.array(z.string()).optional(),
+  propWithNumber: z.array(z.number()).optional()
 });
 
 /**
  * This is a model with one property containing a dictionary
  */
 export const zModelWithDictionary = z.object({
-    prop: z.record(z.string()).optional()
+  prop: z.record(z.string()).optional()
 });
 
 /**
@@ -369,98 +369,98 @@ export const zModelWithDictionary = z.object({
  * @deprecated
  */
 export const zDeprecatedModel = z.object({
-    prop: z.string().optional()
+  prop: z.string().optional()
 });
 
 /**
  * This is a model with one property containing a circular reference
  */
 export const zModelWithCircularReference: z.AnyZodObject = z.object({
-    prop: z.lazy(() => zModelWithCircularReference).optional()
+  prop: z.lazy(() => zModelWithCircularReference).optional()
 });
 
 /**
  * This is a model with one property with a 'one of' relationship
  */
 export const zCompositionWithOneOf = z.object({
-    propA: z.union([
-        zModelWithString,
-        zModelWithEnum,
-        zModelWithArray,
-        zModelWithDictionary
-    ]).optional()
+  propA: z.union([
+    zModelWithString,
+    zModelWithEnum,
+    zModelWithArray,
+    zModelWithDictionary
+  ]).optional()
 });
 
 /**
  * This is a model with one property with a 'one of' relationship where the options are not $ref
  */
 export const zCompositionWithOneOfAnonymous = z.object({
-    propA: z.union([
-        z.object({
-            propA: z.string().optional()
-        }),
-        z.string(),
-        z.number().int()
-    ]).optional()
+  propA: z.union([
+    z.object({
+      propA: z.string().optional()
+    }),
+    z.string(),
+    z.number().int()
+  ]).optional()
 });
 
 /**
  * Circle
  */
 export const zModelCircle = z.object({
-    kind: z.string(),
-    radius: z.number().optional()
+  kind: z.string(),
+  radius: z.number().optional()
 });
 
 /**
  * Square
  */
 export const zModelSquare = z.object({
-    kind: z.string(),
-    sideLength: z.number().optional()
+  kind: z.string(),
+  sideLength: z.number().optional()
 });
 
 /**
  * This is a model with one property with a 'one of' relationship where the options are not $ref
  */
 export const zCompositionWithOneOfDiscriminator = z.discriminatedUnion('kind', [
-    zModelCircle.extend({ kind: z.literal('circle') }),
-    zModelSquare.extend({ kind: z.literal('square') })
+  zModelCircle.extend({ kind: z.literal('circle') }),
+  zModelSquare.extend({ kind: z.literal('square') })
 ]);
 
 /**
  * This is a model with one property with a 'any of' relationship
  */
 export const zCompositionWithAnyOf = z.object({
-    propA: z.union([
-        zModelWithString,
-        zModelWithEnum,
-        zModelWithArray,
-        zModelWithDictionary
-    ]).optional()
+  propA: z.union([
+    zModelWithString,
+    zModelWithEnum,
+    zModelWithArray,
+    zModelWithDictionary
+  ]).optional()
 });
 
 /**
  * This is a model with one property with a 'any of' relationship where the options are not $ref
  */
 export const zCompositionWithAnyOfAnonymous = z.object({
-    propA: z.union([
-        z.object({
-            propA: z.string().optional()
-        }),
-        z.string(),
-        z.number().int()
-    ]).optional()
+  propA: z.union([
+    z.object({
+      propA: z.string().optional()
+    }),
+    z.string(),
+    z.number().int()
+  ]).optional()
 });
 
 /**
  * This is a model with nested 'any of' property with a type null
  */
 export const zCompositionWithNestedAnyAndTypeNull = z.object({
-    propA: z.union([
-        z.array(zModelWithDictionary.nullable()),
-        z.array(zModelWithArray.nullable())
-    ]).optional()
+  propA: z.union([
+    z.array(zModelWithDictionary.nullable()),
+    z.array(zModelWithArray.nullable())
+  ]).optional()
 });
 
 export const z3eNum1Период = z.enum(['Bird', 'Dog']);
@@ -471,202 +471,202 @@ export const zConstValue = z.enum(['ConstValue']);
  * This is a model with one property with a 'any of' relationship where the options are not $ref
  */
 export const zCompositionWithNestedAnyOfAndNull = z.object({
-    propA: z.array(z.union([z3eNum1Период, zConstValue])).nullish()
+  propA: z.array(z.union([z3eNum1Период, zConstValue])).nullish()
 });
 
 /**
  * This is a model with one property with a 'one of' relationship
  */
 export const zCompositionWithOneOfAndNullable = z.object({
-    propA: z.union([
-        z.object({
-            boolean: z.boolean().optional()
-        }),
-        zModelWithEnum,
-        zModelWithArray,
-        zModelWithDictionary
-    ]).nullish()
+  propA: z.union([
+    z.object({
+      boolean: z.boolean().optional()
+    }),
+    zModelWithEnum,
+    zModelWithArray,
+    zModelWithDictionary
+  ]).nullish()
 });
 
 /**
  * This is a model that contains a simple dictionary within composition
  */
 export const zCompositionWithOneOfAndSimpleDictionary = z.object({
-    propA: z.union([
-        z.boolean(),
-        z.record(z.number())
-    ]).optional()
+  propA: z.union([
+    z.boolean(),
+    z.record(z.number())
+  ]).optional()
 });
 
 /**
  * This is a model that contains a dictionary of simple arrays within composition
  */
 export const zCompositionWithOneOfAndSimpleArrayDictionary = z.object({
-    propA: z.union([
-        z.boolean(),
-        z.record(z.array(z.boolean()))
-    ]).optional()
+  propA: z.union([
+    z.boolean(),
+    z.record(z.array(z.boolean()))
+  ]).optional()
 });
 
 /**
  * This is a model that contains a dictionary of complex arrays (composited) within composition
  */
 export const zCompositionWithOneOfAndComplexArrayDictionary = z.object({
-    propA: z.union([
-        z.boolean(),
-        z.record(z.array(z.union([z.number(), z.string()])))
-    ]).optional()
+  propA: z.union([
+    z.boolean(),
+    z.record(z.array(z.union([z.number(), z.string()])))
+  ]).optional()
 });
 
 /**
  * This is a model with one property with a 'all of' relationship
  */
 export const zCompositionWithAllOfAndNullable = z.object({
-    propA: z.object({
-        boolean: z.boolean().optional()
-    }).and(zModelWithEnum).and(zModelWithArray).and(zModelWithDictionary).nullish()
+  propA: z.object({
+    boolean: z.boolean().optional()
+  }).and(zModelWithEnum).and(zModelWithArray).and(zModelWithDictionary).nullish()
 });
 
 /**
  * This is a model with one property with a 'any of' relationship
  */
 export const zCompositionWithAnyOfAndNullable = z.object({
-    propA: z.union([
-        z.object({
-            boolean: z.boolean().optional()
-        }),
-        zModelWithEnum,
-        zModelWithArray,
-        zModelWithDictionary
-    ]).nullish()
+  propA: z.union([
+    z.object({
+      boolean: z.boolean().optional()
+    }),
+    zModelWithEnum,
+    zModelWithArray,
+    zModelWithDictionary
+  ]).nullish()
 });
 
 /**
  * This is a base model with two simple optional properties
  */
 export const zCompositionBaseModel = z.object({
-    firstName: z.string().optional(),
-    lastname: z.string().optional()
+  firstName: z.string().optional(),
+  lastname: z.string().optional()
 });
 
 /**
  * This is a model that extends the base model
  */
 export const zCompositionExtendedModel = zCompositionBaseModel.and(z.object({
-    age: z.number(),
-    firstName: z.string(),
-    lastname: z.string()
+  age: z.number(),
+  firstName: z.string(),
+  lastname: z.string()
 }));
 
 /**
  * This is a model with one nested property
  */
 export const zModelWithProperties = z.object({
-    required: z.string(),
-    requiredAndReadOnly: z.string().readonly(),
-    requiredAndNullable: z.string().nullable(),
-    string: z.string().optional(),
-    number: z.number().optional(),
-    boolean: z.boolean().optional(),
-    reference: zModelWithString.optional(),
-    'property with space': z.string().optional(),
-    default: z.string().optional(),
-    try: z.string().optional(),
-    '@namespace.string': z.string().readonly().optional(),
-    '@namespace.integer': z.number().int().readonly().optional()
+  required: z.string(),
+  requiredAndReadOnly: z.string().readonly(),
+  requiredAndNullable: z.string().nullable(),
+  string: z.string().optional(),
+  number: z.number().optional(),
+  boolean: z.boolean().optional(),
+  reference: zModelWithString.optional(),
+  'property with space': z.string().optional(),
+  default: z.string().optional(),
+  try: z.string().optional(),
+  '@namespace.string': z.string().readonly().optional(),
+  '@namespace.integer': z.number().int().readonly().optional()
 });
 
 /**
  * This is a model with one property containing a reference
  */
 export const zModelWithReference = z.object({
-    prop: zModelWithProperties.optional()
+  prop: zModelWithProperties.optional()
 });
 
 /**
  * This is a model with one nested property
  */
 export const zModelWithNestedProperties = z.object({
-    first: z.object({
-        second: z.object({
-            third: z.string().readonly().nullable()
-        }).readonly().nullable()
+  first: z.object({
+    second: z.object({
+      third: z.string().readonly().nullable()
     }).readonly().nullable()
+  }).readonly().nullable()
 });
 
 /**
  * This is a model with duplicated properties
  */
 export const zModelWithDuplicateProperties = z.object({
-    prop: zModelWithString.optional()
+  prop: zModelWithString.optional()
 });
 
 /**
  * This is a model with ordered properties
  */
 export const zModelWithOrderedProperties = z.object({
-    zebra: z.string().optional(),
-    apple: z.string().optional(),
-    hawaii: z.string().optional()
+  zebra: z.string().optional(),
+  apple: z.string().optional(),
+  hawaii: z.string().optional()
 });
 
 /**
  * This is a model with duplicated imports
  */
 export const zModelWithDuplicateImports = z.object({
-    propA: zModelWithString.optional(),
-    propB: zModelWithString.optional(),
-    propC: zModelWithString.optional()
+  propA: zModelWithString.optional(),
+  propB: zModelWithString.optional(),
+  propC: zModelWithString.optional()
 });
 
 /**
  * This is a model that extends another model
  */
 export const zModelThatExtends = zModelWithString.and(z.object({
-    propExtendsA: z.string().optional(),
-    propExtendsB: zModelWithString.optional()
+  propExtendsA: z.string().optional(),
+  propExtendsB: zModelWithString.optional()
 }));
 
 /**
  * This is a model that extends another model
  */
 export const zModelThatExtendsExtends = zModelWithString.and(zModelThatExtends).and(z.object({
-    propExtendsC: z.string().optional(),
-    propExtendsD: zModelWithString.optional()
+  propExtendsC: z.string().optional(),
+  propExtendsD: zModelWithString.optional()
 }));
 
 /**
  * This is a model that contains a some patterns
  */
 export const zModelWithPattern = z.object({
-    key: z.string().max(64).regex(/^[a-zA-Z0-9_]*$/),
-    name: z.string().max(255),
-    enabled: z.boolean().readonly().optional(),
-    modified: z.string().datetime().readonly().optional(),
-    id: z.string().regex(/^\d{2}-\d{3}-\d{4}$/).optional(),
-    text: z.string().regex(/^\w+$/).optional(),
-    patternWithSingleQuotes: z.string().regex(/^[a-zA-Z0-9']*$/).optional(),
-    patternWithNewline: z.string().regex(/aaa\nbbb/).optional(),
-    patternWithBacktick: z.string().regex(/aaa`bbb/).optional(),
-    patternWithUnicode: z.string().regex(/^\p{L}+$/u).optional()
+  key: z.string().max(64).regex(/^[a-zA-Z0-9_]*$/),
+  name: z.string().max(255),
+  enabled: z.boolean().readonly().optional(),
+  modified: z.string().datetime().readonly().optional(),
+  id: z.string().regex(/^\d{2}-\d{3}-\d{4}$/).optional(),
+  text: z.string().regex(/^\w+$/).optional(),
+  patternWithSingleQuotes: z.string().regex(/^[a-zA-Z0-9']*$/).optional(),
+  patternWithNewline: z.string().regex(/aaa\nbbb/).optional(),
+  patternWithBacktick: z.string().regex(/aaa`bbb/).optional(),
+  patternWithUnicode: z.string().regex(/^\p{L}+$/u).optional()
 });
 
 export const zFile = z.object({
-    id: z.string().min(1).readonly().optional(),
-    updated_at: z.string().datetime().readonly().optional(),
-    created_at: z.string().datetime().readonly().optional(),
-    mime: z.string().min(1).max(24),
-    file: z.string().url().readonly().optional()
+  id: z.string().min(1).readonly().optional(),
+  updated_at: z.string().datetime().readonly().optional(),
+  created_at: z.string().datetime().readonly().optional(),
+  mime: z.string().min(1).max(24),
+  file: z.string().url().readonly().optional()
 });
 
 export const zDefault = z.object({
-    name: z.string().optional()
+  name: z.string().optional()
 });
 
 export const zPageable = z.object({
-    page: z.number().int().gte(0).max(2147483647, { message: 'Invalid value: Expected int32 to be <= 2147483647' }).optional().default(0),
-    size: z.number().int().gte(1).max(2147483647, { message: 'Invalid value: Expected int32 to be <= 2147483647' }).optional(),
-    sort: z.array(z.string()).optional()
+  page: z.number().int().gte(0).max(2147483647, { message: 'Invalid value: Expected int32 to be <= 2147483647' }).optional().default(0),
+  size: z.number().int().gte(1).max(2147483647, { message: 'Invalid value: Expected int32 to be <= 2147483647' }).optional(),
+  sort: z.array(z.string()).optional()
 });
 
 /**
@@ -685,28 +685,28 @@ export const zFreeFormObjectWithAdditionalPropertiesEqTrue = z.record(z.unknown(
 export const zFreeFormObjectWithAdditionalPropertiesEqEmptyObject = z.record(z.unknown());
 
 export const zModelWithConst = z.object({
-    String: z.enum(['String']).optional(),
-    number: z.literal(0).optional(),
-    null: z.unknown().optional(),
-    withType: z.enum(['Some string']).optional()
+  String: z.enum(['String']).optional(),
+  number: z.literal(0).optional(),
+  null: z.unknown().optional(),
+  withType: z.enum(['Some string']).optional()
 });
 
 /**
  * This is a model with one property and additionalProperties: true
  */
 export const zModelWithAdditionalPropertiesEqTrue = z.object({
-    prop: z.string().optional()
+  prop: z.string().optional()
 });
 
 export const zNestedAnyOfArraysNullable = z.object({
-    nullableArray: z.array(z.union([z.string(), z.boolean()])).nullish()
+  nullableArray: z.array(z.union([z.string(), z.boolean()])).nullish()
 });
 
 /**
  * An object that can be null
  */
 export const zNullableObject = z.object({
-    foo: z.string().optional()
+  foo: z.string().optional()
 }).nullable().default(null);
 
 /**
@@ -715,7 +715,7 @@ export const zNullableObject = z.object({
 export const zCharactersInDescription = z.string();
 
 export const zModelWithNullableObject = z.object({
-    data: zNullableObject.optional()
+  data: zNullableObject.optional()
 });
 
 /**
@@ -724,23 +724,23 @@ export const zModelWithNullableObject = z.object({
 export const zModelWithAdditionalPropertiesRef = z.record(zNullableObject.nullable());
 
 export const zModelWithOneOfEnum = z.union([
-    z.object({
-        foo: z.enum(['Bar'])
-    }),
-    z.object({
-        foo: z.enum(['Baz'])
-    }),
-    z.object({
-        foo: z.enum(['Qux'])
-    }),
-    z.object({
-        content: z.string().datetime(),
-        foo: z.enum(['Quux'])
-    }),
-    z.object({
-        content: z.tuple([z.string().datetime(), z.string().datetime()]),
-        foo: z.enum(['Corge'])
-    })
+  z.object({
+    foo: z.enum(['Bar'])
+  }),
+  z.object({
+    foo: z.enum(['Baz'])
+  }),
+  z.object({
+    foo: z.enum(['Qux'])
+  }),
+  z.object({
+    content: z.string().datetime(),
+    foo: z.enum(['Quux'])
+  }),
+  z.object({
+    content: z.tuple([z.string().datetime(), z.string().datetime()]),
+    foo: z.enum(['Corge'])
+  })
 ]);
 
 export const zModelWithNestedArrayEnumsDataFoo = z.enum(['foo', 'bar']);
@@ -748,90 +748,90 @@ export const zModelWithNestedArrayEnumsDataFoo = z.enum(['foo', 'bar']);
 export const zModelWithNestedArrayEnumsDataBar = z.enum(['baz', 'qux']);
 
 export const zModelWithNestedArrayEnumsData = z.object({
-    foo: z.array(zModelWithNestedArrayEnumsDataFoo).optional(),
-    bar: z.array(zModelWithNestedArrayEnumsDataBar).optional()
+  foo: z.array(zModelWithNestedArrayEnumsDataFoo).optional(),
+  bar: z.array(zModelWithNestedArrayEnumsDataBar).optional()
 });
 
 export const zModelWithNestedArrayEnums = z.object({
-    array_strings: z.array(z.string()).optional(),
-    data: zModelWithNestedArrayEnumsData.optional()
+  array_strings: z.array(z.string()).optional(),
+  data: zModelWithNestedArrayEnumsData.optional()
 });
 
 export const zModelWithNestedCompositionEnums = z.object({
-    foo: zModelWithNestedArrayEnumsDataFoo.optional()
+  foo: zModelWithNestedArrayEnumsDataFoo.optional()
 });
 
 export const zModelWithReadOnlyAndWriteOnly = z.object({
-    foo: z.string(),
-    bar: z.string().readonly()
+  foo: z.string(),
+  bar: z.string().readonly()
 });
 
 /**
  * This is a model with one property containing an array
  */
 export const zModelWithArrayReadOnlyAndWriteOnly = z.object({
-    prop: z.array(zModelWithReadOnlyAndWriteOnly).optional(),
-    propWithFile: z.array(z.string()).optional(),
-    propWithNumber: z.array(z.number()).optional()
+  prop: z.array(zModelWithReadOnlyAndWriteOnly).optional(),
+  propWithFile: z.array(z.string()).optional(),
+  propWithNumber: z.array(z.number()).optional()
 });
 
 export const zModelWithConstantSizeArray = z.tuple([z.number(), z.number()]);
 
 export const zModelWithAnyOfConstantSizeArray = z.tuple([
-    z.union([
-        z.number(),
-        z.string()
-    ]),
-    z.union([
-        z.number(),
-        z.string()
-    ]),
-    z.union([
-        z.number(),
-        z.string()
-    ])
+  z.union([
+    z.number(),
+    z.string()
+  ]),
+  z.union([
+    z.number(),
+    z.string()
+  ]),
+  z.union([
+    z.number(),
+    z.string()
+  ])
 ]);
 
 export const zModelWithPrefixItemsConstantSizeArray = z.array(z.union([
-    zModelWithInteger,
-    z.number(),
-    z.string()
+  zModelWithInteger,
+  z.number(),
+  z.string()
 ]));
 
 export const zModelWithAnyOfConstantSizeArrayNullable = z.tuple([
-    z.union([
-        z.number(),
-        z.string()
-    ]).nullable(),
-    z.union([
-        z.number(),
-        z.string()
-    ]).nullable(),
-    z.union([
-        z.number(),
-        z.string()
-    ]).nullable()
+  z.union([
+    z.number(),
+    z.string()
+  ]).nullable(),
+  z.union([
+    z.number(),
+    z.string()
+  ]).nullable(),
+  z.union([
+    z.number(),
+    z.string()
+  ]).nullable()
 ]);
 
 export const zModelWithAnyOfConstantSizeArrayAndIntersect = z.tuple([z.intersection(z.number(), z.string()), z.intersection(z.number(), z.string())]);
 
 export const zModelWithNumericEnumUnion = z.object({
-    value: z.union([
-        z.literal(-10),
-        z.literal(-1),
-        z.literal(0),
-        z.literal(1),
-        z.literal(3),
-        z.literal(6),
-        z.literal(12)
-    ]).optional()
+  value: z.union([
+    z.literal(-10),
+    z.literal(-1),
+    z.literal(0),
+    z.literal(1),
+    z.literal(3),
+    z.literal(6),
+    z.literal(12)
+  ]).optional()
 });
 
 /**
  * Some description with `back ticks`
  */
 export const zModelWithBackticksInDescription = z.object({
-    template: z.string().optional()
+  template: z.string().optional()
 });
 
 /**
@@ -865,92 +865,92 @@ export const zDeleteFooData2 = z.string();
 export const zImport = z.string();
 
 export const zModelWithAnyOfConstantSizeArrayWithNSizeAndOptions = z.tuple([z.union([
-        z.number(),
-        zImport
-    ]), z.union([
-        z.number(),
-        zImport
-    ])]);
+    z.number(),
+    zImport
+  ]), z.union([
+    z.number(),
+    zImport
+  ])]);
 
 export const zSchemaWithFormRestrictedKeys = z.object({
+  description: z.string().optional(),
+  'x-enum-descriptions': z.string().optional(),
+  'x-enum-varnames': z.string().optional(),
+  'x-enumNames': z.string().optional(),
+  title: z.string().optional(),
+  object: z.object({
     description: z.string().optional(),
     'x-enum-descriptions': z.string().optional(),
     'x-enum-varnames': z.string().optional(),
     'x-enumNames': z.string().optional(),
-    title: z.string().optional(),
-    object: z.object({
-        description: z.string().optional(),
-        'x-enum-descriptions': z.string().optional(),
-        'x-enum-varnames': z.string().optional(),
-        'x-enumNames': z.string().optional(),
-        title: z.string().optional()
-    }).optional(),
-    array: z.array(z.object({
-        description: z.string().optional(),
-        'x-enum-descriptions': z.string().optional(),
-        'x-enum-varnames': z.string().optional(),
-        'x-enumNames': z.string().optional(),
-        title: z.string().optional()
-    })).optional()
+    title: z.string().optional()
+  }).optional(),
+  array: z.array(z.object({
+    description: z.string().optional(),
+    'x-enum-descriptions': z.string().optional(),
+    'x-enum-varnames': z.string().optional(),
+    'x-enumNames': z.string().optional(),
+    title: z.string().optional()
+  })).optional()
 });
 
 /**
  * This schema was giving PascalCase transformations a hard time
  */
 export const zIoK8sApimachineryPkgApisMetaV1Preconditions = z.object({
-    resourceVersion: z.string().optional(),
-    uid: z.string().optional()
+  resourceVersion: z.string().optional(),
+  uid: z.string().optional()
 });
 
 /**
  * This schema was giving PascalCase transformations a hard time
  */
 export const zIoK8sApimachineryPkgApisMetaV1DeleteOptions = z.object({
-    preconditions: zIoK8sApimachineryPkgApisMetaV1Preconditions.optional()
+  preconditions: zIoK8sApimachineryPkgApisMetaV1Preconditions.optional()
 });
 
 export const zAdditionalPropertiesUnknownIssue = z.record(z.union([
-    z.string(),
-    z.number()
+  z.string(),
+  z.number()
 ]));
 
 export const zAdditionalPropertiesUnknownIssue2 = z.record(z.union([
-    z.string(),
-    z.number()
+  z.string(),
+  z.number()
 ]));
 
 export const zAdditionalPropertiesUnknownIssue3 = z.intersection(z.string(), z.object({
-    entries: z.record(zAdditionalPropertiesUnknownIssue)
+  entries: z.record(zAdditionalPropertiesUnknownIssue)
 }));
 
 export const zAdditionalPropertiesIntegerIssue = z.object({
-    value: z.number().int()
+  value: z.number().int()
 });
 
 export const zGenericSchemaDuplicateIssue1SystemBoolean = z.object({
-    item: z.boolean().optional(),
-    error: z.string().nullish(),
-    hasError: z.boolean().readonly().optional(),
-    data: z.record(z.never()).optional()
+  item: z.boolean().optional(),
+  error: z.string().nullish(),
+  hasError: z.boolean().readonly().optional(),
+  data: z.record(z.never()).optional()
 });
 
 export const zGenericSchemaDuplicateIssue1SystemString = z.object({
-    item: z.string().nullish(),
-    error: z.string().nullish(),
-    hasError: z.boolean().readonly().optional()
+  item: z.string().nullish(),
+  error: z.string().nullish(),
+  hasError: z.boolean().readonly().optional()
 });
 
 export const zOneOfAllOfIssue = z.union([
-    z.intersection(z.union([
-        zConstValue,
-        zGenericSchemaDuplicateIssue1SystemBoolean
-    ]), z3eNum1Период),
-    zGenericSchemaDuplicateIssue1SystemString
+  z.intersection(z.union([
+    zConstValue,
+    zGenericSchemaDuplicateIssue1SystemBoolean
+  ]), z3eNum1Период),
+  zGenericSchemaDuplicateIssue1SystemString
 ]);
 
 export const zExternalSharedModel = z.object({
-    id: z.string(),
-    name: z.string().optional()
+  id: z.string(),
+  name: z.string().optional()
 });
 
 export const zExternalRefA = zExternalSharedModel;
@@ -961,86 +961,86 @@ export const zExternalRefB = zExternalSharedModel;
  * This is a model with one nested property
  */
 export const zModelWithPropertiesWritable = z.object({
-    required: z.string(),
-    requiredAndNullable: z.string().nullable(),
-    string: z.string().optional(),
-    number: z.number().optional(),
-    boolean: z.boolean().optional(),
-    reference: zModelWithString.optional(),
-    'property with space': z.string().optional(),
-    default: z.string().optional(),
-    try: z.string().optional()
+  required: z.string(),
+  requiredAndNullable: z.string().nullable(),
+  string: z.string().optional(),
+  number: z.number().optional(),
+  boolean: z.boolean().optional(),
+  reference: zModelWithString.optional(),
+  'property with space': z.string().optional(),
+  default: z.string().optional(),
+  try: z.string().optional()
 });
 
 /**
  * This is a model with one property containing a reference
  */
 export const zModelWithReferenceWritable = z.object({
-    prop: zModelWithPropertiesWritable.optional()
+  prop: zModelWithPropertiesWritable.optional()
 });
 
 /**
  * This is a model that contains a some patterns
  */
 export const zModelWithPatternWritable = z.object({
-    key: z.string().max(64).regex(/^[a-zA-Z0-9_]*$/),
-    name: z.string().max(255),
-    id: z.string().regex(/^\d{2}-\d{3}-\d{4}$/).optional(),
-    text: z.string().regex(/^\w+$/).optional(),
-    patternWithSingleQuotes: z.string().regex(/^[a-zA-Z0-9']*$/).optional(),
-    patternWithNewline: z.string().regex(/aaa\nbbb/).optional(),
-    patternWithBacktick: z.string().regex(/aaa`bbb/).optional(),
-    patternWithUnicode: z.string().regex(/^\p{L}+$/u).optional()
+  key: z.string().max(64).regex(/^[a-zA-Z0-9_]*$/),
+  name: z.string().max(255),
+  id: z.string().regex(/^\d{2}-\d{3}-\d{4}$/).optional(),
+  text: z.string().regex(/^\w+$/).optional(),
+  patternWithSingleQuotes: z.string().regex(/^[a-zA-Z0-9']*$/).optional(),
+  patternWithNewline: z.string().regex(/aaa\nbbb/).optional(),
+  patternWithBacktick: z.string().regex(/aaa`bbb/).optional(),
+  patternWithUnicode: z.string().regex(/^\p{L}+$/u).optional()
 });
 
 export const zFileWritable = z.object({
-    mime: z.string().min(1).max(24)
+  mime: z.string().min(1).max(24)
 });
 
 export const zModelWithReadOnlyAndWriteOnlyWritable = z.object({
-    foo: z.string(),
-    baz: z.string()
+  foo: z.string(),
+  baz: z.string()
 });
 
 /**
  * This is a model with one property containing an array
  */
 export const zModelWithArrayReadOnlyAndWriteOnlyWritable = z.object({
-    prop: z.array(zModelWithReadOnlyAndWriteOnlyWritable).optional(),
-    propWithFile: z.array(z.string()).optional(),
-    propWithNumber: z.array(z.number()).optional()
+  prop: z.array(zModelWithReadOnlyAndWriteOnlyWritable).optional(),
+  propWithFile: z.array(z.string()).optional(),
+  propWithNumber: z.array(z.number()).optional()
 });
 
 export const zModelWithAnyOfConstantSizeArrayWithNSizeAndOptionsWritable = z.tuple([z.union([
-        z.number(),
-        zImport
-    ]), z.union([
-        z.number(),
-        zImport
-    ])]);
+    z.number(),
+    zImport
+  ]), z.union([
+    z.number(),
+    zImport
+  ])]);
 
 export const zAdditionalPropertiesUnknownIssueWritable = z.record(z.union([
-    z.string(),
-    z.number()
+  z.string(),
+  z.number()
 ]));
 
 export const zGenericSchemaDuplicateIssue1SystemBooleanWritable = z.object({
-    item: z.boolean().optional(),
-    error: z.string().nullish(),
-    data: z.record(z.never()).optional()
+  item: z.boolean().optional(),
+  error: z.string().nullish(),
+  data: z.record(z.never()).optional()
 });
 
 export const zGenericSchemaDuplicateIssue1SystemStringWritable = z.object({
-    item: z.string().nullish(),
-    error: z.string().nullish()
+  item: z.string().nullish(),
+  error: z.string().nullish()
 });
 
 export const zOneOfAllOfIssueWritable = z.union([
-    z.intersection(z.union([
-        zConstValue,
-        zGenericSchemaDuplicateIssue1SystemBooleanWritable
-    ]), z3eNum1Период),
-    zGenericSchemaDuplicateIssue1SystemStringWritable
+  z.intersection(z.union([
+    zConstValue,
+    zGenericSchemaDuplicateIssue1SystemBooleanWritable
+  ]), z3eNum1Период),
+  zGenericSchemaDuplicateIssue1SystemStringWritable
 ]);
 
 /**
@@ -1049,23 +1049,23 @@ export const zOneOfAllOfIssueWritable = z.union([
 export const zSimpleParameter = z.string();
 
 export const zCompositionWithOneOfAndProperties = z.intersection(z.union([
-    z.object({
-        foo: zSimpleParameter
-    }),
-    z.object({
-        bar: zNonAsciiStringæøåÆøÅöôêÊ字符串
-    })
+  z.object({
+    foo: zSimpleParameter
+  }),
+  z.object({
+    bar: zNonAsciiStringæøåÆøÅöôêÊ字符串
+  })
 ]), z.object({
-    baz: z.number().int().gte(0).max(65535, { message: 'Invalid value: Expected uint16 to be <= 65535' }).nullable(),
-    qux: z.number().int().gte(0).max(255, { message: 'Invalid value: Expected uint8 to be <= 255' })
+  baz: z.number().int().gte(0).max(65535, { message: 'Invalid value: Expected uint16 to be <= 65535' }).nullable(),
+  qux: z.number().int().gte(0).max(255, { message: 'Invalid value: Expected uint8 to be <= 255' })
 }));
 
 export const zModelWithOneOfAndProperties = z.intersection(z.union([
-    zSimpleParameter,
-    zNonAsciiStringæøåÆøÅöôêÊ字符串
+  zSimpleParameter,
+  zNonAsciiStringæøåÆøÅöôêÊ字符串
 ]), z.object({
-    baz: z.number().int().gte(0).max(65535, { message: 'Invalid value: Expected uint16 to be <= 65535' }).nullable(),
-    qux: z.number().int().gte(0).max(255, { message: 'Invalid value: Expected uint8 to be <= 255' })
+  baz: z.number().int().gte(0).max(65535, { message: 'Invalid value: Expected uint16 to be <= 65535' }).nullable(),
+  qux: z.number().int().gte(0).max(255, { message: 'Invalid value: Expected uint8 to be <= 255' })
 }));
 
 /**
@@ -1078,13 +1078,13 @@ export const zSimpleRequestBody = zModelWithString;
 export const zSimpleFormData = zModelWithString;
 
 export const zImportBody = z.union([
-    zModelWithReadOnlyAndWriteOnlyWritable,
-    zModelWithArrayReadOnlyAndWriteOnlyWritable
+  zModelWithReadOnlyAndWriteOnlyWritable,
+  zModelWithArrayReadOnlyAndWriteOnlyWritable
 ]);
 
 export const zImportResponse = z.union([
-    zModelFromZendesk,
-    zModelWithReadOnlyAndWriteOnly
+  zModelFromZendesk,
+  zModelWithReadOnlyAndWriteOnly
 ]);
 
 /**
@@ -1093,7 +1093,7 @@ export const zImportResponse = z.union([
 export const zApiVVersionODataControllerCountResponse = zModelFromZendesk;
 
 export const zGetApiVbyApiVersionSimpleOperationPath = z.object({
-    foo_param: z.string()
+  foo_param: z.string()
 });
 
 /**
@@ -1102,25 +1102,25 @@ export const zGetApiVbyApiVersionSimpleOperationPath = z.object({
 export const zGetApiVbyApiVersionSimpleOperationResponse = z.number();
 
 export const zDeleteFooHeaders = z.object({
-    'x-Foo-Bar': zModelWithString
+  'x-Foo-Bar': zModelWithString
 });
 
 export const zDeleteFooPath = z.object({
-    foo_param: z.string(),
-    BarParam: z.string()
+  foo_param: z.string(),
+  BarParam: z.string()
 });
 
 export const zCallWithDescriptionsQuery = z.object({
-    parameterWithBreaks: z.string().optional(),
-    parameterWithBackticks: z.string().optional(),
-    parameterWithSlashes: z.string().optional(),
-    parameterWithExpressionPlaceholders: z.string().optional(),
-    parameterWithQuotes: z.string().optional(),
-    parameterWithReservedCharacters: z.string().optional()
+  parameterWithBreaks: z.string().optional(),
+  parameterWithBackticks: z.string().optional(),
+  parameterWithSlashes: z.string().optional(),
+  parameterWithExpressionPlaceholders: z.string().optional(),
+  parameterWithQuotes: z.string().optional(),
+  parameterWithReservedCharacters: z.string().optional()
 });
 
 export const zDeprecatedCallHeaders = z.object({
-    parameter: zDeprecatedModel.nullable()
+  parameter: zDeprecatedModel.nullable()
 });
 
 /**
@@ -1129,18 +1129,18 @@ export const zDeprecatedCallHeaders = z.object({
 export const zCallWithParametersBody = z.record(z.unknown()).nullable();
 
 export const zCallWithParametersHeaders = z.object({
-    parameterHeader: z.string().nullable()
+  parameterHeader: z.string().nullable()
 });
 
 export const zCallWithParametersPath = z.object({
-    parameterPath: z.string().nullable(),
-    'api-version': z.string().nullable()
+  parameterPath: z.string().nullable(),
+  'api-version': z.string().nullable()
 });
 
 export const zCallWithParametersQuery = z.object({
-    foo_ref_enum: zModelWithNestedArrayEnumsDataFoo.optional(),
-    foo_all_of_enum: zModelWithNestedArrayEnumsDataFoo,
-    cursor: z.string().nullable()
+  foo_ref_enum: zModelWithNestedArrayEnumsDataFoo.optional(),
+  foo_all_of_enum: zModelWithNestedArrayEnumsDataFoo,
+  cursor: z.string().nullable()
 });
 
 /**
@@ -1149,19 +1149,19 @@ export const zCallWithParametersQuery = z.object({
 export const zCallWithWeirdParameterNamesBody = zModelWithString.nullable();
 
 export const zCallWithWeirdParameterNamesHeaders = z.object({
-    'parameter.header': z.string().nullable()
+  'parameter.header': z.string().nullable()
 });
 
 export const zCallWithWeirdParameterNamesPath = z.object({
-    'parameter.path.1': z.string().optional(),
-    'parameter-path-2': z.string().optional(),
-    'PARAMETER-PATH-3': z.string().optional(),
-    'api-version': z.string().nullable()
+  'parameter.path.1': z.string().optional(),
+  'parameter-path-2': z.string().optional(),
+  'PARAMETER-PATH-3': z.string().optional(),
+  'api-version': z.string().nullable()
 });
 
 export const zCallWithWeirdParameterNamesQuery = z.object({
-    default: z.string().optional(),
-    'parameter-query': z.string().nullable()
+  default: z.string().optional(),
+  'parameter-query': z.string().nullable()
 });
 
 /**
@@ -1170,23 +1170,23 @@ export const zCallWithWeirdParameterNamesQuery = z.object({
 export const zGetCallWithOptionalParamBody = zModelWithOneOfEnum;
 
 export const zGetCallWithOptionalParamQuery = z.object({
-    page: z.number().optional()
+  page: z.number().optional()
 });
 
 /**
  * This is an optional parameter
  */
 export const zPostCallWithOptionalParamBody = z.object({
-    offset: z.number().nullish()
+  offset: z.number().nullish()
 });
 
 export const zPostCallWithOptionalParamQuery = z.object({
-    parameter: zPageable
+  parameter: zPageable
 });
 
 export const zPostCallWithOptionalParamResponse = z.union([
-    z.number(),
-    z.void()
+  z.number(),
+  z.void()
 ]);
 
 /**
@@ -1195,7 +1195,7 @@ export const zPostCallWithOptionalParamResponse = z.union([
 export const zPostApiVbyApiVersionRequestBodyBody = zSimpleRequestBody;
 
 export const zPostApiVbyApiVersionRequestBodyQuery = z.object({
-    parameter: z.string().optional()
+  parameter: z.string().optional()
 });
 
 /**
@@ -1204,42 +1204,42 @@ export const zPostApiVbyApiVersionRequestBodyQuery = z.object({
 export const zPostApiVbyApiVersionFormDataBody = zSimpleFormData;
 
 export const zPostApiVbyApiVersionFormDataQuery = z.object({
-    parameter: z.string().optional()
+  parameter: z.string().optional()
 });
 
 export const zCallWithDefaultParametersQuery = z.object({
-    parameterString: z.string().nullish().default('Hello World!'),
-    parameterNumber: z.number().nullish().default(123),
-    parameterBoolean: z.boolean().nullish().default(true),
-    parameterEnum: z.enum([
-        'Success',
-        'Warning',
-        'Error'
-    ]).optional().default('Success'),
-    parameterModel: zModelWithString.nullish()
+  parameterString: z.string().nullish().default('Hello World!'),
+  parameterNumber: z.number().nullish().default(123),
+  parameterBoolean: z.boolean().nullish().default(true),
+  parameterEnum: z.enum([
+    'Success',
+    'Warning',
+    'Error'
+  ]).optional().default('Success'),
+  parameterModel: zModelWithString.nullish()
 });
 
 export const zCallWithDefaultOptionalParametersQuery = z.object({
-    parameterString: z.string().optional().default('Hello World!'),
-    parameterNumber: z.number().optional().default(123),
-    parameterBoolean: z.boolean().optional().default(true),
-    parameterEnum: z.enum([
-        'Success',
-        'Warning',
-        'Error'
-    ]).optional().default('Success'),
-    parameterModel: zModelWithString.optional()
+  parameterString: z.string().optional().default('Hello World!'),
+  parameterNumber: z.number().optional().default(123),
+  parameterBoolean: z.boolean().optional().default(true),
+  parameterEnum: z.enum([
+    'Success',
+    'Warning',
+    'Error'
+  ]).optional().default('Success'),
+  parameterModel: zModelWithString.optional()
 });
 
 export const zCallToTestOrderOfParamsQuery = z.object({
-    parameterOptionalStringWithDefault: z.string().optional().default('Hello World!'),
-    parameterOptionalStringWithEmptyDefault: z.string().optional().default(''),
-    parameterOptionalStringWithNoDefault: z.string().optional(),
-    parameterStringWithDefault: z.string().default('Hello World!'),
-    parameterStringWithEmptyDefault: z.string().default(''),
-    parameterStringWithNoDefault: z.string(),
-    parameterStringNullableWithNoDefault: z.string().nullish(),
-    parameterStringNullableWithDefault: z.string().nullish().default(null)
+  parameterOptionalStringWithDefault: z.string().optional().default('Hello World!'),
+  parameterOptionalStringWithEmptyDefault: z.string().optional().default(''),
+  parameterOptionalStringWithNoDefault: z.string().optional(),
+  parameterStringWithDefault: z.string().default('Hello World!'),
+  parameterStringWithEmptyDefault: z.string().default(''),
+  parameterStringWithNoDefault: z.string(),
+  parameterStringNullableWithNoDefault: z.string().nullish(),
+  parameterStringNullableWithDefault: z.string().nullish().default(null)
 });
 
 /**
@@ -1248,8 +1248,8 @@ export const zCallToTestOrderOfParamsQuery = z.object({
 export const zCallWithNoContentResponseResponse = z.void();
 
 export const zCallWithResponseAndNoContentResponseResponse = z.union([
-    z.number(),
-    z.void()
+  z.number(),
+  z.void()
 ]);
 
 export const zDummyAResponse = z400;
@@ -1262,64 +1262,64 @@ export const zDummyBResponse = z.void();
 export const zCallWithResponseResponse = zImport;
 
 export const zCallWithDuplicateResponsesResponse = z.union([
-    zModelWithBoolean.and(zModelWithInteger),
-    zModelWithString
+  zModelWithBoolean.and(zModelWithInteger),
+  zModelWithString
 ]);
 
 export const zCallWithResponsesResponse = z.union([
-    z.object({
-        '@namespace.string': z.string().readonly().optional(),
-        '@namespace.integer': z.number().int().readonly().optional(),
-        value: z.array(zModelWithString).readonly().optional()
-    }),
-    zModelThatExtends,
-    zModelThatExtendsExtends
+  z.object({
+    '@namespace.string': z.string().readonly().optional(),
+    '@namespace.integer': z.number().int().readonly().optional(),
+    value: z.array(zModelWithString).readonly().optional()
+  }),
+  zModelThatExtends,
+  zModelThatExtendsExtends
 ]);
 
 export const zCollectionFormatQuery = z.object({
-    parameterArrayCSV: z.array(z.string()).nullable(),
-    parameterArraySSV: z.array(z.string()).nullable(),
-    parameterArrayTSV: z.array(z.string()).nullable(),
-    parameterArrayPipes: z.array(z.string()).nullable(),
-    parameterArrayMulti: z.array(z.string()).nullable()
+  parameterArrayCSV: z.array(z.string()).nullable(),
+  parameterArraySSV: z.array(z.string()).nullable(),
+  parameterArrayTSV: z.array(z.string()).nullable(),
+  parameterArrayPipes: z.array(z.string()).nullable(),
+  parameterArrayMulti: z.array(z.string()).nullable()
 });
 
 export const zTypesPath = z.object({
-    id: z.number().int().min(-2147483648, { message: 'Invalid value: Expected int32 to be >= -2147483648' }).max(2147483647, { message: 'Invalid value: Expected int32 to be <= 2147483647' }).optional()
+  id: z.number().int().min(-2147483648, { message: 'Invalid value: Expected int32 to be >= -2147483648' }).max(2147483647, { message: 'Invalid value: Expected int32 to be <= 2147483647' }).optional()
 });
 
 export const zTypesQuery = z.object({
-    parameterNumber: z.number().default(123),
-    parameterString: z.string().nullable().default('default'),
-    parameterBoolean: z.boolean().nullable().default(true),
-    parameterObject: z.record(z.unknown()).nullable().default(null),
-    parameterArray: z.array(z.string()).nullable(),
-    parameterDictionary: z.record(z.unknown()).nullable(),
-    parameterEnum: z.enum([
-        'Success',
-        'Warning',
-        'Error'
-    ])
+  parameterNumber: z.number().default(123),
+  parameterString: z.string().nullable().default('default'),
+  parameterBoolean: z.boolean().nullable().default(true),
+  parameterObject: z.record(z.unknown()).nullable().default(null),
+  parameterArray: z.array(z.string()).nullable(),
+  parameterDictionary: z.record(z.unknown()).nullable(),
+  parameterEnum: z.enum([
+    'Success',
+    'Warning',
+    'Error'
+  ])
 });
 
 export const zTypesResponse = z.union([
-    z.number(),
-    z.string(),
-    z.boolean(),
-    z.record(z.unknown())
+  z.number(),
+  z.string(),
+  z.boolean(),
+  z.record(z.unknown())
 ]);
 
 export const zUploadFileBody = z.string();
 
 export const zUploadFilePath = z.object({
-    'api-version': z.string().nullable()
+  'api-version': z.string().nullable()
 });
 
 export const zUploadFileResponse = z.boolean();
 
 export const zFileResponsePath = z.object({
-    id: z.string(),
-    'api-version': z.string()
+  id: z.string(),
+  'api-version': z.string()
 });
 
 /**
@@ -1328,14 +1328,14 @@ export const zFileResponsePath = z.object({
 export const zFileResponseResponse = z.string();
 
 export const zComplexTypesQuery = z.object({
-    parameterObject: z.object({
-        first: z.object({
-            second: z.object({
-                third: z.string().optional()
-            }).optional()
-        }).optional()
-    }),
-    parameterReference: zModelWithString
+  parameterObject: z.object({
+    first: z.object({
+      second: z.object({
+        third: z.string().optional()
+      }).optional()
+    }).optional()
+  }),
+  parameterReference: zModelWithString
 });
 
 /**
@@ -1347,44 +1347,44 @@ export const zComplexTypesResponse = z.array(zModelWithString);
  * OK
  */
 export const zMultipartResponseResponse = z.object({
-    file: z.string().optional(),
-    metadata: z.object({
-        foo: z.string().optional(),
-        bar: z.string().optional()
-    }).optional()
+  file: z.string().optional(),
+  metadata: z.object({
+    foo: z.string().optional(),
+    bar: z.string().optional()
+  }).optional()
 });
 
 export const zMultipartRequestBody = z.object({
-    content: z.string().optional(),
-    data: zModelWithString.nullish()
+  content: z.string().optional(),
+  data: zModelWithString.nullish()
 });
 
 export const zComplexParamsBody = z.object({
-    key: z.string().max(64).regex(/^[a-zA-Z0-9_]*$/).readonly().nullable(),
-    name: z.string().max(255).nullable(),
-    enabled: z.boolean().optional().default(true),
-    type: z.enum([
-        'Monkey',
-        'Horse',
-        'Bird'
-    ]).readonly(),
-    listOfModels: z.array(zModelWithString).nullish(),
-    listOfStrings: z.array(z.string()).nullish(),
-    parameters: z.union([
-        zModelWithString,
-        zModelWithEnum,
-        zModelWithArray,
-        zModelWithDictionary
-    ]),
-    user: z.object({
-        id: z.number().int().min(-2147483648, { message: 'Invalid value: Expected int32 to be >= -2147483648' }).max(2147483647, { message: 'Invalid value: Expected int32 to be <= 2147483647' }).readonly().optional(),
-        name: z.string().readonly().nullish()
-    }).readonly().optional()
+  key: z.string().max(64).regex(/^[a-zA-Z0-9_]*$/).readonly().nullable(),
+  name: z.string().max(255).nullable(),
+  enabled: z.boolean().optional().default(true),
+  type: z.enum([
+    'Monkey',
+    'Horse',
+    'Bird'
+  ]).readonly(),
+  listOfModels: z.array(zModelWithString).nullish(),
+  listOfStrings: z.array(z.string()).nullish(),
+  parameters: z.union([
+    zModelWithString,
+    zModelWithEnum,
+    zModelWithArray,
+    zModelWithDictionary
+  ]),
+  user: z.object({
+    id: z.number().int().min(-2147483648, { message: 'Invalid value: Expected int32 to be >= -2147483648' }).max(2147483647, { message: 'Invalid value: Expected int32 to be <= 2147483647' }).readonly().optional(),
+    name: z.string().readonly().nullish()
+  }).readonly().optional()
 });
 
 export const zComplexParamsPath = z.object({
-    id: z.number().int().min(-2147483648, { message: 'Invalid value: Expected int32 to be >= -2147483648' }).max(2147483647, { message: 'Invalid value: Expected int32 to be <= 2147483647' }),
-    'api-version': z.string()
+  id: z.number().int().min(-2147483648, { message: 'Invalid value: Expected int32 to be >= -2147483648' }).max(2147483647, { message: 'Invalid value: Expected int32 to be <= 2147483647' }),
+  'api-version': z.string()
 });
 
 /**
@@ -1393,11 +1393,11 @@ export const zComplexParamsPath = z.object({
 export const zComplexParamsResponse = zModelWithString;
 
 export const zTestErrorCodeQuery = z.object({
-    status: z.number().int()
+  status: z.number().int()
 });
 
 export const zNonAsciiæøåÆøÅöôêÊ字符串Query = z.object({
-    nonAsciiParamæøåÆØÅöôêÊ: z.number().int()
+  nonAsciiParamæøåÆØÅöôêÊ: z.number().int()
 });
 
 /**

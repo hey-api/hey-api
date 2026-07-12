@@ -154,7 +154,7 @@ async function resolve$Ref<S extends object = JSONSchema>(
       await resolver.handler({ file });
       const parseResult = await parseFile(file, options);
       $refAdded.value = parseResult.result;
-      promises = crawl(parseResult.result, {
+      promises = crawl<JSONSchema>(parseResult.result, {
         $refs,
         external: true,
         options,

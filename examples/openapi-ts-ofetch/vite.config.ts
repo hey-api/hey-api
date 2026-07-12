@@ -1,8 +1,8 @@
 import path from 'node:path';
 
 import vue from '@vitejs/plugin-vue';
+import type { UserConfig } from 'vite';
 
-/** @type {import('vite').UserConfig} */
 export default {
   build: {
     sourcemap: true,
@@ -22,5 +22,4 @@ export default {
       '@': path.join(import.meta.dirname, 'src'),
     },
   },
-  // eslint-disable-next-line @typescript-eslint/consistent-type-imports
-} as import('vite').UserConfig;
+} as const satisfies UserConfig;

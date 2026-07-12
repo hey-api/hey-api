@@ -1,8 +1,7 @@
 import type { IR } from '@hey-api/shared';
 import type { DefinePlugin, Plugin } from '@hey-api/shared';
-import type ts from 'typescript';
 
-import type { $, DollarTsDsl, MaybeTsDsl, TsDsl } from '../../../ts-dsl';
+import type { $, DollarTsDsl, MaybeTsDsl } from '../../../ts-dsl';
 import type { TransformersImports } from './imports';
 
 interface BaseTransformer extends DollarTsDsl {
@@ -14,15 +13,17 @@ export type ExpressionTransformer = (
   ctx: BaseTransformer & {
     /** @deprecated Use `plugin` instead and access the config via `plugin.config` */
     config: Omit<UserConfig, 'name'>;
-    dataExpression?: ts.Expression | ReturnType<typeof $.attr | typeof $.expr> | string;
+    dataExpression?: ReturnType<typeof $.attr | typeof $.expr> | string;
   },
-) => Array<TsDsl<ts.Expression> | ReturnType<typeof $.return>> | undefined;
+) => Array<ReturnType<typeof $.fromValue | typeof $.return>> | undefined;
 
 /**
  * Returns the TypeScript type node for a schema with a specific format.
  * If undefined is returned, the default type will be used.
  */
-export type TypeTransformer = (ctx: BaseTransformer) => MaybeTsDsl<ts.TypeNode> | undefined;
+export type TypeTransformer = (
+  ctx: BaseTransformer,
+) => MaybeTsDsl<ReturnType<typeof $.type>> | undefined;
 
 export type UserConfig = Plugin.Name<'@hey-api/transformers'> &
   Plugin.Hooks &

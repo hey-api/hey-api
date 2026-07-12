@@ -1,7 +1,6 @@
 import type { SymbolMeta } from '@hey-api/codegen-core';
 import type { IR } from '@hey-api/shared';
 import { applyNaming, createOperationKey, operationResponsesMap, refToName } from '@hey-api/shared';
-import type ts from 'typescript';
 
 import { $ } from '../../../ts-dsl';
 import type { HeyApiTransformersPlugin } from './types';
@@ -24,7 +23,7 @@ function schemaResponseTransformerNodes({
 }: {
   plugin: HeyApiTransformersPlugin['Instance'];
   schema: IR.SchemaObject;
-}): Array<ts.Expression | ts.Statement | Expr> {
+}): Array<ReturnType<typeof $.expr | typeof $.stmt> | Expr> {
   const nodes = processSchemaType({
     dataExpression: $(dataVariableName),
     plugin,
@@ -45,7 +44,7 @@ function processSchemaType({
   plugin,
   schema,
 }: {
-  dataExpression?: ts.Expression | string | ReturnType<typeof $.attr | typeof $.expr>;
+  dataExpression?: string | ReturnType<typeof $.attr | typeof $.expr>;
   plugin: HeyApiTransformersPlugin['Instance'];
   schema: IR.SchemaObject;
 }): Array<Expr> {

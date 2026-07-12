@@ -3,13 +3,13 @@
 import * as z from 'zod/mini';
 
 export const zFoo = z.object({
-    bar: z.optional(z.int()),
-    foo: z._default(z.coerce.bigint().check(z.minimum(BigInt('-9223372036854775808'), { error: 'Invalid value: Expected int64 to be >= -9223372036854775808' }), z.maximum(BigInt('9223372036854775807'), { error: 'Invalid value: Expected int64 to be <= 9223372036854775807' })), BigInt(0)),
-    id: z.string()
+  bar: z.optional(z.int()),
+  foo: z._default(z.coerce.bigint().check(z.minimum(BigInt('-9223372036854775808'), { error: 'Invalid value: Expected int64 to be >= -9223372036854775808' }), z.maximum(BigInt('9223372036854775807'), { error: 'Invalid value: Expected int64 to be <= 9223372036854775807' })), BigInt(0)),
+  id: z.string()
 });
 
 export const zBar = z.object({
-    foo: z.int()
+  foo: z.int()
 });
 
 /**

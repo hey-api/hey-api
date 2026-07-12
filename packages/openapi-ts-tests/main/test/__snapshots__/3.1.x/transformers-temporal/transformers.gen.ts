@@ -5,8 +5,8 @@ import { Temporal } from 'temporal-polyfill';
 import type { GetFooResponse } from './types.gen';
 
 export const getFooResponseTransformer = async (data: any): Promise<GetFooResponse> => {
-    data.createdAt = Temporal.Instant.from(data.createdAt);
-    data.birthday = Temporal.PlainDate.from(data.birthday);
-    data.events = data.events.map((item: any) => Temporal.Instant.from(item));
-    return data;
+  data.createdAt = Temporal.Instant.from(data.createdAt);
+  data.birthday = Temporal.PlainDate.from(data.birthday);
+  data.events = data.events.map((item: any) => Temporal.Instant.from(item));
+  return data;
 };

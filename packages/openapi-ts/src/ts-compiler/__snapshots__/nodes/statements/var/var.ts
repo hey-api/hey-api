@@ -1,1 +1,0 @@
-var count = 0;

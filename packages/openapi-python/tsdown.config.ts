@@ -3,6 +3,8 @@ import path from 'node:path';
 
 import { defineConfig } from 'tsdown';
 
+import { clientPlugins, getClientBundleDir } from './tsdown-utils.ts';
+
 export default defineConfig({
   attw: {
     ignoreRules: ['cjs-resolves-to-esm'],
@@ -11,23 +13,8 @@ export default defineConfig({
   entry: ['./src/{index,plugins,run}.ts'],
   onSuccess: async () => {
     // Copy client files to dist folder for runtime access
-    const pluginNames = [
-      'client-aiohttp',
-      'client-core',
-      'client-httpx',
-      'client-requests',
-      'client-urllib3',
-    ];
-
-    for (const pluginName of pluginNames) {
-      const srcPath = path.resolve(
-        import.meta.dirname,
-        'src',
-        'plugins',
-        '@hey-api',
-        pluginName,
-        'bundle',
-      );
+    for (const pluginName of clientPlugins) {
+      const srcPath = getClientBundleDir(pluginName);
       const destPath = path.resolve(
         import.meta.dirname,
         'dist',

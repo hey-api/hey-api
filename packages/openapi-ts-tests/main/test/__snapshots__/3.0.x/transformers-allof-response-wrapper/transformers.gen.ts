@@ -3,19 +3,19 @@
 import type { CreateSecretResponse, ListSecretsResponse } from './types.gen';
 
 const repositorySecretSchemaResponseTransformer = (data: any) => {
-    data.createdAt = new Date(data.createdAt);
-    data.updatedAt = new Date(data.updatedAt);
-    return data;
+  data.createdAt = new Date(data.createdAt);
+  data.updatedAt = new Date(data.updatedAt);
+  return data;
 };
 
 export const listSecretsResponseTransformer = async (data: any): Promise<ListSecretsResponse> => {
-    if (data.data) {
-        data.data = data.data.map((item: any) => repositorySecretSchemaResponseTransformer(item));
-    }
-    return data;
+  if (data.data) {
+    data.data = data.data.map((item: any) => repositorySecretSchemaResponseTransformer(item));
+  }
+  return data;
 };
 
 export const createSecretResponseTransformer = async (data: any): Promise<CreateSecretResponse> => {
-    data = repositorySecretSchemaResponseTransformer(data);
-    return data;
+  data = repositorySecretSchemaResponseTransformer(data);
+  return data;
 };

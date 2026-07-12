@@ -1,7 +1,6 @@
 import fs from 'node:fs';
 
 import { sync } from 'cross-spawn';
-import { vi } from 'vitest';
 
 import { ConfigError } from '../../../error';
 import { postprocessOutput } from '../postprocess';

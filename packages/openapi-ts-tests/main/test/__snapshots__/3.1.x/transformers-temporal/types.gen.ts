@@ -3,25 +3,25 @@
 import { Temporal } from 'temporal-polyfill';
 
 export type ClientOptions = {
-    baseUrl: `${string}://${string}` | (string & {});
+  baseUrl: `${string}://${string}` | (string & {});
 };
 
 export type GetFooData = {
-    body?: never;
-    path?: never;
-    query?: never;
-    url: '/foo';
+  body?: never;
+  path?: never;
+  query?: never;
+  url: '/foo';
 };
 
 export type GetFooResponses = {
-    /**
-     * OK
-     */
-    200: {
-        createdAt: Temporal.Instant;
-        birthday: Temporal.PlainDate;
-        events: Array<Temporal.Instant>;
-    };
+  /**
+   * OK
+   */
+  200: {
+    createdAt: Temporal.Instant;
+    birthday: Temporal.PlainDate;
+    events: Array<Temporal.Instant>;
+  };
 };
 
 export type GetFooResponse = GetFooResponses[keyof GetFooResponses];

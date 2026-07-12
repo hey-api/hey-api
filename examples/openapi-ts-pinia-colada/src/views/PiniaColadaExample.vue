@@ -1,12 +1,13 @@
 <script lang="ts" setup>
-import type { Pet } from '@/client';
-import type { RequestOptions } from '@/client/client';
+import { useMutation, useQuery, useQueryCache } from '@pinia/colada';
 import { PiniaColadaDevtools } from '@pinia/colada-devtools';
+import { ref, watch } from 'vue';
+
+import type { Pet } from '@/client';
+import { addPetMutation, getPetByIdQuery, updatePetMutation } from '@/client/@pinia/colada.gen';
+import type { RequestOptions } from '@/client/client';
 import { createClient } from '@/client/client';
 import { PetSchema } from '@/client/schemas.gen';
-import { addPetMutation, getPetByIdQuery, updatePetMutation } from '@/client/@pinia/colada.gen';
-import { useQuery, useMutation, useQueryCache } from '@pinia/colada';
-import { ref, watch } from 'vue';
 
 const localClient = createClient({
   // set default base url for requests made by this client
@@ -34,7 +35,7 @@ localClient.interceptors.request.use((request: Request, options: RequestOptions)
 const isPetNameRequired = PetSchema.required.includes('name');
 
 const petId = ref<number | undefined>();
-const petInput = ref({ name: '', category: '' });
+const petInput = ref({ category: '', name: '' });
 
 const { data: pet, error } = useQuery(() => ({
   ...getPetByIdQuery({
@@ -54,7 +55,7 @@ async function invalidateCurrentPet() {
       petId: petId.value as number,
     },
   });
-  await queryCache.invalidateQueries({ key, exact: true });
+  await queryCache.invalidateQueries({ exact: true, key });
 }
 
 async function updatePetIdAndInvalidate(newId: number | undefined) {

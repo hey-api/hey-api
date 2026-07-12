@@ -15,15 +15,14 @@ import type {
 } from '@hey-api/codegen-core';
 import { fromRef, isNode, isRef, isSymbol, nodeBrand, ref } from '@hey-api/codegen-core';
 import type { AnyString } from '@hey-api/types';
-import ts from 'typescript';
 
+import { ts } from '../ts-compiler';
 import type { AccessOptions } from './utils/context';
 
 export abstract class TsDsl<
   T extends ts.Node = ts.Node,
   L extends Language = 'typescript',
 > implements Node<T> {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   analyze(_: AnalysisContext): void {}
   clone(): this {
     const cloned = Object.create(Object.getPrototypeOf(this));
@@ -249,8 +248,11 @@ type NodeOf<I> =
           ? I
           : never;
 
-export type MaybeTsDsl<T> =
-  T extends TsDsl<infer U> ? U | TsDsl<U> : T extends ts.Node ? T | TsDsl<T> : never;
+export type MaybeTsDsl<T> = [T] extends [TsDsl<infer U>]
+  ? U | TsDsl<U>
+  : [T] extends [ts.Node]
+    ? T | TsDsl<T>
+    : never;
 
 export abstract class TypeTsDsl<
   T extends

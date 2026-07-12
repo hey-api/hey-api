@@ -3,9 +3,9 @@
 import { z } from 'zod/v3';
 
 export const zBar: z.AnyZodObject = z.object({
-    bar: z.array(z.lazy(() => zBar)).nullable()
+  bar: z.array(z.lazy(() => zBar)).nullable()
 });
 
 export const zFoo = z.object({
-    foo: zBar
+  foo: zBar
 });

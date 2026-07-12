@@ -3,6 +3,6 @@
 import * as z from 'zod/v4-mini';
 
 export const zLocaleOrLanguage = z.union([
-    z.string().check(z.length(5)),
-    z.string().check(z.length(2))
+  z.string().check(z.length(5)),
+  z.string().check(z.length(2))
 ]);

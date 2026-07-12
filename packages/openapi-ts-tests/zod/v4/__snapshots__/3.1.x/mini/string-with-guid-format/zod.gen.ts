@@ -3,5 +3,5 @@
 import * as z from 'zod/mini';
 
 export const zGetFooPath = z.object({
-    guidId: z.guid()
+  guidId: z.guid()
 });

@@ -83,8 +83,7 @@ function formatNode(ctx: StringResolverContext): Type | undefined {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function baseNode(ctx: StringResolverContext): Type {
+function baseNode(_ctx: StringResolverContext): Type {
   return $.type('string');
 }
 

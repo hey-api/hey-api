@@ -3,16 +3,16 @@
 import type { GetTreeResponse } from './types.gen';
 
 const treeNodeSchemaResponseTransformer = (data: any) => {
-    if (data.createdAt) {
-        data.createdAt = new Date(data.createdAt);
-    }
-    if (data.children) {
-        data.children = data.children.map((item: any) => treeNodeSchemaResponseTransformer(item));
-    }
-    return data;
+  if (data.createdAt) {
+    data.createdAt = new Date(data.createdAt);
+  }
+  if (data.children) {
+    data.children = data.children.map((item: any) => treeNodeSchemaResponseTransformer(item));
+  }
+  return data;
 };
 
 export const getTreeResponseTransformer = async (data: any): Promise<GetTreeResponse> => {
-    data = data.map((item: any) => treeNodeSchemaResponseTransformer(item));
-    return data;
+  data = data.map((item: any) => treeNodeSchemaResponseTransformer(item));
+  return data;
 };

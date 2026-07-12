@@ -22,7 +22,7 @@ import { parseSchema } from './schema';
 import { parseServers } from './server';
 import { validateOpenApiSpec } from './validate';
 
-export const parseV3_0_X = (context: Context<OpenAPIV3.Document>) => {
+export function parseV3_0_X(context: Context<OpenAPIV3.Document>): void {
   if (context.config.parser.validate_EXPERIMENTAL) {
     const result = validateOpenApiSpec(context.spec, context.logger);
     handleValidatorResult({ context, result });
@@ -287,4 +287,4 @@ export const parseV3_0_X = (context: Context<OpenAPIV3.Document>) => {
       });
     }
   }
-};
+}

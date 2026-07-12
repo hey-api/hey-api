@@ -5,24 +5,24 @@ import { z } from 'zod';
 export const zBaz = z.string().regex(/foo\nbar/).readonly().default('baz');
 
 export const zQux = z.record(z.object({
-    qux: z.string().optional()
+  qux: z.string().optional()
 }));
 
 /**
  * This is Foo schema.
  */
 export const zFoo: z.ZodTypeAny = z.object({
-    foo: z.string().regex(/^\d{3}-\d{2}-\d{4}$/, 'Must be a valid SSN format (###-##-####)').optional(),
-    bar: z.lazy(() => zBar).optional(),
-    baz: z.array(z.lazy(() => zFoo)).optional(),
-    qux: z.number().int().gt(0).optional().default(0)
+  foo: z.string().regex(/^\d{3}-\d{2}-\d{4}$/, 'Must be a valid SSN format (###-##-####)').optional(),
+  bar: z.lazy(() => zBar).optional(),
+  baz: z.array(z.lazy(() => zFoo)).optional(),
+  qux: z.number().int().gt(0).optional().default(0)
 }).nullable().default(null);
 
 /**
  * This is Bar schema.
  */
 export const zBar = z.object({
-    foo: zFoo.optional()
+  foo: zFoo.optional()
 });
 
 /**
@@ -31,21 +31,21 @@ export const zBar = z.object({
 export const zFoo2 = z.string();
 
 export const zFoo3 = z.object({
-    foo: zBar.optional()
+  foo: zBar.optional()
 });
 
 export const zPatchFooBody = z.object({
-    foo: z.string().optional()
+  foo: z.string().optional()
 });
 
 export const zPatchFooQuery = z.object({
-    foo: z.string().optional(),
-    bar: zBar.optional(),
-    baz: z.object({
-        baz: z.string().optional()
-    }).optional(),
-    qux: z.string().date().optional(),
-    quux: z.string().datetime().optional()
+  foo: z.string().optional(),
+  bar: zBar.optional(),
+  baz: z.object({
+    baz: z.string().optional()
+  }).optional(),
+  qux: z.string().date().optional(),
+  quux: z.string().datetime().optional()
 });
 
 export const zPostFooBody = zFoo3;

@@ -21,7 +21,7 @@ export const jsonParser: Plugin = {
 
     try {
       return JSON.parse(data);
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      // oxlint-disable-next-line no-unused-vars
     } catch (error: any) {
       try {
         // find the first curly brace

@@ -5,14 +5,17 @@ import { getPaginationKeywordsRegExp } from '../../../ir/pagination';
 import type { SchemaType } from '../../../openApi/shared/types/schema';
 import { getSchemaType } from './schema';
 
-const isPaginationType = (schemaType: SchemaType<OpenAPIV2.SchemaObject> | undefined): boolean =>
-  schemaType === 'boolean' ||
-  schemaType === 'integer' ||
-  schemaType === 'number' ||
-  schemaType === 'string';
+function isPaginationType(schemaType: SchemaType<OpenAPIV2.SchemaObject> | undefined): boolean {
+  return (
+    schemaType === 'boolean' ||
+    schemaType === 'integer' ||
+    schemaType === 'number' ||
+    schemaType === 'string'
+  );
+}
 
 // We handle only simple values for now, up to 1 nested field
-export const paginationField = ({
+export function paginationField({
   context,
   name,
   schema,
@@ -26,7 +29,7 @@ export const paginationField = ({
     | {
         in: undefined;
       };
-}): boolean | string => {
+}): boolean | string {
   const paginationRegExp = getPaginationKeywordsRegExp(context.config.parser.pagination);
   if (paginationRegExp.test(name)) {
     return true;
@@ -109,4 +112,4 @@ export const paginationField = ({
   }
 
   return false;
-};
+}

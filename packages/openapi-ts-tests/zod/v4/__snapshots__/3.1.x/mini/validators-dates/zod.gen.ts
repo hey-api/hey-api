@@ -5,24 +5,24 @@ import * as z from 'zod/mini';
 export const zBaz = z._default(z.readonly(z.string().check(z.regex(/foo\nbar/))), 'baz');
 
 export const zQux = z.record(z.string(), z.object({
-    qux: z.optional(z.string())
+  qux: z.optional(z.string())
 }));
 
 /**
  * This is Foo schema.
  */
 export const zFoo = z._default(z.nullable(z.object({
-    foo: z.optional(z.string().check(z.regex(/^\d{3}-\d{2}-\d{4}$/, 'Must be a valid SSN format (###-##-####)'))),
-    bar: z.optional(z.lazy((): any => zBar)),
-    baz: z.optional(z.array(z.lazy((): any => zFoo))),
-    qux: z._default(z.optional(z.int().check(z.gt(0))), 0)
+  foo: z.optional(z.string().check(z.regex(/^\d{3}-\d{2}-\d{4}$/, 'Must be a valid SSN format (###-##-####)'))),
+  bar: z.optional(z.lazy((): any => zBar)),
+  baz: z.optional(z.array(z.lazy((): any => zFoo))),
+  qux: z._default(z.optional(z.int().check(z.gt(0))), 0)
 })), null);
 
 /**
  * This is Bar schema.
  */
 export const zBar = z.object({
-    foo: z.optional(zFoo)
+  foo: z.optional(zFoo)
 });
 
 /**
@@ -31,21 +31,21 @@ export const zBar = z.object({
 export const zFoo2 = z.string();
 
 export const zFoo3 = z.object({
-    foo: z.optional(zBar)
+  foo: z.optional(zBar)
 });
 
 export const zPatchFooBody = z.object({
-    foo: z.optional(z.string())
+  foo: z.optional(z.string())
 });
 
 export const zPatchFooQuery = z.object({
-    foo: z.optional(z.string()),
-    bar: z.optional(zBar),
-    baz: z.optional(z.object({
-        baz: z.optional(z.string())
-    })),
-    qux: z.optional(z.iso.date()),
-    quux: z.optional(z.iso.datetime({ offset: true }))
+  foo: z.optional(z.string()),
+  bar: z.optional(zBar),
+  baz: z.optional(z.object({
+    baz: z.optional(z.string())
+  })),
+  qux: z.optional(z.iso.date()),
+  quux: z.optional(z.iso.datetime({ offset: true }))
 });
 
 export const zPostFooBody = zFoo3;

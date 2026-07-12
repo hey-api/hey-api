@@ -3,56 +3,56 @@
 import * as z from 'zod/mini';
 
 export const zFoo = z.object({
-    id: z.string()
+  id: z.string()
 });
 
 export const zBar = z.intersection(zFoo, z.object({
-    bar: z.optional(z.string()),
-    id: z.literal('Bar')
+  bar: z.optional(z.string()),
+  id: z.literal('Bar')
 }));
 
 export const zBaz = z.intersection(zFoo, z.object({
-    baz: z.optional(z.string()),
-    id: z.literal('Baz')
+  baz: z.optional(z.string()),
+  id: z.literal('Baz')
 }));
 
 export const zQux = z.intersection(zFoo, z.object({
-    qux: z.optional(z.boolean()),
-    id: z.literal('Qux')
+  qux: z.optional(z.boolean()),
+  id: z.literal('Qux')
 }));
 
 export const zFooMapped = z.object({
-    id: z.string()
+  id: z.string()
 });
 
 export const zBarMapped = z.intersection(zFooMapped, z.object({
-    bar: z.optional(z.string()),
-    id: z.literal('bar')
+  bar: z.optional(z.string()),
+  id: z.literal('bar')
 }));
 
 export const zBazMapped = z.intersection(zFooMapped, z.object({
-    baz: z.optional(z.string()),
-    id: z.literal('baz')
+  baz: z.optional(z.string()),
+  id: z.literal('baz')
 }));
 
 export const zQuxMapped = z.intersection(zFooMapped, z.object({
-    qux: z.optional(z.boolean()),
-    id: z.literal('QuxMapped')
+  qux: z.optional(z.boolean()),
+  id: z.literal('QuxMapped')
 }));
 
 export const zBarUnion = z.object({
-    id: z.optional(z.string()),
-    bar: z.optional(z.string())
+  id: z.optional(z.string()),
+  bar: z.optional(z.string())
 });
 
 export const zBazUnion = z.object({
-    id: z.optional(z.string()),
-    baz: z.optional(z.string())
+  id: z.optional(z.string()),
+  baz: z.optional(z.string())
 });
 
 export const zFooUnion = z.discriminatedUnion('id', [
-    z.extend(zBarUnion, { id: z.literal('bar') }),
-    z.extend(zBazUnion, { id: z.literal('baz') })
+  z.extend(zBarUnion, { id: z.literal('bar') }),
+  z.extend(zBazUnion, { id: z.literal('baz') })
 ]);
 
 export const zQuxExtend = zFooUnion;

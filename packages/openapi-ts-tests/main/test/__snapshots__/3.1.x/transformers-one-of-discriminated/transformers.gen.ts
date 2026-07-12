@@ -3,13 +3,13 @@
 import type { ListRulesResponse } from './types.gen';
 
 const ruleSchemaResponseTransformer = (data: any) => {
-    if (data.createdAt) {
-        data.createdAt = new Date(data.createdAt);
-    }
-    return data;
+  if (data.createdAt) {
+    data.createdAt = new Date(data.createdAt);
+  }
+  return data;
 };
 
 export const listRulesResponseTransformer = async (data: any): Promise<ListRulesResponse> => {
-    data.rules = data.rules.map((item: any) => ruleSchemaResponseTransformer(item));
-    return data;
+  data.rules = data.rules.map((item: any) => ruleSchemaResponseTransformer(item));
+  return data;
 };

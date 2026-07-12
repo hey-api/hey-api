@@ -1,5 +1,6 @@
 import type { BaseOutput, BaseUserOutput, UserPostProcessor } from '@hey-api/shared';
 
+import type { UserPrinter } from '../../py-dsl';
 import type { PostProcessorPreset } from './postprocess';
 
 export type PythonVersion = '3.9' | '3.10' | '3.11' | '3.12' | '3.13' | '3.14';
@@ -24,6 +25,14 @@ export type UserOutput = BaseUserOutput<'.py'> & {
    */
   preferExportAll?: boolean;
   /**
+   * Options to configure the printer used to render output files.
+   * Accepts a static value, or a function of the render context
+   * for dynamically resolved configuration.
+   *
+   * @default undefined
+   */
+  printer?: UserPrinter;
+  /**
    * Minimum Python version to target.
    *
    * @default '3.9'
@@ -37,6 +46,8 @@ export type Output = BaseOutput<'.py'> & {
    * instead of named exports.
    */
   preferExportAll: boolean;
+  /** Options to configure the printer used to render output files. */
+  printer: UserPrinter;
   /** Minimum Python version to target. */
   pythonVersion: PythonVersion;
 };

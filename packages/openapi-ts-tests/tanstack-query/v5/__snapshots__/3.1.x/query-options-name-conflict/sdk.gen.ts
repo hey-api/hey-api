@@ -5,17 +5,17 @@ import { client } from './client.gen';
 import type { GetMembersData, GetMembersOptionsData, GetMembersOptionsResponses, GetMembersResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
-    /**
-     * You can provide a client instance returned by `createClient()` instead of
-     * individual options. This might be also useful if you want to implement a
-     * custom client.
-     */
-    client?: Client;
-    /**
-     * You can pass arbitrary values through the `meta` object. This can be
-     * used to access values that aren't defined as part of the SDK function.
-     */
-    meta?: keyof ClientMeta extends never ? Record<string, unknown> : ClientMeta;
+  /**
+   * You can provide a client instance returned by `createClient()` instead of
+   * individual options. This might be also useful if you want to implement a
+   * custom client.
+   */
+  client?: Client;
+  /**
+   * You can pass arbitrary values through the `meta` object. This can be
+   * used to access values that aren't defined as part of the SDK function.
+   */
+  meta?: keyof ClientMeta extends never ? Record<string, unknown> : ClientMeta;
 };
 
 export const getMembers = <ThrowOnError extends boolean = false>(options?: Options<GetMembersData, ThrowOnError>): RequestResult<GetMembersResponses, unknown, ThrowOnError> => (options?.client ?? client).get<GetMembersResponses, unknown, ThrowOnError>({ url: '/members', ...options });

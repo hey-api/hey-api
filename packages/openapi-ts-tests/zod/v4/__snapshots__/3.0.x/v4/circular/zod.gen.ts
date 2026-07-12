@@ -3,78 +3,78 @@
 import * as z from 'zod';
 
 export const zTreeNode = z.object({
-    id: z.string(),
-    value: z.string(),
-    children: z.array(z.lazy((): any => zTreeNode)).optional()
+  id: z.string(),
+  value: z.string(),
+  children: z.array(z.lazy((): any => zTreeNode)).optional()
 });
 
 export const zWrapper = z.object({
-    label: z.string(),
-    tree: zTreeNode
+  label: z.string(),
+  tree: zTreeNode
 });
 
 export const zComment = z.object({
-    id: z.string(),
-    text: z.string(),
-    parent: z.lazy((): any => zComment).nullable()
+  id: z.string(),
+  text: z.string(),
+  parent: z.lazy((): any => zComment).nullable()
 });
 
 export const zFoo = z.object({
-    quux: z.lazy((): any => zQuux).optional()
+  quux: z.lazy((): any => zQuux).optional()
 });
 
 export const zBar = z.object({
-    bar: z.lazy((): any => zBar).optional(),
-    baz: z.lazy((): any => zBaz).optional()
+  bar: z.lazy((): any => zBar).optional(),
+  baz: z.lazy((): any => zBaz).optional()
 });
 
 export const zBaz = z.object({
-    quux: z.lazy((): any => zQuux).optional()
+  quux: z.lazy((): any => zQuux).optional()
 });
 
 export const zQux = z.union([
-    z.object({
-        type: z.literal('struct')
-    }).and(z.lazy((): any => zCorge)),
-    z.object({
-        type: z.literal('array')
-    }).and(zFoo)
+  z.object({
+    type: z.literal('struct')
+  }).and(z.lazy((): any => zCorge)),
+  z.object({
+    type: z.literal('array')
+  }).and(zFoo)
 ]);
 
 export const zQuux = z.object({
-    qux: zQux.optional()
+  qux: zQux.optional()
 });
 
 export const zCorge = z.object({
-    baz: z.array(zBaz).optional()
+  baz: z.array(zBaz).optional()
 });
 
 export const zOrg = z.object({
-    id: z.string(),
-    name: z.string(),
-    members: z.array(z.lazy((): any => zMember)).optional()
+  id: z.string(),
+  name: z.string(),
+  members: z.array(z.lazy((): any => zMember)).optional()
 });
 
 export const zMember = z.object({
-    id: z.string(),
-    name: z.string(),
-    org: zOrg.optional()
+  id: z.string(),
+  name: z.string(),
+  org: zOrg.optional()
 });
 
 export const zDepartment = z.object({
-    id: z.string(),
-    name: z.string(),
-    employees: z.array(z.lazy((): any => zEmployee)).optional()
+  id: z.string(),
+  name: z.string(),
+  employees: z.array(z.lazy((): any => zEmployee)).optional()
 });
 
 export const zEmployee = z.object({
-    id: z.string(),
-    name: z.string(),
-    projects: z.array(z.lazy((): any => zProject))
+  id: z.string(),
+  name: z.string(),
+  projects: z.array(z.lazy((): any => zProject))
 });
 
 export const zProject = z.object({
-    id: z.string(),
-    name: z.string(),
-    department: zDepartment.optional()
+  id: z.string(),
+  name: z.string(),
+  department: zDepartment.optional()
 });

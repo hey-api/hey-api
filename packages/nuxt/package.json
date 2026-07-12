@@ -62,8 +62,7 @@
     "@hey-api/openapi-ts": "workspace:*",
     "@nuxt/module-builder": "0.8.4",
     "@nuxt/schema": "3.16.2",
-    "@nuxt/test-utils": "4.0.3",
-    "vite": "8.0.16"
+    "@nuxt/test-utils": "4.0.3"
   },
   "peerDependencies": {
     "@hey-api/openapi-ts": "<2",

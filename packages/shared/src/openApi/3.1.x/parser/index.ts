@@ -23,7 +23,7 @@ import { parseServers } from './server';
 import { validateOpenApiSpec } from './validate';
 import { parseWebhooks } from './webhook';
 
-export const parseV3_1_X = (context: Context<OpenAPIV3_1.Document>) => {
+export function parseV3_1_X(context: Context<OpenAPIV3_1.Document>): void {
   if (context.config.parser.validate_EXPERIMENTAL) {
     const result = validateOpenApiSpec(context.spec, context.logger);
     handleValidatorResult({ context, result });
@@ -288,4 +288,4 @@ export const parseV3_1_X = (context: Context<OpenAPIV3_1.Document>) => {
   }
 
   parseWebhooks({ ambiguousSecurityKeys, context, securitySchemesMap });
-};
+}

@@ -5,37 +5,37 @@ import { client } from './client.gen';
 import type { ApiVVersionApiVersionOdataAccountingCompaniesCountData, ApiVVersionApiVersionOdataAccountingCompaniesCountResponses, ApiVVersionApiVersionOdataAccountingCompaniesData, ApiVVersionApiVersionOdataAccountingCompaniesResponses, ApiVVersionApiVersionOdataAccountingCompanyMembershipsCountData, ApiVVersionApiVersionOdataAccountingCompanyMembershipsCountResponses, ApiVVersionApiVersionOdataAccountingCompanyMembershipsData, ApiVVersionApiVersionOdataAccountingCompanyMembershipsResponses, ApiVVersionApiVersionOdataBankAccountsCountData, ApiVVersionApiVersionOdataBankAccountsCountResponses, ApiVVersionApiVersionOdataBankAccountsData, ApiVVersionApiVersionOdataBankAccountsResponses, ApiVVersionApiVersionOdataBusinessAccountantAssignmentsCountData, ApiVVersionApiVersionOdataBusinessAccountantAssignmentsCountResponses, ApiVVersionApiVersionOdataBusinessAccountantAssignmentsData, ApiVVersionApiVersionOdataBusinessAccountantAssignmentsResponses, ApiVVersionApiVersionOdataBusinessDocumentActivitiesCountData, ApiVVersionApiVersionOdataBusinessDocumentActivitiesCountResponses, ApiVVersionApiVersionOdataBusinessDocumentActivitiesData, ApiVVersionApiVersionOdataBusinessDocumentActivitiesResponses, ApiVVersionApiVersionOdataBusinessDocumentsCountData, ApiVVersionApiVersionOdataBusinessDocumentsCountResponses, ApiVVersionApiVersionOdataBusinessDocumentsData, ApiVVersionApiVersionOdataBusinessDocumentsResponses, ApiVVersionApiVersionOdataBusinessDocumentsSummariesCountData, ApiVVersionApiVersionOdataBusinessDocumentsSummariesCountResponses, ApiVVersionApiVersionOdataBusinessDocumentsSummariesData, ApiVVersionApiVersionOdataBusinessDocumentsSummariesResponses, ApiVVersionApiVersionOdataBusinessesCountData, ApiVVersionApiVersionOdataBusinessesCountResponses, ApiVVersionApiVersionOdataBusinessesData, ApiVVersionApiVersionOdataBusinessesKey2Data, ApiVVersionApiVersionOdataBusinessesKey2Responses, ApiVVersionApiVersionOdataBusinessesKeyData, ApiVVersionApiVersionOdataBusinessesKeyResponses, ApiVVersionApiVersionOdataBusinessesResponses, ApiVVersionApiVersionOdataBusinessSummariesCountData, ApiVVersionApiVersionOdataBusinessSummariesCountResponses, ApiVVersionApiVersionOdataBusinessSummariesData, ApiVVersionApiVersionOdataBusinessSummariesResponses, ApiVVersionApiVersionOdataCounterpartiesCountData, ApiVVersionApiVersionOdataCounterpartiesCountResponses, ApiVVersionApiVersionOdataCounterpartiesData, ApiVVersionApiVersionOdataCounterpartiesResponses, ApiVVersionApiVersionOdataDataBoxCredentialsCountData, ApiVVersionApiVersionOdataDataBoxCredentialsCountResponses, ApiVVersionApiVersionOdataDataBoxCredentialsData, ApiVVersionApiVersionOdataDataBoxCredentialsResponses, ApiVVersionApiVersionOdataDocumentTypesCountData, ApiVVersionApiVersionOdataDocumentTypesCountResponses, ApiVVersionApiVersionOdataDocumentTypesData, ApiVVersionApiVersionOdataDocumentTypesResponses, ApiVVersionApiVersionOdataInvitationsCountData, ApiVVersionApiVersionOdataInvitationsCountResponses, ApiVVersionApiVersionOdataInvitationsData, ApiVVersionApiVersionOdataInvitationsResponses, ApiVVersionApiVersionOdataInvoicesCountData, ApiVVersionApiVersionOdataInvoicesCountResponses, ApiVVersionApiVersionOdataInvoicesData, ApiVVersionApiVersionOdataInvoiceSettingsCountData, ApiVVersionApiVersionOdataInvoiceSettingsCountResponses, ApiVVersionApiVersionOdataInvoiceSettingsData, ApiVVersionApiVersionOdataInvoiceSettingsResponses, ApiVVersionApiVersionOdataInvoicesResponses, ApiVVersionApiVersionOdataLicensesCountData, ApiVVersionApiVersionOdataLicensesCountResponses, ApiVVersionApiVersionOdataLicensesData, ApiVVersionApiVersionOdataLicensesResponses, ApiVVersionApiVersionOdataPersonalDocumentsCountData, ApiVVersionApiVersionOdataPersonalDocumentsCountResponses, ApiVVersionApiVersionOdataPersonalDocumentsData, ApiVVersionApiVersionOdataPersonalDocumentsResponses, ApiVVersionApiVersionOdataRecurringTasksCountData, ApiVVersionApiVersionOdataRecurringTasksCountResponses, ApiVVersionApiVersionOdataRecurringTasksData, ApiVVersionApiVersionOdataRecurringTasksResponses, ApiVVersionApiVersionOdataTasksCountData, ApiVVersionApiVersionOdataTasksCountResponses, ApiVVersionApiVersionOdataTasksData, ApiVVersionApiVersionOdataTasksKey2Data, ApiVVersionApiVersionOdataTasksKey2Responses, ApiVVersionApiVersionOdataTasksKeyData, ApiVVersionApiVersionOdataTasksKeyResponses, ApiVVersionApiVersionOdataTasksResponses, DeleteApiV1AccountingCompaniesByIdData, DeleteApiV1AccountingCompaniesByIdResponses, DeleteApiV1AccountingCompanyMembershipsByIdData, DeleteApiV1AccountingCompanyMembershipsByIdResponses, DeleteApiV1BankAccountsByIdData, DeleteApiV1BankAccountsByIdResponses, DeleteApiV1BusinessAccountantAssignmentsByIdData, DeleteApiV1BusinessAccountantAssignmentsByIdResponses, DeleteApiV1BusinessDocumentsByIdData, DeleteApiV1BusinessDocumentsByIdResponses, DeleteApiV1BusinessesByIdData, DeleteApiV1BusinessesByIdResponses, DeleteApiV1CounterpartiesByIdData, DeleteApiV1CounterpartiesByIdResponses, DeleteApiV1DataBoxCredentialsByIdData, DeleteApiV1DataBoxCredentialsByIdResponses, DeleteApiV1InvitationsByIdData, DeleteApiV1InvitationsByIdResponses, DeleteApiV1InvoicesByIdData, DeleteApiV1InvoicesByIdResponses, DeleteApiV1NotificationsDeviceTokensData, DeleteApiV1NotificationsDeviceTokensResponses, DeleteApiV1PersonalDocumentsByIdData, DeleteApiV1PersonalDocumentsByIdResponses, DeleteApiV1RecurringTasksByIdData, DeleteApiV1RecurringTasksByIdResponses, DeleteApiV1UserData, DeleteApiV1UserResponses, GetApiDevConfirmEmailData, GetApiDevConfirmEmailResponses, GetApiDevData, GetApiDevDbCreateData, GetApiDevDbCreateResponses, GetApiDevDbReset2Data, GetApiDevDbReset2Responses, GetApiDevDbResetData, GetApiDevDbResetResponses, GetApiDevDbTouchData, GetApiDevDbTouchResponses, GetApiDevEmailSendTestData, GetApiDevEmailSendTestResponses, GetApiDevJobProcessRecurringTasksData, GetApiDevJobProcessRecurringTasksResponses, GetApiDevNotificationsSendTestData, GetApiDevNotificationsSendTestResponses, GetApiDevReseedDbData, GetApiDevReseedDbResponses, GetApiDevResponses, GetApiDevSeedAllData, GetApiDevSeedAllResponses, GetApiDevSeedData, GetApiDevSeedProdData, GetApiDevSeedProdResponses, GetApiDevSeedResponses, GetApiV1BusinessDocumentsByIdRawData, GetApiV1BusinessDocumentsByIdRawResponses, GetApiV1BusinessesByIdDocumentTypesSummaryData, GetApiV1BusinessesByIdDocumentTypesSummaryResponses, GetApiV1InvoicesByIdPreviewData, GetApiV1InvoicesByIdPreviewResponses, GetApiV1PersonalDocumentsByIdRawData, GetApiV1PersonalDocumentsByIdRawResponses, GetApiV1PersonalDocumentsSummaryData, GetApiV1PersonalDocumentsSummaryResponses, GetApiV1TasksByIdCommentsData, GetApiV1TasksByIdCommentsResponses, GetApiV1TasksByIdDocumentsData, GetApiV1TasksByIdDocumentsResponses, GetApiV1UserDocumentsSummaryData, GetApiV1UserDocumentsSummaryResponses, GetApiV1UserManageInfoData, GetApiV1UserManageInfoErrors, GetApiV1UserManageInfoResponses, GetApiV1UsersMeData, GetApiV1UsersMeResponses, GetData, GetResponses, MapIdentityApiApiVVersionApiVersionUserConfirmEmailData, MapIdentityApiApiVVersionApiVersionUserConfirmEmailResponses, PatchApiV1CounterpartiesByIdData, PatchApiV1CounterpartiesByIdResponses, PatchApiV1InvitationsByIdData, PatchApiV1InvitationsByIdResponses, PatchApiV1InvoicesByIdData, PatchApiV1InvoicesByIdResponses, PatchApiV1RecurringTasksByIdData, PatchApiV1RecurringTasksByIdResponses, PatchApiV1UsersByIdData, PatchApiV1UsersByIdResponses, PostApiV1AccountingCompaniesByIdData, PostApiV1AccountingCompaniesByIdResponses, PostApiV1AccountingCompaniesData, PostApiV1AccountingCompaniesResponses, PostApiV1BusinessDocumentsByIdApproveData, PostApiV1BusinessDocumentsByIdApproveResponses, PostApiV1BusinessDocumentsByIdMoveToBusinessData, PostApiV1BusinessDocumentsByIdMoveToBusinessResponses, PostApiV1BusinessDocumentsByIdMoveToPersonalData, PostApiV1BusinessDocumentsByIdMoveToPersonalResponses, PostApiV1BusinessDocumentsByIdUnapproveData, PostApiV1BusinessDocumentsByIdUnapproveResponses, PostApiV1BusinessDocumentsData, PostApiV1BusinessDocumentsResponses, PostApiV1BusinessesByIdDisconnectData, PostApiV1BusinessesByIdDisconnectResponses, PostApiV1BusinessesData, PostApiV1BusinessesResponses, PostApiV1CounterpartiesData, PostApiV1CounterpartiesResponses, PostApiV1FeedbackData, PostApiV1FeedbackResponses, PostApiV1InvitationsByIdAcceptData, PostApiV1InvitationsByIdAcceptResponses, PostApiV1InvitationsByIdRejectData, PostApiV1InvitationsByIdRejectResponses, PostApiV1InvitationsData, PostApiV1InvitationsResponses, PostApiV1InvoicesByIdSendData, PostApiV1InvoicesByIdSendResponses, PostApiV1InvoicesByIdSnapshotData, PostApiV1InvoicesByIdSnapshotResponses, PostApiV1InvoicesData, PostApiV1InvoicesResponses, PostApiV1NotificationsTestData, PostApiV1NotificationsTestResponses, PostApiV1PersonalDocumentsByIdMoveToBusinessData, PostApiV1PersonalDocumentsByIdMoveToBusinessResponses, PostApiV1PersonalDocumentsData, PostApiV1PersonalDocumentsResponses, PostApiV1RecurringTasksData, PostApiV1RecurringTasksResponses, PostApiV1TasksByIdApproveData, PostApiV1TasksByIdApproveResponses, PostApiV1TasksByIdRejectData, PostApiV1TasksByIdRejectResponses, PostApiV1TasksByIdSubmitData, PostApiV1TasksByIdSubmitResponses, PostApiV1TasksData, PostApiV1TasksResponses, PostApiV1UserForgotPasswordData, PostApiV1UserForgotPasswordErrors, PostApiV1UserForgotPasswordResponses, PostApiV1UserLoginData, PostApiV1UserLoginResponses, PostApiV1UserLogoutData, PostApiV1UserLogoutResponses, PostApiV1UserManage2FaData, PostApiV1UserManage2FaErrors, PostApiV1UserManage2FaResponses, PostApiV1UserManageInfoData, PostApiV1UserManageInfoErrors, PostApiV1UserManageInfoResponses, PostApiV1UserRefreshData, PostApiV1UserRefreshResponses, PostApiV1UserRegisterData, PostApiV1UserRegisterErrors, PostApiV1UserRegisterResponses, PostApiV1UserResendConfirmationEmailData, PostApiV1UserResendConfirmationEmailResponses, PostApiV1UserResetPasswordData, PostApiV1UserResetPasswordErrors, PostApiV1UserResetPasswordResponses, PutApiV1AccountingCompanyMembershipsData, PutApiV1AccountingCompanyMembershipsResponses, PutApiV1BankAccountsData, PutApiV1BankAccountsResponses, PutApiV1BusinessAccountantAssignmentsData, PutApiV1BusinessAccountantAssignmentsResponses, PutApiV1BusinessDocumentsByIdData, PutApiV1BusinessDocumentsByIdResponses, PutApiV1BusinessesByIdContactData, PutApiV1BusinessesByIdContactResponses, PutApiV1BusinessesByIdData, PutApiV1BusinessesByIdResponses, PutApiV1BusinessMembershipsData, PutApiV1BusinessMembershipsResponses, PutApiV1DataBoxCredentialsData, PutApiV1DataBoxCredentialsResponses, PutApiV1InvoiceSettingsData, PutApiV1InvoiceSettingsResponses, PutApiV1NotificationsDeviceTokensData, PutApiV1NotificationsDeviceTokensResponses, PutApiV1TasksByIdData, PutApiV1TasksByIdResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
-    /**
-     * You can provide a client instance returned by `createClient()` instead of
-     * individual options. This might be also useful if you want to implement a
-     * custom client.
-     */
-    client?: Client;
-    /**
-     * You can pass arbitrary values through the `meta` object. This can be
-     * used to access values that aren't defined as part of the SDK function.
-     */
-    meta?: keyof ClientMeta extends never ? Record<string, unknown> : ClientMeta;
+  /**
+   * You can provide a client instance returned by `createClient()` instead of
+   * individual options. This might be also useful if you want to implement a
+   * custom client.
+   */
+  client?: Client;
+  /**
+   * You can pass arbitrary values through the `meta` object. This can be
+   * used to access values that aren't defined as part of the SDK function.
+   */
+  meta?: keyof ClientMeta extends never ? Record<string, unknown> : ClientMeta;
 };
 
 export const postApiV1AccountingCompanies = <ThrowOnError extends boolean = false>(options?: Options<PostApiV1AccountingCompaniesData, ThrowOnError>): RequestResult<PostApiV1AccountingCompaniesResponses, unknown, ThrowOnError> => (options?.client ?? client).post<PostApiV1AccountingCompaniesResponses, unknown, ThrowOnError>({
-    url: '/api/v1/accounting-companies',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
-        ...options?.headers
-    }
+  url: '/api/v1/accounting-companies',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
+    ...options?.headers
+  }
 });
 
 export const deleteApiV1AccountingCompaniesById = <ThrowOnError extends boolean = false>(options: Options<DeleteApiV1AccountingCompaniesByIdData, ThrowOnError>): RequestResult<DeleteApiV1AccountingCompaniesByIdResponses, unknown, ThrowOnError> => (options.client ?? client).delete<DeleteApiV1AccountingCompaniesByIdResponses, unknown, ThrowOnError>({ url: '/api/v1/accounting-companies/{id}', ...options });
 
 export const postApiV1AccountingCompaniesById = <ThrowOnError extends boolean = false>(options: Options<PostApiV1AccountingCompaniesByIdData, ThrowOnError>): RequestResult<PostApiV1AccountingCompaniesByIdResponses, unknown, ThrowOnError> => (options.client ?? client).post<PostApiV1AccountingCompaniesByIdResponses, unknown, ThrowOnError>({
-    url: '/api/v1/accounting-companies/{id}',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
-        ...options.headers
-    }
+  url: '/api/v1/accounting-companies/{id}',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
+    ...options.headers
+  }
 });
 
 export const apiVVersionApiVersionOdataAccountingCompanies = <ThrowOnError extends boolean = false>(options?: Options<ApiVVersionApiVersionOdataAccountingCompaniesData, ThrowOnError>): RequestResult<ApiVVersionApiVersionOdataAccountingCompaniesResponses, unknown, ThrowOnError> => (options?.client ?? client).get<ApiVVersionApiVersionOdataAccountingCompaniesResponses, unknown, ThrowOnError>({ url: '/api/v1/odata/AccountingCompanies', ...options });
@@ -43,12 +43,12 @@ export const apiVVersionApiVersionOdataAccountingCompanies = <ThrowOnError exten
 export const apiVVersionApiVersionOdataAccountingCompaniesCount = <ThrowOnError extends boolean = false>(options?: Options<ApiVVersionApiVersionOdataAccountingCompaniesCountData, ThrowOnError>): RequestResult<ApiVVersionApiVersionOdataAccountingCompaniesCountResponses, unknown, ThrowOnError> => (options?.client ?? client).get<ApiVVersionApiVersionOdataAccountingCompaniesCountResponses, unknown, ThrowOnError>({ url: '/api/v1/odata/AccountingCompanies/$count', ...options });
 
 export const putApiV1AccountingCompanyMemberships = <ThrowOnError extends boolean = false>(options?: Options<PutApiV1AccountingCompanyMembershipsData, ThrowOnError>): RequestResult<PutApiV1AccountingCompanyMembershipsResponses, unknown, ThrowOnError> => (options?.client ?? client).put<PutApiV1AccountingCompanyMembershipsResponses, unknown, ThrowOnError>({
-    url: '/api/v1/accounting-company-memberships',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
-        ...options?.headers
-    }
+  url: '/api/v1/accounting-company-memberships',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
+    ...options?.headers
+  }
 });
 
 export const deleteApiV1AccountingCompanyMembershipsById = <ThrowOnError extends boolean = false>(options: Options<DeleteApiV1AccountingCompanyMembershipsByIdData, ThrowOnError>): RequestResult<DeleteApiV1AccountingCompanyMembershipsByIdResponses, unknown, ThrowOnError> => (options.client ?? client).delete<DeleteApiV1AccountingCompanyMembershipsByIdResponses, unknown, ThrowOnError>({ url: '/api/v1/accounting-company-memberships/{id}', ...options });
@@ -58,12 +58,12 @@ export const apiVVersionApiVersionOdataAccountingCompanyMemberships = <ThrowOnEr
 export const apiVVersionApiVersionOdataAccountingCompanyMembershipsCount = <ThrowOnError extends boolean = false>(options?: Options<ApiVVersionApiVersionOdataAccountingCompanyMembershipsCountData, ThrowOnError>): RequestResult<ApiVVersionApiVersionOdataAccountingCompanyMembershipsCountResponses, unknown, ThrowOnError> => (options?.client ?? client).get<ApiVVersionApiVersionOdataAccountingCompanyMembershipsCountResponses, unknown, ThrowOnError>({ url: '/api/v1/odata/AccountingCompanyMemberships/$count', ...options });
 
 export const putApiV1BankAccounts = <ThrowOnError extends boolean = false>(options?: Options<PutApiV1BankAccountsData, ThrowOnError>): RequestResult<PutApiV1BankAccountsResponses, unknown, ThrowOnError> => (options?.client ?? client).put<PutApiV1BankAccountsResponses, unknown, ThrowOnError>({
-    url: '/api/v1/bank-accounts',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
-        ...options?.headers
-    }
+  url: '/api/v1/bank-accounts',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
+    ...options?.headers
+  }
 });
 
 export const deleteApiV1BankAccountsById = <ThrowOnError extends boolean = false>(options: Options<DeleteApiV1BankAccountsByIdData, ThrowOnError>): RequestResult<DeleteApiV1BankAccountsByIdResponses, unknown, ThrowOnError> => (options.client ?? client).delete<DeleteApiV1BankAccountsByIdResponses, unknown, ThrowOnError>({ url: '/api/v1/bank-accounts/{id}', ...options });
@@ -73,12 +73,12 @@ export const apiVVersionApiVersionOdataBankAccounts = <ThrowOnError extends bool
 export const apiVVersionApiVersionOdataBankAccountsCount = <ThrowOnError extends boolean = false>(options?: Options<ApiVVersionApiVersionOdataBankAccountsCountData, ThrowOnError>): RequestResult<ApiVVersionApiVersionOdataBankAccountsCountResponses, unknown, ThrowOnError> => (options?.client ?? client).get<ApiVVersionApiVersionOdataBankAccountsCountResponses, unknown, ThrowOnError>({ url: '/api/v1/odata/BankAccounts/$count', ...options });
 
 export const putApiV1BusinessAccountantAssignments = <ThrowOnError extends boolean = false>(options?: Options<PutApiV1BusinessAccountantAssignmentsData, ThrowOnError>): RequestResult<PutApiV1BusinessAccountantAssignmentsResponses, unknown, ThrowOnError> => (options?.client ?? client).put<PutApiV1BusinessAccountantAssignmentsResponses, unknown, ThrowOnError>({
-    url: '/api/v1/business-accountant-assignments',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
-        ...options?.headers
-    }
+  url: '/api/v1/business-accountant-assignments',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
+    ...options?.headers
+  }
 });
 
 export const deleteApiV1BusinessAccountantAssignmentsById = <ThrowOnError extends boolean = false>(options: Options<DeleteApiV1BusinessAccountantAssignmentsByIdData, ThrowOnError>): RequestResult<DeleteApiV1BusinessAccountantAssignmentsByIdResponses, unknown, ThrowOnError> => (options.client ?? client).delete<DeleteApiV1BusinessAccountantAssignmentsByIdResponses, unknown, ThrowOnError>({ url: '/api/v1/business-accountant-assignments/{id}', ...options });
@@ -90,24 +90,24 @@ export const apiVVersionApiVersionOdataBusinessAccountantAssignmentsCount = <Thr
 export const getApiV1BusinessDocumentsByIdRaw = <ThrowOnError extends boolean = false>(options: Options<GetApiV1BusinessDocumentsByIdRawData, ThrowOnError>): RequestResult<GetApiV1BusinessDocumentsByIdRawResponses, unknown, ThrowOnError> => (options.client ?? client).get<GetApiV1BusinessDocumentsByIdRawResponses, unknown, ThrowOnError>({ url: '/api/v1/business-documents/{id}/raw', ...options });
 
 export const postApiV1BusinessDocuments = <ThrowOnError extends boolean = false>(options?: Options<PostApiV1BusinessDocumentsData, ThrowOnError>): RequestResult<PostApiV1BusinessDocumentsResponses, unknown, ThrowOnError> => (options?.client ?? client).post<PostApiV1BusinessDocumentsResponses, unknown, ThrowOnError>({
-    ...formDataBodySerializer,
-    url: '/api/v1/business-documents',
-    ...options,
-    headers: {
-        'Content-Type': null,
-        ...options?.headers
-    }
+  ...formDataBodySerializer,
+  url: '/api/v1/business-documents',
+  ...options,
+  headers: {
+    'Content-Type': null,
+    ...options?.headers
+  }
 });
 
 export const deleteApiV1BusinessDocumentsById = <ThrowOnError extends boolean = false>(options: Options<DeleteApiV1BusinessDocumentsByIdData, ThrowOnError>): RequestResult<DeleteApiV1BusinessDocumentsByIdResponses, unknown, ThrowOnError> => (options.client ?? client).delete<DeleteApiV1BusinessDocumentsByIdResponses, unknown, ThrowOnError>({ url: '/api/v1/business-documents/{id}', ...options });
 
 export const putApiV1BusinessDocumentsById = <ThrowOnError extends boolean = false>(options: Options<PutApiV1BusinessDocumentsByIdData, ThrowOnError>): RequestResult<PutApiV1BusinessDocumentsByIdResponses, unknown, ThrowOnError> => (options.client ?? client).put<PutApiV1BusinessDocumentsByIdResponses, unknown, ThrowOnError>({
-    url: '/api/v1/business-documents/{id}',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
-        ...options.headers
-    }
+  url: '/api/v1/business-documents/{id}',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
+    ...options.headers
+  }
 });
 
 export const postApiV1BusinessDocumentsByIdApprove = <ThrowOnError extends boolean = false>(options: Options<PostApiV1BusinessDocumentsByIdApproveData, ThrowOnError>): RequestResult<PostApiV1BusinessDocumentsByIdApproveResponses, unknown, ThrowOnError> => (options.client ?? client).post<PostApiV1BusinessDocumentsByIdApproveResponses, unknown, ThrowOnError>({ url: '/api/v1/business-documents/{id}/approve', ...options });
@@ -117,12 +117,12 @@ export const postApiV1BusinessDocumentsByIdUnapprove = <ThrowOnError extends boo
 export const postApiV1BusinessDocumentsByIdMoveToPersonal = <ThrowOnError extends boolean = false>(options: Options<PostApiV1BusinessDocumentsByIdMoveToPersonalData, ThrowOnError>): RequestResult<PostApiV1BusinessDocumentsByIdMoveToPersonalResponses, unknown, ThrowOnError> => (options.client ?? client).post<PostApiV1BusinessDocumentsByIdMoveToPersonalResponses, unknown, ThrowOnError>({ url: '/api/v1/business-documents/{id}/move-to-personal', ...options });
 
 export const postApiV1BusinessDocumentsByIdMoveToBusiness = <ThrowOnError extends boolean = false>(options: Options<PostApiV1BusinessDocumentsByIdMoveToBusinessData, ThrowOnError>): RequestResult<PostApiV1BusinessDocumentsByIdMoveToBusinessResponses, unknown, ThrowOnError> => (options.client ?? client).post<PostApiV1BusinessDocumentsByIdMoveToBusinessResponses, unknown, ThrowOnError>({
-    url: '/api/v1/business-documents/{id}/move-to-business',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
-        ...options.headers
-    }
+  url: '/api/v1/business-documents/{id}/move-to-business',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
+    ...options.headers
+  }
 });
 
 export const apiVVersionApiVersionOdataBusinessDocumentActivities = <ThrowOnError extends boolean = false>(options?: Options<ApiVVersionApiVersionOdataBusinessDocumentActivitiesData, ThrowOnError>): RequestResult<ApiVVersionApiVersionOdataBusinessDocumentActivitiesResponses, unknown, ThrowOnError> => (options?.client ?? client).get<ApiVVersionApiVersionOdataBusinessDocumentActivitiesResponses, unknown, ThrowOnError>({ url: '/api/v1/odata/BusinessDocumentActivities', ...options });
@@ -146,32 +146,32 @@ export const apiVVersionApiVersionOdataBusinessDocumentsSummariesCount = <ThrowO
 export const getApiV1BusinessesByIdDocumentTypesSummary = <ThrowOnError extends boolean = false>(options: Options<GetApiV1BusinessesByIdDocumentTypesSummaryData, ThrowOnError>): RequestResult<GetApiV1BusinessesByIdDocumentTypesSummaryResponses, unknown, ThrowOnError> => (options.client ?? client).get<GetApiV1BusinessesByIdDocumentTypesSummaryResponses, unknown, ThrowOnError>({ url: '/api/v1/businesses/{id}/document-types-summary', ...options });
 
 export const postApiV1Businesses = <ThrowOnError extends boolean = false>(options?: Options<PostApiV1BusinessesData, ThrowOnError>): RequestResult<PostApiV1BusinessesResponses, unknown, ThrowOnError> => (options?.client ?? client).post<PostApiV1BusinessesResponses, unknown, ThrowOnError>({
-    url: '/api/v1/businesses',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
-        ...options?.headers
-    }
+  url: '/api/v1/businesses',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
+    ...options?.headers
+  }
 });
 
 export const deleteApiV1BusinessesById = <ThrowOnError extends boolean = false>(options: Options<DeleteApiV1BusinessesByIdData, ThrowOnError>): RequestResult<DeleteApiV1BusinessesByIdResponses, unknown, ThrowOnError> => (options.client ?? client).delete<DeleteApiV1BusinessesByIdResponses, unknown, ThrowOnError>({ url: '/api/v1/businesses/{id}', ...options });
 
 export const putApiV1BusinessesById = <ThrowOnError extends boolean = false>(options: Options<PutApiV1BusinessesByIdData, ThrowOnError>): RequestResult<PutApiV1BusinessesByIdResponses, unknown, ThrowOnError> => (options.client ?? client).put<PutApiV1BusinessesByIdResponses, unknown, ThrowOnError>({
-    url: '/api/v1/businesses/{id}',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
-        ...options.headers
-    }
+  url: '/api/v1/businesses/{id}',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
+    ...options.headers
+  }
 });
 
 export const putApiV1BusinessesByIdContact = <ThrowOnError extends boolean = false>(options: Options<PutApiV1BusinessesByIdContactData, ThrowOnError>): RequestResult<PutApiV1BusinessesByIdContactResponses, unknown, ThrowOnError> => (options.client ?? client).put<PutApiV1BusinessesByIdContactResponses, unknown, ThrowOnError>({
-    url: '/api/v1/businesses/{id}/contact',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
-        ...options.headers
-    }
+  url: '/api/v1/businesses/{id}/contact',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
+    ...options.headers
+  }
 });
 
 export const postApiV1BusinessesByIdDisconnect = <ThrowOnError extends boolean = false>(options: Options<PostApiV1BusinessesByIdDisconnectData, ThrowOnError>): RequestResult<PostApiV1BusinessesByIdDisconnectResponses, unknown, ThrowOnError> => (options.client ?? client).post<PostApiV1BusinessesByIdDisconnectResponses, unknown, ThrowOnError>({ url: '/api/v1/businesses/{id}/disconnect', ...options });
@@ -185,12 +185,12 @@ export const apiVVersionApiVersionOdataBusinessesKey = <ThrowOnError extends boo
 export const apiVVersionApiVersionOdataBusinessesKey2 = <ThrowOnError extends boolean = false>(options?: Options<ApiVVersionApiVersionOdataBusinessesKey2Data, ThrowOnError>): RequestResult<ApiVVersionApiVersionOdataBusinessesKey2Responses, unknown, ThrowOnError> => (options?.client ?? client).get<ApiVVersionApiVersionOdataBusinessesKey2Responses, unknown, ThrowOnError>({ url: '/api/v1/odata/Businesses/{key}', ...options });
 
 export const putApiV1BusinessMemberships = <ThrowOnError extends boolean = false>(options?: Options<PutApiV1BusinessMembershipsData, ThrowOnError>): RequestResult<PutApiV1BusinessMembershipsResponses, unknown, ThrowOnError> => (options?.client ?? client).put<PutApiV1BusinessMembershipsResponses, unknown, ThrowOnError>({
-    url: '/api/v1/business-memberships',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
-        ...options?.headers
-    }
+  url: '/api/v1/business-memberships',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
+    ...options?.headers
+  }
 });
 
 export const apiVVersionApiVersionOdataBusinessSummaries = <ThrowOnError extends boolean = false>(options?: Options<ApiVVersionApiVersionOdataBusinessSummariesData, ThrowOnError>): RequestResult<ApiVVersionApiVersionOdataBusinessSummariesResponses, unknown, ThrowOnError> => (options?.client ?? client).get<ApiVVersionApiVersionOdataBusinessSummariesResponses, unknown, ThrowOnError>({ url: '/api/v1/odata/BusinessSummaries', ...options });
@@ -198,23 +198,23 @@ export const apiVVersionApiVersionOdataBusinessSummaries = <ThrowOnError extends
 export const apiVVersionApiVersionOdataBusinessSummariesCount = <ThrowOnError extends boolean = false>(options?: Options<ApiVVersionApiVersionOdataBusinessSummariesCountData, ThrowOnError>): RequestResult<ApiVVersionApiVersionOdataBusinessSummariesCountResponses, unknown, ThrowOnError> => (options?.client ?? client).get<ApiVVersionApiVersionOdataBusinessSummariesCountResponses, unknown, ThrowOnError>({ url: '/api/v1/odata/BusinessSummaries/$count', ...options });
 
 export const postApiV1Counterparties = <ThrowOnError extends boolean = false>(options?: Options<PostApiV1CounterpartiesData, ThrowOnError>): RequestResult<PostApiV1CounterpartiesResponses, unknown, ThrowOnError> => (options?.client ?? client).post<PostApiV1CounterpartiesResponses, unknown, ThrowOnError>({
-    url: '/api/v1/counterparties',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
-        ...options?.headers
-    }
+  url: '/api/v1/counterparties',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
+    ...options?.headers
+  }
 });
 
 export const deleteApiV1CounterpartiesById = <ThrowOnError extends boolean = false>(options: Options<DeleteApiV1CounterpartiesByIdData, ThrowOnError>): RequestResult<DeleteApiV1CounterpartiesByIdResponses, unknown, ThrowOnError> => (options.client ?? client).delete<DeleteApiV1CounterpartiesByIdResponses, unknown, ThrowOnError>({ url: '/api/v1/counterparties/{id}', ...options });
 
 export const patchApiV1CounterpartiesById = <ThrowOnError extends boolean = false>(options: Options<PatchApiV1CounterpartiesByIdData, ThrowOnError>): RequestResult<PatchApiV1CounterpartiesByIdResponses, unknown, ThrowOnError> => (options.client ?? client).patch<PatchApiV1CounterpartiesByIdResponses, unknown, ThrowOnError>({
-    url: '/api/v1/counterparties/{id}',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
-        ...options.headers
-    }
+  url: '/api/v1/counterparties/{id}',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
+    ...options.headers
+  }
 });
 
 export const apiVVersionApiVersionOdataCounterparties = <ThrowOnError extends boolean = false>(options?: Options<ApiVVersionApiVersionOdataCounterpartiesData, ThrowOnError>): RequestResult<ApiVVersionApiVersionOdataCounterpartiesResponses, unknown, ThrowOnError> => (options?.client ?? client).get<ApiVVersionApiVersionOdataCounterpartiesResponses, unknown, ThrowOnError>({ url: '/api/v1/odata/Counterparties', ...options });
@@ -222,12 +222,12 @@ export const apiVVersionApiVersionOdataCounterparties = <ThrowOnError extends bo
 export const apiVVersionApiVersionOdataCounterpartiesCount = <ThrowOnError extends boolean = false>(options?: Options<ApiVVersionApiVersionOdataCounterpartiesCountData, ThrowOnError>): RequestResult<ApiVVersionApiVersionOdataCounterpartiesCountResponses, unknown, ThrowOnError> => (options?.client ?? client).get<ApiVVersionApiVersionOdataCounterpartiesCountResponses, unknown, ThrowOnError>({ url: '/api/v1/odata/Counterparties/$count', ...options });
 
 export const putApiV1DataBoxCredentials = <ThrowOnError extends boolean = false>(options?: Options<PutApiV1DataBoxCredentialsData, ThrowOnError>): RequestResult<PutApiV1DataBoxCredentialsResponses, unknown, ThrowOnError> => (options?.client ?? client).put<PutApiV1DataBoxCredentialsResponses, unknown, ThrowOnError>({
-    url: '/api/v1/data-box-credentials',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
-        ...options?.headers
-    }
+  url: '/api/v1/data-box-credentials',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
+    ...options?.headers
+  }
 });
 
 export const deleteApiV1DataBoxCredentialsById = <ThrowOnError extends boolean = false>(options: Options<DeleteApiV1DataBoxCredentialsByIdData, ThrowOnError>): RequestResult<DeleteApiV1DataBoxCredentialsByIdResponses, unknown, ThrowOnError> => (options.client ?? client).delete<DeleteApiV1DataBoxCredentialsByIdResponses, unknown, ThrowOnError>({ url: '/api/v1/data-box-credentials/{id}', ...options });
@@ -263,21 +263,21 @@ export const getApiDevConfirmEmail = <ThrowOnError extends boolean = false>(opti
 export const getApiDevEmailSendTest = <ThrowOnError extends boolean = false>(options?: Options<GetApiDevEmailSendTestData, ThrowOnError>): RequestResult<GetApiDevEmailSendTestResponses, unknown, ThrowOnError> => (options?.client ?? client).get<GetApiDevEmailSendTestResponses, unknown, ThrowOnError>({ url: '/api/dev/email/send-test', ...options });
 
 export const deleteApiV1NotificationsDeviceTokens = <ThrowOnError extends boolean = false>(options?: Options<DeleteApiV1NotificationsDeviceTokensData, ThrowOnError>): RequestResult<DeleteApiV1NotificationsDeviceTokensResponses, unknown, ThrowOnError> => (options?.client ?? client).delete<DeleteApiV1NotificationsDeviceTokensResponses, unknown, ThrowOnError>({
-    url: '/api/v1/notifications/device-tokens',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
-        ...options?.headers
-    }
+  url: '/api/v1/notifications/device-tokens',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
+    ...options?.headers
+  }
 });
 
 export const putApiV1NotificationsDeviceTokens = <ThrowOnError extends boolean = false>(options?: Options<PutApiV1NotificationsDeviceTokensData, ThrowOnError>): RequestResult<PutApiV1NotificationsDeviceTokensResponses, unknown, ThrowOnError> => (options?.client ?? client).put<PutApiV1NotificationsDeviceTokensResponses, unknown, ThrowOnError>({
-    url: '/api/v1/notifications/device-tokens',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
-        ...options?.headers
-    }
+  url: '/api/v1/notifications/device-tokens',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
+    ...options?.headers
+  }
 });
 
 export const apiVVersionApiVersionOdataDocumentTypes = <ThrowOnError extends boolean = false>(options?: Options<ApiVVersionApiVersionOdataDocumentTypesData, ThrowOnError>): RequestResult<ApiVVersionApiVersionOdataDocumentTypesResponses, unknown, ThrowOnError> => (options?.client ?? client).get<ApiVVersionApiVersionOdataDocumentTypesResponses, unknown, ThrowOnError>({ url: '/api/v1/odata/DocumentTypes', ...options });
@@ -285,30 +285,30 @@ export const apiVVersionApiVersionOdataDocumentTypes = <ThrowOnError extends boo
 export const apiVVersionApiVersionOdataDocumentTypesCount = <ThrowOnError extends boolean = false>(options?: Options<ApiVVersionApiVersionOdataDocumentTypesCountData, ThrowOnError>): RequestResult<ApiVVersionApiVersionOdataDocumentTypesCountResponses, unknown, ThrowOnError> => (options?.client ?? client).get<ApiVVersionApiVersionOdataDocumentTypesCountResponses, unknown, ThrowOnError>({ url: '/api/v1/odata/DocumentTypes/$count', ...options });
 
 export const postApiV1Feedback = <ThrowOnError extends boolean = false>(options?: Options<PostApiV1FeedbackData, ThrowOnError>): RequestResult<PostApiV1FeedbackResponses, unknown, ThrowOnError> => (options?.client ?? client).post<PostApiV1FeedbackResponses, unknown, ThrowOnError>({
-    url: '/api/v1/feedback',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
-        ...options?.headers
-    }
+  url: '/api/v1/feedback',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
+    ...options?.headers
+  }
 });
 
 export const postApiV1Invitations = <ThrowOnError extends boolean = false>(options?: Options<PostApiV1InvitationsData, ThrowOnError>): RequestResult<PostApiV1InvitationsResponses, unknown, ThrowOnError> => (options?.client ?? client).post<PostApiV1InvitationsResponses, unknown, ThrowOnError>({
-    url: '/api/v1/invitations',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
-        ...options?.headers
-    }
+  url: '/api/v1/invitations',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
+    ...options?.headers
+  }
 });
 
 export const postApiV1InvitationsByIdAccept = <ThrowOnError extends boolean = false>(options: Options<PostApiV1InvitationsByIdAcceptData, ThrowOnError>): RequestResult<PostApiV1InvitationsByIdAcceptResponses, unknown, ThrowOnError> => (options.client ?? client).post<PostApiV1InvitationsByIdAcceptResponses, unknown, ThrowOnError>({
-    url: '/api/v1/invitations/{id}/accept',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
-        ...options.headers
-    }
+  url: '/api/v1/invitations/{id}/accept',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
+    ...options.headers
+  }
 });
 
 export const postApiV1InvitationsByIdReject = <ThrowOnError extends boolean = false>(options: Options<PostApiV1InvitationsByIdRejectData, ThrowOnError>): RequestResult<PostApiV1InvitationsByIdRejectResponses, unknown, ThrowOnError> => (options.client ?? client).post<PostApiV1InvitationsByIdRejectResponses, unknown, ThrowOnError>({ url: '/api/v1/invitations/{id}/reject', ...options });
@@ -316,12 +316,12 @@ export const postApiV1InvitationsByIdReject = <ThrowOnError extends boolean = fa
 export const deleteApiV1InvitationsById = <ThrowOnError extends boolean = false>(options: Options<DeleteApiV1InvitationsByIdData, ThrowOnError>): RequestResult<DeleteApiV1InvitationsByIdResponses, unknown, ThrowOnError> => (options.client ?? client).delete<DeleteApiV1InvitationsByIdResponses, unknown, ThrowOnError>({ url: '/api/v1/invitations/{id}', ...options });
 
 export const patchApiV1InvitationsById = <ThrowOnError extends boolean = false>(options: Options<PatchApiV1InvitationsByIdData, ThrowOnError>): RequestResult<PatchApiV1InvitationsByIdResponses, unknown, ThrowOnError> => (options.client ?? client).patch<PatchApiV1InvitationsByIdResponses, unknown, ThrowOnError>({
-    url: '/api/v1/invitations/{id}',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
-        ...options.headers
-    }
+  url: '/api/v1/invitations/{id}',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
+    ...options.headers
+  }
 });
 
 export const apiVVersionApiVersionOdataInvitations = <ThrowOnError extends boolean = false>(options?: Options<ApiVVersionApiVersionOdataInvitationsData, ThrowOnError>): RequestResult<ApiVVersionApiVersionOdataInvitationsResponses, unknown, ThrowOnError> => (options?.client ?? client).get<ApiVVersionApiVersionOdataInvitationsResponses, unknown, ThrowOnError>({ url: '/api/v1/odata/Invitations', ...options });
@@ -329,34 +329,34 @@ export const apiVVersionApiVersionOdataInvitations = <ThrowOnError extends boole
 export const apiVVersionApiVersionOdataInvitationsCount = <ThrowOnError extends boolean = false>(options?: Options<ApiVVersionApiVersionOdataInvitationsCountData, ThrowOnError>): RequestResult<ApiVVersionApiVersionOdataInvitationsCountResponses, unknown, ThrowOnError> => (options?.client ?? client).get<ApiVVersionApiVersionOdataInvitationsCountResponses, unknown, ThrowOnError>({ url: '/api/v1/odata/Invitations/$count', ...options });
 
 export const postApiV1Invoices = <ThrowOnError extends boolean = false>(options?: Options<PostApiV1InvoicesData, ThrowOnError>): RequestResult<PostApiV1InvoicesResponses, unknown, ThrowOnError> => (options?.client ?? client).post<PostApiV1InvoicesResponses, unknown, ThrowOnError>({
-    url: '/api/v1/invoices',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
-        ...options?.headers
-    }
+  url: '/api/v1/invoices',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
+    ...options?.headers
+  }
 });
 
 export const deleteApiV1InvoicesById = <ThrowOnError extends boolean = false>(options: Options<DeleteApiV1InvoicesByIdData, ThrowOnError>): RequestResult<DeleteApiV1InvoicesByIdResponses, unknown, ThrowOnError> => (options.client ?? client).delete<DeleteApiV1InvoicesByIdResponses, unknown, ThrowOnError>({ url: '/api/v1/invoices/{id}', ...options });
 
 export const patchApiV1InvoicesById = <ThrowOnError extends boolean = false>(options: Options<PatchApiV1InvoicesByIdData, ThrowOnError>): RequestResult<PatchApiV1InvoicesByIdResponses, unknown, ThrowOnError> => (options.client ?? client).patch<PatchApiV1InvoicesByIdResponses, unknown, ThrowOnError>({
-    url: '/api/v1/invoices/{id}',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
-        ...options.headers
-    }
+  url: '/api/v1/invoices/{id}',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
+    ...options.headers
+  }
 });
 
 export const getApiV1InvoicesByIdPreview = <ThrowOnError extends boolean = false>(options: Options<GetApiV1InvoicesByIdPreviewData, ThrowOnError>): RequestResult<GetApiV1InvoicesByIdPreviewResponses, unknown, ThrowOnError> => (options.client ?? client).get<GetApiV1InvoicesByIdPreviewResponses, unknown, ThrowOnError>({ url: '/api/v1/invoices/{id}/preview', ...options });
 
 export const postApiV1InvoicesByIdSend = <ThrowOnError extends boolean = false>(options: Options<PostApiV1InvoicesByIdSendData, ThrowOnError>): RequestResult<PostApiV1InvoicesByIdSendResponses, unknown, ThrowOnError> => (options.client ?? client).post<PostApiV1InvoicesByIdSendResponses, unknown, ThrowOnError>({
-    url: '/api/v1/invoices/{id}/send',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
-        ...options.headers
-    }
+  url: '/api/v1/invoices/{id}/send',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
+    ...options.headers
+  }
 });
 
 export const postApiV1InvoicesByIdSnapshot = <ThrowOnError extends boolean = false>(options: Options<PostApiV1InvoicesByIdSnapshotData, ThrowOnError>): RequestResult<PostApiV1InvoicesByIdSnapshotResponses, unknown, ThrowOnError> => (options.client ?? client).post<PostApiV1InvoicesByIdSnapshotResponses, unknown, ThrowOnError>({ url: '/api/v1/invoices/{id}/snapshot', ...options });
@@ -366,12 +366,12 @@ export const apiVVersionApiVersionOdataInvoices = <ThrowOnError extends boolean 
 export const apiVVersionApiVersionOdataInvoicesCount = <ThrowOnError extends boolean = false>(options?: Options<ApiVVersionApiVersionOdataInvoicesCountData, ThrowOnError>): RequestResult<ApiVVersionApiVersionOdataInvoicesCountResponses, unknown, ThrowOnError> => (options?.client ?? client).get<ApiVVersionApiVersionOdataInvoicesCountResponses, unknown, ThrowOnError>({ url: '/api/v1/odata/Invoices/$count', ...options });
 
 export const putApiV1InvoiceSettings = <ThrowOnError extends boolean = false>(options?: Options<PutApiV1InvoiceSettingsData, ThrowOnError>): RequestResult<PutApiV1InvoiceSettingsResponses, unknown, ThrowOnError> => (options?.client ?? client).put<PutApiV1InvoiceSettingsResponses, unknown, ThrowOnError>({
-    url: '/api/v1/invoice-settings',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
-        ...options?.headers
-    }
+  url: '/api/v1/invoice-settings',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
+    ...options?.headers
+  }
 });
 
 export const apiVVersionApiVersionOdataInvoiceSettings = <ThrowOnError extends boolean = false>(options?: Options<ApiVVersionApiVersionOdataInvoiceSettingsData, ThrowOnError>): RequestResult<ApiVVersionApiVersionOdataInvoiceSettingsResponses, unknown, ThrowOnError> => (options?.client ?? client).get<ApiVVersionApiVersionOdataInvoiceSettingsResponses, unknown, ThrowOnError>({ url: '/api/v1/odata/InvoiceSettings', ...options });
@@ -383,33 +383,33 @@ export const apiVVersionApiVersionOdataLicenses = <ThrowOnError extends boolean 
 export const apiVVersionApiVersionOdataLicensesCount = <ThrowOnError extends boolean = false>(options?: Options<ApiVVersionApiVersionOdataLicensesCountData, ThrowOnError>): RequestResult<ApiVVersionApiVersionOdataLicensesCountResponses, unknown, ThrowOnError> => (options?.client ?? client).get<ApiVVersionApiVersionOdataLicensesCountResponses, unknown, ThrowOnError>({ url: '/api/v1/odata/Licenses/$count', ...options });
 
 export const postApiV1NotificationsTest = <ThrowOnError extends boolean = false>(options?: Options<PostApiV1NotificationsTestData, ThrowOnError>): RequestResult<PostApiV1NotificationsTestResponses, unknown, ThrowOnError> => (options?.client ?? client).post<PostApiV1NotificationsTestResponses, unknown, ThrowOnError>({
-    url: '/api/v1/notifications/test',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
-        ...options?.headers
-    }
+  url: '/api/v1/notifications/test',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
+    ...options?.headers
+  }
 });
 
 export const getApiV1PersonalDocumentsByIdRaw = <ThrowOnError extends boolean = false>(options: Options<GetApiV1PersonalDocumentsByIdRawData, ThrowOnError>): RequestResult<GetApiV1PersonalDocumentsByIdRawResponses, unknown, ThrowOnError> => (options.client ?? client).get<GetApiV1PersonalDocumentsByIdRawResponses, unknown, ThrowOnError>({ url: '/api/v1/personal-documents/{id}/raw', ...options });
 
 export const postApiV1PersonalDocuments = <ThrowOnError extends boolean = false>(options?: Options<PostApiV1PersonalDocumentsData, ThrowOnError>): RequestResult<PostApiV1PersonalDocumentsResponses, unknown, ThrowOnError> => (options?.client ?? client).post<PostApiV1PersonalDocumentsResponses, unknown, ThrowOnError>({
-    ...formDataBodySerializer,
-    url: '/api/v1/personal-documents',
-    ...options,
-    headers: {
-        'Content-Type': null,
-        ...options?.headers
-    }
+  ...formDataBodySerializer,
+  url: '/api/v1/personal-documents',
+  ...options,
+  headers: {
+    'Content-Type': null,
+    ...options?.headers
+  }
 });
 
 export const postApiV1PersonalDocumentsByIdMoveToBusiness = <ThrowOnError extends boolean = false>(options: Options<PostApiV1PersonalDocumentsByIdMoveToBusinessData, ThrowOnError>): RequestResult<PostApiV1PersonalDocumentsByIdMoveToBusinessResponses, unknown, ThrowOnError> => (options.client ?? client).post<PostApiV1PersonalDocumentsByIdMoveToBusinessResponses, unknown, ThrowOnError>({
-    url: '/api/v1/personal-documents/{id}/move-to-business',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
-        ...options.headers
-    }
+  url: '/api/v1/personal-documents/{id}/move-to-business',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
+    ...options.headers
+  }
 });
 
 export const deleteApiV1PersonalDocumentsById = <ThrowOnError extends boolean = false>(options: Options<DeleteApiV1PersonalDocumentsByIdData, ThrowOnError>): RequestResult<DeleteApiV1PersonalDocumentsByIdResponses, unknown, ThrowOnError> => (options.client ?? client).delete<DeleteApiV1PersonalDocumentsByIdResponses, unknown, ThrowOnError>({ url: '/api/v1/personal-documents/{id}', ...options });
@@ -421,23 +421,23 @@ export const apiVVersionApiVersionOdataPersonalDocuments = <ThrowOnError extends
 export const apiVVersionApiVersionOdataPersonalDocumentsCount = <ThrowOnError extends boolean = false>(options?: Options<ApiVVersionApiVersionOdataPersonalDocumentsCountData, ThrowOnError>): RequestResult<ApiVVersionApiVersionOdataPersonalDocumentsCountResponses, unknown, ThrowOnError> => (options?.client ?? client).get<ApiVVersionApiVersionOdataPersonalDocumentsCountResponses, unknown, ThrowOnError>({ url: '/api/v1/odata/PersonalDocuments/$count', ...options });
 
 export const postApiV1RecurringTasks = <ThrowOnError extends boolean = false>(options?: Options<PostApiV1RecurringTasksData, ThrowOnError>): RequestResult<PostApiV1RecurringTasksResponses, unknown, ThrowOnError> => (options?.client ?? client).post<PostApiV1RecurringTasksResponses, unknown, ThrowOnError>({
-    url: '/api/v1/recurring-tasks',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
-        ...options?.headers
-    }
+  url: '/api/v1/recurring-tasks',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
+    ...options?.headers
+  }
 });
 
 export const deleteApiV1RecurringTasksById = <ThrowOnError extends boolean = false>(options: Options<DeleteApiV1RecurringTasksByIdData, ThrowOnError>): RequestResult<DeleteApiV1RecurringTasksByIdResponses, unknown, ThrowOnError> => (options.client ?? client).delete<DeleteApiV1RecurringTasksByIdResponses, unknown, ThrowOnError>({ url: '/api/v1/recurring-tasks/{id}', ...options });
 
 export const patchApiV1RecurringTasksById = <ThrowOnError extends boolean = false>(options: Options<PatchApiV1RecurringTasksByIdData, ThrowOnError>): RequestResult<PatchApiV1RecurringTasksByIdResponses, unknown, ThrowOnError> => (options.client ?? client).patch<PatchApiV1RecurringTasksByIdResponses, unknown, ThrowOnError>({
-    url: '/api/v1/recurring-tasks/{id}',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
-        ...options.headers
-    }
+  url: '/api/v1/recurring-tasks/{id}',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
+    ...options.headers
+  }
 });
 
 export const apiVVersionApiVersionOdataRecurringTasks = <ThrowOnError extends boolean = false>(options?: Options<ApiVVersionApiVersionOdataRecurringTasksData, ThrowOnError>): RequestResult<ApiVVersionApiVersionOdataRecurringTasksResponses, unknown, ThrowOnError> => (options?.client ?? client).get<ApiVVersionApiVersionOdataRecurringTasksResponses, unknown, ThrowOnError>({ url: '/api/v1/odata/RecurringTasks', ...options });
@@ -447,41 +447,41 @@ export const apiVVersionApiVersionOdataRecurringTasksCount = <ThrowOnError exten
 export const get = <ThrowOnError extends boolean = false>(options?: Options<GetData, ThrowOnError>): RequestResult<GetResponses, unknown, ThrowOnError> => (options?.client ?? client).get<GetResponses, unknown, ThrowOnError>({ url: '/', ...options });
 
 export const postApiV1Tasks = <ThrowOnError extends boolean = false>(options?: Options<PostApiV1TasksData, ThrowOnError>): RequestResult<PostApiV1TasksResponses, unknown, ThrowOnError> => (options?.client ?? client).post<PostApiV1TasksResponses, unknown, ThrowOnError>({
-    url: '/api/v1/tasks',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
-        ...options?.headers
-    }
+  url: '/api/v1/tasks',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
+    ...options?.headers
+  }
 });
 
 export const putApiV1TasksById = <ThrowOnError extends boolean = false>(options: Options<PutApiV1TasksByIdData, ThrowOnError>): RequestResult<PutApiV1TasksByIdResponses, unknown, ThrowOnError> => (options.client ?? client).put<PutApiV1TasksByIdResponses, unknown, ThrowOnError>({
-    url: '/api/v1/tasks/{id}',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
-        ...options.headers
-    }
+  url: '/api/v1/tasks/{id}',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
+    ...options.headers
+  }
 });
 
 export const postApiV1TasksByIdSubmit = <ThrowOnError extends boolean = false>(options: Options<PostApiV1TasksByIdSubmitData, ThrowOnError>): RequestResult<PostApiV1TasksByIdSubmitResponses, unknown, ThrowOnError> => (options.client ?? client).post<PostApiV1TasksByIdSubmitResponses, unknown, ThrowOnError>({
-    url: '/api/v1/tasks/{id}/submit',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
-        ...options.headers
-    }
+  url: '/api/v1/tasks/{id}/submit',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
+    ...options.headers
+  }
 });
 
 export const postApiV1TasksByIdApprove = <ThrowOnError extends boolean = false>(options: Options<PostApiV1TasksByIdApproveData, ThrowOnError>): RequestResult<PostApiV1TasksByIdApproveResponses, unknown, ThrowOnError> => (options.client ?? client).post<PostApiV1TasksByIdApproveResponses, unknown, ThrowOnError>({ url: '/api/v1/tasks/{id}/approve', ...options });
 
 export const postApiV1TasksByIdReject = <ThrowOnError extends boolean = false>(options: Options<PostApiV1TasksByIdRejectData, ThrowOnError>): RequestResult<PostApiV1TasksByIdRejectResponses, unknown, ThrowOnError> => (options.client ?? client).post<PostApiV1TasksByIdRejectResponses, unknown, ThrowOnError>({
-    url: '/api/v1/tasks/{id}/reject',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
-        ...options.headers
-    }
+  url: '/api/v1/tasks/{id}/reject',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
+    ...options.headers
+  }
 });
 
 export const getApiV1TasksByIdComments = <ThrowOnError extends boolean = false>(options: Options<GetApiV1TasksByIdCommentsData, ThrowOnError>): RequestResult<GetApiV1TasksByIdCommentsResponses, unknown, ThrowOnError> => (options.client ?? client).get<GetApiV1TasksByIdCommentsResponses, unknown, ThrowOnError>({ url: '/api/v1/tasks/{id}/comments', ...options });
@@ -497,88 +497,88 @@ export const apiVVersionApiVersionOdataTasksKey = <ThrowOnError extends boolean 
 export const apiVVersionApiVersionOdataTasksKey2 = <ThrowOnError extends boolean = false>(options?: Options<ApiVVersionApiVersionOdataTasksKey2Data, ThrowOnError>): RequestResult<ApiVVersionApiVersionOdataTasksKey2Responses, unknown, ThrowOnError> => (options?.client ?? client).get<ApiVVersionApiVersionOdataTasksKey2Responses, unknown, ThrowOnError>({ url: '/api/v1/odata/Tasks/{key}', ...options });
 
 export const postApiV1UserRegister = <ThrowOnError extends boolean = false>(options: Options<PostApiV1UserRegisterData, ThrowOnError>): RequestResult<PostApiV1UserRegisterResponses, PostApiV1UserRegisterErrors, ThrowOnError> => (options.client ?? client).post<PostApiV1UserRegisterResponses, PostApiV1UserRegisterErrors, ThrowOnError>({
-    url: '/api/v1/user/register',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+  url: '/api/v1/user/register',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 export const postApiV1UserLogin = <ThrowOnError extends boolean = false>(options: Options<PostApiV1UserLoginData, ThrowOnError>): RequestResult<PostApiV1UserLoginResponses, unknown, ThrowOnError> => (options.client ?? client).post<PostApiV1UserLoginResponses, unknown, ThrowOnError>({
-    url: '/api/v1/user/login',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+  url: '/api/v1/user/login',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 export const postApiV1UserRefresh = <ThrowOnError extends boolean = false>(options: Options<PostApiV1UserRefreshData, ThrowOnError>): RequestResult<PostApiV1UserRefreshResponses, unknown, ThrowOnError> => (options.client ?? client).post<PostApiV1UserRefreshResponses, unknown, ThrowOnError>({
-    url: '/api/v1/user/refresh',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+  url: '/api/v1/user/refresh',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 export const mapIdentityApiApiVVersionApiVersionUserConfirmEmail = <ThrowOnError extends boolean = false>(options: Options<MapIdentityApiApiVVersionApiVersionUserConfirmEmailData, ThrowOnError>): RequestResult<MapIdentityApiApiVVersionApiVersionUserConfirmEmailResponses, unknown, ThrowOnError> => (options.client ?? client).get<MapIdentityApiApiVVersionApiVersionUserConfirmEmailResponses, unknown, ThrowOnError>({ url: '/api/v1/user/confirmEmail', ...options });
 
 export const postApiV1UserResendConfirmationEmail = <ThrowOnError extends boolean = false>(options: Options<PostApiV1UserResendConfirmationEmailData, ThrowOnError>): RequestResult<PostApiV1UserResendConfirmationEmailResponses, unknown, ThrowOnError> => (options.client ?? client).post<PostApiV1UserResendConfirmationEmailResponses, unknown, ThrowOnError>({
-    url: '/api/v1/user/resendConfirmationEmail',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+  url: '/api/v1/user/resendConfirmationEmail',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 export const postApiV1UserForgotPassword = <ThrowOnError extends boolean = false>(options: Options<PostApiV1UserForgotPasswordData, ThrowOnError>): RequestResult<PostApiV1UserForgotPasswordResponses, PostApiV1UserForgotPasswordErrors, ThrowOnError> => (options.client ?? client).post<PostApiV1UserForgotPasswordResponses, PostApiV1UserForgotPasswordErrors, ThrowOnError>({
-    url: '/api/v1/user/forgotPassword',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+  url: '/api/v1/user/forgotPassword',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 export const postApiV1UserResetPassword = <ThrowOnError extends boolean = false>(options: Options<PostApiV1UserResetPasswordData, ThrowOnError>): RequestResult<PostApiV1UserResetPasswordResponses, PostApiV1UserResetPasswordErrors, ThrowOnError> => (options.client ?? client).post<PostApiV1UserResetPasswordResponses, PostApiV1UserResetPasswordErrors, ThrowOnError>({
-    url: '/api/v1/user/resetPassword',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+  url: '/api/v1/user/resetPassword',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 export const postApiV1UserManage2Fa = <ThrowOnError extends boolean = false>(options: Options<PostApiV1UserManage2FaData, ThrowOnError>): RequestResult<PostApiV1UserManage2FaResponses, PostApiV1UserManage2FaErrors, ThrowOnError> => (options.client ?? client).post<PostApiV1UserManage2FaResponses, PostApiV1UserManage2FaErrors, ThrowOnError>({
-    url: '/api/v1/user/manage/2fa',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+  url: '/api/v1/user/manage/2fa',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 export const getApiV1UserManageInfo = <ThrowOnError extends boolean = false>(options?: Options<GetApiV1UserManageInfoData, ThrowOnError>): RequestResult<GetApiV1UserManageInfoResponses, GetApiV1UserManageInfoErrors, ThrowOnError> => (options?.client ?? client).get<GetApiV1UserManageInfoResponses, GetApiV1UserManageInfoErrors, ThrowOnError>({ url: '/api/v1/user/manage/info', ...options });
 
 export const postApiV1UserManageInfo = <ThrowOnError extends boolean = false>(options: Options<PostApiV1UserManageInfoData, ThrowOnError>): RequestResult<PostApiV1UserManageInfoResponses, PostApiV1UserManageInfoErrors, ThrowOnError> => (options.client ?? client).post<PostApiV1UserManageInfoResponses, PostApiV1UserManageInfoErrors, ThrowOnError>({
-    url: '/api/v1/user/manage/info',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+  url: '/api/v1/user/manage/info',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 export const postApiV1UserLogout = <ThrowOnError extends boolean = false>(options?: Options<PostApiV1UserLogoutData, ThrowOnError>): RequestResult<PostApiV1UserLogoutResponses, unknown, ThrowOnError> => (options?.client ?? client).post<PostApiV1UserLogoutResponses, unknown, ThrowOnError>({
-    url: '/api/v1/user/logout',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
-        ...options?.headers
-    }
+  url: '/api/v1/user/logout',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
+    ...options?.headers
+  }
 });
 
 /**
@@ -591,10 +591,10 @@ export const deleteApiV1User = <ThrowOnError extends boolean = false>(options?: 
 export const getApiV1UsersMe = <ThrowOnError extends boolean = false>(options?: Options<GetApiV1UsersMeData, ThrowOnError>): RequestResult<GetApiV1UsersMeResponses, unknown, ThrowOnError> => (options?.client ?? client).get<GetApiV1UsersMeResponses, unknown, ThrowOnError>({ url: '/api/v1/users/me', ...options });
 
 export const patchApiV1UsersById = <ThrowOnError extends boolean = false>(options: Options<PatchApiV1UsersByIdData, ThrowOnError>): RequestResult<PatchApiV1UsersByIdResponses, unknown, ThrowOnError> => (options.client ?? client).patch<PatchApiV1UsersByIdResponses, unknown, ThrowOnError>({
-    url: '/api/v1/users/{id}',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
-        ...options.headers
-    }
+  url: '/api/v1/users/{id}',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json;odata.metadata=minimal;odata.streaming=true',
+    ...options.headers
+  }
 });
