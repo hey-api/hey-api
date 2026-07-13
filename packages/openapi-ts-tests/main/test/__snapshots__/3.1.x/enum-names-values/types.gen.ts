@@ -25,3 +25,5 @@ export type Arrays = [
 export type MyFooRef = {
   foo?: Array<MyFoo2>;
 };
+
+export type CrossCollision = 'Etc/GMT+1' | 'Etc/GMT+12' | 'Etc/GMT-1';

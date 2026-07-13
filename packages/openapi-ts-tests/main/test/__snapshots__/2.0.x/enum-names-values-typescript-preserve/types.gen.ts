@@ -37,3 +37,9 @@ export type Arrays = [
 ] | [
   'baz'
 ];
+
+export enum CrossCollision {
+  'Etc/GMT+1' = 'Etc/GMT+1',
+  'Etc/GMT+12' = 'Etc/GMT+12',
+  'Etc/GMT-1' = 'Etc/GMT-1'
+}
