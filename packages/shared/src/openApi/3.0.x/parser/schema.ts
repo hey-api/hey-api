@@ -1219,6 +1219,21 @@ export function schemaToIrSchema({
   }
 
   if ('$ref' in schema) {
+    // a `nullable: true` sibling next to `$ref` must produce the same
+    // `| null` union as the equivalent allOf wrapper form
+    // `{ allOf: [{ $ref }], nullable: true }`
+    if ('nullable' in schema && schema.nullable) {
+      const { $ref, ...remaining } = schema;
+      return parseAllOf({
+        context,
+        schema: {
+          ...remaining,
+          allOf: [{ $ref }],
+        } as SchemaWithRequired<OpenAPIV3.SchemaObject, 'allOf'>,
+        state,
+      });
+    }
+
     return parseRef({
       context,
       schema,
