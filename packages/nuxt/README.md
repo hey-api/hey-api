@@ -155,6 +155,6 @@ You can learn more on the [Migrating](https://heyapi.dev/docs/openapi/typescript
 
 ## License
 
-Released under the [MIT License](https://github.com/hey-api/hey-api/blob/main/LICENSE.md).
+Released under the [MIT License](https://github.com/hey-api/hey-api/blob/main/LICENSE).
 
 <!-- template-license-end -->

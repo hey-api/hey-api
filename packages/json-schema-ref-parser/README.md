@@ -228,6 +228,6 @@ Partners behind the future of API tooling. [Become a sponsor](https://github.com
 
 ## License
 
-Released under the [MIT License](https://github.com/hey-api/hey-api/blob/main/LICENSE.md).
+Released under the [MIT License](https://github.com/hey-api/hey-api/blob/main/LICENSE).
 
 <!-- template-license-end -->

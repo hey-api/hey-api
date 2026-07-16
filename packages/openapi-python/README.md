@@ -9,7 +9,7 @@
   <!-- <a href="https://www.devtrends.dev/trends?c=v1.kZIBIg&v=change"><img src="https://api.devtrends.dev/badge/npm/%40hey-api%2Fopenapi-python?period=year&style=flat&view=change" alt="DevTrends badge for @hey-api/openapi-python" /></a> -->
   <a href="https://github.com/hey-api/hey-api/actions?query=branch%3Amain"><img src="https://github.com/hey-api/hey-api/actions/workflows/ci.yml/badge.svg?event=push&branch=main" alt="CI status" /></a>
   <a href="https://github.com/hey-api/hey-api"><img src="https://img.shields.io/github/stars/hey-api/hey-api?style=flat&logo=github&label=GitHub&color=54C82D" alt="GitHub stars" /></a>
-  <a href="https://github.com/hey-api/hey-api/blob/main/LICENSE.md"><img src="https://img.shields.io/github/license/hey-api/hey-api" alt="MIT License"></a>
+  <a href="https://github.com/hey-api/hey-api/blob/main/LICENSE"><img src="https://img.shields.io/github/license/hey-api/hey-api" alt="MIT License"></a>
 </p>
 
 <p align="center">
@@ -387,6 +387,6 @@ You can learn more on the [Migrating](https://heyapi.dev/docs/openapi/python/mig
 
 ## License
 
-Released under the [MIT License](https://github.com/hey-api/hey-api/blob/main/LICENSE.md).
+Released under the [MIT License](https://github.com/hey-api/hey-api/blob/main/LICENSE).
 
 <!-- template-license-end -->
