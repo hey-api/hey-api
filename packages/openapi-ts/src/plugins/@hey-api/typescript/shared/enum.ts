@@ -54,7 +54,7 @@ function resolveEnumKey({
   return key;
 }
 
-function resolveItemsWithKeys(
+export function resolveItemsWithKeys(
   items: Required<TypeScriptFinal>['enumData']['items'],
   plugin: HeyApiTypeScriptPlugin['Instance'],
 ): Array<{ item: (typeof items)[number]; key: string }> {
