@@ -127,7 +127,7 @@ function insertSplitSchemasIntoSpec({
  * @param scope - The scope to exclude ('readOnly' or 'writeOnly')
  * @returns boolean - Whether the schema should be removed from its parent
  */
-function pruneSchemaByScope(
+export function pruneSchemaByScope(
   graph: Graph,
   schema: unknown,
   scope: 'readOnly' | 'writeOnly',
