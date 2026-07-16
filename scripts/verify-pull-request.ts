@@ -45,6 +45,14 @@ function validate(body: string): Array<string> {
   );
 }
 
+function skipReason(): string | null {
+  const author = process.env.PR_AUTHOR ?? '';
+  if (process.env.PR_AUTHOR_TYPE === 'Bot') {
+    return `author ${author} is a bot`;
+  }
+  return null;
+}
+
 const COMMENT_MARKER = '<!-- hey-api:pr-check -->';
 const API = 'https://api.github.com';
 
@@ -125,6 +133,12 @@ async function syncComment(errors: Array<string>): Promise<void> {
 }
 
 async function main(): Promise<void> {
+  const skip = skipReason();
+  if (skip !== null) {
+    console.log(`Skipping pull request verification: ${skip}.`);
+    return;
+  }
+
   const errors = validate(process.env.PR_BODY ?? '');
 
   for (const error of errors) {
