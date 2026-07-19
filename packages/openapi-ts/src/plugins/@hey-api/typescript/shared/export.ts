@@ -125,7 +125,13 @@ function buildEnumExport({
                 kind: 'prop' as const,
                 name: resolveEnumKey({ baseName: item.key, duplicateAttempt, plugin }),
               })
-                .$if(plugin.config.comments && createSchemaComment(item.schema), (p, v) => p.doc(v))
+                .$if(
+                  plugin.config.comments &&
+                    // Enum member docs must come only from the enum's schema.description.
+                    // x-enum-varnames describes member identifiers, not documentation.
+                    createSchemaComment(item.schema),
+                  (p, v) => p.doc(v),
+                )
                 .value($.fromValue(item.schema.const)),
             ),
         ).as('const'),
