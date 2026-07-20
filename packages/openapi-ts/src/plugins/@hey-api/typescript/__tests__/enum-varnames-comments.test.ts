@@ -46,8 +46,12 @@ describe('x-enum-varnames JSDoc', () => {
     expect(source).toContain('`20` - Delayed verification');
 
     // Ensure per-member JSDoc is not emitted from x-enum-varnames.
-    expect(source).not.toContain('*  BASE');
-    expect(source).not.toContain('BASE = 10');
-    expect(source).not.toContain('/*');
+    // The enum members should be: BASE = 10, DELAYED = 20 without /** ... */ wrapping each.
+    expect(source).toContain('BASE = 10');
+    expect(source).toContain('DELAYED = 20');
+
+    // There should be no member-level JSDoc (just the top-level enum JSDoc).
+    const memberJSDocPattern = /\/\*\*[\s\S]*?\*\/\s*\n\s*(BASE|DELAYED)\s*=/;
+    expect(source).not.toMatch(memberJSDocPattern);
   });
 });

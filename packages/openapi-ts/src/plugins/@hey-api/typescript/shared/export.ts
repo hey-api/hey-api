@@ -50,6 +50,28 @@ function resolveEnumKey({
   return key;
 }
 
+/**
+ * Creates a comment for an enum member schema.
+ * Unlike createSchemaComment, this excludes `title` because for enum items,
+ * title is set from x-enum-varnames (an identifier, not documentation).
+ */
+function createEnumMemberComment(schema: IR.SchemaObject): ReadonlyArray<string> | undefined {
+  const comments: Array<string> = [];
+
+  if (schema.description) {
+    comments.push(schema.description);
+  }
+
+  if (schema.deprecated) {
+    if (comments.length) {
+      comments.push(''); // Add an empty line before deprecated
+    }
+    comments.push('@deprecated');
+  }
+
+  return comments.length ? comments : undefined;
+}
+
 function buildEnumExport({
   enumData,
   name,
@@ -125,12 +147,8 @@ function buildEnumExport({
                 kind: 'prop' as const,
                 name: resolveEnumKey({ baseName: item.key, duplicateAttempt, plugin }),
               })
-                .$if(
-                  plugin.config.comments &&
-                    // Enum member docs must come only from the enum's schema.description.
-                    // x-enum-varnames describes member identifiers, not documentation.
-                    createSchemaComment(item.schema),
-                  (p, v) => p.doc(v),
+                .$if(plugin.config.comments && createEnumMemberComment(item.schema), (p, v) =>
+                  p.doc(v),
                 )
                 .value($.fromValue(item.schema.const)),
             ),
@@ -188,7 +206,7 @@ function buildEnumExport({
       .members(
         ...itemsWithAttempts.map(({ duplicateAttempt, item }) =>
           $.member(resolveEnumKey({ baseName: item.key, duplicateAttempt, plugin }))
-            .$if(plugin.config.comments && createSchemaComment(item.schema), (m, v) => m.doc(v))
+            .$if(plugin.config.comments && createEnumMemberComment(item.schema), (m, v) => m.doc(v))
             .value($.fromValue(item.schema.const)),
         ),
       );
