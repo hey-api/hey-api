@@ -12,6 +12,7 @@
     { "path": "../codegen-core" },
     { "path": "../json-schema-ref-parser" },
     { "path": "../shared" },
+    { "path": "../spec-types" },
     { "path": "../types" }
   ]
 }

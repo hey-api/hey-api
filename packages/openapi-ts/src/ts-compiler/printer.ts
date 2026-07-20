@@ -1273,12 +1273,18 @@ export function createPrinter(options?: TsPrinterOptions): TsPrinter {
           push('{}');
           break;
         }
-        if (node.multiLine) {
+        const multiLine =
+          node.multiLine || node.properties.some((property) => property.leadingComments?.length);
+        if (multiLine) {
           const lines: Array<string> = ['{'];
           indentLevel += 1;
           for (let i = 0, len = node.properties.length; i < len; i++) {
-            const text = printLine(printInline(node.properties[i] as TsNode));
-            lines.push(i < len - 1 ? `${text},` : text);
+            const property = node.properties[i]!;
+            if (property.leadingComments?.length) {
+              printComments(lines, property.leadingComments);
+            }
+            const body = printLine(printInline(property, true));
+            lines.push(i < len - 1 ? `${body},` : body);
           }
           indentLevel -= 1;
           lines.push(printLine('}'));

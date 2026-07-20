@@ -7,6 +7,7 @@
     { "path": "./packages/openapi-python" },
     { "path": "./packages/openapi-ts" },
     { "path": "./packages/shared" },
+    { "path": "./packages/spec-types" },
     { "path": "./packages/types" }
   ]
 }

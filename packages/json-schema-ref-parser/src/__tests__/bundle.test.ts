@@ -5,12 +5,17 @@ import path from 'node:path';
 import { $RefParser } from '..';
 import { getSpecsPath } from './utils';
 
-const getSnapshotsPath = () => path.join(import.meta.dirname, '__snapshots__');
-const getTempSnapshotsPath = () => path.join(import.meta.dirname, '.gen', 'snapshots');
+function getSnapshotsPath() {
+  return path.join(import.meta.dirname, '__snapshots__');
+}
 
-const writeJsonFile = (filePath: string, value: unknown) => {
+function getTempSnapshotsPath() {
+  return path.join(import.meta.dirname, '.gen', 'snapshots');
+}
+
+function writeJsonFile(filePath: string, value: unknown) {
   fs.writeFileSync(filePath, JSON.stringify(value, null, 2));
-};
+}
 
 /**
  * Helper function to compare a bundled schema with a snapshot file.
@@ -19,7 +24,7 @@ const writeJsonFile = (filePath: string, value: unknown) => {
  * @param schema - The bundled schema to compare
  * @param snapshotName - The name of the snapshot file (e.g., 'circular-ref-with-description.json')
  */
-const expectBundledSchemaToMatchSnapshot = async (schema: unknown, snapshotName: string) => {
+async function expectBundledSchemaToMatchSnapshot(schema: unknown, snapshotName: string) {
   const outputPath = path.join(getTempSnapshotsPath(), snapshotName);
   const snapshotPath = path.join(getSnapshotsPath(), snapshotName);
 
@@ -32,7 +37,7 @@ const expectBundledSchemaToMatchSnapshot = async (schema: unknown, snapshotName:
 
   // Compare with snapshot
   await expect(content).toMatchFileSnapshot(snapshotPath);
-};
+}
 
 describe('bundle', () => {
   it('handles circular reference with description', async () => {
@@ -339,17 +344,16 @@ describe('bundle', () => {
   describe('sibling schema resolution', () => {
     const specsDir = path.join(getSpecsPath(), 'json-schema-ref-parser');
 
-    const findSchemaByValue = (
+    function findSchemaByValue(
       schemas: Record<string, any>,
       predicate: (value: any) => boolean,
-    ): [string, any] | undefined => {
+    ): [string, any] | undefined {
       for (const [name, value] of Object.entries(schemas)) {
         if (predicate(value)) {
           return [name, value];
         }
       }
-      return undefined;
-    };
+    }
 
     it('hoists sibling schemas through a bare $ref wrapper chain', async () => {
       const refParser = new $RefParser();

@@ -1,6 +1,6 @@
 import type { CodeSampleObject } from '../../extensions/code-samples';
 import type { EnumExtensions } from '../../extensions/enum';
-import type { Document as JSONSchemaDraft4 } from '../../json-schema/draft-4';
+import type { Document as JSONSchemaDraft4, JsonSchemaTypes } from '../../json-schema/draft-4';
 import type { OpenAPIV2NullableExtensions } from './extensions';
 
 /**
@@ -1308,7 +1308,7 @@ export interface ResponsesObject {
  * ```
  */
 export interface SchemaObject
-  extends JSONSchemaDraft4, EnumExtensions, OpenAPIV2NullableExtensions {
+  extends Omit<JSONSchemaDraft4, 'type'>, EnumExtensions, OpenAPIV2NullableExtensions {
   /**
    * Allows extensions to the Swagger Schema. The field name MUST begin with `x-`, for example, `x-internal-id`. The value can be `null`, a primitive, an array or an object. See {@link https://github.com/OAI/OpenAPI-Specification/blob/main/versions/2.0.md#specification-extensions Vendor Extensions} for further details.
    */
@@ -1358,10 +1358,23 @@ export interface SchemaObject
    */
   readOnly?: boolean;
   /**
+   * Primitive data types in the Swagger Specification are based on the types supported by the {@link https://tools.ietf.org/html/draft-zyp-json-schema-04#section-3.5 JSON-Schema Draft 4}. Models are described using the {@link https://github.com/OAI/OpenAPI-Specification/blob/main/versions/2.0.md#schema-object Schema Object} which is a subset of JSON Schema Draft 4.
+   *
+   * `'file'` is a Swagger 2.0 extension of draft-04: the {@link https://github.com/OAI/OpenAPI-Specification/blob/main/versions/2.0.md#responseObject Response Object} allows a schema of `type: file` to describe a downloadable file response.
+   */
+  type?: SchemaType;
+  /**
    * This MAY be used only on properties schemas. It has no effect on root schemas. Adds Additional metadata to describe the XML representation format of this property.
    */
   xml?: XMLObject;
 }
+
+/**
+ * The primitive data types supported by a Swagger 2.0 {@link SchemaObject}:
+ * the JSON Schema Draft 4 types plus the Swagger-only `'file'` extension
+ * used to describe downloadable file responses.
+ */
+export type SchemaType = JsonSchemaTypes | 'file';
 
 /**
  * Lists the available scopes for an OAuth2 security scheme.

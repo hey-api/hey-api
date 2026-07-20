@@ -265,7 +265,7 @@ export interface ComponentsObject extends SpecExtensions {
   /**
    * An object to hold reusable {@link https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#schema-object Schema Objects}.
    */
-  schemas?: Record<string, SchemaObject>;
+  schemas?: Record<string, Schema>;
   /**
    * An object to hold reusable {@link https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#security-scheme-object Security Scheme Objects}.
    */
@@ -931,7 +931,7 @@ export interface MediaTypeObject extends SpecExtensions {
   /**
    * The schema defining the content of the request, response, or parameter.
    */
-  schema?: SchemaObject;
+  schema?: Schema;
 }
 
 /**
@@ -1252,7 +1252,7 @@ export interface ParameterObject extends SpecExtensions {
   /**
    * The schema defining the type used for the parameter.
    */
-  schema?: SchemaObject;
+  schema?: Schema;
   /**
    * Describes how the parameter value will be serialized depending on the type of the parameter value. Default values (based on value of `in`): for `query` - `form`; for `path` - `simple`; for `header` - `simple`; for `cookie` - `form`.
    */
@@ -1670,10 +1670,17 @@ export interface ResponsesObject extends SpecExtensions {
  */
 export interface SchemaObject
   extends
-    JSONSchemaDraft2020_12<SchemaObject>,
+    JSONSchemaDraft2020_12<Schema>,
     OpenAPIV3_1SchemaExtensions,
     SpecExtensions,
     EnumExtensions {}
+
+/**
+ * A Schema Object type: either a full {@link SchemaObject}, or the boolean
+ * schema forms `true` (always valid) / `false` (never valid) inherited from
+ * the JSON Schema Draft 2020-12. Legal anywhere a schema is referenced.
+ */
+export type Schema = SchemaObject | boolean;
 
 /**
  * Lists the required security schemes to execute this operation. The name used for each property MUST correspond to a security scheme declared in the {@link https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#componentsSecuritySchemes Security Schemes} under the {@link https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#components-object Components Object}.

@@ -34,17 +34,28 @@ export interface BaseDocument<TDocument = unknown>
   /**
    * The `contentEncoding` keyword specifies the encoding used to store the contents, as specified in {@link https://tools.ietf.org/html/rfc2045 RFC 2054, part 6.1} and {@link https://datatracker.ietf.org/doc/html/rfc4648 RFC 4648}.
    *
-   * The acceptable values are `quoted-printable`, `base16`, `base32`, and `base64`. If not specified, the encoding is the same as the containing JSON document.
+   * The acceptable values are `quoted-printable`, `base16`, `base32`, `base64`, and the RFC 2045 §6.1 values `7bit`, `8bit`, and `binary`. If not specified, the encoding is the same as the containing JSON document.
    *
    * Without getting into the low-level details of each of these encodings, there are really only two options useful for modern usage:
    * - If the content is encoded in the same encoding as the enclosing JSON document (which for practical purposes, is almost always UTF-8), leave `contentEncoding` unspecified, and include the content in a string as-is. This includes text-based content types, such as `text/html` or `application/xml`.
    * - If the content is binary data, set `contentEncoding` to `base64` and encode the contents using {@link https://tools.ietf.org/html/rfc4648 Base64}. This would include many image types, such as `image/png` or audio types, such as `audio/mpeg`.
    */
-  contentEncoding?: 'base16' | 'base32' | 'base64' | 'quoted-printable';
+  contentEncoding?:
+    | '7bit'
+    | '8bit'
+    | 'base16'
+    | 'base32'
+    | 'base64'
+    | 'binary'
+    | 'quoted-printable';
   /**
    * The `contentMediaType` keyword specifies the MIME type of the contents of a string, as described in {@link https://tools.ietf.org/html/rfc2046 RFC 2046}. There is a list of {@link http://www.iana.org/assignments/media-types/media-types.xhtml MIME types officially registered by the IANA}, but the set of types supported will be application and operating system dependent. Mozilla Developer Network also maintains a {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Complete_list_of_MIME_types shorter list of MIME types that are important for the web}
    */
   contentMediaType?: string;
+  /**
+   * The schema of the decoded content described by `contentMediaType`. Only relevant when `contentMediaType` is present; ignored otherwise.
+   */
+  contentSchema?: TDocument;
   /**
    * The `default` keyword specifies a default value. This value is not used to fill in missing values during the validation process. Non-validation tools such as documentation generators or form generators may use this value to give hints to users about how to use a value. However, `default` is typically used to express that if a value is missing, then the value is semantically the same as if the value was present with the default value. The value of `default` should validate against the schema in which it resides, but that isn't required.
    */
@@ -145,7 +156,13 @@ export interface BaseDocument<TDocument = unknown>
   writeOnly?: boolean;
 }
 
-export type Document = BaseDocument<Document>;
+export type Document = BaseDocument<Schema>;
+
+/**
+ * A JSON Schema 2020-12 type: either a full schema object, or the boolean
+ * schema forms `true` (always valid) / `false` (never valid).
+ */
+export type Schema = Document | boolean;
 
 export interface ArrayKeywords<TDocument = unknown> {
   /**
