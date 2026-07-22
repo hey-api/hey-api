@@ -89,6 +89,39 @@ for (const version of versions) {
       },
       {
         config: createConfig({
+          output: 'resolvers-ctx-path',
+          plugins: [
+            {
+              $resolvers: (() => {
+                const pathResolver = (ctx: {
+                  $: any;
+                  path: { '~ref': ReadonlyArray<string | number> };
+                }): undefined => ctx.$.type(`${ctx.path['~ref'].join('_')}`);
+                return {
+                  array: pathResolver,
+                  boolean: pathResolver,
+                  enum: pathResolver,
+                  intersection: pathResolver,
+                  never: pathResolver,
+                  null: pathResolver,
+                  number: pathResolver,
+                  object: pathResolver,
+                  string: pathResolver,
+                  tuple: pathResolver,
+                  undefined: pathResolver,
+                  union: pathResolver,
+                  unknown: pathResolver,
+                  void: pathResolver,
+                };
+              })(),
+              name: '@hey-api/typescript',
+            },
+          ],
+        }),
+        description: 'generate types according to resolver ctx paths',
+      },
+      {
+        config: createConfig({
           input: 'transforms-read-write.yaml',
           output: 'transforms-read-write-ignore',
           parser: {
@@ -274,41 +307,5 @@ describe('custom plugin', () => {
     ).rejects.toThrowError(/Found 1 configuration error./g);
 
     expect(myPlugin.handler).not.toHaveBeenCalled();
-  });
-});
-
-describe('resolvers', () => {
-  it('@hey-api/typescript receives a path', async () => {
-    const assertPath = (ctx: { path: { '~ref': ReadonlyArray<string | number> } }): undefined => {
-      expect(ctx.path['~ref'].length).toBeGreaterThan(0);
-    };
-    await createClient({
-      input: path.join(getSpecsPath(), '3.1.x', 'full.yaml'),
-      logs: {
-        level: 'silent',
-      },
-      output: path.join(import.meta.dirname, 'generated', 'my-plugin', 'default'),
-      plugins: [
-        {
-          $resolvers: {
-            array: assertPath,
-            boolean: assertPath,
-            enum: assertPath,
-            intersection: assertPath,
-            never: assertPath,
-            null: assertPath,
-            number: assertPath,
-            object: assertPath,
-            string: assertPath,
-            tuple: assertPath,
-            undefined: assertPath,
-            union: assertPath,
-            unknown: assertPath,
-            void: assertPath,
-          },
-          name: '@hey-api/typescript',
-        },
-      ],
-    });
   });
 });
