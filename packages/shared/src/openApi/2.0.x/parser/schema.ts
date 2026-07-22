@@ -460,6 +460,12 @@ function parseEnum({
   const xEnumDescriptions = schema['x-enum-descriptions'];
   const xEnumVarnames = schema['x-enum-varnames'];
   const xEnumNames = schema['x-enumNames'];
+  // Whether `null` was already added to schemaItems because it's one of the
+  // enum's own listed values (an OAS 3.x-style `enum: [...values, null]`),
+  // as opposed to `x-nullable` being set as a sibling flag alongside a plain
+  // OAS2 enum that doesn't itself list null -- these are the two ways an
+  // enum can be nullable, and they shouldn't both add a null item below.
+  let hasNullValue = false;
 
   for (let index = 0, len = schema.enum.length; index < len; index++) {
     const enumValue = schema.enum[index];
@@ -478,6 +484,7 @@ function parseEnum({
       // nullable must be true
       if (schema['x-nullable']) {
         enumType = 'null';
+        hasNullValue = true;
       }
     } else {
       console.warn(
@@ -520,6 +527,18 @@ function parseEnum({
     items: schemaItems,
     schema: irSchema,
   });
+
+  // `x-nullable` is OAS2's convention for nullable fields (2.0 has no native
+  // `nullable` keyword). schemaToIrSchema() dispatches enum schemas here
+  // before ever reaching parseType()/parseNullableType(), the only other
+  // place that reads it -- so without this, an enum with `x-nullable: true`
+  // but no literal `null` among its values silently lost its nullability.
+  if (schema['x-nullable'] && !hasNullValue) {
+    irSchema = addItemsToSchema({
+      items: [irSchema, { type: 'null' }],
+      schema: initIrSchema({ schema }),
+    });
+  }
 
   return irSchema;
 }
