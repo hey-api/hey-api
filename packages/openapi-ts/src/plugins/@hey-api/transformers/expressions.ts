@@ -1,4 +1,6 @@
+import { TEMPORAL } from '../../../symbols';
 import { $ } from '../../../ts-dsl';
+import { resolveDates } from './dates';
 import type { ExpressionTransformer } from './types';
 
 export const bigIntExpressions: ExpressionTransformer = ({ dataExpression, schema }) => {
@@ -45,7 +47,8 @@ export const temporalExpressions: ExpressionTransformer = ({ dataExpression, plu
     return;
   }
 
-  const temporal = plugin.imports.temporalPolyfill.Temporal;
+  const { polyfill } = resolveDates(plugin.config.dates);
+  const temporal = TEMPORAL(plugin.symbolFactory, { polyfill }).Temporal;
   const memberName = schema.format === 'date' ? 'PlainDate' : 'Instant';
 
   if (typeof dataExpression === 'string') {

@@ -99,6 +99,8 @@ export class Planner {
    * First assigns top-level (file-scoped) symbol names, then local symbols.
    */
   private assignLocalNames(): void {
+    this.reserveGlobals();
+
     const sorted = [...this.project.nodes.all()].sort((a, b) => {
       const pa = a.symbol?.priority ?? 0;
       const pb = b.symbol?.priority ?? 0;
@@ -116,8 +118,8 @@ export class Planner {
       if (!file) return;
       ctx.walkScopes((dependency) => {
         const dep = fromRef(dependency).canonical;
-        // top-level or external symbol
-        if (dep.file || dep.external) return;
+        // top-level, external, or global symbol
+        if (dep.file || dep.external || dep.global) return;
         // TODO: pass node
         this.assignLocalName({
           ctx,
@@ -125,6 +127,29 @@ export class Planner {
           scopesToUpdate: [createScope({ localNames: file.allNames })],
           symbol: dep,
         });
+      });
+    });
+  }
+
+  /**
+   * Reserves ambient global identifiers referenced by each file.
+   *
+   * A global symbol resolves to its name verbatim; globals currently cannot
+   * be aliased.
+   */
+  private reserveGlobals(): void {
+    this.analyzer.analyze(this.project.nodes.all(), (ctx, node) => {
+      const file = node.file;
+      if (!file) return;
+      ctx.walkScopes((dependency) => {
+        const dep = fromRef(dependency).canonical;
+        if (!dep.global) return;
+        if (!this.cacheResolvedNames.has(dep.id)) {
+          dep.setFinalName(dep.name);
+          this.cacheResolvedNames.add(dep.id);
+        }
+        registerName(createScope({ localNames: file.topLevelNames }), dep.finalName, dep.kind);
+        registerName(createScope({ localNames: file.allNames }), dep.finalName, dep.kind);
       });
     });
   }

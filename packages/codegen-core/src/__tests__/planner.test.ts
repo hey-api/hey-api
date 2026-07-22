@@ -282,6 +282,58 @@ describe('Planner imports deduplication', () => {
   });
 });
 
+describe('Planner with global symbols', () => {
+  it('resolves a global symbol to its name and emits no import', () => {
+    const project = new Project({ root: '/root' });
+
+    const globalSymbol = project.symbols.register({
+      global: true,
+      name: 'Temporal',
+    });
+
+    createMockNode({
+      dependencies: [globalSymbol],
+      filePath: 'consumer',
+      name: 'Consumer',
+      project,
+    });
+
+    project.plan();
+
+    const consumerFile = [...project.files.registered()].find((f) => f.name === 'consumer');
+    expect(consumerFile).toBeDefined();
+
+    expect(globalSymbol.finalName).toBe('Temporal');
+    expect(globalSymbol.file).toBeUndefined();
+    expect(consumerFile!.imports).toHaveLength(0);
+  });
+
+  it('reserves the global name so a local symbol cannot shadow it', () => {
+    const project = new Project({ root: '/root' });
+
+    const globalSymbol = project.symbols.register({
+      global: true,
+      name: 'Temporal',
+    });
+
+    const { symbol: localSymbol } = createMockNode({
+      dependencies: [globalSymbol],
+      filePath: 'consumer',
+      name: 'Temporal',
+      project,
+    });
+
+    project.plan();
+
+    const consumerFile = [...project.files.registered()].find((f) => f.name === 'consumer');
+    expect(consumerFile).toBeDefined();
+
+    expect(globalSymbol.finalName).toBe('Temporal');
+    expect(localSymbol.finalName).not.toBe('Temporal');
+    expect(consumerFile!.imports).toHaveLength(0);
+  });
+});
+
 describe('Planner with stub symbols', () => {
   it('does not throw when a dependency is a canonicalized stub', () => {
     const project = new Project({ root: '/root' });

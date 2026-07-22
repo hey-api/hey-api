@@ -2,6 +2,7 @@
 
 import type {
   HttpClient,
+  HttpContext,
   HttpErrorResponse,
   HttpHeaders,
   HttpRequest,
@@ -22,6 +23,13 @@ export interface Config<T extends ClientOptions = ClientOptions>
    * Base URL for all requests made by this client.
    */
   baseUrl?: T['baseUrl'];
+  /**
+   * Shared and mutable context that can be read and written by
+   * `HttpInterceptorFn`s. Never sent to the server.
+   *
+   * {@link https://angular.dev/api/common/http/HttpContext See more}
+   */
+  context?: HttpContext;
   /**
    * An object containing any HTTP headers that you want to pre-populate your
    * `HttpHeaders` object with.

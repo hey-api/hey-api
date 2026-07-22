@@ -1,5 +1,5 @@
 import type { HttpClient } from '@angular/common/http';
-import { HttpHeaders } from '@angular/common/http';
+import { HttpContext, HttpHeaders } from '@angular/common/http';
 
 import { createClient } from '../bundle/client';
 
@@ -108,6 +108,22 @@ describe('unserialized request body handling', () => {
     );
 
     expect(spy).toHaveBeenCalledTimes(0);
+  });
+});
+
+describe('context', () => {
+  const client = createClient({ baseUrl: 'https://example.com' });
+
+  it('forwards a provided HttpContext to the resulting HttpRequest', () => {
+    const context = new HttpContext();
+
+    const request = client.requestOptions({
+      context,
+      httpClient: vi.fn() as Partial<HttpClient> as HttpClient,
+      url: '/test',
+    });
+
+    expect(request.context).toBe(context);
   });
 });
 
