@@ -523,11 +523,6 @@ function parseEnum({
     schema: irSchema,
   });
 
-  // `x-nullable` is OAS2's convention for nullable fields (2.0 has no native
-  // `nullable` keyword). schemaToIrSchema() dispatches enum schemas here
-  // before ever reaching parseType()/parseNullableType(), the only other
-  // place that reads it -- so without this, an enum with `x-nullable: true`
-  // but no literal `null` among its values silently lost its nullability.
   if (schema['x-nullable'] && !hasNullValue) {
     irSchema = addItemsToSchema({
       items: [irSchema, { type: 'null' }],
