@@ -96,7 +96,11 @@ for (const version of versions) {
                 const pathResolver = (ctx: {
                   $: any;
                   path: { '~ref': ReadonlyArray<string | number> };
-                }): undefined => ctx.$.type(`${ctx.path['~ref'].join('_')}`);
+                  plugin: any;
+                }): undefined =>
+                  ctx
+                    .$(ctx.$.typeofExpr(ctx.plugin.symbol('globalThis')))
+                    .attr(`${ctx.path['~ref'].join('_')}`);
                 return {
                   array: pathResolver,
                   boolean: pathResolver,

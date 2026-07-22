@@ -7,7 +7,7 @@ export type ClientOptions = {
 /**
  * Model with number-only name
  */
-export type _400 = components_schemas_400;
+export type _400 = (typeof globalThis).components_schemas_400;
 
 export type ExternalRefA = ExternalSharedModel;
 
@@ -19,7 +19,7 @@ export type ExternalRefB = ExternalSharedModel;
  *
  * Fourth line
  */
-export type CamelCaseCommentWithBreaks = components_schemas_camelCaseCommentWithBreaks;
+export type CamelCaseCommentWithBreaks = (typeof globalThis).components_schemas_camelCaseCommentWithBreaks;
 
 /**
  * Testing multiline comments in string: First line
@@ -27,62 +27,62 @@ export type CamelCaseCommentWithBreaks = components_schemas_camelCaseCommentWith
  *
  * Fourth line
  */
-export type CommentWithBreaks = components_schemas_CommentWithBreaks;
+export type CommentWithBreaks = (typeof globalThis).components_schemas_CommentWithBreaks;
 
 /**
  * Testing backticks in string: `backticks` and ```multiple backticks``` should work
  */
-export type CommentWithBackticks = components_schemas_CommentWithBackticks;
+export type CommentWithBackticks = (typeof globalThis).components_schemas_CommentWithBackticks;
 
 /**
  * Testing backticks and quotes in string: `backticks`, 'quotes', "double quotes" and ```multiple backticks``` should work
  */
-export type CommentWithBackticksAndQuotes = components_schemas_CommentWithBackticksAndQuotes;
+export type CommentWithBackticksAndQuotes = (typeof globalThis).components_schemas_CommentWithBackticksAndQuotes;
 
 /**
  * Testing slashes in string: \backwards\\\ and /forwards/// should work
  */
-export type CommentWithSlashes = components_schemas_CommentWithSlashes;
+export type CommentWithSlashes = (typeof globalThis).components_schemas_CommentWithSlashes;
 
 /**
  * Testing expression placeholders in string: ${expression} should work
  */
-export type CommentWithExpressionPlaceholders = components_schemas_CommentWithExpressionPlaceholders;
+export type CommentWithExpressionPlaceholders = (typeof globalThis).components_schemas_CommentWithExpressionPlaceholders;
 
 /**
  * Testing quotes in string: 'single quote''' and "double quotes""" should work
  */
-export type CommentWithQuotes = components_schemas_CommentWithQuotes;
+export type CommentWithQuotes = (typeof globalThis).components_schemas_CommentWithQuotes;
 
 /**
  * Testing reserved characters in string: * inline * and ** inline ** should work
  */
-export type CommentWithReservedCharacters = components_schemas_CommentWithReservedCharacters;
+export type CommentWithReservedCharacters = (typeof globalThis).components_schemas_CommentWithReservedCharacters;
 
 /**
  * This is a simple number
  */
-export type SimpleInteger = components_schemas_SimpleInteger;
+export type SimpleInteger = (typeof globalThis).components_schemas_SimpleInteger;
 
 /**
  * This is a simple boolean
  */
-export type SimpleBoolean = components_schemas_SimpleBoolean;
+export type SimpleBoolean = (typeof globalThis).components_schemas_SimpleBoolean;
 
 /**
  * This is a simple string
  */
-export type SimpleString = components_schemas_SimpleString;
+export type SimpleString = (typeof globalThis).components_schemas_SimpleString;
 
 /**
  * A string with non-ascii (unicode) characters valid in typescript identifiers (æøåÆØÅöÔèÈ字符串)
  */
-export type NonAsciiStringæøåÆøÅöôêÊ字符串 = components_schemas_NonAsciiStringæøåÆØÅöôêÊ字符串;
+export type NonAsciiStringæøåÆøÅöôêÊ字符串 = (typeof globalThis).components_schemas_NonAsciiStringæøåÆØÅöôêÊ字符串;
 
 /**
  * This is a simple file
  */
-export type SimpleFile = components_schemas_SimpleFile;
+export type SimpleFile = (typeof globalThis).components_schemas_SimpleFile;
 
 /**
  * This is a simple reference
@@ -92,492 +92,492 @@ export type SimpleReference = ModelWithString;
 /**
  * This is a simple string
  */
-export type SimpleStringWithPattern = components_schemas_SimpleStringWithPattern;
+export type SimpleStringWithPattern = (typeof globalThis).components_schemas_SimpleStringWithPattern;
 
 /**
  * This is a simple enum with strings
  */
-export type EnumWithStrings = components_schemas_EnumWithStrings;
+export type EnumWithStrings = (typeof globalThis).components_schemas_EnumWithStrings;
 
-export type EnumWithReplacedCharacters = components_schemas_EnumWithReplacedCharacters;
+export type EnumWithReplacedCharacters = (typeof globalThis).components_schemas_EnumWithReplacedCharacters;
 
 /**
  * This is a simple enum with numbers
  */
-export type EnumWithNumbers = components_schemas_EnumWithNumbers;
+export type EnumWithNumbers = (typeof globalThis).components_schemas_EnumWithNumbers;
 
 /**
  * Success=1,Warning=2,Error=3
  */
-export type EnumFromDescription = components_schemas_EnumFromDescription;
+export type EnumFromDescription = (typeof globalThis).components_schemas_EnumFromDescription;
 
 /**
  * This is a simple enum with numbers
  */
-export type EnumWithExtensions = components_schemas_EnumWithExtensions;
+export type EnumWithExtensions = (typeof globalThis).components_schemas_EnumWithExtensions;
 
-export type EnumWithXEnumNames = components_schemas_EnumWithXEnumNames;
+export type EnumWithXEnumNames = (typeof globalThis).components_schemas_EnumWithXEnumNames;
 
 /**
  * This is a simple array with numbers
  */
-export type ArrayWithNumbers = components_schemas_ArrayWithNumbers;
+export type ArrayWithNumbers = Array<(typeof globalThis).components_schemas_ArrayWithNumbers_items_0>;
 
 /**
  * This is a simple array with booleans
  */
-export type ArrayWithBooleans = components_schemas_ArrayWithBooleans;
+export type ArrayWithBooleans = Array<(typeof globalThis).components_schemas_ArrayWithBooleans_items_0>;
 
 /**
  * This is a simple array with strings
  */
-export type ArrayWithStrings = components_schemas_ArrayWithStrings;
+export type ArrayWithStrings = Array<(typeof globalThis).components_schemas_ArrayWithStrings_items_0>;
 
 /**
  * This is a simple array with references
  */
-export type ArrayWithReferences = components_schemas_ArrayWithReferences;
+export type ArrayWithReferences = Array<ModelWithString>;
 
 /**
  * This is a simple array containing an array
  */
-export type ArrayWithArray = components_schemas_ArrayWithArray;
+export type ArrayWithArray = Array<Array<ModelWithString>>;
 
 /**
  * This is a simple array with properties
  */
-export type ArrayWithProperties = components_schemas_ArrayWithProperties;
+export type ArrayWithProperties = Array<(typeof globalThis).components_schemas_ArrayWithProperties_items_0>;
 
 /**
  * This is a simple array with any of properties
  */
-export type ArrayWithAnyOfProperties = components_schemas_ArrayWithAnyOfProperties;
+export type ArrayWithAnyOfProperties = Array<(typeof globalThis).components_schemas_ArrayWithAnyOfProperties_items_0 | (typeof globalThis2).components_schemas_ArrayWithAnyOfProperties_items_1>;
 
-export type AnyOfAnyAndNull = components_schemas_AnyOfAnyAndNull;
+export type AnyOfAnyAndNull = (typeof globalThis).components_schemas_AnyOfAnyAndNull;
 
 /**
  * This is a simple array with any of properties
  */
-export type AnyOfArrays = components_schemas_AnyOfArrays;
+export type AnyOfArrays = (typeof globalThis).components_schemas_AnyOfArrays;
 
 /**
  * This is a string dictionary
  */
-export type DictionaryWithString = components_schemas_DictionaryWithString;
+export type DictionaryWithString = (typeof globalThis).components_schemas_DictionaryWithString;
 
-export type DictionaryWithPropertiesAndAdditionalProperties = components_schemas_DictionaryWithPropertiesAndAdditionalProperties;
+export type DictionaryWithPropertiesAndAdditionalProperties = (typeof globalThis).components_schemas_DictionaryWithPropertiesAndAdditionalProperties;
 
 /**
  * This is a string reference
  */
-export type DictionaryWithReference = components_schemas_DictionaryWithReference;
+export type DictionaryWithReference = (typeof globalThis).components_schemas_DictionaryWithReference;
 
 /**
  * This is a complex dictionary
  */
-export type DictionaryWithArray = components_schemas_DictionaryWithArray;
+export type DictionaryWithArray = (typeof globalThis).components_schemas_DictionaryWithArray;
 
 /**
  * This is a string dictionary
  */
-export type DictionaryWithDictionary = components_schemas_DictionaryWithDictionary;
+export type DictionaryWithDictionary = (typeof globalThis).components_schemas_DictionaryWithDictionary;
 
 /**
  * This is a complex dictionary
  */
-export type DictionaryWithProperties = components_schemas_DictionaryWithProperties;
+export type DictionaryWithProperties = (typeof globalThis).components_schemas_DictionaryWithProperties;
 
 /**
  * This is a model with one number property
  */
-export type ModelWithInteger = components_schemas_ModelWithInteger;
+export type ModelWithInteger = (typeof globalThis).components_schemas_ModelWithInteger;
 
 /**
  * This is a model with one boolean property
  */
-export type ModelWithBoolean = components_schemas_ModelWithBoolean;
+export type ModelWithBoolean = (typeof globalThis).components_schemas_ModelWithBoolean;
 
 /**
  * This is a model with one string property
  */
-export type ModelWithString = components_schemas_ModelWithString;
+export type ModelWithString = (typeof globalThis).components_schemas_ModelWithString;
 
 /**
  * This is a model with one string property
  */
-export type ModelWithStringError = components_schemas_ModelWithStringError;
+export type ModelWithStringError = (typeof globalThis).components_schemas_ModelWithStringError;
 
 /**
  * `Comment` or `VoiceComment`. The JSON object for adding voice comments to tickets is different. See [Adding voice comments to tickets](/documentation/ticketing/managing-tickets/adding-voice-comments-to-tickets)
  */
-export type ModelFromZendesk = components_schemas_Model-From.Zendesk;
+export type ModelFromZendesk = (typeof globalThis)['components_schemas_Model-From.Zendesk'];
 
 /**
  * This is a model with one string property
  */
-export type ModelWithNullableString = components_schemas_ModelWithNullableString;
+export type ModelWithNullableString = (typeof globalThis).components_schemas_ModelWithNullableString;
 
 /**
  * This is a model with one enum
  */
-export type ModelWithEnum = components_schemas_ModelWithEnum;
+export type ModelWithEnum = (typeof globalThis).components_schemas_ModelWithEnum;
 
 /**
  * This is a model with one enum with escaped name
  */
-export type ModelWithEnumWithHyphen = components_schemas_ModelWithEnumWithHyphen;
+export type ModelWithEnumWithHyphen = (typeof globalThis).components_schemas_ModelWithEnumWithHyphen;
 
 /**
  * This is a model with one enum
  */
-export type ModelWithEnumFromDescription = components_schemas_ModelWithEnumFromDescription;
+export type ModelWithEnumFromDescription = (typeof globalThis).components_schemas_ModelWithEnumFromDescription;
 
 /**
  * This is a model with nested enums
  */
-export type ModelWithNestedEnums = components_schemas_ModelWithNestedEnums;
+export type ModelWithNestedEnums = (typeof globalThis).components_schemas_ModelWithNestedEnums;
 
 /**
  * This is a model with one property containing a reference
  */
-export type ModelWithReference = components_schemas_ModelWithReference;
+export type ModelWithReference = (typeof globalThis).components_schemas_ModelWithReference;
 
 /**
  * This is a model with one property containing an array
  */
-export type ModelWithArrayReadOnlyAndWriteOnly = components_schemas_ModelWithArrayReadOnlyAndWriteOnly;
+export type ModelWithArrayReadOnlyAndWriteOnly = (typeof globalThis).components_schemas_ModelWithArrayReadOnlyAndWriteOnly;
 
 /**
  * This is a model with one property containing an array
  */
-export type ModelWithArray = components_schemas_ModelWithArray;
+export type ModelWithArray = (typeof globalThis).components_schemas_ModelWithArray;
 
 /**
  * This is a model with one property containing a dictionary
  */
-export type ModelWithDictionary = components_schemas_ModelWithDictionary;
+export type ModelWithDictionary = (typeof globalThis).components_schemas_ModelWithDictionary;
 
 /**
  * This is a deprecated model with a deprecated property
  *
  * @deprecated
  */
-export type DeprecatedModel = components_schemas_DeprecatedModel;
+export type DeprecatedModel = (typeof globalThis).components_schemas_DeprecatedModel;
 
 /**
  * This is a model with one property containing a circular reference
  */
-export type ModelWithCircularReference = components_schemas_ModelWithCircularReference;
+export type ModelWithCircularReference = (typeof globalThis).components_schemas_ModelWithCircularReference;
 
 /**
  * This is a model with one property with a 'one of' relationship
  */
-export type CompositionWithOneOf = components_schemas_CompositionWithOneOf;
+export type CompositionWithOneOf = (typeof globalThis).components_schemas_CompositionWithOneOf;
 
 /**
  * This is a model with one property with a 'one of' relationship where the options are not $ref
  */
-export type CompositionWithOneOfAnonymous = components_schemas_CompositionWithOneOfAnonymous;
+export type CompositionWithOneOfAnonymous = (typeof globalThis).components_schemas_CompositionWithOneOfAnonymous;
 
 /**
  * Circle
  */
-export type ModelCircle = components_schemas_ModelCircle;
+export type ModelCircle = (typeof globalThis).components_schemas_ModelCircle;
 
 /**
  * Square
  */
-export type ModelSquare = components_schemas_ModelSquare;
+export type ModelSquare = (typeof globalThis).components_schemas_ModelSquare;
 
 /**
  * This is a model with one property with a 'one of' relationship where the options are not $ref
  */
-export type CompositionWithOneOfDiscriminator = components_schemas_CompositionWithOneOfDiscriminator;
+export type CompositionWithOneOfDiscriminator = (typeof globalThis).components_schemas_CompositionWithOneOfDiscriminator;
 
 /**
  * This is a model with one property with a 'any of' relationship
  */
-export type CompositionWithAnyOf = components_schemas_CompositionWithAnyOf;
+export type CompositionWithAnyOf = (typeof globalThis).components_schemas_CompositionWithAnyOf;
 
 /**
  * This is a model with one property with a 'any of' relationship where the options are not $ref
  */
-export type CompositionWithAnyOfAnonymous = components_schemas_CompositionWithAnyOfAnonymous;
+export type CompositionWithAnyOfAnonymous = (typeof globalThis).components_schemas_CompositionWithAnyOfAnonymous;
 
 /**
  * This is a model with nested 'any of' property with a type null
  */
-export type CompositionWithNestedAnyAndTypeNull = components_schemas_CompositionWithNestedAnyAndTypeNull;
+export type CompositionWithNestedAnyAndTypeNull = (typeof globalThis).components_schemas_CompositionWithNestedAnyAndTypeNull;
 
-export type _3eNum1Период = components_schemas_3e-num_1Период;
+export type _3eNum1Период = (typeof globalThis)['components_schemas_3e-num_1Период'];
 
-export type ConstValue = components_schemas_ConstValue;
+export type ConstValue = (typeof globalThis).components_schemas_ConstValue;
 
 /**
  * This is a model with one property with a 'any of' relationship where the options are not $ref
  */
-export type CompositionWithNestedAnyOfAndNull = components_schemas_CompositionWithNestedAnyOfAndNull;
+export type CompositionWithNestedAnyOfAndNull = (typeof globalThis).components_schemas_CompositionWithNestedAnyOfAndNull;
 
 /**
  * This is a model with one property with a 'one of' relationship
  */
-export type CompositionWithOneOfAndNullable = components_schemas_CompositionWithOneOfAndNullable;
+export type CompositionWithOneOfAndNullable = (typeof globalThis).components_schemas_CompositionWithOneOfAndNullable;
 
 /**
  * This is a model that contains a simple dictionary within composition
  */
-export type CompositionWithOneOfAndSimpleDictionary = components_schemas_CompositionWithOneOfAndSimpleDictionary;
+export type CompositionWithOneOfAndSimpleDictionary = (typeof globalThis).components_schemas_CompositionWithOneOfAndSimpleDictionary;
 
 /**
  * This is a model that contains a dictionary of simple arrays within composition
  */
-export type CompositionWithOneOfAndSimpleArrayDictionary = components_schemas_CompositionWithOneOfAndSimpleArrayDictionary;
+export type CompositionWithOneOfAndSimpleArrayDictionary = (typeof globalThis).components_schemas_CompositionWithOneOfAndSimpleArrayDictionary;
 
 /**
  * This is a model that contains a dictionary of complex arrays (composited) within composition
  */
-export type CompositionWithOneOfAndComplexArrayDictionary = components_schemas_CompositionWithOneOfAndComplexArrayDictionary;
+export type CompositionWithOneOfAndComplexArrayDictionary = (typeof globalThis).components_schemas_CompositionWithOneOfAndComplexArrayDictionary;
 
 /**
  * This is a model with one property with a 'all of' relationship
  */
-export type CompositionWithAllOfAndNullable = components_schemas_CompositionWithAllOfAndNullable;
+export type CompositionWithAllOfAndNullable = (typeof globalThis).components_schemas_CompositionWithAllOfAndNullable;
 
 /**
  * This is a model with one property with a 'any of' relationship
  */
-export type CompositionWithAnyOfAndNullable = components_schemas_CompositionWithAnyOfAndNullable;
+export type CompositionWithAnyOfAndNullable = (typeof globalThis).components_schemas_CompositionWithAnyOfAndNullable;
 
 /**
  * This is a base model with two simple optional properties
  */
-export type CompositionBaseModel = components_schemas_CompositionBaseModel;
+export type CompositionBaseModel = (typeof globalThis).components_schemas_CompositionBaseModel;
 
 /**
  * This is a model that extends the base model
  */
-export type CompositionExtendedModel = components_schemas_CompositionExtendedModel;
+export type CompositionExtendedModel = (typeof globalThis).components_schemas_CompositionExtendedModel;
 
 /**
  * This is a model with one nested property
  */
-export type ModelWithProperties = components_schemas_ModelWithProperties;
+export type ModelWithProperties = (typeof globalThis).components_schemas_ModelWithProperties;
 
 /**
  * This is a model with one nested property
  */
-export type ModelWithNestedProperties = components_schemas_ModelWithNestedProperties;
+export type ModelWithNestedProperties = (typeof globalThis).components_schemas_ModelWithNestedProperties;
 
 /**
  * This is a model with duplicated properties
  */
-export type ModelWithDuplicateProperties = components_schemas_ModelWithDuplicateProperties;
+export type ModelWithDuplicateProperties = (typeof globalThis).components_schemas_ModelWithDuplicateProperties;
 
 /**
  * This is a model with ordered properties
  */
-export type ModelWithOrderedProperties = components_schemas_ModelWithOrderedProperties;
+export type ModelWithOrderedProperties = (typeof globalThis).components_schemas_ModelWithOrderedProperties;
 
 /**
  * This is a model with duplicated imports
  */
-export type ModelWithDuplicateImports = components_schemas_ModelWithDuplicateImports;
+export type ModelWithDuplicateImports = (typeof globalThis).components_schemas_ModelWithDuplicateImports;
 
 /**
  * This is a model that extends another model
  */
-export type ModelThatExtends = components_schemas_ModelThatExtends;
+export type ModelThatExtends = (typeof globalThis).components_schemas_ModelThatExtends;
 
 /**
  * This is a model that extends another model
  */
-export type ModelThatExtendsExtends = components_schemas_ModelThatExtendsExtends;
+export type ModelThatExtendsExtends = (typeof globalThis).components_schemas_ModelThatExtendsExtends;
 
 /**
  * This is a model that contains a some patterns
  */
-export type ModelWithPattern = components_schemas_ModelWithPattern;
+export type ModelWithPattern = (typeof globalThis).components_schemas_ModelWithPattern;
 
-export type File = components_schemas_File;
+export type File = (typeof globalThis).components_schemas_File;
 
-export type Default = components_schemas_default;
+export type Default = (typeof globalThis).components_schemas_default;
 
-export type Pageable = components_schemas_Pageable;
+export type Pageable = (typeof globalThis).components_schemas_Pageable;
 
 /**
  * This is a free-form object without additionalProperties.
  */
-export type FreeFormObjectWithoutAdditionalProperties = components_schemas_FreeFormObjectWithoutAdditionalProperties;
+export type FreeFormObjectWithoutAdditionalProperties = (typeof globalThis).components_schemas_FreeFormObjectWithoutAdditionalProperties;
 
 /**
  * This is a free-form object with additionalProperties: true.
  */
-export type FreeFormObjectWithAdditionalPropertiesEqTrue = components_schemas_FreeFormObjectWithAdditionalPropertiesEqTrue;
+export type FreeFormObjectWithAdditionalPropertiesEqTrue = (typeof globalThis).components_schemas_FreeFormObjectWithAdditionalPropertiesEqTrue;
 
 /**
  * This is a free-form object with additionalProperties: {}.
  */
-export type FreeFormObjectWithAdditionalPropertiesEqEmptyObject = components_schemas_FreeFormObjectWithAdditionalPropertiesEqEmptyObject;
+export type FreeFormObjectWithAdditionalPropertiesEqEmptyObject = (typeof globalThis).components_schemas_FreeFormObjectWithAdditionalPropertiesEqEmptyObject;
 
-export type ModelWithConst = components_schemas_ModelWithConst;
+export type ModelWithConst = (typeof globalThis).components_schemas_ModelWithConst;
 
 /**
  * This is a model with one property and additionalProperties: true
  */
-export type ModelWithAdditionalPropertiesEqTrue = components_schemas_ModelWithAdditionalPropertiesEqTrue;
+export type ModelWithAdditionalPropertiesEqTrue = (typeof globalThis).components_schemas_ModelWithAdditionalPropertiesEqTrue;
 
-export type NestedAnyOfArraysNullable = components_schemas_NestedAnyOfArraysNullable;
+export type NestedAnyOfArraysNullable = (typeof globalThis).components_schemas_NestedAnyOfArraysNullable;
 
-export type CompositionWithOneOfAndProperties = components_schemas_CompositionWithOneOfAndProperties;
+export type CompositionWithOneOfAndProperties = (typeof globalThis).components_schemas_CompositionWithOneOfAndProperties;
 
 /**
  * An object that can be null
  */
-export type NullableObject = components_schemas_NullableObject;
+export type NullableObject = (typeof globalThis).components_schemas_NullableObject;
 
 /**
  * Some % character
  */
-export type CharactersInDescription = components_schemas_CharactersInDescription;
+export type CharactersInDescription = (typeof globalThis).components_schemas_CharactersInDescription;
 
-export type ModelWithNullableObject = components_schemas_ModelWithNullableObject;
+export type ModelWithNullableObject = (typeof globalThis).components_schemas_ModelWithNullableObject;
 
 /**
  * An object with additional properties that can be null
  */
-export type ModelWithAdditionalPropertiesRef = components_schemas_ModelWithAdditionalPropertiesRef;
+export type ModelWithAdditionalPropertiesRef = (typeof globalThis).components_schemas_ModelWithAdditionalPropertiesRef;
 
-export type ModelWithOneOfEnum = components_schemas_ModelWithOneOfEnum;
+export type ModelWithOneOfEnum = (typeof globalThis).components_schemas_ModelWithOneOfEnum;
 
-export type ModelWithNestedArrayEnumsDataFoo = components_schemas_ModelWithNestedArrayEnumsDataFoo;
+export type ModelWithNestedArrayEnumsDataFoo = (typeof globalThis).components_schemas_ModelWithNestedArrayEnumsDataFoo;
 
-export type ModelWithNestedArrayEnumsDataBar = components_schemas_ModelWithNestedArrayEnumsDataBar;
+export type ModelWithNestedArrayEnumsDataBar = (typeof globalThis).components_schemas_ModelWithNestedArrayEnumsDataBar;
 
-export type ModelWithNestedArrayEnumsData = components_schemas_ModelWithNestedArrayEnumsData;
+export type ModelWithNestedArrayEnumsData = (typeof globalThis).components_schemas_ModelWithNestedArrayEnumsData;
 
-export type ModelWithNestedArrayEnums = components_schemas_ModelWithNestedArrayEnums;
+export type ModelWithNestedArrayEnums = (typeof globalThis).components_schemas_ModelWithNestedArrayEnums;
 
-export type ModelWithNestedCompositionEnums = components_schemas_ModelWithNestedCompositionEnums;
+export type ModelWithNestedCompositionEnums = (typeof globalThis).components_schemas_ModelWithNestedCompositionEnums;
 
-export type ModelWithReadOnlyAndWriteOnly = components_schemas_ModelWithReadOnlyAndWriteOnly;
+export type ModelWithReadOnlyAndWriteOnly = (typeof globalThis).components_schemas_ModelWithReadOnlyAndWriteOnly;
 
-export type ModelWithConstantSizeArray = components_schemas_ModelWithConstantSizeArray;
+export type ModelWithConstantSizeArray = (typeof globalThis).components_schemas_ModelWithConstantSizeArray;
 
-export type ModelWithAnyOfConstantSizeArray = components_schemas_ModelWithAnyOfConstantSizeArray;
+export type ModelWithAnyOfConstantSizeArray = (typeof globalThis).components_schemas_ModelWithAnyOfConstantSizeArray;
 
-export type ModelWithPrefixItemsConstantSizeArray = components_schemas_ModelWithPrefixItemsConstantSizeArray;
+export type ModelWithPrefixItemsConstantSizeArray = Array<ModelWithInteger | (typeof globalThis).components_schemas_ModelWithPrefixItemsConstantSizeArray_items_1 | (typeof globalThis2).components_schemas_ModelWithPrefixItemsConstantSizeArray_items_2>;
 
-export type ModelWithAnyOfConstantSizeArrayNullable = components_schemas_ModelWithAnyOfConstantSizeArrayNullable;
+export type ModelWithAnyOfConstantSizeArrayNullable = (typeof globalThis).components_schemas_ModelWithAnyOfConstantSizeArrayNullable;
 
-export type ModelWithAnyOfConstantSizeArrayWithNSizeAndOptions = components_schemas_ModelWithAnyOfConstantSizeArrayWithNSizeAndOptions;
+export type ModelWithAnyOfConstantSizeArrayWithNSizeAndOptions = (typeof globalThis).components_schemas_ModelWithAnyOfConstantSizeArrayWithNSizeAndOptions;
 
-export type ModelWithAnyOfConstantSizeArrayAndIntersect = components_schemas_ModelWithAnyOfConstantSizeArrayAndIntersect;
+export type ModelWithAnyOfConstantSizeArrayAndIntersect = (typeof globalThis).components_schemas_ModelWithAnyOfConstantSizeArrayAndIntersect;
 
-export type ModelWithNumericEnumUnion = components_schemas_ModelWithNumericEnumUnion;
+export type ModelWithNumericEnumUnion = (typeof globalThis).components_schemas_ModelWithNumericEnumUnion;
 
 /**
  * Some description with `back ticks`
  */
-export type ModelWithBackticksInDescription = components_schemas_ModelWithBackticksInDescription;
+export type ModelWithBackticksInDescription = (typeof globalThis).components_schemas_ModelWithBackticksInDescription;
 
-export type ModelWithOneOfAndProperties = components_schemas_ModelWithOneOfAndProperties;
+export type ModelWithOneOfAndProperties = (typeof globalThis).components_schemas_ModelWithOneOfAndProperties;
 
 /**
  * Model used to test deduplication strategy (unused)
  */
-export type ParameterSimpleParameterUnused = components_schemas_ParameterSimpleParameterUnused;
+export type ParameterSimpleParameterUnused = (typeof globalThis).components_schemas_ParameterSimpleParameterUnused;
 
 /**
  * Model used to test deduplication strategy
  */
-export type PostServiceWithEmptyTagResponse = components_schemas_PostServiceWithEmptyTagResponse;
+export type PostServiceWithEmptyTagResponse = (typeof globalThis).components_schemas_PostServiceWithEmptyTagResponse;
 
 /**
  * Model used to test deduplication strategy
  */
-export type PostServiceWithEmptyTagResponse2 = components_schemas_PostServiceWithEmptyTagResponse2;
+export type PostServiceWithEmptyTagResponse2 = (typeof globalThis).components_schemas_PostServiceWithEmptyTagResponse2;
 
 /**
  * Model used to test deduplication strategy
  */
-export type DeleteFooData = components_schemas_DeleteFooData;
+export type DeleteFooData = (typeof globalThis).components_schemas_DeleteFooData;
 
 /**
  * Model used to test deduplication strategy
  */
-export type DeleteFooData2 = components_schemas_DeleteFooData2;
+export type DeleteFooData2 = (typeof globalThis).components_schemas_DeleteFooData2;
 
 /**
  * Model with restricted keyword name
  */
-export type Import = components_schemas_import;
+export type Import = (typeof globalThis).components_schemas_import;
 
-export type SchemaWithFormRestrictedKeys = components_schemas_SchemaWithFormRestrictedKeys;
-
-/**
- * This schema was giving PascalCase transformations a hard time
- */
-export type IoK8sApimachineryPkgApisMetaV1DeleteOptions = components_schemas_io.k8s.apimachinery.pkg.apis.meta.v1.DeleteOptions;
+export type SchemaWithFormRestrictedKeys = (typeof globalThis).components_schemas_SchemaWithFormRestrictedKeys;
 
 /**
  * This schema was giving PascalCase transformations a hard time
  */
-export type IoK8sApimachineryPkgApisMetaV1Preconditions = components_schemas_io.k8s.apimachinery.pkg.apis.meta.v1.Preconditions;
+export type IoK8sApimachineryPkgApisMetaV1DeleteOptions = (typeof globalThis)['components_schemas_io.k8s.apimachinery.pkg.apis.meta.v1.DeleteOptions'];
 
-export type AdditionalPropertiesUnknownIssue = components_schemas_AdditionalPropertiesUnknownIssue;
+/**
+ * This schema was giving PascalCase transformations a hard time
+ */
+export type IoK8sApimachineryPkgApisMetaV1Preconditions = (typeof globalThis)['components_schemas_io.k8s.apimachinery.pkg.apis.meta.v1.Preconditions'];
 
-export type AdditionalPropertiesUnknownIssue2 = components_schemas_AdditionalPropertiesUnknownIssue2;
+export type AdditionalPropertiesUnknownIssue = (typeof globalThis).components_schemas_AdditionalPropertiesUnknownIssue;
 
-export type AdditionalPropertiesUnknownIssue3 = components_schemas_AdditionalPropertiesUnknownIssue3;
+export type AdditionalPropertiesUnknownIssue2 = (typeof globalThis).components_schemas_AdditionalPropertiesUnknownIssue2;
 
-export type AdditionalPropertiesIntegerIssue = components_schemas_AdditionalPropertiesIntegerIssue;
+export type AdditionalPropertiesUnknownIssue3 = (typeof globalThis).components_schemas_AdditionalPropertiesUnknownIssue3;
 
-export type OneOfAllOfIssue = components_schemas_OneOfAllOfIssue;
+export type AdditionalPropertiesIntegerIssue = (typeof globalThis).components_schemas_AdditionalPropertiesIntegerIssue;
 
-export type GenericSchemaDuplicateIssue1SystemBoolean = components_schemas_Generic.Schema.Duplicate.Issue`1[System.Boolean];
+export type OneOfAllOfIssue = (typeof globalThis).components_schemas_OneOfAllOfIssue;
 
-export type GenericSchemaDuplicateIssue1SystemString = components_schemas_Generic.Schema.Duplicate.Issue`1[System.String];
+export type GenericSchemaDuplicateIssue1SystemBoolean = (typeof globalThis)['components_schemas_Generic.Schema.Duplicate.Issue`1[System.Boolean]'];
 
-export type ExternalSharedModel = components_schemas_ExternalSharedModel;
+export type GenericSchemaDuplicateIssue1SystemString = (typeof globalThis)['components_schemas_Generic.Schema.Duplicate.Issue`1[System.String]'];
+
+export type ExternalSharedModel = (typeof globalThis).components_schemas_ExternalSharedModel;
 
 /**
  * This is a model with one property containing a reference
  */
-export type ModelWithReferenceWritable = components_schemas_ModelWithReferenceWritable;
+export type ModelWithReferenceWritable = (typeof globalThis).components_schemas_ModelWithReferenceWritable;
 
 /**
  * This is a model with one property containing an array
  */
-export type ModelWithArrayReadOnlyAndWriteOnlyWritable = components_schemas_ModelWithArrayReadOnlyAndWriteOnlyWritable;
+export type ModelWithArrayReadOnlyAndWriteOnlyWritable = (typeof globalThis).components_schemas_ModelWithArrayReadOnlyAndWriteOnlyWritable;
 
 /**
  * This is a model with one nested property
  */
-export type ModelWithPropertiesWritable = components_schemas_ModelWithPropertiesWritable;
+export type ModelWithPropertiesWritable = (typeof globalThis).components_schemas_ModelWithPropertiesWritable;
 
 /**
  * This is a model that contains a some patterns
  */
-export type ModelWithPatternWritable = components_schemas_ModelWithPatternWritable;
+export type ModelWithPatternWritable = (typeof globalThis).components_schemas_ModelWithPatternWritable;
 
-export type FileWritable = components_schemas_FileWritable;
+export type FileWritable = (typeof globalThis).components_schemas_FileWritable;
 
-export type ModelWithReadOnlyAndWriteOnlyWritable = components_schemas_ModelWithReadOnlyAndWriteOnlyWritable;
+export type ModelWithReadOnlyAndWriteOnlyWritable = (typeof globalThis).components_schemas_ModelWithReadOnlyAndWriteOnlyWritable;
 
-export type ModelWithAnyOfConstantSizeArrayWithNSizeAndOptionsWritable = components_schemas_ModelWithAnyOfConstantSizeArrayWithNSizeAndOptionsWritable;
+export type ModelWithAnyOfConstantSizeArrayWithNSizeAndOptionsWritable = (typeof globalThis).components_schemas_ModelWithAnyOfConstantSizeArrayWithNSizeAndOptionsWritable;
 
-export type AdditionalPropertiesUnknownIssueWritable = components_schemas_AdditionalPropertiesUnknownIssueWritable;
+export type AdditionalPropertiesUnknownIssueWritable = (typeof globalThis).components_schemas_AdditionalPropertiesUnknownIssueWritable;
 
-export type OneOfAllOfIssueWritable = components_schemas_OneOfAllOfIssueWritable;
+export type OneOfAllOfIssueWritable = (typeof globalThis).components_schemas_OneOfAllOfIssueWritable;
 
-export type GenericSchemaDuplicateIssue1SystemBooleanWritable = components_schemas_Generic.Schema.Duplicate.Issue`1[System.Boolean]Writable;
+export type GenericSchemaDuplicateIssue1SystemBooleanWritable = (typeof globalThis)['components_schemas_Generic.Schema.Duplicate.Issue`1[System.Boolean]Writable'];
 
-export type GenericSchemaDuplicateIssue1SystemStringWritable = components_schemas_Generic.Schema.Duplicate.Issue`1[System.String]Writable;
+export type GenericSchemaDuplicateIssue1SystemStringWritable = (typeof globalThis)['components_schemas_Generic.Schema.Duplicate.Issue`1[System.String]Writable'];
 
 /**
  * This is a reusable parameter
  */
-export type SimpleParameter = components_parameters_SimpleParameter;
+export type SimpleParameter = (typeof globalThis).components_parameters_SimpleParameter;
 
 /**
  * Parameter with illegal characters
@@ -588,196 +588,196 @@ export type SimpleRequestBody = ModelWithString;
 
 export type SimpleFormData = ModelWithString;
 
-export type ExportData = paths_/api/v{api-version}/no+tag_get_export_data;
+export type ExportData = (typeof globalThis)['paths_/api/v{api-version}/no+tag_get_export_data'];
 
-export type PatchApiVbyApiVersionNoTagData = paths_/api/v{api-version}/no+tag_patch_patchApiVbyApiVersionNoTag_data;
+export type PatchApiVbyApiVersionNoTagData = (typeof globalThis)['paths_/api/v{api-version}/no+tag_patch_patchApiVbyApiVersionNoTag_data'];
 
-export type PatchApiVbyApiVersionNoTagResponses = paths_/api/v{api-version}/no+tag_patch_patchApiVbyApiVersionNoTag_responses;
+export type PatchApiVbyApiVersionNoTagResponses = (typeof globalThis)['paths_/api/v{api-version}/no+tag_patch_patchApiVbyApiVersionNoTag_responses'];
 
-export type ImportData = paths_/api/v{api-version}/no+tag_post_import_data;
+export type ImportData = (typeof globalThis)['paths_/api/v{api-version}/no+tag_post_import_data'];
 
-export type ImportResponses = paths_/api/v{api-version}/no+tag_post_import_responses;
+export type ImportResponses = (typeof globalThis)['paths_/api/v{api-version}/no+tag_post_import_responses'];
 
 export type ImportResponse = ImportResponses[keyof ImportResponses];
 
-export type FooWowData = paths_/api/v{api-version}/no+tag_put_fooWow_data;
+export type FooWowData = (typeof globalThis)['paths_/api/v{api-version}/no+tag_put_fooWow_data'];
 
-export type FooWowResponses = paths_/api/v{api-version}/no+tag_put_fooWow_responses;
+export type FooWowResponses = (typeof globalThis)['paths_/api/v{api-version}/no+tag_put_fooWow_responses'];
 
-export type ApiVVersionODataControllerCountData = paths_/api/v{api-version}/simple/$count_get_apiVVersionODataControllerCount_data;
+export type ApiVVersionODataControllerCountData = (typeof globalThis)['paths_/api/v{api-version}/simple/$count_get_apiVVersionODataControllerCount_data'];
 
-export type ApiVVersionODataControllerCountResponses = paths_/api/v{api-version}/simple/$count_get_apiVVersionODataControllerCount_responses;
+export type ApiVVersionODataControllerCountResponses = (typeof globalThis)['paths_/api/v{api-version}/simple/$count_get_apiVVersionODataControllerCount_responses'];
 
 export type ApiVVersionODataControllerCountResponse = ApiVVersionODataControllerCountResponses[keyof ApiVVersionODataControllerCountResponses];
 
-export type GetApiVbyApiVersionSimpleOperationData = paths_/api/v{api-version}/simple:operation_get_getApiVbyApiVersionSimpleOperation_data;
+export type GetApiVbyApiVersionSimpleOperationData = (typeof globalThis)['paths_/api/v{api-version}/simple:operation_get_getApiVbyApiVersionSimpleOperation_data'];
 
-export type GetApiVbyApiVersionSimpleOperationErrors = paths_/api/v{api-version}/simple:operation_get_getApiVbyApiVersionSimpleOperation_errors;
+export type GetApiVbyApiVersionSimpleOperationErrors = (typeof globalThis)['paths_/api/v{api-version}/simple:operation_get_getApiVbyApiVersionSimpleOperation_errors'];
 
 export type GetApiVbyApiVersionSimpleOperationError = GetApiVbyApiVersionSimpleOperationErrors[keyof GetApiVbyApiVersionSimpleOperationErrors];
 
-export type GetApiVbyApiVersionSimpleOperationResponses = paths_/api/v{api-version}/simple:operation_get_getApiVbyApiVersionSimpleOperation_responses;
+export type GetApiVbyApiVersionSimpleOperationResponses = (typeof globalThis)['paths_/api/v{api-version}/simple:operation_get_getApiVbyApiVersionSimpleOperation_responses'];
 
 export type GetApiVbyApiVersionSimpleOperationResponse = GetApiVbyApiVersionSimpleOperationResponses[keyof GetApiVbyApiVersionSimpleOperationResponses];
 
-export type DeleteCallWithoutParametersAndResponseData = paths_/api/v{api-version}/simple_delete_deleteCallWithoutParametersAndResponse_data;
+export type DeleteCallWithoutParametersAndResponseData = (typeof globalThis)['paths_/api/v{api-version}/simple_delete_deleteCallWithoutParametersAndResponse_data'];
 
-export type GetCallWithoutParametersAndResponseData = paths_/api/v{api-version}/simple_get_getCallWithoutParametersAndResponse_data;
+export type GetCallWithoutParametersAndResponseData = (typeof globalThis)['paths_/api/v{api-version}/simple_get_getCallWithoutParametersAndResponse_data'];
 
-export type HeadCallWithoutParametersAndResponseData = paths_/api/v{api-version}/simple_head_headCallWithoutParametersAndResponse_data;
+export type HeadCallWithoutParametersAndResponseData = (typeof globalThis)['paths_/api/v{api-version}/simple_head_headCallWithoutParametersAndResponse_data'];
 
-export type OptionsCallWithoutParametersAndResponseData = paths_/api/v{api-version}/simple_options_optionsCallWithoutParametersAndResponse_data;
+export type OptionsCallWithoutParametersAndResponseData = (typeof globalThis)['paths_/api/v{api-version}/simple_options_optionsCallWithoutParametersAndResponse_data'];
 
-export type PatchCallWithoutParametersAndResponseData = paths_/api/v{api-version}/simple_patch_patchCallWithoutParametersAndResponse_data;
+export type PatchCallWithoutParametersAndResponseData = (typeof globalThis)['paths_/api/v{api-version}/simple_patch_patchCallWithoutParametersAndResponse_data'];
 
-export type PostCallWithoutParametersAndResponseData = paths_/api/v{api-version}/simple_post_postCallWithoutParametersAndResponse_data;
+export type PostCallWithoutParametersAndResponseData = (typeof globalThis)['paths_/api/v{api-version}/simple_post_postCallWithoutParametersAndResponse_data'];
 
-export type PutCallWithoutParametersAndResponseData = paths_/api/v{api-version}/simple_put_putCallWithoutParametersAndResponse_data;
+export type PutCallWithoutParametersAndResponseData = (typeof globalThis)['paths_/api/v{api-version}/simple_put_putCallWithoutParametersAndResponse_data'];
 
-export type DeleteFooData3 = paths_/api/v{api-version}/foo/{foo_param}/bar/{BarParam}_delete_deleteFoo_data;
+export type DeleteFooData3 = (typeof globalThis)['paths_/api/v{api-version}/foo/{foo_param}/bar/{BarParam}_delete_deleteFoo_data'];
 
-export type CallWithDescriptionsData = paths_/api/v{api-version}/descriptions_post_callWithDescriptions_data;
+export type CallWithDescriptionsData = (typeof globalThis)['paths_/api/v{api-version}/descriptions_post_callWithDescriptions_data'];
 
-export type DeprecatedCallData = paths_/api/v{api-version}/parameters/deprecated_post_deprecatedCall_data;
+export type DeprecatedCallData = (typeof globalThis)['paths_/api/v{api-version}/parameters/deprecated_post_deprecatedCall_data'];
 
-export type CallWithParametersData = paths_/api/v{api-version}/parameters/{parameterPath}_post_callWithParameters_data;
+export type CallWithParametersData = (typeof globalThis)['paths_/api/v{api-version}/parameters/{parameterPath}_post_callWithParameters_data'];
 
-export type CallWithWeirdParameterNamesData = paths_/api/v{api-version}/parameters/{parameter.path.1}/{parameter-path-2}/{PARAMETER-PATH-3}_post_callWithWeirdParameterNames_data;
+export type CallWithWeirdParameterNamesData = (typeof globalThis)['paths_/api/v{api-version}/parameters/{parameter.path.1}/{parameter-path-2}/{PARAMETER-PATH-3}_post_callWithWeirdParameterNames_data'];
 
-export type GetCallWithOptionalParamData = paths_/api/v{api-version}/parameters_get_getCallWithOptionalParam_data;
+export type GetCallWithOptionalParamData = (typeof globalThis)['paths_/api/v{api-version}/parameters_get_getCallWithOptionalParam_data'];
 
-export type PostCallWithOptionalParamData = paths_/api/v{api-version}/parameters_post_postCallWithOptionalParam_data;
+export type PostCallWithOptionalParamData = (typeof globalThis)['paths_/api/v{api-version}/parameters_post_postCallWithOptionalParam_data'];
 
-export type PostCallWithOptionalParamResponses = paths_/api/v{api-version}/parameters_post_postCallWithOptionalParam_responses;
+export type PostCallWithOptionalParamResponses = (typeof globalThis)['paths_/api/v{api-version}/parameters_post_postCallWithOptionalParam_responses'];
 
 export type PostCallWithOptionalParamResponse = PostCallWithOptionalParamResponses[keyof PostCallWithOptionalParamResponses];
 
-export type PostApiVbyApiVersionRequestBodyData = paths_/api/v{api-version}/requestBody_post_postApiVbyApiVersionRequestBody_data;
+export type PostApiVbyApiVersionRequestBodyData = (typeof globalThis)['paths_/api/v{api-version}/requestBody_post_postApiVbyApiVersionRequestBody_data'];
 
-export type PostApiVbyApiVersionFormDataData = paths_/api/v{api-version}/formData_post_postApiVbyApiVersionFormData_data;
+export type PostApiVbyApiVersionFormDataData = (typeof globalThis)['paths_/api/v{api-version}/formData_post_postApiVbyApiVersionFormData_data'];
 
-export type CallWithDefaultParametersData = paths_/api/v{api-version}/defaults_get_callWithDefaultParameters_data;
+export type CallWithDefaultParametersData = (typeof globalThis)['paths_/api/v{api-version}/defaults_get_callWithDefaultParameters_data'];
 
-export type CallWithDefaultOptionalParametersData = paths_/api/v{api-version}/defaults_post_callWithDefaultOptionalParameters_data;
+export type CallWithDefaultOptionalParametersData = (typeof globalThis)['paths_/api/v{api-version}/defaults_post_callWithDefaultOptionalParameters_data'];
 
-export type CallToTestOrderOfParamsData = paths_/api/v{api-version}/defaults_put_callToTestOrderOfParams_data;
+export type CallToTestOrderOfParamsData = (typeof globalThis)['paths_/api/v{api-version}/defaults_put_callToTestOrderOfParams_data'];
 
-export type DuplicateNameData = paths_/api/v{api-version}/duplicate_delete_duplicateName_data;
+export type DuplicateNameData = (typeof globalThis)['paths_/api/v{api-version}/duplicate_delete_duplicateName_data'];
 
-export type DuplicateName2Data = paths_/api/v{api-version}/duplicate_get_duplicateName2_data;
+export type DuplicateName2Data = (typeof globalThis)['paths_/api/v{api-version}/duplicate_get_duplicateName2_data'];
 
-export type DuplicateName3Data = paths_/api/v{api-version}/duplicate_post_duplicateName3_data;
+export type DuplicateName3Data = (typeof globalThis)['paths_/api/v{api-version}/duplicate_post_duplicateName3_data'];
 
-export type DuplicateName4Data = paths_/api/v{api-version}/duplicate_put_duplicateName4_data;
+export type DuplicateName4Data = (typeof globalThis)['paths_/api/v{api-version}/duplicate_put_duplicateName4_data'];
 
-export type CallWithNoContentResponseData = paths_/api/v{api-version}/no-content_get_callWithNoContentResponse_data;
+export type CallWithNoContentResponseData = (typeof globalThis)['paths_/api/v{api-version}/no-content_get_callWithNoContentResponse_data'];
 
-export type CallWithNoContentResponseResponses = paths_/api/v{api-version}/no-content_get_callWithNoContentResponse_responses;
+export type CallWithNoContentResponseResponses = (typeof globalThis)['paths_/api/v{api-version}/no-content_get_callWithNoContentResponse_responses'];
 
 export type CallWithNoContentResponseResponse = CallWithNoContentResponseResponses[keyof CallWithNoContentResponseResponses];
 
-export type CallWithResponseAndNoContentResponseData = paths_/api/v{api-version}/multiple-tags/response-and-no-content_get_callWithResponseAndNoContentResponse_data;
+export type CallWithResponseAndNoContentResponseData = (typeof globalThis)['paths_/api/v{api-version}/multiple-tags/response-and-no-content_get_callWithResponseAndNoContentResponse_data'];
 
-export type CallWithResponseAndNoContentResponseResponses = paths_/api/v{api-version}/multiple-tags/response-and-no-content_get_callWithResponseAndNoContentResponse_responses;
+export type CallWithResponseAndNoContentResponseResponses = (typeof globalThis)['paths_/api/v{api-version}/multiple-tags/response-and-no-content_get_callWithResponseAndNoContentResponse_responses'];
 
 export type CallWithResponseAndNoContentResponseResponse = CallWithResponseAndNoContentResponseResponses[keyof CallWithResponseAndNoContentResponseResponses];
 
-export type DummyAData = paths_/api/v{api-version}/multiple-tags/a_get_dummyA_data;
+export type DummyAData = (typeof globalThis)['paths_/api/v{api-version}/multiple-tags/a_get_dummyA_data'];
 
-export type DummyAResponses = paths_/api/v{api-version}/multiple-tags/a_get_dummyA_responses;
+export type DummyAResponses = (typeof globalThis)['paths_/api/v{api-version}/multiple-tags/a_get_dummyA_responses'];
 
 export type DummyAResponse = DummyAResponses[keyof DummyAResponses];
 
-export type DummyBData = paths_/api/v{api-version}/multiple-tags/b_get_dummyB_data;
+export type DummyBData = (typeof globalThis)['paths_/api/v{api-version}/multiple-tags/b_get_dummyB_data'];
 
-export type DummyBResponses = paths_/api/v{api-version}/multiple-tags/b_get_dummyB_responses;
+export type DummyBResponses = (typeof globalThis)['paths_/api/v{api-version}/multiple-tags/b_get_dummyB_responses'];
 
 export type DummyBResponse = DummyBResponses[keyof DummyBResponses];
 
-export type CallWithResponseData = paths_/api/v{api-version}/response_get_callWithResponse_data;
+export type CallWithResponseData = (typeof globalThis)['paths_/api/v{api-version}/response_get_callWithResponse_data'];
 
-export type CallWithResponseResponses = paths_/api/v{api-version}/response_get_callWithResponse_responses;
+export type CallWithResponseResponses = (typeof globalThis)['paths_/api/v{api-version}/response_get_callWithResponse_responses'];
 
 export type CallWithResponseResponse = CallWithResponseResponses[keyof CallWithResponseResponses];
 
-export type CallWithDuplicateResponsesData = paths_/api/v{api-version}/response_post_callWithDuplicateResponses_data;
+export type CallWithDuplicateResponsesData = (typeof globalThis)['paths_/api/v{api-version}/response_post_callWithDuplicateResponses_data'];
 
-export type CallWithDuplicateResponsesErrors = paths_/api/v{api-version}/response_post_callWithDuplicateResponses_errors;
+export type CallWithDuplicateResponsesErrors = (typeof globalThis)['paths_/api/v{api-version}/response_post_callWithDuplicateResponses_errors'];
 
 export type CallWithDuplicateResponsesError = CallWithDuplicateResponsesErrors[keyof CallWithDuplicateResponsesErrors];
 
-export type CallWithDuplicateResponsesResponses = paths_/api/v{api-version}/response_post_callWithDuplicateResponses_responses;
+export type CallWithDuplicateResponsesResponses = (typeof globalThis)['paths_/api/v{api-version}/response_post_callWithDuplicateResponses_responses'];
 
 export type CallWithDuplicateResponsesResponse = CallWithDuplicateResponsesResponses[keyof CallWithDuplicateResponsesResponses];
 
-export type CallWithResponsesData = paths_/api/v{api-version}/response_put_callWithResponses_data;
+export type CallWithResponsesData = (typeof globalThis)['paths_/api/v{api-version}/response_put_callWithResponses_data'];
 
-export type CallWithResponsesErrors = paths_/api/v{api-version}/response_put_callWithResponses_errors;
+export type CallWithResponsesErrors = (typeof globalThis)['paths_/api/v{api-version}/response_put_callWithResponses_errors'];
 
 export type CallWithResponsesError = CallWithResponsesErrors[keyof CallWithResponsesErrors];
 
-export type CallWithResponsesResponses = paths_/api/v{api-version}/response_put_callWithResponses_responses;
+export type CallWithResponsesResponses = (typeof globalThis)['paths_/api/v{api-version}/response_put_callWithResponses_responses'];
 
 export type CallWithResponsesResponse = CallWithResponsesResponses[keyof CallWithResponsesResponses];
 
-export type CollectionFormatData = paths_/api/v{api-version}/collectionFormat_get_collectionFormat_data;
+export type CollectionFormatData = (typeof globalThis)['paths_/api/v{api-version}/collectionFormat_get_collectionFormat_data'];
 
-export type TypesData = paths_/api/v{api-version}/types_get_types_data;
+export type TypesData = (typeof globalThis)['paths_/api/v{api-version}/types_get_types_data'];
 
-export type TypesResponses = paths_/api/v{api-version}/types_get_types_responses;
+export type TypesResponses = (typeof globalThis)['paths_/api/v{api-version}/types_get_types_responses'];
 
 export type TypesResponse = TypesResponses[keyof TypesResponses];
 
-export type UploadFileData = paths_/api/v{api-version}/upload_post_uploadFile_data;
+export type UploadFileData = (typeof globalThis)['paths_/api/v{api-version}/upload_post_uploadFile_data'];
 
-export type UploadFileResponses = paths_/api/v{api-version}/upload_post_uploadFile_responses;
+export type UploadFileResponses = (typeof globalThis)['paths_/api/v{api-version}/upload_post_uploadFile_responses'];
 
 export type UploadFileResponse = UploadFileResponses[keyof UploadFileResponses];
 
-export type FileResponseData = paths_/api/v{api-version}/file/{id}_get_fileResponse_data;
+export type FileResponseData = (typeof globalThis)['paths_/api/v{api-version}/file/{id}_get_fileResponse_data'];
 
-export type FileResponseResponses = paths_/api/v{api-version}/file/{id}_get_fileResponse_responses;
+export type FileResponseResponses = (typeof globalThis)['paths_/api/v{api-version}/file/{id}_get_fileResponse_responses'];
 
 export type FileResponseResponse = FileResponseResponses[keyof FileResponseResponses];
 
-export type ComplexTypesData = paths_/api/v{api-version}/complex_get_complexTypes_data;
+export type ComplexTypesData = (typeof globalThis)['paths_/api/v{api-version}/complex_get_complexTypes_data'];
 
-export type ComplexTypesErrors = paths_/api/v{api-version}/complex_get_complexTypes_errors;
+export type ComplexTypesErrors = (typeof globalThis)['paths_/api/v{api-version}/complex_get_complexTypes_errors'];
 
-export type ComplexTypesResponses = paths_/api/v{api-version}/complex_get_complexTypes_responses;
+export type ComplexTypesResponses = (typeof globalThis)['paths_/api/v{api-version}/complex_get_complexTypes_responses'];
 
 export type ComplexTypesResponse = ComplexTypesResponses[keyof ComplexTypesResponses];
 
-export type MultipartResponseData = paths_/api/v{api-version}/multipart_get_multipartResponse_data;
+export type MultipartResponseData = (typeof globalThis)['paths_/api/v{api-version}/multipart_get_multipartResponse_data'];
 
-export type MultipartResponseResponses = paths_/api/v{api-version}/multipart_get_multipartResponse_responses;
+export type MultipartResponseResponses = (typeof globalThis)['paths_/api/v{api-version}/multipart_get_multipartResponse_responses'];
 
 export type MultipartResponseResponse = MultipartResponseResponses[keyof MultipartResponseResponses];
 
-export type MultipartRequestData = paths_/api/v{api-version}/multipart_post_multipartRequest_data;
+export type MultipartRequestData = (typeof globalThis)['paths_/api/v{api-version}/multipart_post_multipartRequest_data'];
 
-export type ComplexParamsData = paths_/api/v{api-version}/complex/{id}_put_complexParams_data;
+export type ComplexParamsData = (typeof globalThis)['paths_/api/v{api-version}/complex/{id}_put_complexParams_data'];
 
-export type ComplexParamsResponses = paths_/api/v{api-version}/complex/{id}_put_complexParams_responses;
+export type ComplexParamsResponses = (typeof globalThis)['paths_/api/v{api-version}/complex/{id}_put_complexParams_responses'];
 
 export type ComplexParamsResponse = ComplexParamsResponses[keyof ComplexParamsResponses];
 
-export type CallWithResultFromHeaderData = paths_/api/v{api-version}/header_post_callWithResultFromHeader_data;
+export type CallWithResultFromHeaderData = (typeof globalThis)['paths_/api/v{api-version}/header_post_callWithResultFromHeader_data'];
 
-export type CallWithResultFromHeaderErrors = paths_/api/v{api-version}/header_post_callWithResultFromHeader_errors;
+export type CallWithResultFromHeaderErrors = (typeof globalThis)['paths_/api/v{api-version}/header_post_callWithResultFromHeader_errors'];
 
-export type CallWithResultFromHeaderResponses = paths_/api/v{api-version}/header_post_callWithResultFromHeader_responses;
+export type CallWithResultFromHeaderResponses = (typeof globalThis)['paths_/api/v{api-version}/header_post_callWithResultFromHeader_responses'];
 
-export type TestErrorCodeData = paths_/api/v{api-version}/error_post_testErrorCode_data;
+export type TestErrorCodeData = (typeof globalThis)['paths_/api/v{api-version}/error_post_testErrorCode_data'];
 
-export type TestErrorCodeErrors = paths_/api/v{api-version}/error_post_testErrorCode_errors;
+export type TestErrorCodeErrors = (typeof globalThis)['paths_/api/v{api-version}/error_post_testErrorCode_errors'];
 
-export type TestErrorCodeResponses = paths_/api/v{api-version}/error_post_testErrorCode_responses;
+export type TestErrorCodeResponses = (typeof globalThis)['paths_/api/v{api-version}/error_post_testErrorCode_responses'];
 
-export type NonAsciiæøåÆøÅöôêÊ字符串Data = paths_/api/v{api-version}/non-ascii-æøåÆØÅöôêÊ字符串_post_nonAsciiæøåÆøÅöôêÊ字符串_data;
+export type NonAsciiæøåÆøÅöôêÊ字符串Data = (typeof globalThis)['paths_/api/v{api-version}/non-ascii-æøåÆØÅöôêÊ字符串_post_nonAsciiæøåÆøÅöôêÊ字符串_data'];
 
-export type NonAsciiæøåÆøÅöôêÊ字符串Responses = paths_/api/v{api-version}/non-ascii-æøåÆØÅöôêÊ字符串_post_nonAsciiæøåÆøÅöôêÊ字符串_responses;
+export type NonAsciiæøåÆøÅöôêÊ字符串Responses = (typeof globalThis)['paths_/api/v{api-version}/non-ascii-æøåÆØÅöôêÊ字符串_post_nonAsciiæøåÆøÅöôêÊ字符串_responses'];
 
 export type NonAsciiæøåÆøÅöôêÊ字符串Response = NonAsciiæøåÆøÅöôêÊ字符串Responses[keyof NonAsciiæøåÆøÅöôêÊ字符串Responses];
 
-export type PutWithFormUrlEncodedData = paths_/api/v{api-version}/non-ascii-æøåÆØÅöôêÊ字符串_put_putWithFormUrlEncoded_data;
+export type PutWithFormUrlEncodedData = (typeof globalThis)['paths_/api/v{api-version}/non-ascii-æøåÆØÅöôêÊ字符串_put_putWithFormUrlEncoded_data'];
