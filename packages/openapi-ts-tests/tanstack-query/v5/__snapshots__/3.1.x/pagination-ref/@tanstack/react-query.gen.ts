@@ -93,7 +93,9 @@ export const getFooInfiniteOptions = (options: Options<GetFooData>) => {
       // @ts-ignore
       const page: Pick<QueryKey<Options<GetFooData>>[0], 'body' | 'headers' | 'path' | 'query'> = typeof pageParam === 'object' ? pageParam : {
         query: {
-          'foo.page': pageParam
+          foo: {
+            page: pageParam
+          }
         }
       };
       const params = createInfiniteParams(queryKey, page);

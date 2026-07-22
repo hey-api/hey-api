@@ -193,6 +193,13 @@ export function createInfiniteQueryOptions({
     resource: 'createInfiniteParams',
   });
 
+  const paginationValue = pagination.name
+    .split('.')
+    .reduceRight<TsDsl<any>>(
+      (value, name) => $.object().pretty().prop(name, value),
+      $('pageParam'),
+    );
+
   const statements: Array<TsDsl<any>> = [
     $.const('page')
       .type(typePageObjectParam)
@@ -200,11 +207,7 @@ export function createInfiniteQueryOptions({
       .assign(
         $.ternary($('pageParam').typeofExpr().eq($.literal('object')))
           .do('pageParam')
-          .otherwise(
-            $.object()
-              .pretty()
-              .prop(pagination.in, $.object().pretty().prop(pagination.name, $('pageParam'))),
-          ),
+          .otherwise($.object().pretty().prop(pagination.in, paginationValue)),
       ),
     $.const('params').assign($(symbolCreateInfiniteParams).call('queryKey', 'page')),
   ];
