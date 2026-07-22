@@ -2,7 +2,9 @@ import type { SymbolMeta } from '@hey-api/codegen-core';
 import type { SchemaVisitorContext, SchemaWithType } from '@hey-api/shared';
 import { toCase } from '@hey-api/shared';
 
+import { TEMPORAL } from '../../../../../symbols';
 import { $ } from '../../../../../ts-dsl';
+import { resolveDates } from '../../../transformers/dates';
 import type { StringResolverContext } from '../../resolvers';
 import type { Type } from '../../shared/types';
 import type { HeyApiTypeScriptPlugin } from '../../types';
@@ -25,12 +27,11 @@ function formatNode(ctx: StringResolverContext): Type | undefined {
   }
 
   if (format === 'date-time' || format === 'date') {
-    const dates = plugin.getPlugin('@hey-api/transformers')?.config.dates;
-    if (dates) {
-      if (dates === 'temporal') {
-        return $.type(plugin.imports.temporalPolyfill.Temporal).attr(
-          format === 'date' ? 'PlainDate' : 'Instant',
-        );
+    const dates = resolveDates(plugin.getPlugin('@hey-api/transformers')?.config.dates);
+    if (dates.enabled) {
+      if (dates.type === 'temporal') {
+        const temporal = TEMPORAL(plugin.symbolFactory, { polyfill: dates.polyfill }).Temporal;
+        return $.type(temporal).attr(format === 'date' ? 'PlainDate' : 'Instant');
       }
       return $.type('Date');
     }

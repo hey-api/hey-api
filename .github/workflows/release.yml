@@ -54,10 +54,21 @@ jobs:
           client-id: ${{ secrets.GIT_APP_CLIENT_ID }}
           private-key: ${{ secrets.GIT_APP_PRIVATE_KEY }}
 
+      - name: Resolve app identity
+        id: app-identity
+        env:
+          APP_SLUG: ${{ steps.app-token.outputs.app-slug }}
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          user_id=$(gh api "/users/${APP_SLUG}[bot]" --jq '.id')
+          echo "name=${APP_SLUG}[bot]" >> "$GITHUB_OUTPUT"
+          echo "email=${user_id}+${APP_SLUG}[bot]@users.noreply.github.com" >> "$GITHUB_OUTPUT"
+
       - name: Create release pull request
         id: changesets
         uses: changesets/action@a45c4d594aa4e2c509dc14a9f2b3b67ba3780d0d # v1.9.0
         with:
+          commitMode: github-api
           commit: 'ci: release'
           createGithubReleases: false
           publish: pnpm changeset publish
@@ -115,7 +126,10 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@4a55954c782fc1ea30b9056cd3e7a2b40ca8887d # v7.2.0
         with:
           branch: ${{ env.CURRENT_BRANCH }}
+          commit_author: ${{ steps.app-identity.outputs.name }} <${{ steps.app-identity.outputs.email }}>
           commit_message: 'chore: sync changelog [skip ci]'
+          commit_user_email: ${{ steps.app-identity.outputs.email }}
+          commit_user_name: ${{ steps.app-identity.outputs.name }}
           file_pattern: CHANGELOG.md
 
       - name: Update lock file
@@ -127,7 +141,10 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@4a55954c782fc1ea30b9056cd3e7a2b40ca8887d # v7.2.0
         with:
           branch: ${{ env.CURRENT_BRANCH }}
+          commit_author: ${{ steps.app-identity.outputs.name }} <${{ steps.app-identity.outputs.email }}>
           commit_message: 'chore: update lock file'
+          commit_user_email: ${{ steps.app-identity.outputs.email }}
+          commit_user_name: ${{ steps.app-identity.outputs.name }}
 
       - name: Compute shared snapshot timestamp
         id: snapshot-timestamp

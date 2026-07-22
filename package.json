@@ -74,11 +74,11 @@
     "husky": "9.1.7",
     "lint-staged": "17.0.8",
     "oxfmt": "0.57.0",
-    "oxlint": "1.73.0",
+    "oxlint": "1.74.0",
     "publint": "0.3.21",
     "tsdown": "0.22.3",
     "tsx": "4.21.0",
-    "turbo": "2.10.4",
+    "turbo": "2.10.5",
     "typescript": "6.0.3",
     "vitest": "4.1.9"
   },

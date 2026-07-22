@@ -117,7 +117,7 @@ const scrollTo = announcement?.link?.startsWith('#') ? announcement.link.slice(1
           shortcut="KeyI"
           syncKey="toggle:codegen-input"
         />
-        to
+        {" to "}
         <ToggleDropdown
           options={OUTPUT_OPTIONS}
           defaultValue={defaultOutputOption.value}
@@ -126,7 +126,7 @@ const scrollTo = announcement?.link?.startsWith('#') ? announcement.link.slice(1
           shortcut="KeyO"
           syncKey="toggle:codegen-output"
         />
-        in seconds.
+        {" in seconds."}
       </h1>
 
       <p class="description">{defaultOutputOption.description}</p>

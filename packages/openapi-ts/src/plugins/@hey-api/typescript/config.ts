@@ -1,7 +1,6 @@
 import { definePluginConfig } from '@hey-api/shared';
 
 import { Api } from './api';
-import { typescriptImports } from './imports';
 import { handler } from './plugin';
 import type { EnumsType, HeyApiTypeScriptPlugin } from './types';
 
@@ -58,7 +57,6 @@ export const defaultConfig: HeyApiTypeScriptPlugin['Config'] = {
     },
   },
   handler,
-  imports: typescriptImports,
   name: '@hey-api/typescript',
   symbolMeta() {
     return {

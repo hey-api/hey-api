@@ -59,7 +59,7 @@
   "files": [
     "bin",
     "dist",
-    "LICENSE.md",
+    "LICENSE",
     "README.md"
   ],
   "type": "module",
