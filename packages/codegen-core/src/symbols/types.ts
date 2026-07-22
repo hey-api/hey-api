@@ -50,7 +50,7 @@ export type ISymbolIn = {
   exported?: boolean;
   /**
    * External module name if this symbol is imported from a module not managed
-   * by the project (e.g., "zod", "lodash").
+   * by the project. Mutually exclusive with {@link global}.
    *
    * @default undefined
    */
@@ -67,6 +67,13 @@ export type ISymbolIn = {
    * @returns The file path to output the symbol to, or undefined to fallback to default behavior.
    */
   getFilePath?: Symbol['getFilePath'];
+  /**
+   * When true, this symbol refers to an ambient global identifier. Mutually
+   * exclusive with {@link external}.
+   *
+   * @default undefined
+   */
+  global?: boolean;
   /**
    * Kind of import if this symbol represents an import.
    *
@@ -180,6 +187,7 @@ export type SymbolDump = {
   exported: boolean;
   external?: string;
   finalName?: string;
+  global?: boolean;
   id: number;
   importIds: string;
   importKind: BindingKind;

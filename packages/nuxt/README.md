@@ -127,14 +127,6 @@ Partners behind the future of API tooling. [Become a sponsor](https://github.com
         </a>
       </td>
       <td align="center" width="33.333%">
-        <a href="https://kutt.to/KkqSaw" target="_blank">
-          <picture height="34px">
-            <source media="(prefers-color-scheme: dark)" srcset="https://heyapi.dev/assets/cella/logo-light.svg">
-            <img alt="Cella logo" height="34px" src="https://heyapi.dev/assets/cella/logo-dark.svg">
-          </picture>
-        </a>
-      </td>
-      <td align="center" width="33.333%">
         <a href="https://kutt.to/HW4GYR" target="_blank">
           <picture height="34px">
             <source media="(prefers-color-scheme: dark)" srcset="https://heyapi.dev/assets/photon/logo-light.svg">
@@ -155,6 +147,6 @@ You can learn more on the [Migrating](https://heyapi.dev/docs/openapi/typescript
 
 ## License
 
-Released under the [MIT License](https://github.com/hey-api/hey-api/blob/main/LICENSE.md).
+Released under the [MIT License](https://github.com/hey-api/hey-api/blob/main/LICENSE).
 
 <!-- template-license-end -->

@@ -96,6 +96,11 @@ export class SymbolFactory {
       if (!meta.resource) meta.resource = `${symbol.external}.${name}`;
       const existing = this.queryAll(meta).find((s) => s.name === name);
       if (existing) return existing;
+    } else if (symbol.global) {
+      if (!meta.category) meta.category = 'global';
+      if (!meta.resource) meta.resource = name;
+      const existing = this.queryAll(meta).find((s) => s.name === name);
+      if (existing) return existing;
     }
     const symbolIn: SymbolIn = { ...symbol, meta, name };
     for (const hook of this.eventHooks['symbol:register:before']) {

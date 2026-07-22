@@ -111,6 +111,15 @@ export default defineConfig({
       {
         extends: true,
         test: {
+          globalSetup: ['./test/global-teardown.ts'],
+          name: '@test/openapi-ts-orpc-v2',
+          root: 'packages/openapi-ts-tests/orpc/v2',
+          setupFiles: ['./vitest.setup.ts'],
+        },
+      },
+      {
+        extends: true,
+        test: {
           name: '@test/openapi-ts-sdks',
           root: 'packages/openapi-ts-tests/sdks',
           setupFiles: ['./vitest.setup.ts'],
