@@ -1,0 +1,16 @@
+{
+  "name": "@test/openapi-ts-orpc-v2",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsgo --noEmit"
+  },
+  "devDependencies": {
+    "@hey-api/openapi-ts": "workspace:*",
+    "@orpc/contract": "2.0.0-beta.15",
+    "@orpc/openapi": "2.0.0-beta.15",
+    "typescript": "6.0.3",
+    "zod": "4.4.3"
+  }
+}

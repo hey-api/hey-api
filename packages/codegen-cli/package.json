@@ -28,7 +28,7 @@
   "funding": "https://github.com/sponsors/hey-api",
   "files": [
     "dist",
-    "LICENSE.md",
+    "LICENSE",
     "README.md"
   ],
   "type": "module",
