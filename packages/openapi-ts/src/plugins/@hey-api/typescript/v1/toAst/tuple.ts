@@ -5,12 +5,12 @@ import type { TupleResolverContext } from '../../resolvers';
 import type { Type } from '../../shared/types';
 
 function baseNode(ctx: TupleResolverContext): Type {
-  const { plugin, schema, walk } = ctx;
+  const { path, plugin, schema, walk } = ctx;
   const itemTypes: Array<Type> = [];
 
   if (schema.items) {
     schema.items.forEach((item) => {
-      const result = walk(item, { path: ref([]), plugin });
+      const result = walk(item, { path, plugin });
       itemTypes.push(result.type);
     });
   }

@@ -6,7 +6,7 @@ import type { ArrayResolverContext } from '../../resolvers';
 import type { Type, TypeScriptResult } from '../../shared/types';
 
 function baseNode(ctx: ArrayResolverContext): Type {
-  const { plugin, schema, walk } = ctx;
+  const { path, plugin, schema, walk } = ctx;
 
   if (!schema.items) {
     return $.type('Array').generic($.type(plugin.config.topType));
@@ -19,7 +19,7 @@ function baseNode(ctx: ArrayResolverContext): Type {
 
   const itemResults: Array<TypeScriptResult> = dedupedSchema.items.map((item) =>
     walk(item, {
-      path: ref([]),
+      path,
       plugin,
     }),
   );

@@ -276,3 +276,39 @@ describe('custom plugin', () => {
     expect(myPlugin.handler).not.toHaveBeenCalled();
   });
 });
+
+describe('resolvers', () => {
+  it('@hey-api/typescript receives a path', async () => {
+    const assertPath = (ctx: { path: { '~ref': ReadonlyArray<string | number> } }): undefined => {
+      expect(ctx.path['~ref'].length).toBeGreaterThan(0);
+    };
+    await createClient({
+      input: path.join(getSpecsPath(), '3.1.x', 'full.yaml'),
+      logs: {
+        level: 'silent',
+      },
+      output: path.join(import.meta.dirname, 'generated', 'my-plugin', 'default'),
+      plugins: [
+        {
+          $resolvers: {
+            array: assertPath,
+            boolean: assertPath,
+            enum: assertPath,
+            intersection: assertPath,
+            never: assertPath,
+            null: assertPath,
+            number: assertPath,
+            object: assertPath,
+            string: assertPath,
+            tuple: assertPath,
+            undefined: assertPath,
+            union: assertPath,
+            unknown: assertPath,
+            void: assertPath,
+          },
+          name: '@hey-api/typescript',
+        },
+      ],
+    });
+  });
+});
