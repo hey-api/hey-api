@@ -1,4 +1,4 @@
-import { ref } from '@hey-api/codegen-core';
+import { childContext } from '@hey-api/shared';
 import { deduplicateSchema } from '@hey-api/shared';
 
 import { $ } from '../../../../../ts-dsl';
@@ -17,11 +17,8 @@ function baseNode(ctx: ArrayResolverContext): Type {
     return $.type('Array').generic($.type(plugin.config.topType));
   }
 
-  const itemResults: Array<TypeScriptResult> = dedupedSchema.items.map((item) =>
-    walk(item, {
-      path,
-      plugin,
-    }),
+  const itemResults: Array<TypeScriptResult> = dedupedSchema.items.map((item, index) =>
+    walk(item, childContext({ path, plugin }, 'items', index)),
   );
   if (itemResults.length === 1) {
     return $.type('Array').generic(itemResults[0]!.type);

@@ -1,6 +1,6 @@
 import { ref } from '@hey-api/codegen-core';
 import type { IR } from '@hey-api/shared';
-import { deduplicateSchema } from '@hey-api/shared';
+import { childContext,deduplicateSchema } from '@hey-api/shared';
 
 import { $ } from '../../../../../ts-dsl';
 import { createSchemaComment } from '../../../../shared/utils/schema';
@@ -14,7 +14,7 @@ function shapeNode(ctx: ObjectResolverContext): ReturnType<typeof $.type.object>
 
   for (const name in schema.properties) {
     const property = schema.properties[name]!;
-    const propertyResult = walk(property, { path, plugin });
+    const propertyResult = walk(property, childContext({ path, plugin }, 'properties', name));
     const isRequired = required.includes(name);
     shape.prop(name, (p) =>
       p
@@ -85,10 +85,16 @@ function baseNode(ctx: ObjectResolverContext): Type {
           ? indexSchemas[0]!
           : deduplicateSchema({ schema: { items: indexSchemas, logicalOperator: 'or' } });
 
-      const indexType = walk(unionSchema, { path, plugin }).type;
+      const indexType = walk(
+        unionSchema,
+        childContext({ path, plugin }, 'additionalProperties'),
+      ).type;
 
       if (schema.propertyNames?.$ref) {
-        const propertyNamesResult = walk({ $ref: schema.propertyNames.$ref }, { path, plugin });
+        const propertyNamesResult = walk(
+          { $ref: schema.propertyNames.$ref },
+          childContext({ path, plugin }, 'propertyNames'),
+        );
         return $.type.mapped('key').key(propertyNamesResult.type).optional().type(indexType);
       }
 

@@ -1,4 +1,4 @@
-import { ref } from '@hey-api/codegen-core';
+import { childContext } from '@hey-api/shared';
 
 import { $ } from '../../../../../ts-dsl';
 import type { TupleResolverContext } from '../../resolvers';
@@ -9,8 +9,8 @@ function baseNode(ctx: TupleResolverContext): Type {
   const itemTypes: Array<Type> = [];
 
   if (schema.items) {
-    schema.items.forEach((item) => {
-      const result = walk(item, { path, plugin });
+    schema.items.forEach((item, index) => {
+      const result = walk(item, childContext({ path, plugin }, 'items', index));
       itemTypes.push(result.type);
     });
   }
