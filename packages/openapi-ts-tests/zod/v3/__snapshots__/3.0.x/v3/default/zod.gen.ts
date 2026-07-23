@@ -1299,7 +1299,7 @@ export const zTypesQuery = z.object({
     'Success',
     'Warning',
     'Error'
-  ])
+  ]).nullable()
 });
 
 export const zTypesResponse = z.union([

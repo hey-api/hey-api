@@ -1813,7 +1813,7 @@ export type TypesData = {
     /**
      * This is an enum parameter
      */
-    parameterEnum: 'Success' | 'Warning' | 'Error';
+    parameterEnum: 'Success' | 'Warning' | 'Error' | null;
   };
   url: '/api/v{api-version}/types';
 };
