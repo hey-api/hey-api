@@ -1,4 +1,4 @@
-import colors from 'ansi-colors';
+import { styleText } from 'node:util';
 
 import type { Context } from '../../../ir/context';
 
@@ -56,13 +56,16 @@ const formatPath = (path: ReadonlyArray<string | number>): string =>
 
 const formatValidatorIssue = (issue: ValidatorIssue): string => {
   const pathStr = formatPath(issue.path);
-  const level = issue.severity === 'error' ? colors.bold.red : colors.bold.yellow;
+  const level =
+    issue.severity === 'error'
+      ? (text: string) => styleText(['bold', 'red'], text)
+      : (text: string) => styleText(['bold', 'yellow'], text);
 
   const highlightedMessage = issue.message.replace(/`([^`]+)`/g, (_, code) =>
-    colors.yellow(`\`${code}\``),
+    styleText('yellow', `\`${code}\``),
   );
 
-  return `${level(`[${issue.severity.toUpperCase()}]`)} ${colors.cyan(pathStr)}: ${highlightedMessage}`;
+  return `${level(`[${issue.severity.toUpperCase()}]`)} ${styleText('cyan', pathStr)}: ${highlightedMessage}`;
 };
 
 const shouldPrint = ({ context, issue }: { context: Context; issue: ValidatorIssue }) => {

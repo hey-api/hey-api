@@ -76,9 +76,7 @@
     "@hey-api/shared": "workspace:*",
     "@hey-api/spec-types": "workspace:*",
     "@hey-api/types": "workspace:*",
-    "@lukeed/ms": "2.0.2",
-    "ansi-colors": "4.1.3",
-    "color-support": "1.1.3"
+    "@lukeed/ms": "2.0.2"
   },
   "devDependencies": {
     "typescript": "6.0.3"

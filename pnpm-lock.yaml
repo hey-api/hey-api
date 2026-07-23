@@ -1075,15 +1075,9 @@ importers:
       '@hey-api/types':
         specifier: workspace:*
         version: link:../types
-      ansi-colors:
-        specifier: 4.1.3
-        version: 4.1.3
       c12:
         specifier: 3.3.4
         version: 3.3.4(magicast@0.5.2)
-      color-support:
-        specifier: 1.1.3
-        version: 1.1.3
     devDependencies:
       typescript:
         specifier: 6.0.3
@@ -1177,12 +1171,6 @@ importers:
       '@lukeed/ms':
         specifier: 2.0.2
         version: 2.0.2
-      ansi-colors:
-        specifier: 4.1.3
-        version: 4.1.3
-      color-support:
-        specifier: 1.1.3
-        version: 1.1.3
     devDependencies:
       typescript:
         specifier: 6.0.3
@@ -1229,12 +1217,6 @@ importers:
       '@lukeed/ms':
         specifier: 2.0.2
         version: 2.0.2
-      ansi-colors:
-        specifier: 4.1.3
-        version: 4.1.3
-      color-support:
-        specifier: 1.1.3
-        version: 1.1.3
       get-tsconfig:
         specifier: 4.14.0
         version: 4.14.0
@@ -1530,9 +1512,6 @@ importers:
       '@hey-api/types':
         specifier: workspace:*
         version: link:../types
-      ansi-colors:
-        specifier: 4.1.3
-        version: 4.1.3
       cross-spawn:
         specifier: 7.0.6
         version: 7.0.6
@@ -8329,10 +8308,6 @@ packages:
 
   color-string@1.9.1:
     resolution: {integrity: sha512-shrVawQFojnZv6xM40anx4CkoDP+fZsw/ZerEMsW/pyzsRbElpsL/DBVW7q3ExxwusdNXI3lXpuhEZkzs8p5Eg==}
-
-  color-support@1.1.3:
-    resolution: {integrity: sha512-qiBjkpbMLO/HL68y+lh4q0/O1MZFj2RX6X/KmMa3+gJD3z+WwI1ZzDHysvqHGS3mP6mznPckpXmw1nI9cJjyRg==}
-    hasBin: true
 
   color@4.2.3:
     resolution: {integrity: sha512-1rXeuUUiGGrykh+CeBdu5Ie7OJwinCgQY0bc7GCRxy5xVHy+moaqkpL/jqQq0MtQOeYcrqEz4abc5f0KtU7W4A==}
@@ -21447,8 +21422,6 @@ snapshots:
       color-name: 1.1.4
       simple-swizzle: 0.2.2
     optional: true
-
-  color-support@1.1.3: {}
 
   color@4.2.3:
     dependencies:
