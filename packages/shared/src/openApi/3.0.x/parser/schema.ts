@@ -842,6 +842,7 @@ function parseEnum({
   const xEnumDescriptions = schema['x-enum-descriptions'];
   const xEnumVarnames = schema['x-enum-varnames'];
   const xEnumNames = schema['x-enumNames'];
+  let hasNullValue = false;
 
   for (let index = 0, len = schema.enum.length; index < len; index++) {
     const enumValue = schema.enum[index];
@@ -860,6 +861,7 @@ function parseEnum({
       // nullable must be true
       if (schema.nullable) {
         enumType = 'null';
+        hasNullValue = true;
       }
     } else {
       console.warn(
@@ -902,6 +904,13 @@ function parseEnum({
     items: schemaItems,
     schema: irSchema,
   });
+
+  if (schema.nullable && !hasNullValue) {
+    irSchema = addItemsToSchema({
+      items: [irSchema, { type: 'null' }],
+      schema: initIrSchema({ schema }),
+    });
+  }
 
   return irSchema;
 }
