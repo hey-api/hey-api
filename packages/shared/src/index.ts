@@ -29,7 +29,7 @@ export type {
   UserIndexExportOption,
 } from './config/shared';
 export type { Dependency } from './config/utils/dependencies';
-export { dependencyFactory, satisfies } from './config/utils/dependencies';
+export { dependencyFactory, normalizeFull, satisfies } from './config/utils/dependencies';
 export { debugTools } from './debug';
 export {
   ConfigError,

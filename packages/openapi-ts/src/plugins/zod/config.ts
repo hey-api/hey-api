@@ -1,7 +1,7 @@
 import { styleText } from 'node:util';
 
 import type { PluginContext } from '@hey-api/shared';
-import { coerce, definePluginConfig } from '@hey-api/shared';
+import { coerce, definePluginConfig, normalizeFull } from '@hey-api/shared';
 
 import { Api } from './api';
 import { zodImports } from './imports';
@@ -38,7 +38,7 @@ export const defaultConfig: ZodPlugin['Config'] = {
         if (!(context as PluginContext).package.satisfies(version, '>=3.25.0 <5.0.0')) {
           const compatibleVersion = inferCompatibleVersion();
           console.warn(
-            `🔌 ${styleText('yellow', 'Warning:')} Installed ${styleText('cyan', packageName)} ${styleText('cyan', `v${version.version}`)} does not support compatibility version ${styleText('yellow', String(value))}, using ${styleText('yellow', String(compatibleVersion))}.`,
+            `🔌 ${styleText('yellow', 'Warning:')} Installed ${styleText('cyan', packageName)} ${styleText('cyan', `v${normalizeFull(version)}`)} does not support compatibility version ${styleText('yellow', String(value))}, using ${styleText('yellow', String(compatibleVersion))}.`,
           );
           return compatibleVersion;
         }
