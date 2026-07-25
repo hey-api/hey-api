@@ -3,7 +3,7 @@
 import { oc } from '@orpc/contract';
 import * as v from 'valibot';
 
-import { vCreatePostBody, vCreatePostHeaders, vCreatePostResponse, vCreateUserBody, vCreateUserResponse, vDeleteUserHeaders, vDeleteUserPath, vDeleteUserResponse, vGetPostByIdPath, vGetPostByIdQuery, vGetPostByIdResponse, vGetPostsQuery, vGetPostsResponse, vGetUserByIdPath, vGetUserByIdResponse, vGetUsersQuery, vGetUsersResponse, vUpdateUserBody, vUpdateUserPath, vUpdateUserResponse } from './valibot.gen';
+import { vCreatePostBody, vCreatePostHeaders, vCreatePostResponse, vCreateUserBody, vCreateUserResponse, vDeleteUserHeaders, vDeleteUserPath, vDeleteUserResponse, vGetPostById500Response, vGetPostByIdPath, vGetPostByIdQuery, vGetPostByIdResponse, vGetPostsQuery, vGetPostsResponse, vGetUserByIdPath, vGetUserByIdResponse, vGetUsersQuery, vGetUsersResponse, vUpdateUserBody, vUpdateUserPath, vUpdateUserResponse } from './valibot.gen';
 
 /**
  * Get all users
@@ -102,7 +102,11 @@ export const getPostByIdRpc = oc.route({
   path: '/posts/{postId}',
   summary: 'Get a post by ID',
   tags: ['posts']
-}).input(v.object({ params: vGetPostByIdPath, query: v.optional(vGetPostByIdQuery) })).output(vGetPostByIdResponse);
+}).input(v.object({ params: vGetPostByIdPath, query: v.optional(vGetPostByIdQuery) })).output(vGetPostByIdResponse).errors({ POST_NOT_FOUND: { status: 404, message: 'Post not found' } }).errors({ INTERNAL_SERVER_ERROR: {
+    status: 500,
+    message: 'Internal server error',
+    data: vGetPostById500Response
+  } });
 
 export const rpcContract = {
   getUsersRpc,
