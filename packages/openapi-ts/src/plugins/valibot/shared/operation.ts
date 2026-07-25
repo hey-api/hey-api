@@ -86,7 +86,7 @@ export function irOperationToAst({
 
   if (plugin.config.responses.enabled) {
     if (operation.responses) {
-      const { response } = operationResponsesMap(operation);
+      const { errors, response } = operationResponsesMap(operation);
 
       if (response) {
         processor.process({
@@ -102,6 +102,27 @@ export function irOperationToAst({
           schema: response,
           tags,
         });
+      }
+
+      if (errors && errors.properties) {
+        for (const [status, error] of Object.entries(errors.properties)) {
+          if (['never', 'null', 'undefined', 'unknown', 'void'].includes(error.type!)) continue;
+          if (status === 'default') continue;
+
+          processor.process({
+            meta: {
+              resource: 'operation',
+              resourceId: operation.id,
+              role: 'error' + status,
+            },
+            naming: plugin.config.responses,
+            namingAnchor: operation.id + status,
+            path: [...path, 'error', status],
+            plugin,
+            schema: error,
+            tags,
+          });
+        }
       }
     }
   }

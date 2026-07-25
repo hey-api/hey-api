@@ -209,6 +209,32 @@ function createContractExpression(
     }
   }
 
+  if (operation.responses) {
+    for (const [status, response] of Object.entries(operation.responses)) {
+      if (!response) continue;
+      const statusInt = parseInt(status, 10);
+      if (statusInt < 400 || statusInt >= 600) continue;
+
+      let errorObject = $.object()
+        .prop('status', $.literal(statusInt))
+        .prop('message', $.literal(response.schema.description ?? status));
+
+      if (plugin.config.validator.output) {
+        const schema = plugin.referenceSymbol({
+          artifact: plugin.config.validator.output,
+          category: 'schema',
+          resource: 'operation',
+          resourceId: operation.id,
+          role: 'error' + status,
+        });
+        errorObject = errorObject.$if(schema.name, (o) => o.prop('data', schema));
+      }
+
+      const code = response.schema.description?.replaceAll(' ', '_').toUpperCase() ?? status;
+      expression = expression.attr('errors').call($.object().prop(code, errorObject));
+    }
+  }
+
   return expression;
 }
 
