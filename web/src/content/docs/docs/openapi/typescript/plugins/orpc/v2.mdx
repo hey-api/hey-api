@@ -149,7 +149,7 @@ For a more granular approach, manually add a validator plugin and set `validator
 import { oc } from '@orpc/contract';
 import { openapi } from '@orpc/openapi';
 
-import { vAddPetBody, vAddPetResponse } from './valibot.gen';
+import { vAddPetBody, vAddPetResponse, vAddPet409Response } from './valibot.gen';
 
 const addPet = oc
   .meta(
@@ -164,7 +164,8 @@ const addPet = oc
     }),
   )
   .input(v.object({ body: vAddPetBody }))
-  .output(vAddPetResponse);
+  .output(vAddPetResponse)
+  .errors({ PET_ALREADY_EXISTS: { status: 409, message: 'Pet already exists', data: vAddPet409Response } });
 ```
   </TabItem>
   <TabItem label="config">
