@@ -175,9 +175,8 @@ export const mergeConfigs = (a: Config, b: Config): Config => {
   return config;
 };
 
-const headersEntries = (headers: Config['headers']): Array<[string, unknown]> => 
-  headers instanceof Headers ? Array.from(headers.entries()) : Object.entries(headers || {})
-;
+const headersEntries = (headers: Config['headers']): Array<[string, unknown]> =>
+  headers instanceof Headers ? Array.from(headers.entries()) : Object.entries(headers || {});
 
 export const mergeHeaders = (
   ...headers: Array<Required<Config>['headers'] | undefined>

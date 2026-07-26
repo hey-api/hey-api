@@ -175,11 +175,8 @@ export const mergeConfigs = (a: Config, b: Config): Config => {
   return config;
 };
 
-const headersEntries = (headers: Config['headers']): Array<[string, unknown]> => {
-  return headers instanceof Headers 
-    ? Array.from(headers.entries()) 
-    : Object.entries(headers || {});
-};
+const headersEntries = (headers: Config['headers']): Array<[string, unknown]> =>
+  headers instanceof Headers ? Array.from(headers.entries()) : Object.entries(headers || {});
 
 export const mergeHeaders = (
   ...headers: Array<Required<Config>['headers'] | undefined>
@@ -225,15 +222,17 @@ export const mergeHeadersToObject = (
 
   // unlike `mergeHeaders`, both objects are truly merged
   // duplicate keys are combined into arrays instead of overwritten
-  return [...entriesA, ...entriesB].reduce((obj, [key, value]) => {
-    if (obj[key]) {
-      obj[key] = [obj[key], value].flat();
-    }
-    else {
-      obj[key] = value;
-    }
-    return obj;
-  }, {} as Record<string , unknown>);
+  return [...entriesA, ...entriesB].reduce(
+    (obj, [key, value]) => {
+      if (obj[key]) {
+        obj[key] = [obj[key], value].flat();
+      } else {
+        obj[key] = value;
+      }
+      return obj;
+    },
+    {} as Record<string, unknown>,
+  );
 };
 
 type ErrInterceptor<Err, Res, Req, Options> = (

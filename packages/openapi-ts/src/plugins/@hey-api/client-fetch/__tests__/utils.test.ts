@@ -1,12 +1,6 @@
 import type { Auth } from '../../client-core/bundle/auth';
 import type { Client } from '../bundle/types';
-import {
-  buildUrl,
-  getParseAs,
-  mergeHeaders,
-  mergeHeadersToObject,
-  setAuthParams,
-} from '../bundle/utils';
+import { buildUrl, getParseAs, mergeHeadersToObject, setAuthParams } from '../bundle/utils';
 
 describe('buildUrl', () => {
   const scenarios: Array<{
@@ -307,11 +301,11 @@ describe('mergeHeadersToObject', () => {
         'x-some-header': 123,
       }),
     ).toEqual({
+      nullEntry: null,
       // set-cookie is combined into an array with two entries
       'set-cookie': ['a=b', 'c=d'],
-      'x-some-header': ['something', 123],
-      nullEntry: null,
       undefinedEntry: undefined,
+      'x-some-header': ['something', 123],
     });
 
     expect(
