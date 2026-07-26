@@ -1,25 +1,24 @@
-import type { MaybeArray, MaybeFunc } from '@hey-api/types';
-import colors from 'ansi-colors';
-// @ts-expect-error
-import colorSupport from 'color-support';
+import { styleText } from 'node:util';
 
-colors.enabled = colorSupport().hasBasic;
+import type { MaybeArray, MaybeFunc } from '@hey-api/types';
+
+type Format = Parameters<typeof styleText>[0];
 
 const DEBUG_NAMESPACE = 'heyapi';
 
 const NO_WARNINGS = /^(1|true|yes|on)$/i.test(process.env.HEYAPI_DISABLE_WARNINGS ?? '');
 
 const DebugGroups = {
-  analyzer: colors.greenBright,
-  dsl: colors.cyanBright,
-  file: colors.yellowBright,
-  registry: colors.blueBright,
-  symbol: colors.magentaBright,
-} as const;
+  analyzer: 'greenBright',
+  dsl: 'cyanBright',
+  file: 'yellowBright',
+  registry: 'blueBright',
+  symbol: 'magentaBright',
+} as const satisfies Record<string, Format>;
 
 const WarnGroups = {
-  deprecated: colors.magentaBright,
-} as const;
+  deprecated: 'magentaBright',
+} as const satisfies Record<string, Format>;
 
 let cachedDebugGroups: Set<string> | undefined;
 function getDebugGroups(): Set<string> {
@@ -49,8 +48,8 @@ function debug(message: string, group: keyof typeof DebugGroups) {
     return;
   }
 
-  const color = DebugGroups[group] ?? colors.whiteBright;
-  const prefix = color(`${DEBUG_NAMESPACE}:${group}`);
+  const format = DebugGroups[group] ?? 'whiteBright';
+  const prefix = styleText(format, `${DEBUG_NAMESPACE}:${group}`);
 
   console.debug(`${prefix} ${message}`);
 }
@@ -58,9 +57,9 @@ function debug(message: string, group: keyof typeof DebugGroups) {
 function warn(message: string, group?: keyof typeof WarnGroups) {
   if (NO_WARNINGS) return;
 
-  const color = group ? WarnGroups[group] : colors.yellowBright;
+  const format = group ? WarnGroups[group] : 'yellowBright';
 
-  console.warn(color(`${message}`));
+  console.warn(styleText(format, `${message}`));
 }
 
 function warnDeprecated({

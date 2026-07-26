@@ -64,6 +64,7 @@ export const sponsors: Array<Sponsor> = [
       type: 'svg',
     },
     name: 'Scalar',
+    past: true,
     tier: 'silver',
     url: 'https://kutt.to/skQUVd',
   },

@@ -13,8 +13,8 @@ const commentEscapeNeeded = /\*\/|\/\*|\r?\n/;
  * in bulk via `slice` (tracked with `runStart`), each terminator pair
  * collapses to a single asterisk (both characters consumed together), and
  * each line break consumes the rest of that line in one step — normalizing
- * it to `EOL` and trimming the following line's content — so no line is
- * scanned twice.
+ * it to `EOL` while copying the following line's content verbatim — so no
+ * line is scanned twice.
  */
 export function escapeComment(value: string): string {
   const match = commentEscapeNeeded.exec(value);
@@ -42,13 +42,13 @@ export function escapeComment(value: string): string {
       // `\r\n` followed by the rest of that line
       const lineEnd = value.indexOf('\n', i + 2);
       const line = lineEnd === -1 ? value.slice(i + 2) : value.slice(i + 2, lineEnd);
-      replacement = EOL + line.trim();
+      replacement = EOL + line;
       consumed = (lineEnd === -1 ? len : lineEnd) - i;
     } else if (code === 10) {
       // `\n` followed by the rest of that line
       const lineEnd = value.indexOf('\n', i + 1);
       const line = lineEnd === -1 ? value.slice(i + 1) : value.slice(i + 1, lineEnd);
-      replacement = EOL + line.trim();
+      replacement = EOL + line;
       consumed = (lineEnd === -1 ? len : lineEnd) - i;
     } else {
       continue;
