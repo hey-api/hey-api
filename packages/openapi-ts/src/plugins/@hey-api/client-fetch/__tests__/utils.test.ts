@@ -289,7 +289,7 @@ describe('setAuthParams', () => {
 });
 
 describe('mergeHeadersToObject', () => {
-  it('merges multiple headers to an object without converting everyting to a string', () => {
+  it.only('merges multiple headers to an object without converting everyting to a string', () => {
     const headers = new Headers();
 
     headers.append('set-cookie', 'a=b');
@@ -300,26 +300,35 @@ describe('mergeHeadersToObject', () => {
     const url = new URL('https://heyapi.dev/');
     const urls = [url, url];
 
-    const result = mergeHeadersToObject(
-      headers,
-      {
-        'x-some-header': 123, // overwrites 'something' from above
-      },
-      {
-        date: new Date(),
-      },
-      {
-        urls,
-      },
-    );
-
-    expect(result).toEqual(
-      expect.objectContaining({
-        date,
-        'set-cookie': 'c=d',
-        urls,
+    expect(
+      mergeHeadersToObject(headers, {
+        nullEntry: null,
+        undefinedEntry: undefined,
         'x-some-header': 123,
       }),
-    );
+    ).toEqual({
+      // set-cookie is combined into an array with two entries
+      'set-cookie': ['a=b', 'c=d'],
+      'x-some-header': ['something', 123],
+      nullEntry: null,
+      undefinedEntry: undefined,
+    });
+
+    expect(
+      mergeHeadersToObject(
+        {
+          date,
+          url,
+          urls,
+        },
+        {
+          urls: null,
+        },
+      ),
+    ).toEqual({
+      date,
+      url,
+      urls: [...urls, null],
+    });
   });
 });

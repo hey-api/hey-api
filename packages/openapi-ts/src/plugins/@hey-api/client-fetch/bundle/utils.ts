@@ -173,13 +173,9 @@ export const mergeConfigs = (a: Config, b: Config): Config => {
   return config;
 };
 
-const headersEntries = (headers: Headers): Array<[string, string]> => {
-  const entries: Array<[string, string]> = [];
-  headers.forEach((value, key) => {
-    entries.push([key, value]);
-  });
-  return entries;
-};
+const headersEntries = (headers: Config['headers']): Array<[string, unknown]> => 
+  headers instanceof Headers ? Array.from(headers.entries()) : Object.entries(headers || {})
+;
 
 export const mergeHeaders = (
   ...headers: Array<Required<Config>['headers'] | undefined>
@@ -190,9 +186,9 @@ export const mergeHeaders = (
       continue;
     }
 
-    const iterator = header instanceof Headers ? headersEntries(header) : Object.entries(header);
+    const entries = headersEntries(header);
 
-    for (const [key, value] of iterator) {
+    for (const [key, value] of entries) {
       if (value === null) {
         mergedHeaders.delete(key);
       } else if (Array.isArray(value)) {
@@ -213,27 +209,29 @@ export const mergeHeaders = (
 };
 
 export const mergeHeadersToObject = (
-  ...headers: Array<Required<Config>['headers'] | undefined>
+  headersA: Config['headers'],
+  headersB: Config['headers'],
 ): Record<string, unknown> => {
-  const mergedHeaders: Record<string, unknown> = {};
+  const entriesA = headersEntries(headersA);
+  const entriesB = headersEntries(headersB);
 
-  for (const header of headers) {
-    if (!header) {
-      continue;
-    }
-    const isHeaders = header instanceof Headers;
-    const iterator = isHeaders ? headersEntries(header) : Object.entries(header);
-
-    for (const [key, value] of iterator) {
-      if (value === null) {
-        delete mergedHeaders[key];
-      } else if (value !== undefined) {
-        mergedHeaders[key] = value;
-      }
-    }
+  if (!entriesA.length && !entriesB.length) {
+    return {};
   }
 
-  return mergedHeaders;
+  // unlike `mergeHeaders`, both objects are truly merged
+  // duplicate keys are combined into arrays instead of overwritten
+  return [...entriesA, ...entriesB].reduce(
+    (obj, [key, value]) => {
+      if (obj[key]) {
+        obj[key] = [obj[key], value].flat();
+      } else {
+        obj[key] = value;
+      }
+      return obj;
+    },
+    {} as Record<string, unknown>,
+  );
 };
 
 type ErrInterceptor<Err, Res, Req, Options> = (
