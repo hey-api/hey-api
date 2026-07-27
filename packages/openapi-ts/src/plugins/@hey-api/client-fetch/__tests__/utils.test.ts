@@ -283,7 +283,7 @@ describe('setAuthParams', () => {
 });
 
 describe('mergeHeadersToObject', () => {
-  it.only('merges multiple headers to an object without converting everyting to a string', () => {
+  it('merges multiple headers to an object without converting everyting to a string', () => {
     const headers = new Headers();
 
     headers.append('set-cookie', 'a=b');
