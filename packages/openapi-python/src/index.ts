@@ -54,9 +54,6 @@ declare module '@hey-api/shared' {
 
 import type { Version } from '@hey-api/codegen-core';
 import type { AnyString, LazyOrAsync, MaybeArray } from '@hey-api/types';
-import colors from 'ansi-colors';
-// @ts-expect-error
-import colorSupport from 'color-support';
 
 import type { PythonVersion } from './config/output/types';
 import type { UserConfig } from './config/types';
@@ -68,8 +65,6 @@ import type { HeyApiSdkPlugin } from './plugins/@hey-api/sdk';
 import type { PydanticPlugin, PydanticResolvers } from './plugins/pydantic';
 import type { EnumSymbols } from './symbols/enum';
 import type { TypingSymbols } from './symbols/typing';
-
-colors.enabled = colorSupport().hasBasic;
 
 export { createClient } from './generate';
 

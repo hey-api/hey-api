@@ -1,4 +1,4 @@
-import colors from 'ansi-colors';
+import { styleText } from 'node:util';
 
 import { loadPackageJson } from './tsConfig';
 
@@ -52,13 +52,13 @@ export function printCliIntro(initialDir: string, showLogo: boolean = false): vo
     if (showLogo) {
       const text = asciiToLines(textAscii, { padding: 1 });
       for (const line of text.lines) {
-        console.log(colors.cyan(line));
+        console.log(styleText('cyan', line));
       }
     }
     const versionString = isEnvironment('development')
       ? '[DEVELOPMENT]'
       : `v${packageJson.version}`;
-    console.log(colors.gray(`${packageJson.name} ${versionString}`));
+    console.log(styleText('gray', `${packageJson.name} ${versionString}`));
   }
   console.log('');
 }

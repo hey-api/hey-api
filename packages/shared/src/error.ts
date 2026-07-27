@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { styleText } from 'node:util';
 
-import colors from 'ansi-colors';
 import open from 'open';
 
 import { ensureDirSync } from './fs';
@@ -202,22 +202,23 @@ export function printCrashReport({
     }
 
     for (const [jobIndex, errors] of groupByJob.entries()) {
-      const jobPrefix = colors.gray(`[Job ${jobIndex + 1}] `);
+      const jobPrefix = styleText('gray', `[Job ${jobIndex + 1}] `);
       const count = errors.length;
-      const baseString = colors.red(
+      const baseString = styleText(
+        'red',
         `Found ${count} configuration ${count === 1 ? 'error' : 'errors'}:`,
       );
       console.error(`${jobPrefix}❗️ ${baseString}`);
       errors.forEach((err, index) => {
         const itemPrefixStr = `  [${index + 1}] `;
-        const itemPrefix = colors.red(itemPrefixStr);
-        console.error(`${jobPrefix}${itemPrefix}${colors.white(err.message)}`);
+        const itemPrefix = styleText('red', itemPrefixStr);
+        console.error(`${jobPrefix}${itemPrefix}${styleText('white', err.message)}`);
       });
     }
   } else {
-    let jobPrefix = colors.gray('[root] ');
+    let jobPrefix = styleText('gray', '[root] ');
     if (error instanceof JobError) {
-      jobPrefix = colors.gray(`[Job ${error.originalError.jobIndex + 1}] `);
+      jobPrefix = styleText('gray', `[Job ${error.originalError.jobIndex + 1}] `);
       error = error.originalError.error;
     }
 
@@ -227,36 +228,38 @@ export function printCrashReport({
 
       const isNetworkError = error.message.startsWith('Input request failed');
       if (isNetworkError) {
-        console.error(`${jobPrefix}${colors.red(`❌ ${error.message}`)}`);
-        if (source) console.error(colors.gray(source));
-        console.error(colors.gray('\nPlease verify that:'));
-        console.error(colors.gray(`${itemPrefixStr}• The URL is correct`));
-        console.error(colors.gray(`${itemPrefixStr}• Your API key is valid`));
-        console.error(colors.gray(`${itemPrefixStr}• You have network access`));
+        console.error(`${jobPrefix}${styleText('red', `❌ ${error.message}`)}`);
+        if (source) console.error(styleText('gray', source));
+        console.error(styleText('gray', '\nPlease verify that:'));
+        console.error(styleText('gray', `${itemPrefixStr}• The URL is correct`));
+        console.error(styleText('gray', `${itemPrefixStr}• Your API key is valid`));
+        console.error(styleText('gray', `${itemPrefixStr}• You have network access`));
         return;
       }
 
-      console.error(`${jobPrefix}${colors.red('❌ Input file not found:')}`);
-      if (source) console.error(colors.gray(source));
-      console.error(colors.gray('\nPlease verify that:'));
-      console.error(colors.gray(`${itemPrefixStr}• The file exists`));
-      console.error(colors.gray(`${itemPrefixStr}• The path is correct`));
-      console.error(colors.gray(`${itemPrefixStr}• You have read permissions`));
+      console.error(`${jobPrefix}${styleText('red', '❌ Input file not found:')}`);
+      if (source) console.error(styleText('gray', source));
+      console.error(styleText('gray', '\nPlease verify that:'));
+      console.error(styleText('gray', `${itemPrefixStr}• The file exists`));
+      console.error(styleText('gray', `${itemPrefixStr}• The path is correct`));
+      console.error(styleText('gray', `${itemPrefixStr}• You have read permissions`));
       return;
     }
 
-    const baseString = colors.red('Failed with the message:');
+    const baseString = styleText('red', 'Failed with the message:');
     console.error(`${jobPrefix}❌ ${baseString}`);
     const itemPrefixStr = `  `;
-    const itemPrefix = colors.red(itemPrefixStr);
+    const itemPrefix = styleText('red', itemPrefixStr);
     console.error(
       `${jobPrefix}${itemPrefix}${typeof error === 'string' ? error : error instanceof Error ? error.message : 'Unknown error'}`,
     );
   }
 
   if (logPath) {
-    const jobPrefix = colors.gray('[root] ');
-    console.error(`${jobPrefix}${colors.cyan('📄 Crash log saved to:')} ${colors.gray(logPath)}`);
+    const jobPrefix = styleText('gray', '[root] ');
+    console.error(
+      `${jobPrefix}${styleText('cyan', '📄 Crash log saved to:')} ${styleText('gray', logPath)}`,
+    );
   }
 }
 
@@ -277,9 +280,9 @@ export async function shouldReportCrash({
   }
 
   return new Promise((resolve) => {
-    const jobPrefix = colors.gray('[root] ');
+    const jobPrefix = styleText('gray', '[root] ');
     console.log(
-      `${jobPrefix}${colors.yellow('📢 Open a GitHub issue with crash details? (y/N):')}`,
+      `${jobPrefix}${styleText('yellow', '📢 Open a GitHub issue with crash details? (y/N):')}`,
     );
     process.stdin.setEncoding('utf8');
     process.stdin.once('data', (data: string) => {

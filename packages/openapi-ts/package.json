@@ -95,8 +95,6 @@
     "@hey-api/spec-types": "workspace:*",
     "@hey-api/types": "workspace:*",
     "@lukeed/ms": "2.0.2",
-    "ansi-colors": "4.1.3",
-    "color-support": "1.1.3",
     "get-tsconfig": "4.14.0"
   },
   "devDependencies": {

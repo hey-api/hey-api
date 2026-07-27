@@ -90,9 +90,6 @@ declare module '@hey-api/shared' {
 // END OVERRIDES
 
 import type { AnyString, LazyOrAsync, MaybeArray } from '@hey-api/types';
-import colors from 'ansi-colors';
-// @ts-expect-error
-import colorSupport from 'color-support';
 
 import type { UserConfig } from './config/types';
 import type { AngularCommonPlugin } from './plugins/@angular/common';
@@ -146,8 +143,6 @@ import type { SwrPlugin } from './plugins/swr';
 import type { ValibotPlugin, ValibotResolvers } from './plugins/valibot';
 import type { ZodPlugin, ZodResolvers } from './plugins/zod';
 import type { TsDsl } from './ts-dsl';
-
-colors.enabled = colorSupport().hasBasic;
 
 export { createClient } from './generate';
 

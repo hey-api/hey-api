@@ -35,7 +35,7 @@ export const defaultConfig: FakerJsFakerPlugin['Config'] = {
       //   if (!(context as PluginContext).package.satisfies(version, '>=3.25.0 <5.0.0')) {
       //     const compatibleVersion = inferCompatibleVersion();
       //     console.warn(
-      //       `🔌 ${colors.yellow('Warning:')} Installed ${colors.cyan(packageName)} ${colors.cyan(`v${version.version}`)} does not support compatibility version ${colors.yellow(String(value))}, using ${colors.yellow(String(compatibleVersion))}.`,
+      //       `🔌 ${styleText('yellow', 'Warning:')} Installed ${styleText('cyan', packageName)} ${styleText('cyan', `v${version.version}`)} does not support compatibility version ${styleText('yellow', String(value))}, using ${styleText('yellow', String(compatibleVersion))}.`,
       //     );
       //     return compatibleVersion;
       //   }

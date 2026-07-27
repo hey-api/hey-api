@@ -1,4 +1,4 @@
-import colors from 'ansi-colors';
+import { styleText } from 'node:util';
 
 import type { LogLevel } from '../../types/logs';
 import type { Input } from './types';
@@ -106,13 +106,13 @@ export function logInputPaths(
 
   const lines: Array<string> = [];
 
-  const jobPrefix = colors.gray(`[Job ${jobIndex + 1}] `);
-  const baseString = colors.cyan(`Generating...`);
-  lines.push(`${jobPrefix}${colors.gray('~')} ${baseString}`);
+  const jobPrefix = styleText('gray', `[Job ${jobIndex + 1}] `);
+  const baseString = styleText('cyan', `Generating...`);
+  lines.push(`${jobPrefix}${styleText('gray', '~')} ${baseString}`);
 
   inputPaths.forEach((inputPath, index) => {
     const itemPrefixStr = `  [${index + 1}] `;
-    const itemPrefix = colors.cyan(itemPrefixStr);
+    const itemPrefix = styleText('cyan', itemPrefixStr);
     const detailIndent = ' '.repeat(itemPrefixStr.length);
 
     if (typeof inputPath.path !== 'string') {
@@ -126,39 +126,43 @@ export function logInputPaths(
         lines.push(`${jobPrefix}${itemPrefix}${baseInput}`);
         if (inputPath.branch) {
           lines.push(
-            `${jobPrefix}${detailIndent}${colors.gray('branch:')} ${colors.green(
+            `${jobPrefix}${detailIndent}${styleText('gray', 'branch:')} ${styleText(
+              'green',
               inputPath.branch,
             )}`,
           );
         }
         if (inputPath.commit_sha) {
           lines.push(
-            `${jobPrefix}${detailIndent}${colors.gray('commit:')} ${colors.green(
+            `${jobPrefix}${detailIndent}${styleText('gray', 'commit:')} ${styleText(
+              'green',
               inputPath.commit_sha,
             )}`,
           );
         }
         if (inputPath.tags?.length) {
           lines.push(
-            `${jobPrefix}${detailIndent}${colors.gray('tags:')} ${colors.green(
+            `${jobPrefix}${detailIndent}${styleText('gray', 'tags:')} ${styleText(
+              'green',
               inputPath.tags.join(', '),
             )}`,
           );
         }
         if (inputPath.version) {
           lines.push(
-            `${jobPrefix}${detailIndent}${colors.gray('version:')} ${colors.green(
+            `${jobPrefix}${detailIndent}${styleText('gray', 'version:')} ${styleText(
+              'green',
               inputPath.version,
             )}`,
           );
         }
         if (logLevel === 'debug') {
           lines.push(
-            `${jobPrefix}${detailIndent}${colors.gray('url:')} ${colors.green(inputPath.path)}`,
+            `${jobPrefix}${detailIndent}${styleText('gray', 'url:')} ${styleText('green', inputPath.path)}`,
           );
         }
         lines.push(
-          `${jobPrefix}${detailIndent}${colors.gray('registry:')} ${colors.green('Hey API')}`,
+          `${jobPrefix}${detailIndent}${styleText('gray', 'registry:')} ${styleText('green', 'Hey API')}`,
         );
         break;
       }
@@ -171,16 +175,16 @@ export function logInputPaths(
         }
         if (inputPath.uuid) {
           lines.push(
-            `${jobPrefix}${detailIndent}${colors.gray('uuid:')} ${colors.green(inputPath.uuid)}`,
+            `${jobPrefix}${detailIndent}${styleText('gray', 'uuid:')} ${styleText('green', inputPath.uuid)}`,
           );
         }
         if (logLevel === 'debug' && baseInput) {
           lines.push(
-            `${jobPrefix}${detailIndent}${colors.gray('url:')} ${colors.green(inputPath.path)}`,
+            `${jobPrefix}${detailIndent}${styleText('gray', 'url:')} ${styleText('green', inputPath.path)}`,
           );
         }
         lines.push(
-          `${jobPrefix}${detailIndent}${colors.gray('registry:')} ${colors.green('ReadMe')}`,
+          `${jobPrefix}${detailIndent}${styleText('gray', 'registry:')} ${styleText('green', 'ReadMe')}`,
         );
         break;
       }
@@ -189,11 +193,11 @@ export function logInputPaths(
         lines.push(`${jobPrefix}${itemPrefix}${baseInput}`);
         if (logLevel === 'debug') {
           lines.push(
-            `${jobPrefix}${detailIndent}${colors.gray('url:')} ${colors.green(inputPath.path)}`,
+            `${jobPrefix}${detailIndent}${styleText('gray', 'url:')} ${styleText('green', inputPath.path)}`,
           );
         }
         lines.push(
-          `${jobPrefix}${detailIndent}${colors.gray('registry:')} ${colors.green('Scalar')}`,
+          `${jobPrefix}${detailIndent}${styleText('gray', 'registry:')} ${styleText('green', 'Scalar')}`,
         );
         break;
       }
