@@ -14,28 +14,22 @@ export function hasInput(operation: IR.OperationObject): boolean {
   return hasPathParams || hasQueryParams || hasHeaderParams || hasBody;
 }
 
-export function getSuccessResponse(
-  operation: IR.OperationObject,
-): { hasOutput: boolean; statusCode: number } | { hasOutput: false; statusCode?: undefined } {
-  let fallback: { hasOutput: boolean; statusCode: number } | undefined;
+export function getSuccessStatusCode(operation: IR.OperationObject): number | undefined {
+  let fallback: number | undefined;
 
   if (operation.responses) {
     for (const [statusCode, response] of Object.entries(operation.responses)) {
       const statusCodeNumber = Number.parseInt(statusCode, 10);
       if (statusCodeNumber >= 200 && statusCodeNumber <= 399 && response) {
-        const successResponse = {
-          hasOutput: Boolean(response.schema),
-          statusCode: statusCodeNumber,
-        };
-        fallback ??= successResponse;
+        fallback ??= statusCodeNumber;
         if (response.mediaType) {
-          return successResponse;
+          return statusCodeNumber;
         }
       }
     }
   }
 
-  return fallback ?? { hasOutput: false, statusCode: undefined };
+  return fallback;
 }
 
 export function getTags(operation: IR.OperationObject, defaultTag: string): ReadonlyArray<string> {
