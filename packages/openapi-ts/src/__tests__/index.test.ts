@@ -61,7 +61,7 @@ describe('createClient', () => {
 
       const zodFile = results[0]!.gen
         .render()
-        .find((file: { path: string }) => file.path.endsWith('/zod.gen.ts'))!;
+        .find((file: { path: string }) => file.path.endsWith('zod.gen.ts'))!;
 
       expect(zodFile.content).toContain('z.intersection(');
       expect(zodFile.content).not.toContain('}), z.object({');
