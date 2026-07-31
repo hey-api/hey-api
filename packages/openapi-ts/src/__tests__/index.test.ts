@@ -3,6 +3,80 @@ import { createClient } from '../index';
 type Config = Parameters<typeof createClient>[0];
 
 describe('createClient', () => {
+  it('chains zod intersections for allOf with more than two members', async () => {
+    const input = {
+      components: {
+        schemas: {
+          MySchema: {
+            allOf: [
+              { description: 'annotation-only member' },
+              {
+                oneOf: [
+                  {
+                    properties: {
+                      enable: { type: 'boolean' },
+                    },
+                    required: ['enable'],
+                    type: 'object',
+                  },
+                ],
+              },
+              {
+                properties: {
+                  a: { type: 'string' },
+                },
+                type: 'object',
+              },
+              {
+                properties: {
+                  b: { type: 'string' },
+                },
+                type: 'object',
+              },
+            ],
+          },
+        },
+      },
+      info: { title: 'zod-intersection-test', version: '1.0.0' },
+      openapi: '3.0.3',
+      paths: {},
+    } as const;
+
+    for (const compatibilityVersion of [3, 4, 'mini'] as const) {
+      const results = await createClient({
+        dryRun: true,
+        input,
+        logs: {
+          level: 'silent',
+        },
+        output: 'output',
+        plugins: [
+          '@hey-api/typescript',
+          {
+            compatibilityVersion,
+            name: 'zod',
+          },
+        ],
+      });
+
+      const zodFile = results[0]!.gen
+        .render()
+        .find((file: { path: string }) => file.path.endsWith('/zod.gen.ts'))!;
+
+      expect(zodFile.content).toContain('z.intersection(');
+      expect(zodFile.content).not.toContain('}), z.object({');
+      expect(zodFile.content).toContain('b:');
+
+      if (compatibilityVersion === 'mini') {
+        expect(zodFile.content).toContain('z.intersection(z.intersection(');
+        expect(zodFile.content).toContain('z.optional(z.string())');
+      } else {
+        expect(zodFile.content).toContain('.and(z.object({');
+        expect(zodFile.content).toContain('b: z.string().optional()');
+      }
+    }
+  });
+
   it('handles deep path $ref without errors', async () => {
     // This test verifies that deep path refs like
     // #/components/schemas/Foo/properties/bar/items are inlined

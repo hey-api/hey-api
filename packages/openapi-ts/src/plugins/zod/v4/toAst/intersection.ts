@@ -8,6 +8,11 @@ function baseNode(ctx: IntersectionResolverContext): Chain {
   const { childResults, schemas } = ctx;
   const { z } = ctx.plugin.imports;
 
+  const chainOrLazy = (item: ZodResult): Chain =>
+    item.meta.hasLazy
+      ? $(z).attr(identifiers.lazy).call($.func().do(item.chain.return()))
+      : item.chain;
+
   if (!childResults.length) {
     return $(z).attr(identifiers.never).call();
   }
@@ -18,20 +23,22 @@ function baseNode(ctx: IntersectionResolverContext): Chain {
     firstSchema?.logicalOperator === 'or' ||
     (firstSchema?.type && firstSchema.type !== 'object')
   ) {
-    return $(z)
-      .attr(identifiers.intersection)
-      .call(...childResults.map((result) => result.chain));
+    let chain = childResults[0]!.chain;
+
+    if (childResults[1]) {
+      chain = $(z).attr(identifiers.intersection).call(chain, chainOrLazy(childResults[1]));
+    }
+
+    childResults.slice(2).forEach((item) => {
+      chain = chain.attr(identifiers.and).call(chainOrLazy(item));
+    });
+
+    return chain;
   }
 
   let chain = childResults[0]!.chain;
   childResults.slice(1).forEach((item) => {
-    chain = chain
-      .attr(identifiers.and)
-      .call(
-        item.meta.hasLazy
-          ? $(z).attr(identifiers.lazy).call($.func().do(item.chain.return()))
-          : item.chain,
-      );
+    chain = chain.attr(identifiers.and).call(chainOrLazy(item));
   });
 
   return chain;
