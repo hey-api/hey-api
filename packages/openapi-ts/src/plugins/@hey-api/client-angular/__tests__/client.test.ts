@@ -1,7 +1,83 @@
 import type { HttpClient } from '@angular/common/http';
-import { HttpContext, HttpHeaders } from '@angular/common/http';
+import { HttpContext, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
 
 import { createClient } from '../bundle/client';
+
+describe('AbortSignal', () => {
+  it('does not start an HTTP request when the signal is already aborted', async () => {
+    const controller = new AbortController();
+    const reason = new DOMException('The operation was aborted', 'AbortError');
+    const transformedError = { message: 'Request was aborted', type: 'abort' };
+    controller.abort(reason);
+    const request = vi.fn();
+    const errorInterceptor = vi.fn(() => transformedError);
+    const client = createClient({
+      baseUrl: 'https://example.com',
+      httpClient: { request } as unknown as HttpClient,
+      signal: controller.signal,
+    });
+    client.interceptors.error.use(errorInterceptor);
+
+    const result = await client.get({ url: '/test' });
+
+    expect(request).not.toHaveBeenCalled();
+    expect(errorInterceptor).toHaveBeenCalledWith(
+      reason,
+      undefined,
+      expect.anything(),
+      expect.objectContaining({ url: '/test' }),
+    );
+    expect(result).toMatchObject({ error: transformedError });
+  });
+
+  it('unsubscribes from an in-flight HTTP request when the signal is aborted', async () => {
+    const controller = new AbortController();
+    const reason = new DOMException('The operation was aborted', 'AbortError');
+    const subscribed = vi.fn();
+    const teardown = vi.fn();
+    const request = vi.fn(
+      () =>
+        new Observable(() => {
+          subscribed();
+          return teardown;
+        }),
+    );
+    const client = createClient({ baseUrl: 'https://example.com' });
+
+    const result = client.get({
+      httpClient: { request } as unknown as HttpClient,
+      signal: controller.signal,
+      throwOnError: true,
+      url: '/test',
+    });
+    await vi.waitFor(() => expect(subscribed).toHaveBeenCalledOnce());
+
+    controller.abort(reason);
+
+    await expect(result).rejects.toBe(reason);
+    expect(teardown).toHaveBeenCalledOnce();
+  });
+
+  it('does not react when the signal is aborted after a successful response', async () => {
+    const controller = new AbortController();
+    const errorInterceptor = vi.fn((error) => error);
+    const request = vi.fn(() => of(new HttpResponse({ body: { success: true } })));
+    const client = createClient({ baseUrl: 'https://example.com' });
+    client.interceptors.error.use(errorInterceptor);
+
+    const result = await client.get({
+      httpClient: { request } as unknown as HttpClient,
+      signal: controller.signal,
+      throwOnError: true,
+      url: '/test',
+    });
+    controller.abort();
+
+    expect(result.data).toEqual({ success: true });
+    expect(errorInterceptor).not.toHaveBeenCalled();
+  });
+});
 
 describe('buildUrl', () => {
   const client = createClient();
