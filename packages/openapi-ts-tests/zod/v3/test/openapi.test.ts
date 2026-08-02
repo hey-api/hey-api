@@ -23,6 +23,13 @@ for (const version of versions) {
       const scenarios = [
         {
           config: createConfig({
+            input: 'additional-properties-false.json',
+            output: 'additional-properties-false',
+          }),
+          description: 'forbids arbitrary properties on objects',
+        },
+        {
+          config: createConfig({
             input: 'array-items-all-of.yaml',
             output: 'array-items-all-of',
           }),
