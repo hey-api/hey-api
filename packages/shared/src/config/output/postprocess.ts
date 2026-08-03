@@ -1,6 +1,6 @@
 import fs from 'node:fs';
+import { styleText } from 'node:util';
 
-import colors from 'ansi-colors';
 import { sync } from 'cross-spawn';
 
 import { ConfigError } from '../../error';
@@ -67,7 +67,7 @@ export function postprocessOutput(
     const name = resolved.name ?? resolved.command;
     const args = resolved.args.map((arg) => arg.replace('{{path}}', config.path));
 
-    console.log(`${jobPrefix}🧹 Running ${colors.cyanBright(name)}`);
+    console.log(`${jobPrefix}🧹 Running ${styleText('cyanBright', name)}`);
     const result = sync(resolved.command, args);
 
     if (result.error) {

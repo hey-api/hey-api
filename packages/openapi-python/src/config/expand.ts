@@ -1,5 +1,6 @@
+import { styleText } from 'node:util';
+
 import { getInput } from '@hey-api/shared';
-import colors from 'ansi-colors';
 
 import type { UserConfig } from './types';
 
@@ -28,7 +29,7 @@ export function expandToJobs(configs: ReadonlyArray<UserConfig>): ReadonlyArray<
     } else if (outputs.length > 1 && inputs.length !== outputs.length) {
       // Warn and create job per output (all with same inputs)
       console.warn(
-        `⚙️ ${colors.yellow('Warning:')} You provided ${colors.cyan(String(inputs.length))} ${colors.cyan(inputs.length === 1 ? 'input' : 'inputs')} and ${colors.yellow(String(outputs.length))} ${colors.yellow('outputs')}. This will produce identical output in multiple locations. You likely want to provide a single output or the same number of outputs as inputs.`,
+        `⚙️ ${styleText('yellow', 'Warning:')} You provided ${styleText('cyan', String(inputs.length))} ${styleText('cyan', inputs.length === 1 ? 'input' : 'inputs')} and ${styleText('yellow', String(outputs.length))} ${styleText('yellow', 'outputs')}. This will produce identical output in multiple locations. You likely want to provide a single output or the same number of outputs as inputs.`,
       );
       for (const output of outputs) {
         jobs.push({

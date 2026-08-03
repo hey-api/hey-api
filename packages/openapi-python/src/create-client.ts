@@ -1,4 +1,5 @@
 import path from 'node:path';
+import { styleText } from 'node:util';
 
 import { type Logger, Project, Version } from '@hey-api/codegen-core';
 import { $RefParser, ResolverError } from '@hey-api/json-schema-ref-parser';
@@ -17,7 +18,6 @@ import {
   SymbolFactory,
 } from '@hey-api/shared';
 import { format as ms } from '@lukeed/ms';
-import colors from 'ansi-colors';
 
 import { postProcessors } from './config/output/postprocess';
 import type { Config } from './config/types';
@@ -192,7 +192,7 @@ export async function createClient({
 
     const eventPostprocess = logger.timeEvent('postprocess');
     if (!config.dryRun) {
-      const jobPrefix = colors.gray(`[Job ${jobIndex + 1}] `);
+      const jobPrefix = styleText('gray', `[Job ${jobIndex + 1}] `);
       postprocessOutput(config.output, postProcessors, jobPrefix);
 
       if (config.logs.level !== 'silent') {
@@ -200,7 +200,7 @@ export async function createClient({
           ? `./${path.relative(process.env.INIT_CWD, config.output.path)}`
           : config.output.path;
         console.log(
-          `${jobPrefix}${colors.green('✓')} ${colors.cyanBright(outputPath)} ${colors.gray(`· ${fileCount} ${fileCount === 1 ? 'file' : 'files'} · ${ms(totalMs)}`)}`,
+          `${jobPrefix}${styleText('green', '✓')} ${styleText('cyanBright', outputPath)} ${styleText('gray', `· ${fileCount} ${fileCount === 1 ? 'file' : 'files'} · ${ms(totalMs)}`)}`,
         );
       }
     }

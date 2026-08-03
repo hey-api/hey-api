@@ -1075,15 +1075,9 @@ importers:
       '@hey-api/types':
         specifier: workspace:*
         version: link:../types
-      ansi-colors:
-        specifier: 4.1.3
-        version: 4.1.3
       c12:
         specifier: 3.3.4
         version: 3.3.4(magicast@0.5.2)
-      color-support:
-        specifier: 1.1.3
-        version: 1.1.3
     devDependencies:
       typescript:
         specifier: 6.0.3
@@ -1177,12 +1171,6 @@ importers:
       '@lukeed/ms':
         specifier: 2.0.2
         version: 2.0.2
-      ansi-colors:
-        specifier: 4.1.3
-        version: 4.1.3
-      color-support:
-        specifier: 1.1.3
-        version: 1.1.3
     devDependencies:
       typescript:
         specifier: 6.0.3
@@ -1229,12 +1217,6 @@ importers:
       '@lukeed/ms':
         specifier: 2.0.2
         version: 2.0.2
-      ansi-colors:
-        specifier: 4.1.3
-        version: 4.1.3
-      color-support:
-        specifier: 1.1.3
-        version: 1.1.3
       get-tsconfig:
         specifier: 4.14.0
         version: 4.14.0
@@ -1530,18 +1512,15 @@ importers:
       '@hey-api/types':
         specifier: workspace:*
         version: link:../types
-      ansi-colors:
-        specifier: 4.1.3
-        version: 4.1.3
       cross-spawn:
         specifier: 7.0.6
         version: 7.0.6
       open:
         specifier: 11.0.0
         version: 11.0.0
-      semver:
-        specifier: 7.8.5
-        version: 7.8.5
+      verkit:
+        specifier: 0.3.0
+        version: 0.3.0
     devDependencies:
       '@types/bun':
         specifier: 1.3.14
@@ -1552,9 +1531,6 @@ importers:
       '@types/js-yaml':
         specifier: 4.0.9
         version: 4.0.9
-      '@types/semver':
-        specifier: 7.7.1
-        version: 7.7.1
       js-yaml:
         specifier: 5.2.0
         version: 5.2.0
@@ -8330,10 +8306,6 @@ packages:
   color-string@1.9.1:
     resolution: {integrity: sha512-shrVawQFojnZv6xM40anx4CkoDP+fZsw/ZerEMsW/pyzsRbElpsL/DBVW7q3ExxwusdNXI3lXpuhEZkzs8p5Eg==}
 
-  color-support@1.1.3:
-    resolution: {integrity: sha512-qiBjkpbMLO/HL68y+lh4q0/O1MZFj2RX6X/KmMa3+gJD3z+WwI1ZzDHysvqHGS3mP6mznPckpXmw1nI9cJjyRg==}
-    hasBin: true
-
   color@4.2.3:
     resolution: {integrity: sha512-1rXeuUUiGGrykh+CeBdu5Ie7OJwinCgQY0bc7GCRxy5xVHy+moaqkpL/jqQq0MtQOeYcrqEz4abc5f0KtU7W4A==}
     engines: {node: '>=12.5.0'}
@@ -13341,6 +13313,10 @@ packages:
   vary@1.1.2:
     resolution: {integrity: sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==}
     engines: {node: '>= 0.8'}
+
+  verkit@0.3.0:
+    resolution: {integrity: sha512-Njrh4U8UODGajoZ44QS2C/BsoEM9DTI/aCqY5swsizb+/ap0FamvnCMcZAxrR5+aoC0ZqkawEfpC/N2SBc+xeA==}
+    engines: {node: '>=18.12.0'}
 
   vfile-location@5.0.3:
     resolution: {integrity: sha512-5yXvWDEgqeiYiBe1lbxYF7UMAIm/IcopxMHrMQDq3nvKcjPKIhZklUKL+AE7J7uApI4kwe2snsK+eI6UTj9EHg==}
@@ -21448,8 +21424,6 @@ snapshots:
       simple-swizzle: 0.2.2
     optional: true
 
-  color-support@1.1.3: {}
-
   color@4.2.3:
     dependencies:
       color-convert: 2.0.1
@@ -28182,6 +28156,8 @@ snapshots:
   validate-npm-package-name@7.0.2: {}
 
   vary@1.1.2: {}
+
+  verkit@0.3.0: {}
 
   vfile-location@5.0.3:
     dependencies:

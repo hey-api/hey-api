@@ -8,6 +8,6 @@ export { ORPC_CONTRACT } from './orpc-contract';
 export { PINIA_COLADA } from './pinia-colada';
 export { SWR } from './swr';
 export { TANSTACK_QUERY } from './tanstack-query';
-export { TEMPORAL_POLYFILL } from './temporal-polyfill';
+export { TEMPORAL } from './temporal';
 export { VALIBOT } from './valibot';
 export { ZOD } from './zod';

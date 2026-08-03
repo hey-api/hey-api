@@ -17,6 +17,34 @@ describe.each(versions)('OpenAPI %s', (version) => {
   const scenarios = [
     {
       config: createConfig({
+        input: 'response-no-schema.yaml',
+        output: 'response-no-schema',
+        plugins: [
+          plugins.zod(),
+          plugins.orpc({
+            compatibilityVersion: '1',
+            validator: { input: 'zod', output: 'zod' },
+          }),
+        ],
+      }),
+      description: 'generate oRPC contracts for responses without schemas',
+    },
+    {
+      config: createConfig({
+        input: 'response-no-schema.yaml',
+        output: 'response-no-schema-valibot',
+        plugins: [
+          plugins.valibot(),
+          plugins.orpc({
+            compatibilityVersion: '1',
+            validator: { input: 'valibot', output: 'valibot' },
+          }),
+        ],
+      }),
+      description: 'generate oRPC contracts for responses without schemas using Valibot',
+    },
+    {
+      config: createConfig({
         input: 'rpc.yaml',
         output: 'default',
         plugins: [plugins.orpc({ compatibilityVersion: '1' }), plugins.zod()],
