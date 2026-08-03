@@ -1,0 +1,23 @@
+openapi: 3.1.0
+info:
+  title: Effect webhook test
+  version: 1.0.0
+paths: {}
+webhooks:
+  petCreated:
+    post:
+      operationId: petCreated
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - id
+              properties:
+                id:
+                  type: integer
+      responses:
+        '204':
+          description: Accepted

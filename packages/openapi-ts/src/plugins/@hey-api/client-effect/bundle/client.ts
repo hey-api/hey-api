@@ -1,0 +1,264 @@
+import * as Effect from 'effect/Effect';
+import * as Stream from 'effect/Stream';
+import * as Sse from 'effect/unstable/encoding/Sse';
+import * as HttpBody from 'effect/unstable/http/HttpBody';
+import * as HttpClient from 'effect/unstable/http/HttpClient';
+import * as HttpClientRequest from 'effect/unstable/http/HttpClientRequest';
+import type * as HttpClientResponse from 'effect/unstable/http/HttpClientResponse';
+import type { HttpMethod as EffectHttpMethod } from 'effect/unstable/http/HttpMethod';
+
+import type { HttpMethod } from '../../client-core/bundle/types';
+import { getValidRequestBody } from '../../client-core/bundle/utils';
+import {
+  type Client,
+  ClientError,
+  type Config,
+  type RequestOptions,
+  type ResolvedRequestOptions,
+  ResponseError,
+} from './types';
+import {
+  buildUrl,
+  createConfig,
+  getParseAs,
+  mergeConfigs,
+  mergeHeaders,
+  mergeHeaderValues,
+  setAuthParams,
+} from './utils';
+
+const clientError = (stage: ClientError['stage'], message: string, cause: unknown): ClientError =>
+  new ClientError({ cause, message, stage });
+
+const tryPromise = <A>(stage: ClientError['stage'], message: string, evaluate: () => Promise<A>) =>
+  Effect.tryPromise({
+    catch: (cause) => clientError(stage, message, cause),
+    try: evaluate,
+  });
+
+type ParseAs = Exclude<Config['parseAs'], 'auto' | undefined>;
+
+const resolveParseAs = (
+  response: HttpClientResponse.HttpClientResponse,
+  parseAs: Config['parseAs'],
+): ParseAs =>
+  (parseAs === 'auto' ? getParseAs(response.headers['content-type']) : parseAs) ?? 'json';
+
+const parseResponse = (response: HttpClientResponse.HttpClientResponse, parseAs: ParseAs) => {
+  switch (parseAs) {
+    case 'arrayBuffer':
+      return response.arrayBuffer;
+    case 'blob':
+      return Effect.map(
+        response.arrayBuffer,
+        (data) => new Blob([data], { type: response.headers['content-type'] }),
+      );
+    case 'formData':
+      return response.formData;
+    case 'stream':
+      return Effect.succeed(response.stream);
+    case 'text':
+      return response.text;
+    case 'json':
+    default:
+      return Effect.flatMap(response.text, (text) =>
+        text
+          ? Effect.try({
+              catch: (cause) => clientError('response', 'Failed to parse JSON response', cause),
+              try: () => JSON.parse(text) as unknown,
+            })
+          : Effect.succeed({}),
+      );
+  }
+};
+
+const transformResponse = (options: ResolvedRequestOptions, data: unknown) =>
+  Effect.gen(function* () {
+    if (options.responseValidator) {
+      yield* tryPromise('response', 'Response validation failed', () =>
+        options.responseValidator!(data),
+      );
+    }
+    return options.responseTransformer
+      ? yield* tryPromise('response', 'Response transformation failed', () =>
+          options.responseTransformer!(data),
+        )
+      : data;
+  });
+
+const setRequestBody = (
+  request: HttpClientRequest.HttpClientRequest,
+  body: unknown,
+  contentType: string | undefined,
+): HttpClientRequest.HttpClientRequest => {
+  if (body instanceof FormData) return HttpClientRequest.bodyFormData(request, body);
+  if (body instanceof Uint8Array) {
+    return HttpClientRequest.bodyUint8Array(request, body, contentType);
+  }
+  if (body instanceof ArrayBuffer) {
+    return HttpClientRequest.bodyUint8Array(request, new Uint8Array(body), contentType);
+  }
+  if (typeof body === 'string') return HttpClientRequest.bodyText(request, body, contentType);
+  return HttpClientRequest.setBody(request, HttpBody.raw(body, { contentType }));
+};
+
+export const createClient = (config: Config = {}): Client => {
+  let currentConfig = mergeConfigs(createConfig(), config);
+
+  const getConfig = (): Config => ({ ...currentConfig });
+
+  const setConfig = (next: Config): Config => {
+    currentConfig = mergeConfigs(currentConfig, next);
+    return getConfig();
+  };
+
+  const beforeRequest = (options: RequestOptions) =>
+    Effect.gen(function* () {
+      const { opts, validationOptions } = yield* Effect.try({
+        catch: (cause) => clientError('request', 'Failed to prepare request options', cause),
+        try: () => {
+          const validationOptions = {
+            ...currentConfig,
+            ...options,
+            headers: mergeHeaderValues(currentConfig.headers, options.headers),
+          };
+          const opts = {
+            ...validationOptions,
+            headers: mergeHeaders(validationOptions.headers),
+            serializedBody: undefined,
+          } as ResolvedRequestOptions;
+          return { opts, validationOptions };
+        },
+      });
+
+      if (opts.requestValidator) {
+        yield* tryPromise('request', 'Request validation failed', () =>
+          opts.requestValidator!(validationOptions),
+        );
+      }
+      if (opts.security) {
+        yield* tryPromise('auth', 'Failed to resolve request authentication', () =>
+          setAuthParams(opts),
+        );
+      }
+      if (opts.body !== undefined && opts.bodySerializer) {
+        opts.serializedBody = yield* Effect.try({
+          catch: (cause) => clientError('request', 'Request serialization failed', cause),
+          try: () => opts.bodySerializer!(opts.body),
+        });
+      }
+
+      const request = yield* Effect.try({
+        catch: (cause) => clientError('request', 'Failed to construct request', cause),
+        try: () => {
+          if (opts.body === undefined || opts.serializedBody === '') {
+            opts.headers.delete('Content-Type');
+          }
+
+          const url = buildUrl(opts);
+          let request = HttpClientRequest.make((opts.method ?? 'GET') as EffectHttpMethod)(url);
+          request = HttpClientRequest.setHeaders(request, opts.headers);
+          const body = getValidRequestBody(opts);
+          if (body !== undefined && body !== null) {
+            request = setRequestBody(request, body, opts.headers.get('Content-Type') ?? undefined);
+          }
+          return request;
+        },
+      });
+
+      return { opts, request };
+    });
+
+  const execute = (options: ResolvedRequestOptions, request: HttpClientRequest.HttpClientRequest) =>
+    Effect.flatMap(HttpClient.HttpClient, (client) =>
+      Effect.flatMap(
+        Effect.try({
+          catch: (cause) => clientError('request', 'HTTP client transformation failed', cause),
+          try: () => options.transformClient?.(client) ?? client,
+        }),
+        (transformed) => transformed.execute(request),
+      ),
+    );
+
+  const request = ((options: RequestOptions) =>
+    Effect.suspend(() =>
+      Effect.gen(function* () {
+        const { opts, request } = yield* beforeRequest(options);
+        const response = yield* execute(opts, request);
+        const parseAs = resolveParseAs(response, opts.parseAs);
+        let data = yield* parseResponse(response, parseAs);
+
+        if (response.status < 200 || response.status >= 300) {
+          return yield* Effect.fail(new ResponseError({ data, request, response }));
+        }
+        if (parseAs === 'json' && data !== undefined) {
+          data = yield* transformResponse(opts, data);
+        }
+
+        return opts.responseStyle === 'data' ? data : { data, request, response };
+      }),
+    )) as Client['request'];
+
+  const makeMethodFn = (method: Uppercase<HttpMethod>) => (options: RequestOptions) =>
+    request({ ...options, method });
+
+  const makeSseFn = (method: Uppercase<HttpMethod>) => (options: RequestOptions) =>
+    Stream.unwrap(
+      Effect.map(
+        Effect.flatMap(beforeRequest({ ...options, method }), ({ opts, request }) =>
+          Effect.flatMap(execute(opts, request), (response) => {
+            if (response.status >= 200 && response.status < 300) {
+              return Effect.succeed({ opts, response });
+            }
+            return Effect.flatMap(
+              parseResponse(response, resolveParseAs(response, opts.parseAs)),
+              (data) => Effect.fail(new ResponseError({ data, request, response })),
+            );
+          }),
+        ),
+        ({ opts, response }) =>
+          response.stream.pipe(
+            Stream.decodeText,
+            Stream.pipeThroughChannel(Sse.decode()),
+            Stream.mapEffect((event) => {
+              let data: unknown;
+              try {
+                data = JSON.parse(event.data);
+              } catch {
+                data = event.data;
+              }
+              return transformResponse(opts, data);
+            }),
+          ),
+      ),
+    );
+
+  const _buildUrl: Client['buildUrl'] = (options) => buildUrl({ ...currentConfig, ...options });
+
+  return {
+    buildUrl: _buildUrl,
+    connect: makeMethodFn('CONNECT'),
+    delete: makeMethodFn('DELETE'),
+    get: makeMethodFn('GET'),
+    getConfig,
+    head: makeMethodFn('HEAD'),
+    options: makeMethodFn('OPTIONS'),
+    patch: makeMethodFn('PATCH'),
+    post: makeMethodFn('POST'),
+    put: makeMethodFn('PUT'),
+    request,
+    setConfig,
+    sse: {
+      connect: makeSseFn('CONNECT'),
+      delete: makeSseFn('DELETE'),
+      get: makeSseFn('GET'),
+      head: makeSseFn('HEAD'),
+      options: makeSseFn('OPTIONS'),
+      patch: makeSseFn('PATCH'),
+      post: makeSseFn('POST'),
+      put: makeSseFn('PUT'),
+      trace: makeSseFn('TRACE'),
+    },
+    trace: makeMethodFn('TRACE'),
+  } as Client;
+};

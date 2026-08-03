@@ -1,16 +1,275 @@
 ---
-title: Effect client
-description: Effect client for Hey API. Compatible with all our features.
+title: Effect v4 Client
+description: Generate a type-safe Effect v4 HTTP client from OpenAPI with support for SDK validators and transformers.
 sidebar:
   label: Effect
 ---
 
-import FeatureStatus from '@/components/FeatureStatus.astro';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import Examples from '@/components/Examples.astro';
+import UserConfig from '@/components/UserConfig.astro';
 
 # Effect
 
-<FeatureStatus issueNumber={2082} status="planned" />
-
 ### About
 
-[Effect](https://effect.website/) is a powerful TypeScript library designed to help developers easily create complex, synchronous, and asynchronous programs.
+[Effect](https://effect.website/) is a TypeScript library for building type-safe applications.
+
+The Effect client for Hey API generates a type-safe client backed by Effect's `HttpClient`. It works with generated SDKs and validator or transformer plugins such as Effect Schema, Zod, and Valibot.
+
+If you need a generated Effect `HttpApi` contract as well as a client, see the specialized [Effect HttpApi plugin](/docs/openapi/typescript/plugins/effect).
+
+## Features
+
+- Effect v4 `HttpClient` support
+- seamless integration with `@hey-api/openapi-ts` ecosystem
+- type-safe success, error, and service channels
+- response data validation and transformation
+- access to the original Effect request and response
+- streaming server-sent events with `Stream`
+- request and response customization with `HttpClient` transforms
+- support bundling inside the generated output
+
+## Installation
+
+Install the Effect version tested by this release.
+
+```sh
+npm install effect@4.0.0-beta.102
+```
+
+Effect's HTTP modules are currently unstable, so pin the version and upgrade it deliberately.
+
+In your [configuration](/docs/openapi/typescript/get-started), add `@hey-api/client-effect` to your plugins.
+
+<Tabs>
+  <TabItem label="config">
+```js {4} title="openapi-ts.config.ts"
+export default {
+  input: 'hey-api/backend', // sign up at app.heyapi.dev
+  output: 'src/client',
+  plugins: ['@hey-api/client-effect'],
+};
+```
+  </TabItem>
+  <TabItem label="cli">
+```sh {4}
+npx @hey-api/openapi-ts \
+  -i hey-api/backend \
+  -o src/client \
+  -c @hey-api/client-effect
+```
+  </TabItem>
+</Tabs>
+
+## Configuration
+
+The Effect client is a thin wrapper around Effect's `HttpClient`. SDK functions return lazy `Effect` values and require an `HttpClient.HttpClient` service.
+
+When we installed the client above, it created a [`client.gen.ts`](/docs/openapi/typescript/output#client) file. You will most likely want to configure the exported `client` instance. There are two ways to do that.
+
+### `setConfig()`
+
+Call `setConfig()` at the beginning of your application or whenever you need to update the client configuration.
+
+```ts title="src/index.ts"
+import { client } from './client/client.gen';
+
+client.setConfig({
+  baseUrl: 'https://example.com',
+  responseStyle: 'data',
+});
+```
+
+The disadvantage of this approach is that your code may call the `client` instance before it is configured. Depending on your use case, you might prefer the Runtime API.
+
+### Runtime API
+
+Since `client.gen.ts` is generated, configure its initial values through `runtimeConfigPath`.
+
+```js {7} title="openapi-ts.config.ts"
+export default {
+  input: 'hey-api/backend', // sign up at app.heyapi.dev
+  output: 'src/client',
+  plugins: [
+    {
+      name: '@hey-api/client-effect',
+      runtimeConfigPath: './src/hey-api.ts',
+    },
+  ],
+};
+```
+
+Export a `createClientConfig()` function from the custom file.
+
+```ts title="src/hey-api.ts"
+import type { CreateClientConfig } from './client/client.gen';
+
+export const createClientConfig: CreateClientConfig = (config) => ({
+  ...config,
+  baseUrl: 'https://example.com',
+  responseStyle: 'data',
+});
+```
+
+### `createClient()`
+
+You can also create your own client instance and pass it to SDK functions.
+
+```ts title="src/index.ts"
+import { createClient } from './client';
+
+const myClient = createClient({
+  baseUrl: 'https://example.com',
+  responseStyle: 'data',
+});
+```
+
+```ts title="src/index.ts"
+const program = getFoo({
+  client: myClient,
+});
+```
+
+### SDKs
+
+SDK functions return an `Effect` instead of starting a request immediately. Provide an Effect HTTP client when running the program.
+
+```ts title="src/index.ts"
+import { Effect } from 'effect';
+import { FetchHttpClient } from 'effect/unstable/http';
+
+import { getFoo } from './client/sdk.gen';
+
+const program = getFoo({
+  baseUrl: 'https://example.com',
+});
+
+const response = await Effect.runPromise(
+  program.pipe(Effect.provide(FetchHttpClient.layer)),
+);
+```
+
+The error channel contains `ClientError`, `HttpClientError.HttpClientError`, and `ResponseError` with the declared error response. There is no `throwOnError` option because non-success responses already fail in the Effect channel.
+
+Server-sent event operations return an Effect `Stream`.
+
+Promise-based SDK wrappers such as TanStack Query, SWR, and Pinia Colada do not accept Effect-returning SDK functions. The generator rejects those combinations; run the SDK Effect inside your framework integration instead.
+
+## Interceptors
+
+Effect uses immutable `HttpClient` transformations instead of a mutable interceptor registry. Configure them with `transformClient`.
+
+```ts title="src/index.ts"
+import { Effect } from 'effect';
+import {
+  HttpClient,
+  HttpClientRequest,
+} from 'effect/unstable/http';
+
+import { client } from './client/client.gen';
+
+client.setConfig({
+  transformClient: (httpClient) =>
+    httpClient.pipe(
+      HttpClient.mapRequest(
+        HttpClientRequest.setHeader('X-Client-Version', '1'),
+      ),
+      HttpClient.tapRequest((request) =>
+        Effect.logDebug(`${request.method} ${request.url}`),
+      ),
+      HttpClient.tap((response) =>
+        Effect.logDebug(`HTTP ${response.status}`),
+      ),
+    ),
+});
+```
+
+Use `HttpClient.tapError` to observe transport failures.
+
+## Auth
+
+The SDKs include auth mechanisms for every endpoint. Configure `auth` with a token or a function returning one. The token is attached only to requests that declare the matching security scheme.
+
+```ts {4} title="src/index.ts"
+import { client } from './client/client.gen';
+
+client.setConfig({
+  auth: () => '<my_token>',
+  baseUrl: 'https://example.com',
+});
+```
+
+You can also apply authentication directly to the Effect HTTP client.
+
+```ts title="src/index.ts"
+import { HttpClient, HttpClientRequest } from 'effect/unstable/http';
+
+import { client } from './client/client.gen';
+
+client.setConfig({
+  transformClient: HttpClient.mapRequest(
+    HttpClientRequest.bearerToken('<my_token>'),
+  ),
+});
+```
+
+## Build URL
+
+Use `buildUrl()` to access the compiled URL without sending a request.
+
+```ts title="src/index.ts"
+type FooData = {
+  path: {
+    fooId: number;
+  };
+  query?: {
+    bar?: string;
+  };
+  url: '/foo/{fooId}';
+};
+
+const url = client.buildUrl<FooData>({
+  path: {
+    fooId: 1,
+  },
+  query: {
+    bar: 'baz',
+  },
+  url: '/foo/{fooId}',
+});
+console.log(url); // prints '/foo/1?bar=baz'
+```
+
+## Custom Instance
+
+The generated client reads `HttpClient.HttpClient` from the Effect context. Provide any implementation through a layer.
+
+```ts title="src/http-client.ts"
+import { Effect, Layer } from 'effect';
+import {
+  FetchHttpClient,
+  HttpClient,
+  HttpClientRequest,
+} from 'effect/unstable/http';
+
+export const CustomHttpClient = Layer.effect(HttpClient.HttpClient)(
+  Effect.map(HttpClient.HttpClient, (httpClient) =>
+    HttpClient.mapRequest(
+      httpClient,
+      HttpClientRequest.setHeader('X-Client-Version', '1'),
+    ),
+  ),
+).pipe(Layer.provide(FetchHttpClient.layer));
+```
+
+```ts title="src/index.ts"
+const response = await Effect.runPromise(
+  getFoo().pipe(Effect.provide(CustomHttpClient)),
+);
+```
+
+Use any validator plugin independently. For example, pair this client with [Effect Schema](/docs/openapi/typescript/plugins/effect-schema), Zod, or Valibot through the SDK plugin.
+
+<UserConfig package="openapi-ts" plugin="@hey-api/client-effect" />
+<Examples />

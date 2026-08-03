@@ -19,6 +19,8 @@ declare module '@hey-api/codegen-core' {
     artifact?:
       | 'angular'
       | 'arktype'
+      | 'effect'
+      | 'effect-schema'
       | 'fastify'
       | 'json-schema'
       | 'msw'
@@ -56,11 +58,13 @@ declare module '@hey-api/shared' {
     '@faker-js/faker': Plugins.FakerJsFaker.Types['Types'];
     '@hey-api/client-angular': Plugins.HeyApiClientAngular.Types['Types'];
     '@hey-api/client-axios': Plugins.HeyApiClientAxios.Types['Types'];
+    '@hey-api/client-effect': Plugins.HeyApiClientEffect.Types['Types'];
     '@hey-api/client-fetch': Plugins.HeyApiClientFetch.Types['Types'];
     '@hey-api/client-ky': Plugins.HeyApiClientKy.Types['Types'];
     '@hey-api/client-next': Plugins.HeyApiClientNext.Types['Types'];
     '@hey-api/client-nuxt': Plugins.HeyApiClientNuxt.Types['Types'];
     '@hey-api/client-ofetch': Plugins.HeyApiClientOfetch.Types['Types'];
+    '@hey-api/effect': Plugins.HeyApiEffect.Types['Types'];
     '@hey-api/examples': Plugins.HeyApiExamples.Types['Types'];
     '@hey-api/schemas': Plugins.HeyApiSchemas.Types['Types'];
     '@hey-api/sdk': Plugins.HeyApiSdk.Types['Types'];
@@ -74,6 +78,7 @@ declare module '@hey-api/shared' {
     '@tanstack/svelte-query': Plugins.TanStackSvelteQuery.Types['Types'];
     '@tanstack/vue-query': Plugins.TanStackVueQuery.Types['Types'];
     arktype: Plugins.Arktype.Types['Types'];
+    'effect-schema': Plugins.EffectSchema.Types['Types'];
     fastify: Plugins.Fastify.Types['Types'];
     msw: Plugins.Msw.Types['Types'];
     nestjs: Plugins.NestJs.Types['Types'];
@@ -103,6 +108,10 @@ import type {
   HeyApiClientAxiosPlugin,
 } from './plugins/@hey-api/client-axios';
 import type {
+  EffectClient as EffectClientImp,
+  HeyApiClientEffectPlugin,
+} from './plugins/@hey-api/client-effect';
+import type {
   FetchClient as FetchClientImp,
   HeyApiClientFetchPlugin,
 } from './plugins/@hey-api/client-fetch';
@@ -119,6 +128,7 @@ import type {
   HeyApiClientOfetchPlugin,
   OfetchClient as OfetchClientImp,
 } from './plugins/@hey-api/client-ofetch';
+import type { EffectPlugin } from './plugins/@hey-api/effect';
 import type { HeyApiExamplesPlugin } from './plugins/@hey-api/examples';
 import type { HeyApiSchemasPlugin } from './plugins/@hey-api/schemas';
 import type { HeyApiSdkPlugin } from './plugins/@hey-api/sdk';
@@ -135,6 +145,7 @@ import type { TanStackSolidQueryPlugin } from './plugins/@tanstack/solid-query';
 import type { TanStackSvelteQueryPlugin } from './plugins/@tanstack/svelte-query';
 import type { TanStackVueQueryPlugin } from './plugins/@tanstack/vue-query';
 import type { ArktypePlugin } from './plugins/arktype';
+import type { EffectSchemaPlugin } from './plugins/effect-schema';
 import type { FastifyPlugin } from './plugins/fastify';
 import type { MswPlugin } from './plugins/msw';
 import type { NestJsPlugin } from './plugins/nestjs';
@@ -208,6 +219,10 @@ export namespace Plugins {
     export type Types = ArktypePlugin;
   }
 
+  export namespace EffectSchema {
+    export type Types = EffectSchemaPlugin;
+  }
+
   export namespace FakerJsFaker {
     export type Resolvers = Required<FakerJsFakerResolvers>['$resolvers'];
     export type Types = FakerJsFakerPlugin;
@@ -225,6 +240,11 @@ export namespace Plugins {
   export namespace HeyApiClientAxios {
     export type Client = AxiosClientImp;
     export type Types = HeyApiClientAxiosPlugin;
+  }
+
+  export namespace HeyApiClientEffect {
+    export type Client = EffectClientImp;
+    export type Types = HeyApiClientEffectPlugin;
   }
 
   export namespace HeyApiClientFetch {
@@ -250,6 +270,10 @@ export namespace Plugins {
   export namespace HeyApiClientOfetch {
     export type Client = OfetchClientImp;
     export type Types = HeyApiClientOfetchPlugin;
+  }
+
+  export namespace HeyApiEffect {
+    export type Types = EffectPlugin;
   }
 
   export namespace HeyApiExamples {
@@ -333,6 +357,8 @@ export namespace Plugins {
 export type AngularClient = AngularClientImp;
 /** @deprecated Use `Plugins.HeyApiClientAxios.Client` instead. */
 export type AxiosClient = AxiosClientImp;
+/** @deprecated Use `Plugins.HeyApiClientEffect.Client` instead. */
+export type EffectClient = EffectClientImp;
 /** @deprecated Use `Plugins.HeyApiClientFetch.Client` instead. */
 export type FetchClient = FetchClientImp;
 /** @deprecated Use `Plugins.HeyApiClientKy.Client` instead. */

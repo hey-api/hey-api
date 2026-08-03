@@ -1,6 +1,6 @@
 import type { IR } from '@hey-api/shared';
 
-import { buildOperationSchema } from './operation-schema';
+import { buildOperationSchema } from '../../shared/utils/operation-schema';
 import type { ProcessorContext, ProcessorResult } from './processor';
 
 export function irWebhookToAst({

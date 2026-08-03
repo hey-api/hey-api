@@ -1,0 +1,252 @@
+---
+title: Effect Schema v4 Plugin
+description: Generate Effect Schema v4 schemas from OpenAPI with the Effect Schema plugin for openapi-ts. Fully compatible with validators, transformers, and all core features.
+sidebar:
+  label: Effect Schema
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import Examples from '@/components/Examples.astro';
+import UserConfig from '@/components/UserConfig.astro';
+
+# Effect Schema
+
+### About
+
+[Effect Schema](https://effect.website/docs/schema/introduction/) provides runtime validation and transformation with statically inferred TypeScript types.
+
+The Effect Schema plugin for Hey API generates schemas from your OpenAPI spec, fully compatible with any Hey API client.
+
+Use the [Effect HttpApi plugin](/docs/openapi/typescript/plugins/effect) when you want to generate an Effect-specific API contract and grouped client.
+
+## Features
+
+- Effect v4 Schema support
+- seamless integration with `@hey-api/openapi-ts` ecosystem
+- Effect schemas for requests, responses, webhooks, and reusable definitions
+- request validation and response transformation through the SDK plugin
+- standalone runtime decoding and encoding
+
+## Installation
+
+Install the Effect version tested by this release.
+
+```sh
+npm install effect@4.0.0-beta.102
+```
+
+Effect's Schema APIs are currently in beta, so pin the version and upgrade it deliberately.
+
+In your [configuration](/docs/openapi/typescript/get-started), add `effect-schema` to your plugins.
+
+```js {6} title="openapi-ts.config.ts"
+export default {
+  input: 'hey-api/backend', // sign up at app.heyapi.dev
+  output: 'src/client',
+  plugins: [
+    // ...other plugins
+    'effect-schema',
+  ],
+};
+```
+
+### SDKs
+
+Effect Schema can validate or transform data in SDK functions generated for any client. Set `validator` or `transformer` to `true` on the SDK plugin.
+
+<Tabs>
+  <TabItem label="validator">
+```js {7-10} title="openapi-ts.config.ts"
+export default {
+  input: 'hey-api/backend', // sign up at app.heyapi.dev
+  output: 'src/client',
+  plugins: [
+    '@hey-api/client-effect',
+    'effect-schema',
+    {
+      name: '@hey-api/sdk',
+      validator: true,
+    },
+  ],
+};
+```
+  </TabItem>
+  <TabItem label="transformer">
+```js {7-10} title="openapi-ts.config.ts"
+export default {
+  input: 'hey-api/backend', // sign up at app.heyapi.dev
+  output: 'src/client',
+  plugins: [
+    '@hey-api/client-effect',
+    'effect-schema',
+    {
+      name: '@hey-api/sdk',
+      transformer: true,
+    },
+  ],
+};
+```
+  </TabItem>
+</Tabs>
+
+The SDK page covers [validators](/docs/openapi/typescript/plugins/sdk#validators) and [transformers](/docs/openapi/typescript/plugins/sdk#transformers) in more detail.
+
+## Output
+
+Effect schemas are generated in `effect-schema.gen.ts`.
+
+## Requests
+
+An Effect schema is generated for the request data of each endpoint.
+
+<Tabs>
+  <TabItem label="example">
+```ts title="effect-schema.gen.ts"
+export const DeletePetDataSchema = Schema.Struct({
+  body: Schema.Never,
+  headers: Schema.Struct({
+    api_key: Schema.optionalKey(Schema.String),
+  }),
+  path: Schema.Struct({
+    petId: Schema.Number,
+  }),
+  query: Schema.Never,
+});
+```
+  </TabItem>
+  <TabItem label="config">
+```js {8} title="openapi-ts.config.ts"
+export default {
+  input: 'hey-api/backend', // sign up at app.heyapi.dev
+  output: 'src/client',
+  plugins: [
+    // ...other plugins
+    {
+      name: 'effect-schema',
+      requests: true,
+    },
+  ],
+};
+```
+  </TabItem>
+</Tabs>
+
+Customize request schema naming and casing with the `requests.name` and `requests.case` options.
+
+## Webhooks
+
+An Effect schema is generated for each webhook request.
+
+<Tabs>
+  <TabItem label="example">
+```ts title="effect-schema.gen.ts"
+export const PetCreatedWebhookRequestSchema = Schema.Struct({
+  body: Schema.Struct({
+    id: Schema.Number.check(Schema.isInt()),
+  }),
+  path: Schema.optionalKey(Schema.Never),
+  query: Schema.optionalKey(Schema.Never),
+});
+```
+  </TabItem>
+  <TabItem label="config">
+```js {8} title="openapi-ts.config.ts"
+export default {
+  input: 'hey-api/backend', // sign up at app.heyapi.dev
+  output: 'src/client',
+  plugins: [
+    // ...other plugins
+    {
+      name: 'effect-schema',
+      webhooks: true,
+    },
+  ],
+};
+```
+  </TabItem>
+</Tabs>
+
+Customize webhook schema naming and casing with the `webhooks.name` and `webhooks.case` options.
+
+## Responses
+
+A single Effect schema is generated for all responses of each endpoint. Multiple response shapes produce a union.
+
+<Tabs>
+  <TabItem label="example">
+```ts title="effect-schema.gen.ts"
+export const GetPetResponseSchema = Schema.Union([
+  PetSchema,
+  ErrorSchema,
+]);
+```
+  </TabItem>
+  <TabItem label="config">
+```js {8} title="openapi-ts.config.ts"
+export default {
+  input: 'hey-api/backend', // sign up at app.heyapi.dev
+  output: 'src/client',
+  plugins: [
+    // ...other plugins
+    {
+      name: 'effect-schema',
+      responses: true,
+    },
+  ],
+};
+```
+  </TabItem>
+</Tabs>
+
+Customize response schema naming and casing with the `responses.name` and `responses.case` options.
+
+## Definitions
+
+An Effect schema is generated for every reusable definition.
+
+<Tabs>
+  <TabItem label="example">
+```ts title="effect-schema.gen.ts"
+export const PetSchema = Schema.Struct({
+  id: Schema.optionalKey(Schema.Number),
+  name: Schema.String,
+});
+```
+  </TabItem>
+  <TabItem label="config">
+```js {8} title="openapi-ts.config.ts"
+export default {
+  input: 'hey-api/backend', // sign up at app.heyapi.dev
+  output: 'src/client',
+  plugins: [
+    // ...other plugins
+    {
+      name: 'effect-schema',
+      definitions: true,
+    },
+  ],
+};
+```
+  </TabItem>
+</Tabs>
+
+Customize definition naming and casing with the `definitions.name` and `definitions.case` options.
+
+Generated schemas can also be used independently from a client.
+
+```ts title="src/validation.ts"
+import { Schema } from 'effect';
+
+import { PetSchema } from './client/effect-schema.gen';
+
+const pet = await Schema.decodeUnknownPromise(PetSchema)(input);
+```
+
+Object decoding follows Effect Schema defaults and strips unknown properties, including schemas with `additionalProperties: false`.
+
+## Resolvers
+
+The Effect Schema plugin does not currently support custom `$resolvers`.
+
+<UserConfig package="openapi-ts" plugin="effect-schema" />
+<Examples />

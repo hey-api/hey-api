@@ -1,0 +1,268 @@
+---
+title: Effect HttpApi v4 Plugin
+description: Generate an Effect v4 HttpApi contract, HttpApiClient, and runtime schemas from OpenAPI.
+sidebar:
+  label: Effect HttpApi
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import Examples from '@/components/Examples.astro';
+import UserConfig from '@/components/UserConfig.astro';
+
+# Effect HttpApi
+
+### About
+
+The Effect HttpApi plugin generates an Effect v4 `HttpApi` contract and grouped `HttpApiClient` from your OpenAPI spec. It also enables the [Effect Schema plugin](/docs/openapi/typescript/plugins/effect-schema) for the schemas used by the contract.
+
+Use [`@hey-api/client-effect`](/docs/openapi/typescript/clients/effect) when you want the standard Hey API SDK shape, interchangeable validator plugins, and compatibility with the broader plugin ecosystem. Use `@hey-api/effect` when the generated `HttpApi` value is part of your application architecture.
+
+## Features
+
+- Effect v4 `HttpApi`, `HttpApiGroup`, and `HttpApiEndpoint`
+- grouped `HttpApiClient`
+- type-safe success, declared error, and service channels
+- request and response encoding with generated Effect schemas
+- a reusable API contract for clients and servers
+- request and response customization through Effect's `HttpClient`
+- type-safe URL builder
+
+## Installation
+
+Install the Effect version tested by this release.
+
+```sh
+npm install effect@4.0.0-beta.102
+```
+
+Effect's HttpApi modules are currently unstable, so pin the version and upgrade it deliberately.
+
+Add `@hey-api/effect` to your plugins.
+
+<Tabs>
+  <TabItem label="config">
+```js {4} title="openapi-ts.config.ts"
+export default {
+  input: 'hey-api/backend', // sign up at app.heyapi.dev
+  output: 'src/client',
+  plugins: ['@hey-api/effect'],
+};
+```
+  </TabItem>
+  <TabItem label="cli">
+```sh {4}
+npx @hey-api/openapi-ts \
+  -i hey-api/backend \
+  -o src/client \
+  -c @hey-api/effect
+```
+  </TabItem>
+</Tabs>
+
+## Configuration
+
+The plugin generates `effect.gen.ts` with an exported `Api` value and a `makeClient()` Effect requiring an `HttpClient.HttpClient` service. Its Effect schemas are generated in `effect-schema.gen.ts`.
+
+### `makeClient()`
+
+```ts title="src/index.ts"
+import { Effect } from 'effect';
+import { FetchHttpClient } from 'effect/unstable/http';
+
+import { makeClient } from './client/effect.gen';
+
+const program = Effect.gen(function* () {
+  const client = yield* makeClient({
+    baseUrl: 'https://api.example.com',
+  });
+
+  return yield* client.Pets.listPets({
+    query: {
+      limit: 10,
+    },
+  });
+});
+
+const pets = await Effect.runPromise(
+  program.pipe(Effect.provide(FetchHttpClient.layer)),
+);
+```
+
+Operations are grouped under their first OpenAPI tag. Untagged operations use a generated `default` group.
+
+Optional request bodies use a `payload` property. Pass `payload: undefined` to omit the body.
+
+### Reuse the Client
+
+`makeClient()` builds a client each time its Effect runs. Construct it once in a layer for a long-lived application.
+
+```ts title="src/client.ts"
+import { Context, Effect, Layer } from 'effect';
+import { FetchHttpClient } from 'effect/unstable/http';
+
+import { makeClient } from './client/effect.gen';
+
+export class PetStoreClient extends Context.Service<
+  PetStoreClient,
+  Effect.Success<ReturnType<typeof makeClient>>
+>()('PetStoreClient') {}
+
+export const PetStoreClientLive = Layer.effect(PetStoreClient)(
+  makeClient({
+    baseUrl: 'https://api.example.com',
+  }),
+).pipe(Layer.provide(FetchHttpClient.layer));
+```
+
+```ts title="src/index.ts"
+import { Effect } from 'effect';
+
+import { PetStoreClient, PetStoreClientLive } from './client';
+
+const program = Effect.gen(function* () {
+  const client = yield* PetStoreClient;
+  return yield* client.Pets.listPets({
+    query: {
+      limit: 10,
+    },
+  });
+});
+
+const pets = await Effect.runPromise(
+  program.pipe(Effect.provide(PetStoreClientLive)),
+);
+```
+
+### Plugin Options
+
+```js title="openapi-ts.config.ts"
+export default {
+  input: 'hey-api/backend',
+  output: 'src/client',
+  plugins: [
+    {
+      apiName: 'PetStoreApi',
+      name: '@hey-api/effect',
+    },
+  ],
+};
+```
+
+#### `apiName`
+
+Name of the generated `HttpApi` value. Defaults to `Api`.
+
+Configure generated schema names through the automatically enabled [Effect Schema plugin](/docs/openapi/typescript/plugins/effect-schema).
+
+## Interceptors
+
+Use immutable `HttpClient` transformations through `transformClient`.
+
+```ts title="src/client.ts"
+import { Effect } from 'effect';
+import {
+  HttpClient,
+  HttpClientRequest,
+} from 'effect/unstable/http';
+
+import { makeClient } from './client/effect.gen';
+
+const clientEffect = makeClient({
+  transformClient: (client) =>
+    client.pipe(
+      HttpClient.mapRequest(
+        HttpClientRequest.setHeader('X-Client-Version', '1'),
+      ),
+      HttpClient.tapRequest((request) =>
+        Effect.logDebug(`${request.method} ${request.url}`),
+      ),
+      HttpClient.tap((response) =>
+        Effect.logDebug(`HTTP ${response.status}`),
+      ),
+    ),
+});
+```
+
+Use `HttpClient.tapError` to observe transport failures.
+
+## Auth
+
+Apply authentication with an `HttpClient` request transformation.
+
+```ts title="src/client.ts"
+import { HttpClient, HttpClientRequest } from 'effect/unstable/http';
+
+import { makeClient } from './client/effect.gen';
+
+const client = makeClient({
+  baseUrl: 'https://api.example.com',
+  transformClient: HttpClient.mapRequest(
+    HttpClientRequest.bearerToken(token),
+  ),
+});
+```
+
+The same hook can add API keys, cookies, tracing, or other request behavior.
+
+## Build URL
+
+Use the exported `Api` value with `HttpApiClient.urlBuilder()` to build typed URLs.
+
+```ts title="src/index.ts"
+import { HttpApiClient } from 'effect/unstable/httpapi';
+
+import { Api } from './client/effect.gen';
+
+const buildUrl = HttpApiClient.urlBuilder(Api, {
+  baseUrl: 'https://api.example.com',
+});
+
+const url = buildUrl.Pets.listPets({
+  query: {
+    limit: 10,
+  },
+});
+```
+
+## Custom Instance
+
+`makeClient()` reads `HttpClient.HttpClient` from the Effect context. Provide a different implementation or wrap an existing one in a layer.
+
+```ts title="src/http-client.ts"
+import { Effect, Layer } from 'effect';
+import {
+  FetchHttpClient,
+  HttpClient,
+  HttpClientRequest,
+} from 'effect/unstable/http';
+
+export const CustomHttpClient = Layer.effect(HttpClient.HttpClient)(
+  Effect.map(HttpClient.HttpClient, (client) =>
+    HttpClient.mapRequest(
+      client,
+      HttpClientRequest.setHeader('X-Client-Version', '1'),
+    ),
+  ),
+).pipe(Layer.provide(FetchHttpClient.layer));
+```
+
+## Error Handling
+
+An operation can fail with:
+
+- `Schema.SchemaError` when request encoding or response decoding fails
+- `HttpClientError.HttpClientError` for transport failures
+- a decoded schema value for a declared error response
+
+Declared error-response schemas are not generated as `Schema.TaggedErrorClass`. Unless a schema already contains a discriminant, `Effect.catchTag` cannot distinguish those responses.
+
+## Limitations
+
+- One media type is generated per request body or response.
+- Custom parameter serialization that Effect HttpApi cannot represent uses Effect's default serialization and emits a diagnostic.
+- Media types without a native Effect encoding are returned as `Uint8Array` and emit a diagnostic.
+- Server-sent events are not supported by this plugin. Use [`@hey-api/client-effect`](/docs/openapi/typescript/clients/effect) for streaming SSE.
+- Unknown object properties are stripped during decoding, including when `additionalProperties` is `false`.
+
+<UserConfig package="openapi-ts" plugin="@hey-api/effect" />
+<Examples />

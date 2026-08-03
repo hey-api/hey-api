@@ -8,6 +8,7 @@ import { nuxtTypeDefault, nuxtTypeResponse } from './constants';
 export function createTypeOptions({ plugin }: { plugin: HeyApiSdkPlugin['Instance'] }) {
   const client = getClientPlugin(getTypedConfig(plugin));
   const isNuxtClient = client.name === '@hey-api/client-nuxt';
+  const isEffectClient = client.name === '@hey-api/client-effect';
 
   const symbolOptions = plugin.symbol('Options', {
     meta: {
@@ -36,7 +37,9 @@ export function createTypeOptions({ plugin }: { plugin: HeyApiSdkPlugin['Instanc
           .generic('TData', (g) =>
             g.extends(plugin.imports.TDataShape).default(plugin.imports.TDataShape),
           )
-          .generic('ThrowOnError', (g) => g.extends('boolean').default('boolean'))
+          .$if(!isEffectClient, (t) =>
+            t.generic('ThrowOnError', (g) => g.extends('boolean').default('boolean')),
+          )
           .generic('TResponse', (g) => g.default('unknown')),
     )
     .type(
@@ -49,7 +52,11 @@ export function createTypeOptions({ plugin }: { plugin: HeyApiSdkPlugin['Instanc
               .generic('TData')
               .generic(nuxtTypeResponse)
               .generic(nuxtTypeDefault),
-          (t) => t.generic('TData').generic('ThrowOnError').generic('TResponse'),
+          (t) =>
+            t
+              .generic('TData')
+              .$if(!isEffectClient, (t) => t.generic('ThrowOnError'))
+              .generic('TResponse'),
         ),
         $.type
           .object()

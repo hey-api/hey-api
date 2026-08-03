@@ -28,6 +28,7 @@ export function operationOptionsType({
 }): ReturnType<typeof $.type> {
   const client = getClientPlugin(getTypedConfig(plugin));
   const isNuxtClient = client.name === '@hey-api/client-nuxt';
+  const isEffectClient = client.name === '@hey-api/client-effect';
 
   // TODO: contract (cross)
   const symbolDataType = isDataAllowed
@@ -62,6 +63,23 @@ export function operationOptionsType({
   }
 
   const isSse = hasOperationSse({ operation });
+
+  if (isEffectClient) {
+    if (isSse) {
+      const symbolResponseType = plugin.querySymbol({
+        category: 'type',
+        resource: 'operation',
+        resourceId: operation.id,
+        role: 'response',
+      });
+      return $.type(symbolOptions)
+        .generic(isDataAllowed ? (symbolDataType ?? 'unknown') : 'never')
+        .generic(symbolResponseType ?? 'unknown');
+    }
+    return $.type(symbolOptions).$if(!isDataAllowed || symbolDataType, (t) =>
+      t.generic(isDataAllowed ? symbolDataType! : 'never'),
+    );
+  }
 
   if (isSse) {
     // TODO: contract (?)
@@ -113,6 +131,7 @@ export function operationParameters({
   const pluginTypeScript = plugin.getPluginOrThrow('@hey-api/typescript');
   const client = getClientPlugin(getTypedConfig(plugin));
   const isNuxtClient = client.name === '@hey-api/client-nuxt';
+  const isEffectClient = client.name === '@hey-api/client-effect';
 
   if (plugin.config.paramsStructure === 'flat') {
     const signature = getSignatureParameters({ operation, plugin });
@@ -151,7 +170,7 @@ export function operationParameters({
           isDataAllowed: plugin.config.paramsStructure === 'grouped',
           operation,
           plugin,
-          throwOnError: isNuxtClient ? undefined : 'ThrowOnError',
+          throwOnError: isNuxtClient || isEffectClient ? undefined : 'ThrowOnError',
         }),
       ),
     ),
@@ -217,6 +236,7 @@ export function operationStatements({
 }): Array<ReturnType<typeof $.return | typeof $.const>> {
   const client = getClientPlugin(getTypedConfig(plugin));
   const isNuxtClient = client.name === '@hey-api/client-nuxt';
+  const isEffectClient = client.name === '@hey-api/client-effect';
 
   // TODO: contract (?)
   const symbolResponseType = plugin.querySymbol({
@@ -461,29 +481,23 @@ export function operationStatements({
   let functionName = isSse ? clientExpression.attr('sse') : clientExpression;
   functionName = functionName.attr(operation.method);
 
-  statements.push(
-    $.return(
-      functionName
-        .call(reqOptions)
-        .$if(
-          isNuxtClient,
-          (f) =>
-            f
-              .generic(nuxtTypeComposable)
-              .generic($.type.or(symbolResponseType ?? 'unknown', nuxtTypeDefault))
-              .generic(symbolErrorType ?? 'unknown')
-              .generic(nuxtTypeDefault),
-          (f) =>
-            f
-              .generic(symbolResponseType ?? 'unknown')
-              .generic(symbolErrorType ?? 'unknown')
-              .generic('ThrowOnError'),
-        )
-        .$if(plugin.config.responseStyle === 'data', (f) =>
-          f.generic($.type.literal(plugin.config.responseStyle)),
-        ),
-    ),
-  );
+  const call = functionName.call(reqOptions);
+  if (isNuxtClient) {
+    call
+      .generic(nuxtTypeComposable)
+      .generic($.type.or(symbolResponseType ?? 'unknown', nuxtTypeDefault))
+      .generic(symbolErrorType ?? 'unknown')
+      .generic(nuxtTypeDefault);
+  } else {
+    call.generic(symbolResponseType ?? 'unknown').generic(symbolErrorType ?? 'unknown');
+    if (!isEffectClient) {
+      call.generic('ThrowOnError');
+    }
+  }
+  if (plugin.config.responseStyle === 'data' && !(isEffectClient && isSse)) {
+    call.generic($.type.literal(plugin.config.responseStyle));
+  }
+  statements.push($.return(call));
 
   return statements;
 }
@@ -500,6 +514,7 @@ export function operationReturnType({
 }): ReturnType<typeof $.type> {
   const client = getClientPlugin(getTypedConfig(plugin));
   const isNuxt = client.name === '@hey-api/client-nuxt';
+  const isEffect = client.name === '@hey-api/client-effect';
   const isSse = hasOperationSse({ operation });
 
   // TODO: contract (?)
@@ -521,6 +536,18 @@ export function operationReturnType({
     return isSse
       ? $.type('Promise').generic(sseResult.generic(inner.generic('unknown')))
       : inner.generic(nuxtTypeDefault);
+  }
+
+  if (isEffect) {
+    if (isSse) {
+      return sseResult.generic(queryType('responses')).generic(queryType('errors'));
+    }
+    return requestResult
+      .generic(queryType('responses'))
+      .generic(queryType('errors'))
+      .$if(plugin.config.responseStyle === 'data', (t) =>
+        t.generic($.type.literal(plugin.config.responseStyle)),
+      );
   }
 
   if (isSse) {

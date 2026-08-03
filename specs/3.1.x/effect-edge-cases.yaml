@@ -1,0 +1,348 @@
+openapi: 3.1.0
+info:
+  title: Effect edge cases
+  version: 1.0.0
+paths:
+  /tagged:
+    get:
+      operationId: taggedDefault
+      tags:
+        - default
+      responses:
+        '204':
+          description: No content
+  /untagged:
+    get:
+      operationId: untagged
+      responses:
+        '204':
+          description: No content
+  /then:
+    get:
+      operationId: then
+      responses:
+        '204':
+          description: No content
+  /constructor:
+    get:
+      operationId: constructor
+      tags:
+        - pet store
+      parameters:
+        - in: cookie
+          name: session
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        '204':
+          description: No content
+  /proto:
+    get:
+      operationId: __proto__
+      tags:
+        - pet store
+      parameters:
+        - in: cookie
+          name: session
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        '204':
+          description: No content
+  /tagged-collision:
+    get:
+      operationId: taggedCollision
+      tags:
+        - untagged
+      responses:
+        '204':
+          description: No content
+  '/literal:colon/{id}':
+    get:
+      operationId: colonPath
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No content
+  '/api/v{api-version}/file/{id}':
+    get:
+      operationId: fileResponse
+      tags:
+        - files
+      parameters:
+        - in: path
+          name: api-version
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Audio response
+          content:
+            audio/mpeg: {}
+  /multipart-response:
+    get:
+      operationId: multipartResponse
+      tags:
+        - multipart
+      responses:
+        '200':
+          description: Multipart response
+          content:
+            multipart/form-data:
+              schema:
+                type: object
+                properties:
+                  value:
+                    type: string
+  /image:
+    get:
+      operationId: imageResponse
+      tags:
+        - binary
+      responses:
+        '200':
+          description: Image response
+          content:
+            image/png: {}
+  /audio:
+    get:
+      operationId: audioResponse
+      tags:
+        - binary
+      responses:
+        '200':
+          description: Audio response
+          content:
+            audio/ogg: {}
+  /video:
+    get:
+      operationId: videoResponse
+      tags:
+        - binary
+      responses:
+        '200':
+          description: Video response
+          content:
+            video/webm: {}
+  /text:
+    get:
+      operationId: textResponse
+      tags:
+        - text
+      responses:
+        '200':
+          description: Text response
+          content:
+            text/plain: {}
+  /events:
+    get:
+      operationId: eventStream
+      tags:
+        - events
+      responses:
+        '200':
+          description: Server-sent events
+          content:
+            text/event-stream:
+              schema:
+                type: string
+  /filter:
+    get:
+      operationId: objectFilter
+      parameters:
+        - in: query
+          name: filter
+          schema:
+            $ref: '#/components/schemas/Filter'
+      responses:
+        '204':
+          description: No content
+  /trace:
+    trace:
+      operationId: traceRequest
+      tags:
+        - trace
+      responses:
+        '204':
+          description: No content
+  /recursive-upload:
+    post:
+      operationId: recursiveUpload
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RecursiveBinary'
+      responses:
+        '204':
+          description: No content
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    Filter:
+      type: object
+      properties:
+        role:
+          type: string
+    DictionaryWithString:
+      type: object
+      additionalProperties:
+        type: string
+    DictionaryWithPropertiesAndAdditionalProperties:
+      type: object
+      properties:
+        foo:
+          type: number
+        bar:
+          type: boolean
+      additionalProperties:
+        type: string
+    File:
+      type: object
+      required:
+        - mime
+      properties:
+        mime:
+          type: string
+          minLength: 1
+          maxLength: 24
+        file:
+          type: string
+          format: uri
+    ModelWithPattern:
+      type: object
+      required:
+        - key
+        - name
+      properties:
+        key:
+          type: string
+          maxLength: 64
+          pattern: ^[a-zA-Z0-9_]*$
+        name:
+          type: string
+          maxLength: 255
+        modified:
+          type: string
+          format: date-time
+    TimeFormats:
+      type: object
+      required:
+        - dateTime
+        - time
+      properties:
+        dateTime:
+          type: string
+          format: date-time
+        time:
+          type: string
+          format: time
+    ClosedObject:
+      type: object
+      additionalProperties: false
+      properties:
+        known:
+          type: string
+    ClosedBase:
+      type: object
+      additionalProperties: false
+      required:
+        - a
+      properties:
+        a:
+          type: string
+    ClosedIntersection:
+      allOf:
+        - $ref: '#/components/schemas/ClosedBase'
+        - type: object
+          required:
+            - b
+          properties:
+            b:
+              type: string
+    OpenPart:
+      type: object
+      properties:
+        a:
+          type: string
+    ClosedPart:
+      type: object
+      additionalProperties: false
+      required:
+        - a
+      properties:
+        a:
+          type: string
+    ReversedClosedIntersection:
+      allOf:
+        - $ref: '#/components/schemas/OpenPart'
+        - $ref: '#/components/schemas/ClosedPart'
+    RecursiveBinary:
+      type: object
+      required:
+        - file
+      properties:
+        file:
+          type: string
+          format: binary
+        next:
+          $ref: '#/components/schemas/RecursiveBinary'
+    ConstrainedUnion:
+      type: string
+      minLength: 3
+      oneOf:
+        - const: x
+        - const: long
+    ConstrainedConst:
+      type: string
+      minLength: 3
+      const: x
+    ConstrainedEnum:
+      type: string
+      minLength: 3
+      enum:
+        - x
+        - long
+    ConstrainedIntersection:
+      allOf:
+        - type: string
+          minLength: 2
+        - type: string
+          pattern: ^a
+    NestedDictionary:
+      type: object
+      additionalProperties:
+        type: object
+        additionalProperties:
+          type: object
+          additionalProperties:
+            type: object
+            additionalProperties:
+              type: object
+              additionalProperties:
+                type: object
+                additionalProperties:
+                  type: object
+                  additionalProperties:
+                    type: object
+                    additionalProperties:
+                      type: string

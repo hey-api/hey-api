@@ -1,0 +1,41 @@
+openapi: 3.1.0
+info:
+  title: Effect SDK validation
+  version: 1.0.0
+paths:
+  '/api/v{api-version}/foo/{foo_param}/bar/{BarParam}':
+    delete:
+      operationId: deleteFoo
+      parameters:
+        - in: path
+          name: api-version
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: foo_param
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: BarParam
+          required: true
+          schema:
+            type: string
+        - in: header
+          name: x-Foo-Bar
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelWithString'
+      responses:
+        '204':
+          description: No content
+components:
+  schemas:
+    ModelWithString:
+      type: object
+      properties:
+        prop:
+          type: string

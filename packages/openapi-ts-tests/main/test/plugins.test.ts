@@ -46,6 +46,72 @@ for (const version of versions) {
         }),
         description: 'generate schemas',
       },
+      ...(version === '2.0.x'
+        ? [
+            {
+              config: createConfig({
+                input: 'effect-no-content.yaml',
+                output: 'no-content',
+                plugins: ['@hey-api/effect'],
+              }),
+              description: 'generate an Effect client for a bodyless Swagger response',
+            },
+          ]
+        : []),
+      ...(version === '3.1.x'
+        ? [
+            {
+              config: createConfig({
+                input: 'effect-sdk.yaml',
+                output: 'sdk',
+                plugins: [
+                  'effect-schema',
+                  '@hey-api/client-effect',
+                  {
+                    name: '@hey-api/sdk',
+                    transformer: true,
+                    validator: true,
+                  },
+                ],
+              }),
+              description: 'generate Effect SDK with Effect Schema validation',
+            },
+            {
+              config: createConfig({
+                input: 'effect-webhooks.yaml',
+                output: 'effect-webhooks',
+                plugins: ['effect-schema'],
+              }),
+              description: 'generate Effect webhook schemas',
+            },
+            {
+              config: createConfig({
+                input: 'effect-edge-cases.yaml',
+                output: 'effect-edge-cases',
+                plugins: ['@hey-api/effect'],
+              }),
+              description: 'generate Effect edge cases',
+              warningCount: 9,
+              warnings: [
+                'objectFilter has parameter serialization that Effect HttpApi cannot represent exactly',
+                'then is exposed as "then_" to provide safe client property access',
+                'constructor is exposed as "constructor_" to provide safe client property access',
+                'fileResponse path parameter "api-version" is exposed as "api_version"',
+                'eventStream response 200 uses text/event-stream; server-sent events are not supported',
+                '2 operations declare cookie parameters',
+                '2 operations declare security',
+              ],
+            },
+            {
+              config: createConfig({
+                input: 'schema-const.yaml',
+                output: 'schema-const',
+                plugins: ['effect-schema'],
+              }),
+              description: 'generate Effect object const schemas',
+            },
+          ]
+        : []),
       {
         config: createConfig({
           output: 'default',
@@ -201,26 +267,110 @@ for (const version of versions) {
       },
     ];
 
-    it.each(scenarios)('$description', async ({ config }) => {
+    it.each(scenarios)('$description', async (scenario) => {
+      const { config } = scenario;
+      const warnings = 'warnings' in scenario ? scenario.warnings : undefined;
+      const consoleWarn = warnings
+        ? vi.spyOn(console, 'warn').mockImplementation(() => {})
+        : undefined;
+      try {
+        await createClient(config);
+
+        const filePaths = getFilePaths(config.output);
+
+        await Promise.all(
+          filePaths.map(async (filePath) => {
+            const fileContent = fs.readFileSync(filePath, 'utf-8');
+            await expect(fileContent).toMatchFileSnapshot(
+              path.join(
+                import.meta.dirname,
+                '__snapshots__',
+                version,
+                namespace,
+                filePath.slice(outputDir.length + 1),
+              ),
+            );
+          }),
+        );
+        if (consoleWarn && warnings) {
+          for (const warning of warnings) {
+            expect(consoleWarn).toHaveBeenCalledWith(expect.stringContaining(warning));
+          }
+          if (scenario.warningCount !== undefined) {
+            expect(consoleWarn).toHaveBeenCalledTimes(scenario.warningCount);
+          }
+        }
+      } finally {
+        consoleWarn?.mockRestore();
+      }
+    });
+
+    it('generates Effect output from normalized OpenAPI', async () => {
+      const config = createConfig({
+        input: 'sdk-instance.yaml',
+        output: 'smoke',
+        plugins: ['@hey-api/effect'],
+      });
+
       await createClient(config);
 
-      const filePaths = getFilePaths(config.output);
-
-      await Promise.all(
-        filePaths.map(async (filePath) => {
-          const fileContent = fs.readFileSync(filePath, 'utf-8');
-          await expect(fileContent).toMatchFileSnapshot(
-            path.join(
-              import.meta.dirname,
-              '__snapshots__',
-              version,
-              namespace,
-              filePath.slice(outputDir.length + 1),
-            ),
-          );
-        }),
+      expect(fs.readFileSync(path.join(config.output, 'effect.gen.ts'), 'utf8')).toContain(
+        'HttpApi.make',
+      );
+      expect(fs.readFileSync(path.join(config.output, 'effect-schema.gen.ts'), 'utf8')).toContain(
+        'effect/Schema',
       );
     });
+
+    if (version === '3.1.x') {
+      it.each([
+        { importName: 'v', validator: 'valibot' },
+        { importName: 'z', validator: 'zod' },
+      ] as const)(
+        'generates an Effect SDK with $validator validation',
+        async ({ importName, validator }) => {
+          const config = createConfig({
+            input: 'sdk-instance.yaml',
+            output: `effect-client-${validator}`,
+            plugins: [
+              validator,
+              '@hey-api/client-effect',
+              {
+                name: '@hey-api/sdk',
+                transformer: true,
+                validator: true,
+              },
+            ],
+          });
+
+          await createClient(config);
+
+          const sdk = fs.readFileSync(path.join(config.output, 'sdk.gen.ts'), 'utf8');
+          expect(sdk).toContain(`import * as ${importName} from '${validator}';`);
+          expect(sdk).toContain('requestValidator:');
+          expect(sdk).toContain('responseTransformer:');
+          expect(fs.existsSync(path.join(config.output, 'client', 'client.gen.ts'))).toBe(true);
+        },
+      );
+
+      it('rejects Promise-only wrappers with the Effect client', async () => {
+        await expect(
+          createClient(
+            createConfig({
+              output: 'incompatible-wrapper',
+              plugins: ['@hey-api/client-effect', '@tanstack/react-query'],
+            }),
+          ),
+        ).rejects.toMatchObject({
+          originalError: {
+            error: {
+              message:
+                '@hey-api/client-effect cannot be combined with @tanstack/react-query: it expects Promise-returning SDK functions',
+            },
+          },
+        });
+      });
+    }
   });
 }
 

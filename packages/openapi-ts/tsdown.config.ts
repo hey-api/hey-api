@@ -15,6 +15,7 @@ export default defineConfig({
       '@angular/common/http',
       '@angular/core',
       'axios',
+      /^effect(?:\/|$)/,
       'ky',
       'nuxt/app',
       'ofetch',

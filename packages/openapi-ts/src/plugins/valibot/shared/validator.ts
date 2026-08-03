@@ -1,6 +1,6 @@
 import type { DefaultRequestValidatorLayers, IR } from '@hey-api/shared';
 
-import { buildOperationSchema } from './operation-schema';
+import { buildOperationSchema } from '../../shared/utils/operation-schema';
 
 export function getDefaultRequestValidatorLayers(
   operation: IR.OperationObject,

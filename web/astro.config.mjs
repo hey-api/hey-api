@@ -172,10 +172,8 @@ export default defineConfig({
                 'docs/openapi/typescript/clients/next-js',
                 'docs/openapi/typescript/clients/nuxt',
                 'docs/openapi/typescript/clients/ofetch',
-                {
-                  badge: { text: 'Vote', variant: 'tip' },
-                  slug: 'docs/openapi/typescript/clients/effect',
-                },
+                'docs/openapi/typescript/clients/effect',
+                'docs/openapi/typescript/plugins/effect',
                 {
                   badge: { text: 'Vote', variant: 'tip' },
                   slug: 'docs/openapi/typescript/clients/got',
@@ -187,6 +185,7 @@ export default defineConfig({
               collapsed: true,
               items: [
                 'docs/openapi/typescript/validators',
+                'docs/openapi/typescript/plugins/effect-schema',
                 'docs/openapi/typescript/plugins/valibot',
                 {
                   label: 'Zod',

@@ -4,6 +4,7 @@ export const clientPlugins = [
   'client-angular',
   'client-axios',
   'client-core',
+  'client-effect',
   'client-fetch',
   'client-ky',
   'client-next',

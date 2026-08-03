@@ -266,6 +266,7 @@ function implementFn<T extends ReturnType<typeof $.func | typeof $.method>>(args
   const { node, operation, plugin } = args;
   const client = getClientPlugin(getTypedConfig(plugin));
   const isNuxtClient = client.name === '@hey-api/client-nuxt';
+  const isEffectClient = client.name === '@hey-api/client-effect';
   const isRequiredOptions = isOperationOptionsRequired({
     context: plugin.context,
     operation,
@@ -305,12 +306,14 @@ function implementFn<T extends ReturnType<typeof $.func | typeof $.method>>(args
             ),
           ),
       (m) =>
-        m.generic('ThrowOnError', (t) =>
-          t
-            .extends('boolean')
-            .default(
-              ('throwOnError' in client.config ? client.config.throwOnError : false) ?? false,
-            ),
+        m.$if(!isEffectClient, (m) =>
+          m.generic('ThrowOnError', (t) =>
+            t
+              .extends('boolean')
+              .default(
+                ('throwOnError' in client.config ? client.config.throwOnError : false) ?? false,
+              ),
+          ),
         ),
     )
     .params(...opParameters.parameters)

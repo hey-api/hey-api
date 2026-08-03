@@ -1,0 +1,13 @@
+swagger: 2.0
+info:
+  title: Effect no-content response
+  version: 1.0.0
+paths:
+  /no-content:
+    get:
+      operationId: callWithNoContentResponse
+      tags:
+        - NoContent
+      responses:
+        '204':
+          description: No content
