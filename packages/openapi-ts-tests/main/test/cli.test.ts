@@ -1,6 +1,6 @@
 import path from 'node:path';
 
-import { sync } from 'cross-spawn';
+import { xSync } from 'tinyexec';
 
 import { getSpecsPath } from '../../utils';
 
@@ -8,14 +8,13 @@ const specs = getSpecsPath();
 
 describe('bin', () => {
   it('openapi-ts works', () => {
-    const result = sync('openapi-ts', [
+    const result = xSync('openapi-ts', [
       '--input',
       path.resolve(specs, '3.1.x', 'full.yaml'),
       '--output',
       path.resolve(import.meta.dirname, '.gen'),
       '--dry-run',
     ]);
-    expect(result.error).toBeFalsy();
-    expect(result.status).toBe(0);
+    expect(result.exitCode).toBe(0);
   });
 });
