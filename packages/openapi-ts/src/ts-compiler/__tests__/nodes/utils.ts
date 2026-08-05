@@ -21,7 +21,7 @@ function getCallerFile(): string {
 }
 
 export async function assertNodePrintedMatchesSnapshot(node: TsNode, filename: string) {
-  const result = ts.createPrinter().printFile(node);
+  const result = ts.createPrinter().format(node);
 
   const caller = getCallerFile();
   const relPath = path
@@ -38,7 +38,7 @@ export async function assertNodePrintedMatchesSnapshot(node: TsNode, filename: s
 }
 
 export async function assertPrintedMatchesSnapshot(file: TsSourceFile, filename: string) {
-  const result = ts.createPrinter().printFile(file);
+  const result = ts.createPrinter().format(file);
 
   const caller = getCallerFile();
   const relPath = path

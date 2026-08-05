@@ -151,18 +151,6 @@ Partners behind the future of API tooling. [Become a sponsor](https://github.com
   <tbody>
     <tr>
       <td align="center" width="33.333%">
-        <a href="https://kutt.to/skQUVd" target="_blank">
-          <picture height="40px">
-            <source media="(prefers-color-scheme: dark)" srcset="https://heyapi.dev/assets/scalar/logo-light.svg">
-            <img alt="Scalar logo" height="40px" src="https://heyapi.dev/assets/scalar/logo-dark.svg">
-          </picture>
-        </a>
-        <br/>
-        <a href="https://kutt.to/skQUVd" style="text-decoration:none;" target="_blank">
-          scalar.com
-        </a>
-      </td>
-      <td align="center" width="33.333%">
         <a href="https://kutt.to/Dr9GuW" target="_blank">
           <picture height="40px">
             <source media="(prefers-color-scheme: dark)" srcset="https://heyapi.dev/assets/fastapi/logo-light.svg">
@@ -204,14 +192,6 @@ Partners behind the future of API tooling. [Become a sponsor](https://github.com
         </a>
       </td>
       <td align="center" width="33.333%">
-        <a href="https://kutt.to/KkqSaw" target="_blank">
-          <picture height="34px">
-            <source media="(prefers-color-scheme: dark)" srcset="https://heyapi.dev/assets/cella/logo-light.svg">
-            <img alt="Cella logo" height="34px" src="https://heyapi.dev/assets/cella/logo-dark.svg">
-          </picture>
-        </a>
-      </td>
-      <td align="center" width="33.333%">
         <a href="https://kutt.to/HW4GYR" target="_blank">
           <picture height="34px">
             <source media="(prefers-color-scheme: dark)" srcset="https://heyapi.dev/assets/photon/logo-light.svg">
@@ -228,6 +208,6 @@ Partners behind the future of API tooling. [Become a sponsor](https://github.com
 
 ## License
 
-Released under the [MIT License](https://github.com/hey-api/hey-api/blob/main/LICENSE.md).
+Released under the [MIT License](https://github.com/hey-api/hey-api/blob/main/LICENSE).
 
 <!-- template-license-end -->

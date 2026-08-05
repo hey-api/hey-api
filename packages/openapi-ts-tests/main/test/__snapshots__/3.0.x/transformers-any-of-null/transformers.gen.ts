@@ -3,36 +3,36 @@
 import type { GetFooResponse, GetNullablePollResponse, GetPollResponse } from './types.gen';
 
 const fooSchemaResponseTransformer = (data: any) => {
-    if (data.foo) {
-        data.foo = new Date(data.foo);
-    }
-    if (data.bar) {
-        data.bar = new Date(data.bar);
-    }
-    if (data.requiredBaz) {
-        data.requiredBaz = new Date(data.requiredBaz);
-    }
-    return data;
+  if (data.foo) {
+    data.foo = new Date(data.foo);
+  }
+  if (data.bar) {
+    data.bar = new Date(data.bar);
+  }
+  if (data.requiredBaz) {
+    data.requiredBaz = new Date(data.requiredBaz);
+  }
+  return data;
 };
 
 export const getFooResponseTransformer = async (data: any): Promise<GetFooResponse> => {
-    data = data.map((item: any) => fooSchemaResponseTransformer(item));
-    return data;
+  data = data.map((item: any) => fooSchemaResponseTransformer(item));
+  return data;
 };
 
 const pollSchemaResponseTransformer = (data: any) => {
-    data.createdAt = new Date(data.createdAt);
-    return data;
+  data.createdAt = new Date(data.createdAt);
+  return data;
 };
 
 export const getPollResponseTransformer = async (data: any): Promise<GetPollResponse> => {
-    data = pollSchemaResponseTransformer(data);
-    return data;
+  data = pollSchemaResponseTransformer(data);
+  return data;
 };
 
 export const getNullablePollResponseTransformer = async (data: any): Promise<GetNullablePollResponse> => {
-    if (data) {
-        data = pollSchemaResponseTransformer(data);
-    }
-    return data;
+  if (data) {
+    data = pollSchemaResponseTransformer(data);
+  }
+  return data;
 };

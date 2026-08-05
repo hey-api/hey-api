@@ -2,32 +2,6 @@ import path from 'node:path';
 
 import type { ExportModule, File, ImportModule } from '@hey-api/codegen-core';
 
-import { ts } from '../../ts-compiler';
-
-const printer = ts.createPrinter({
-  indentSize: 4,
-});
-
-const blankFile = ts.createSourceFile('', '', ts.ScriptTarget.ESNext, false, ts.ScriptKind.TS);
-
-/** Print a TypeScript node to a string. */
-export function astToString(node: ts.Node): string {
-  const result = printer.printNode(ts.EmitHint.Unspecified, node, blankFile);
-
-  try {
-    /**
-     * TypeScript Compiler API escapes unicode characters by default and there
-     * is no way to disable this behavior
-     * {@link https://github.com/microsoft/TypeScript/issues/36174}
-     */
-    return result.replace(/\\u([0-9a-fA-F]{4})/g, (_, hex: string) =>
-      String.fromCharCode(Number.parseInt(hex, 16)),
-    );
-  } catch {
-    return result;
-  }
-}
-
 export const nodeBuiltins = new Set([
   'buffer',
   'child_process',

@@ -3,45 +3,45 @@
 import * as v from 'valibot';
 
 export const vUser = v.object({
-    id: v.string(),
-    email: v.pipe(v.string(), v.email()),
-    name: v.string(),
-    createdAt: v.optional(v.pipe(v.string(), v.isoTimestamp()))
+  id: v.string(),
+  email: v.pipe(v.string(), v.email()),
+  name: v.string(),
+  createdAt: v.optional(v.pipe(v.string(), v.isoTimestamp()))
 });
 
 export const vCreateUserInput = v.object({
-    email: v.pipe(v.string(), v.email()),
-    name: v.string(),
-    password: v.optional(v.pipe(v.string(), v.minLength(8)))
+  email: v.pipe(v.string(), v.email()),
+  name: v.string(),
+  password: v.optional(v.pipe(v.string(), v.minLength(8)))
 });
 
 export const vUpdateUserInput = v.object({
-    email: v.optional(v.pipe(v.string(), v.email())),
-    name: v.optional(v.string())
+  email: v.optional(v.pipe(v.string(), v.email())),
+  name: v.optional(v.string())
 });
 
 export const vPost = v.object({
-    id: v.string(),
-    title: v.string(),
-    content: v.string(),
-    authorId: v.string(),
-    status: v.optional(v.picklist([
-        'draft',
-        'published',
-        'archived'
-    ])),
-    createdAt: v.optional(v.pipe(v.string(), v.isoTimestamp()))
+  id: v.string(),
+  title: v.string(),
+  content: v.string(),
+  authorId: v.string(),
+  status: v.optional(v.picklist([
+    'draft',
+    'published',
+    'archived'
+  ])),
+  createdAt: v.optional(v.pipe(v.string(), v.isoTimestamp()))
 });
 
 export const vCreatePostInput = v.object({
-    title: v.string(),
-    content: v.string(),
-    status: v.optional(v.picklist(['draft', 'published']), 'draft')
+  title: v.string(),
+  content: v.string(),
+  status: v.optional(v.picklist(['draft', 'published']), 'draft')
 });
 
 export const vGetUsersQuery = v.object({
-    limit: v.optional(v.pipe(v.number(), v.integer()), 10),
-    offset: v.optional(v.pipe(v.number(), v.integer()), 0)
+  limit: v.optional(v.pipe(v.number(), v.integer()), 10),
+  offset: v.optional(v.pipe(v.number(), v.integer()), 0)
 });
 
 /**
@@ -57,11 +57,11 @@ export const vCreateUserBody = vCreateUserInput;
 export const vCreateUserResponse = vUser;
 
 export const vDeleteUserHeaders = v.object({
-    'X-Request-Id': v.optional(v.string())
+  'X-Request-Id': v.optional(v.string())
 });
 
 export const vDeleteUserPath = v.object({
-    userId: v.string()
+  userId: v.string()
 });
 
 /**
@@ -70,7 +70,7 @@ export const vDeleteUserPath = v.object({
 export const vDeleteUserResponse = v.void();
 
 export const vGetUserByIdPath = v.object({
-    userId: v.string()
+  userId: v.string()
 });
 
 /**
@@ -81,7 +81,7 @@ export const vGetUserByIdResponse = vUser;
 export const vUpdateUserBody = vUpdateUserInput;
 
 export const vUpdateUserPath = v.object({
-    userId: v.string()
+  userId: v.string()
 });
 
 /**
@@ -90,12 +90,12 @@ export const vUpdateUserPath = v.object({
 export const vUpdateUserResponse = vUser;
 
 export const vGetPostsQuery = v.object({
-    authorId: v.optional(v.string()),
-    status: v.optional(v.picklist([
-        'draft',
-        'published',
-        'archived'
-    ]))
+  authorId: v.optional(v.string()),
+  status: v.optional(v.picklist([
+    'draft',
+    'published',
+    'archived'
+  ]))
 });
 
 /**
@@ -106,7 +106,7 @@ export const vGetPostsResponse = v.array(vPost);
 export const vCreatePostBody = vCreatePostInput;
 
 export const vCreatePostHeaders = v.object({
-    'X-Author-Id': v.string()
+  'X-Author-Id': v.string()
 });
 
 /**
@@ -115,11 +115,11 @@ export const vCreatePostHeaders = v.object({
 export const vCreatePostResponse = vPost;
 
 export const vGetPostByIdPath = v.object({
-    postId: v.string()
+  postId: v.string()
 });
 
 export const vGetPostByIdQuery = v.object({
-    includeComments: v.optional(v.boolean(), false)
+  includeComments: v.optional(v.boolean(), false)
 });
 
 /**

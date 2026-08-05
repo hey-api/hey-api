@@ -7,74 +7,74 @@ import { getBar, getFoo, type Options } from '../sdk.gen';
 import type { GetBarData, GetFooData } from '../types.gen';
 
 export type QueryKey<TOptions extends Options> = [
-    Pick<TOptions, 'baseUrl' | 'body' | 'headers' | 'path' | 'query'> & {
-        _id: string;
-        _infinite?: boolean;
-        tags?: ReadonlyArray<string>;
-    }
+  Pick<TOptions, 'baseUrl' | 'body' | 'headers' | 'path' | 'query'> & {
+    _id: string;
+    _infinite?: boolean;
+    tags?: ReadonlyArray<string>;
+  }
 ];
 
 const createQueryKey = <TOptions extends Options>(id: string, options?: TOptions, infinite?: boolean, tags?: ReadonlyArray<string>): [
-    QueryKey<TOptions>[0]
+  QueryKey<TOptions>[0]
 ] => {
-    const params: QueryKey<TOptions>[0] = { _id: id, baseUrl: options?.baseUrl || (options?.client ?? client).getConfig().baseUrl } as QueryKey<TOptions>[0];
-    if (infinite) {
-        params._infinite = infinite;
-    }
-    if (tags) {
-        params.tags = tags;
-    }
-    if (options?.body) {
-        params.body = options.body;
-    }
-    if (options?.headers) {
-        params.headers = options.headers;
-    }
-    if (options?.path) {
-        params.path = options.path;
-    }
-    if (options?.query) {
-        params.query = options.query;
-    }
-    return [params];
+  const params: QueryKey<TOptions>[0] = { _id: id, baseUrl: options?.baseUrl || (options?.client ?? client).getConfig().baseUrl } as QueryKey<TOptions>[0];
+  if (infinite) {
+    params._infinite = infinite;
+  }
+  if (tags) {
+    params.tags = tags;
+  }
+  if (options?.body) {
+    params.body = options.body;
+  }
+  if (options?.headers) {
+    params.headers = options.headers;
+  }
+  if (options?.path) {
+    params.path = options.path;
+  }
+  if (options?.query) {
+    params.query = options.query;
+  }
+  return [params];
 };
 
 export const getFooQueryKey = (options?: Options<GetFooData>) => createQueryKey('getFoo', options);
 
 export const getFooOptions = (options?: Options<GetFooData>) => queryOptions<unknown, DefaultError, unknown, ReturnType<typeof getFooQueryKey>>({
-    queryFn: async ({ queryKey, signal }) => {
-        const { data } = await getFoo({
-            ...options,
-            ...queryKey[0],
-            signal,
-            throwOnError: true
-        });
-        return data;
-    },
-    queryKey: getFooQueryKey(options),
-    meta: {
-        id: 'getFoo',
-        method: 'get',
-        path: '/foo'
-    }
+  queryFn: async ({ queryKey, signal }) => {
+    const { data } = await getFoo({
+      ...options,
+      ...queryKey[0],
+      signal,
+      throwOnError: true
+    });
+    return data;
+  },
+  queryKey: getFooQueryKey(options),
+  meta: {
+    id: 'getFoo',
+    method: 'get',
+    path: '/foo'
+  }
 });
 
 export const getBarQueryKey = (options?: Options<GetBarData>) => createQueryKey('getBar', options);
 
 export const getBarOptions = (options?: Options<GetBarData>) => queryOptions<unknown, DefaultError, unknown, ReturnType<typeof getBarQueryKey>>({
-    queryFn: async ({ queryKey, signal }) => {
-        const { data } = await getBar({
-            ...options,
-            ...queryKey[0],
-            signal,
-            throwOnError: true
-        });
-        return data;
-    },
-    queryKey: getBarQueryKey(options),
-    meta: {
-        id: 'getBar',
-        method: 'get',
-        path: '/bar'
-    }
+  queryFn: async ({ queryKey, signal }) => {
+    const { data } = await getBar({
+      ...options,
+      ...queryKey[0],
+      signal,
+      throwOnError: true
+    });
+    return data;
+  },
+  queryKey: getBarQueryKey(options),
+  meta: {
+    id: 'getBar',
+    method: 'get',
+    path: '/bar'
+  }
 });

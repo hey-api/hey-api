@@ -1,25 +1,53 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { createClient } from '@hey-api/openapi-ts';
+import { createClient, plugins } from '@hey-api/openapi-ts';
 
 import { getFilePaths } from '../../../utils';
 import { snapshotsDir, tmpDir } from './constants';
 import { createConfigFactory } from './utils';
 
-const version = '3.1.x';
+const versions = ['3.1.x'] as const;
 
-const outputDir = path.join(tmpDir, version);
+describe.each(versions)('OpenAPI %s', (version) => {
+  const outputDir = path.join(tmpDir, version);
 
-describe(`OpenAPI ${version}`, () => {
   const createConfig = createConfigFactory({ openApiVersion: version, outputDir });
 
   const scenarios = [
     {
       config: createConfig({
+        input: 'response-no-schema.yaml',
+        output: 'response-no-schema',
+        plugins: [
+          plugins.zod(),
+          plugins.orpc({
+            compatibilityVersion: '1',
+            validator: { input: 'zod', output: 'zod' },
+          }),
+        ],
+      }),
+      description: 'generate oRPC contracts for responses without schemas',
+    },
+    {
+      config: createConfig({
+        input: 'response-no-schema.yaml',
+        output: 'response-no-schema-valibot',
+        plugins: [
+          plugins.valibot(),
+          plugins.orpc({
+            compatibilityVersion: '1',
+            validator: { input: 'valibot', output: 'valibot' },
+          }),
+        ],
+      }),
+      description: 'generate oRPC contracts for responses without schemas using Valibot',
+    },
+    {
+      config: createConfig({
         input: 'rpc.yaml',
         output: 'default',
-        plugins: ['orpc', 'zod'],
+        plugins: [plugins.orpc({ compatibilityVersion: '1' }), plugins.zod()],
       }),
       description: 'generate oRPC contracts with Zod schemas',
     },
@@ -28,14 +56,14 @@ describe(`OpenAPI ${version}`, () => {
         input: 'rpc.yaml',
         output: 'custom-names',
         plugins: [
-          'valibot',
-          {
+          plugins.valibot(),
+          plugins.orpc({
+            compatibilityVersion: '1',
             contracts: {
               containerName: 'rpcContract',
               contractName: '{{name}}Rpc',
             },
-            name: 'orpc',
-          },
+          }),
         ],
       }),
       description: 'generate oRPC contracts with custom names and Valibot schemas',
@@ -45,13 +73,13 @@ describe(`OpenAPI ${version}`, () => {
         input: 'rpc.yaml',
         output: 'contracts-strategy-by-tags',
         plugins: [
-          'zod',
-          {
+          plugins.zod(),
+          plugins.orpc({
+            compatibilityVersion: '1',
             contracts: {
               strategy: 'byTags',
             },
-            name: 'orpc',
-          },
+          }),
         ],
       }),
       description: 'generate oRPC contracts grouped by tags',
@@ -61,14 +89,14 @@ describe(`OpenAPI ${version}`, () => {
         input: 'rpc.yaml',
         output: 'contracts-strategy-single',
         plugins: [
-          'zod',
-          {
+          plugins.zod(),
+          plugins.orpc({
+            compatibilityVersion: '1',
             contracts: {
               containerName: 'api',
               strategy: 'single',
             },
-            name: 'orpc',
-          },
+          }),
         ],
       }),
       description: 'generate oRPC contracts in a single container',
@@ -78,14 +106,14 @@ describe(`OpenAPI ${version}`, () => {
         input: 'rpc.yaml',
         output: 'contracts-nesting-id',
         plugins: [
-          'zod',
-          {
+          plugins.zod(),
+          plugins.orpc({
+            compatibilityVersion: '1',
             contracts: {
               nesting: 'id',
               strategy: 'byTags',
             },
-            name: 'orpc',
-          },
+          }),
         ],
       }),
       description: 'generate oRPC contracts without operationId nesting',
@@ -95,16 +123,16 @@ describe(`OpenAPI ${version}`, () => {
         input: 'rpc.yaml',
         output: 'contracts-custom-naming',
         plugins: [
-          'zod',
-          {
+          plugins.zod(),
+          plugins.orpc({
+            compatibilityVersion: '1',
             contracts: {
               containerName: '{{name}}Contracts',
               contractName: { casing: 'PascalCase' },
               segmentName: { casing: 'PascalCase' },
               strategy: 'byTags',
             },
-            name: 'orpc',
-          },
+          }),
         ],
       }),
       description: 'generate oRPC contracts with custom naming',

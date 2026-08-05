@@ -3,5 +3,5 @@
 import * as v from 'valibot';
 
 export const vFoo = v.object({
-    foo: v.optional(v.array(v.unknown()))
+  foo: v.optional(v.array(v.unknown()))
 });

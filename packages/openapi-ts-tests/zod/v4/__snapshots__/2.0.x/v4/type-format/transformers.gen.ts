@@ -3,11 +3,11 @@
 import type { PostFooResponse } from './types.gen';
 
 const fooSchemaResponseTransformer = (data: any) => {
-    data.foo = BigInt(data.foo.toString());
-    return data;
+  data.foo = BigInt(data.foo.toString());
+  return data;
 };
 
 export const postFooResponseTransformer = async (data: any): Promise<PostFooResponse> => {
-    data = fooSchemaResponseTransformer(data);
-    return data;
+  data = fooSchemaResponseTransformer(data);
+  return data;
 };

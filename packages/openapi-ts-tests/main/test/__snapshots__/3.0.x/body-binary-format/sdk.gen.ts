@@ -5,54 +5,54 @@ import { client } from './client.gen';
 import type { UploadBinaryData, UploadBinaryResponses, UploadPdfData, UploadPdfResponses, UploadZipData, UploadZipResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
-    /**
-     * You can provide a client instance returned by `createClient()` instead of
-     * individual options. This might be also useful if you want to implement a
-     * custom client.
-     */
-    client?: Client;
-    /**
-     * You can pass arbitrary values through the `meta` object. This can be
-     * used to access values that aren't defined as part of the SDK function.
-     */
-    meta?: keyof ClientMeta extends never ? Record<string, unknown> : ClientMeta;
+  /**
+   * You can provide a client instance returned by `createClient()` instead of
+   * individual options. This might be also useful if you want to implement a
+   * custom client.
+   */
+  client?: Client;
+  /**
+   * You can pass arbitrary values through the `meta` object. This can be
+   * used to access values that aren't defined as part of the SDK function.
+   */
+  meta?: keyof ClientMeta extends never ? Record<string, unknown> : ClientMeta;
 };
 
 /**
  * Upload a zip file
  */
 export const uploadZip = <ThrowOnError extends boolean = false>(options: Options<UploadZipData, ThrowOnError>): RequestResult<UploadZipResponses, unknown, ThrowOnError> => (options.client ?? client).post<UploadZipResponses, unknown, ThrowOnError>({
-    bodySerializer: null,
-    url: '/upload-zip',
-    ...options,
-    headers: {
-        'Content-Type': 'application/zip',
-        ...options.headers
-    }
+  bodySerializer: null,
+  url: '/upload-zip',
+  ...options,
+  headers: {
+    'Content-Type': 'application/zip',
+    ...options.headers
+  }
 });
 
 /**
  * Upload a PDF file
  */
 export const uploadPdf = <ThrowOnError extends boolean = false>(options: Options<UploadPdfData, ThrowOnError>): RequestResult<UploadPdfResponses, unknown, ThrowOnError> => (options.client ?? client).post<UploadPdfResponses, unknown, ThrowOnError>({
-    bodySerializer: null,
-    url: '/upload-pdf',
-    ...options,
-    headers: {
-        'Content-Type': 'application/pdf',
-        ...options.headers
-    }
+  bodySerializer: null,
+  url: '/upload-pdf',
+  ...options,
+  headers: {
+    'Content-Type': 'application/pdf',
+    ...options.headers
+  }
 });
 
 /**
  * Upload binary data
  */
 export const uploadBinary = <ThrowOnError extends boolean = false>(options: Options<UploadBinaryData, ThrowOnError>): RequestResult<UploadBinaryResponses, unknown, ThrowOnError> => (options.client ?? client).post<UploadBinaryResponses, unknown, ThrowOnError>({
-    bodySerializer: null,
-    url: '/upload-binary',
-    ...options,
-    headers: {
-        'Content-Type': 'application/octet-stream',
-        ...options.headers
-    }
+  bodySerializer: null,
+  url: '/upload-binary',
+  ...options,
+  headers: {
+    'Content-Type': 'application/octet-stream',
+    ...options.headers
+  }
 });

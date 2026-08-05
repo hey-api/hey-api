@@ -660,14 +660,14 @@ export function updateRefsInSpec({
   const event = logger.timeEvent('update-refs-in-spec');
   const schemasPointerNamespace = specToSchemasPointerNamespace(spec);
 
-  const walk = ({
+  function walk({
     context,
     currentPointer,
     inSchema,
     node,
     path,
     visited = new Set(),
-  }: WalkArgs): void => {
+  }: WalkArgs): void {
     if (node instanceof Array) {
       node.forEach((item, index) =>
         walk({
@@ -864,7 +864,7 @@ export function updateRefsInSpec({
         }
       }
     }
-  };
+  }
   walk({
     context: null,
     currentPointer: null,

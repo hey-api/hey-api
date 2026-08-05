@@ -31,4 +31,22 @@ describe('union-type-node', () => {
     ]);
     await assertPrintedMatchesSnapshot(file, 'union.ts');
   });
+
+  it('union with constructor type member', async () => {
+    const file = ts.factory.createSourceFile([
+      castStatement(
+        'x',
+        ts.factory.createUnionTypeNode([
+          ts.factory.createTypeReferenceNode('A'),
+          ts.factory.createConstructorTypeNode(
+            undefined,
+            undefined,
+            [],
+            ts.factory.createTypeReferenceNode('B'),
+          ),
+        ]),
+      ),
+    ]);
+    await assertPrintedMatchesSnapshot(file, 'union-constructor-type.ts');
+  });
 });

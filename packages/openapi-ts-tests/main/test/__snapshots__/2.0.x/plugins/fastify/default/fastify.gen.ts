@@ -5,72 +5,72 @@ import type { RouteHandler } from 'fastify';
 import type { CallToTestOrderOfParamsData, CallWithDefaultOptionalParametersData, CallWithDefaultParametersData, CallWithDescriptionsData, CallWithDuplicateResponsesErrors, CallWithDuplicateResponsesResponses, CallWithNoContentResponseResponses, CallWithParametersData, CallWithResponseAndNoContentResponseResponses, CallWithResponsesErrors, CallWithResponsesResponses, CallWithResultFromHeaderErrors, CallWithResultFromHeaderResponses, CallWithWeirdParameterNamesData, CollectionFormatData, ComplexTypesData, ComplexTypesErrors, ComplexTypesResponses, DummyAResponses, DummyBResponses, NonAsciiæøåÆøÅöôêÊ字符串Data, NonAsciiæøåÆøÅöôêÊ字符串Responses, PostApiVbyApiVersionBodyData, PostApiVbyApiVersionBodyErrors, PostApiVbyApiVersionBodyResponses, TestErrorCodeData, TestErrorCodeErrors, TestErrorCodeResponses, TypesData, TypesResponses } from './types.gen';
 
 export type RouteHandlers = {
-    callWithDescriptions: RouteHandler<{
-        Querystring?: CallWithDescriptionsData['query'];
-    }>;
-    callWithParameters: RouteHandler<{
-        Headers: CallWithParametersData['headers'];
-        Params: CallWithParametersData['path'];
-        Querystring: CallWithParametersData['query'];
-    }>;
-    callWithWeirdParameterNames: RouteHandler<{
-        Body: CallWithWeirdParameterNamesData['body'];
-        Headers: CallWithWeirdParameterNamesData['headers'];
-        Params: CallWithWeirdParameterNamesData['path'];
-        Querystring: CallWithWeirdParameterNamesData['query'];
-    }>;
-    callWithDefaultParameters: RouteHandler<{
-        Querystring: CallWithDefaultParametersData['query'];
-    }>;
-    callWithDefaultOptionalParameters: RouteHandler<{
-        Querystring?: CallWithDefaultOptionalParametersData['query'];
-    }>;
-    callToTestOrderOfParams: RouteHandler<{
-        Querystring: CallToTestOrderOfParamsData['query'];
-    }>;
-    callWithNoContentResponse: RouteHandler<{
-        Reply: CallWithNoContentResponseResponses;
-    }>;
-    callWithResponseAndNoContentResponse: RouteHandler<{
-        Reply: CallWithResponseAndNoContentResponseResponses;
-    }>;
-    dummyA: RouteHandler<{
-        Reply: DummyAResponses;
-    }>;
-    dummyB: RouteHandler<{
-        Reply: DummyBResponses;
-    }>;
-    callWithDuplicateResponses: RouteHandler<{
-        Reply: Omit<CallWithDuplicateResponsesErrors, 'default'> & CallWithDuplicateResponsesResponses;
-    }>;
-    callWithResponses: RouteHandler<{
-        Reply: Omit<CallWithResponsesErrors, 'default'> & CallWithResponsesResponses;
-    }>;
-    collectionFormat: RouteHandler<{
-        Querystring: CollectionFormatData['query'];
-    }>;
-    types: RouteHandler<{
-        Params?: TypesData['path'];
-        Querystring: TypesData['query'];
-        Reply: TypesResponses;
-    }>;
-    complexTypes: RouteHandler<{
-        Querystring: ComplexTypesData['query'];
-        Reply: ComplexTypesErrors & ComplexTypesResponses;
-    }>;
-    callWithResultFromHeader: RouteHandler<{
-        Reply: CallWithResultFromHeaderErrors & CallWithResultFromHeaderResponses;
-    }>;
-    testErrorCode: RouteHandler<{
-        Querystring: TestErrorCodeData['query'];
-        Reply: TestErrorCodeErrors & TestErrorCodeResponses;
-    }>;
-    nonAsciiæøåÆøÅöôêÊ字符串: RouteHandler<{
-        Querystring: NonAsciiæøåÆøÅöôêÊ字符串Data['query'];
-        Reply: NonAsciiæøåÆøÅöôêÊ字符串Responses;
-    }>;
-    postApiVbyApiVersionBody: RouteHandler<{
-        Body: PostApiVbyApiVersionBodyData['body'];
-        Reply: PostApiVbyApiVersionBodyErrors & PostApiVbyApiVersionBodyResponses;
-    }>;
+  callWithDescriptions: RouteHandler<{
+    Querystring?: CallWithDescriptionsData['query'];
+  }>;
+  callWithParameters: RouteHandler<{
+    Headers: CallWithParametersData['headers'];
+    Params: CallWithParametersData['path'];
+    Querystring: CallWithParametersData['query'];
+  }>;
+  callWithWeirdParameterNames: RouteHandler<{
+    Body: CallWithWeirdParameterNamesData['body'];
+    Headers: CallWithWeirdParameterNamesData['headers'];
+    Params: CallWithWeirdParameterNamesData['path'];
+    Querystring: CallWithWeirdParameterNamesData['query'];
+  }>;
+  callWithDefaultParameters: RouteHandler<{
+    Querystring: CallWithDefaultParametersData['query'];
+  }>;
+  callWithDefaultOptionalParameters: RouteHandler<{
+    Querystring?: CallWithDefaultOptionalParametersData['query'];
+  }>;
+  callToTestOrderOfParams: RouteHandler<{
+    Querystring: CallToTestOrderOfParamsData['query'];
+  }>;
+  callWithNoContentResponse: RouteHandler<{
+    Reply: CallWithNoContentResponseResponses;
+  }>;
+  callWithResponseAndNoContentResponse: RouteHandler<{
+    Reply: CallWithResponseAndNoContentResponseResponses;
+  }>;
+  dummyA: RouteHandler<{
+    Reply: DummyAResponses;
+  }>;
+  dummyB: RouteHandler<{
+    Reply: DummyBResponses;
+  }>;
+  callWithDuplicateResponses: RouteHandler<{
+    Reply: Omit<CallWithDuplicateResponsesErrors, 'default'> & CallWithDuplicateResponsesResponses;
+  }>;
+  callWithResponses: RouteHandler<{
+    Reply: Omit<CallWithResponsesErrors, 'default'> & CallWithResponsesResponses;
+  }>;
+  collectionFormat: RouteHandler<{
+    Querystring: CollectionFormatData['query'];
+  }>;
+  types: RouteHandler<{
+    Params?: TypesData['path'];
+    Querystring: TypesData['query'];
+    Reply: TypesResponses;
+  }>;
+  complexTypes: RouteHandler<{
+    Querystring: ComplexTypesData['query'];
+    Reply: ComplexTypesErrors & ComplexTypesResponses;
+  }>;
+  callWithResultFromHeader: RouteHandler<{
+    Reply: CallWithResultFromHeaderErrors & CallWithResultFromHeaderResponses;
+  }>;
+  testErrorCode: RouteHandler<{
+    Querystring: TestErrorCodeData['query'];
+    Reply: TestErrorCodeErrors & TestErrorCodeResponses;
+  }>;
+  nonAsciiæøåÆøÅöôêÊ字符串: RouteHandler<{
+    Querystring: NonAsciiæøåÆøÅöôêÊ字符串Data['query'];
+    Reply: NonAsciiæøåÆøÅöôêÊ字符串Responses;
+  }>;
+  postApiVbyApiVersionBody: RouteHandler<{
+    Body: PostApiVbyApiVersionBodyData['body'];
+    Reply: PostApiVbyApiVersionBodyErrors & PostApiVbyApiVersionBodyResponses;
+  }>;
 };

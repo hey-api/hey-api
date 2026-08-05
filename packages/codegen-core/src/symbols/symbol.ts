@@ -36,7 +36,7 @@ export class Symbol<Node extends INode = INode> {
   private _exported: boolean;
   /**
    * External module name if this symbol is imported from a module not managed
-   * by the project (e.g., "zod", "lodash").
+   * by the project. Mutually exclusive with {@link _global}.
    *
    * @default undefined
    */
@@ -63,6 +63,13 @@ export class Symbol<Node extends INode = INode> {
    * @returns The file path to output the symbol to, or undefined to fallback to default behavior.
    */
   private _getFilePath?: (symbol: Symbol) => string | undefined;
+  /**
+   * When true, this symbol refers to an ambient global identifier. Mutually
+   * exclusive with {@link _external}.
+   *
+   * @default undefined
+   */
+  private _global?: boolean;
   /**
    * How this symbol should be imported (namespace/default/named).
    *
@@ -136,6 +143,7 @@ export class Symbol<Node extends INode = INode> {
     this._external = input.external;
     this._getExportFromFilePath = input.getExportFromFilePath;
     this._getFilePath = input.getFilePath;
+    this._global = input.global;
     this.id = id;
     this._importKind = input.importKind ?? 'named';
     this._kind = input.kind ?? 'var';
@@ -157,23 +165,17 @@ export class Symbol<Node extends INode = INode> {
     return this._canonical ?? this;
   }
 
-  /**
-   * Read-only accessor for child symbol bindings.
-   */
+  /** Read-only accessor for child symbol bindings. */
   get children(): ReadonlyArray<ISymbolChild> {
     return this.canonical._children;
   }
 
-  /**
-   * Indicates whether this symbol is exported from its defining file.
-   */
+  /** Indicates whether this symbol is exported from its defining file. */
   get exported(): boolean {
     return this.canonical._exported;
   }
 
-  /**
-   * External module from which this symbol originates, if any.
-   */
+  /** External module from which this symbol originates, if any. */
   get external(): string | undefined {
     return this.canonical._external;
   }
@@ -187,9 +189,7 @@ export class Symbol<Node extends INode = INode> {
     return this.canonical._file;
   }
 
-  /**
-   * Read‑only accessor for the resolved final emitted name.
-   */
+  /** Read‑only accessor for the resolved final emitted name. */
   get finalName(): string {
     if (!this.canonical._finalName) {
       const message = `Symbol finalName has not been resolved yet for ${this.canonical.toString()}`;
@@ -199,93 +199,74 @@ export class Symbol<Node extends INode = INode> {
     return this.canonical._finalName;
   }
 
-  /**
-   * Custom re-export file path resolver, if provided.
-   */
+  /** Custom re-export file path resolver, if provided. */
   get getExportFromFilePath(): ((symbol: Symbol) => ReadonlyArray<string> | undefined) | undefined {
     return this.canonical._getExportFromFilePath;
   }
 
-  /**
-   * Custom file path resolver, if provided.
-   */
+  /** Custom file path resolver, if provided. */
   get getFilePath(): ((symbol: Symbol) => string | undefined) | undefined {
     return this.canonical._getFilePath;
   }
 
-  /**
-   * How this symbol should be imported (named/default/namespace).
-   */
+  /** Indicates whether this symbol refers to an ambient global identifier. */
+  get global(): boolean | undefined {
+    return this.canonical._global;
+  }
+
+  /** How this symbol should be imported (named/default/namespace). */
   get importKind(): BindingKind {
     return this.canonical._importKind;
   }
 
-  /**
-   * Read-only accessor for the per-file imported instances of this symbol.
-   */
+  /** Read-only accessor for the per-file imported instances of this symbol. */
   get imports(): ReadonlyArray<Symbol> {
     return this.canonical._imports;
   }
 
-  /**
-   * Indicates whether this is a canonical symbol (not a stub).
-   */
+  /** Indicates whether this is a canonical symbol (not a stub). */
   get isCanonical(): boolean {
     return !this._canonical || this._canonical === this;
   }
 
-  /**
-   * Indicates whether this symbol was renamed during conflict resolution.
-   */
+  /** Indicates whether this symbol was renamed during conflict resolution. */
   get isRenamed(): boolean {
     return Boolean(this.canonical._finalName) && this.canonical._finalName !== this.canonical._name;
   }
 
-  /**
-   * The symbol's kind (class, type, alias, variable, etc.).
-   */
+  /** The symbol's kind (class, type, alias, variable, etc.). */
   get kind(): SymbolKind {
     return this.canonical._kind;
   }
 
-  /**
-   * Arbitrary user‑provided metadata associated with this symbol.
-   */
+  /** Arbitrary user‑provided metadata associated with this symbol. */
   get meta(): ISymbolMeta | undefined {
     return this.canonical._meta;
   }
 
-  /**
-   * User-intended name before aliasing or conflict resolution.
-   */
+  /** User-intended name before aliasing or conflict resolution. */
   get name(): string {
     return this.canonical._name;
   }
 
-  /**
-   * Read‑only accessor for the defining node.
-   */
+  /** Read‑only accessor for the defining node. */
   get node(): Node | undefined {
     return this.canonical._node as Node | undefined;
   }
 
-  /**
-   * Provenance tag indicating which pipeline phase created this symbol.
-   */
+  /** Provenance tag indicating which pipeline phase created this symbol. */
   get origin(): SymbolOrigin | undefined {
     return this.canonical._origin;
   }
 
-  /**
-   * Indicates whether this symbol is marked as an override.
-   */
+  /** Indicates whether this symbol is marked as an override. */
   get override(): boolean {
     return this.canonical._override;
   }
 
   /**
-   * Naming priority. Higher value wins the canonical name when
-   * multiple symbols in the same file compete for the same identifier.
+   * Naming priority. Higher value wins the canonical name when multiple
+   * symbols in the same file compete for the same identifier.
    */
   get priority(): number {
     return this.canonical._priority;
@@ -444,6 +425,7 @@ export class Symbol<Node extends INode = INode> {
       exported: this.exported,
       external: this.external,
       finalName: this.canonical._finalName,
+      global: this.global,
       id: this.canonical.id,
       importIds: this.imports.map((imp) => imp.id).join(', '),
       importKind: this.importKind,

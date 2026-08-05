@@ -3,11 +3,11 @@
 import * as z from 'zod/v4-mini';
 
 export const zBar = z.object({
-    bar: z.optional(z.array(z.lazy((): any => zBar)))
+  bar: z.optional(z.array(z.lazy((): any => zBar)))
 });
 
 export const zFoo = z.object({
-    foo: z.optional(zBar)
+  foo: z.optional(zBar)
 });
 
 export const zBaz = z.lazy((): any => zQux);

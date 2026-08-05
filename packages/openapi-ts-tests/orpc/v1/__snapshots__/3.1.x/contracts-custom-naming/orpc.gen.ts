@@ -9,111 +9,111 @@ import { zCreatePostBody, zCreatePostHeaders, zCreatePostResponse, zCreateUserBo
  * Get all users
  */
 export const GetUsers = oc.route({
-    inputStructure: 'detailed',
-    method: 'GET',
-    operationId: 'getUsers',
-    path: '/users',
-    summary: 'Get all users',
-    tags: ['users']
+  inputStructure: 'detailed',
+  method: 'GET',
+  operationId: 'getUsers',
+  path: '/users',
+  summary: 'Get all users',
+  tags: ['users']
 }).input(z.object({ query: zGetUsersQuery.optional() }).optional()).output(zGetUsersResponse);
 
 /**
  * Create a new user
  */
 export const CreateUser = oc.route({
-    inputStructure: 'detailed',
-    method: 'POST',
-    operationId: 'createUser',
-    path: '/users',
-    successStatus: 201,
-    summary: 'Create a new user',
-    tags: ['users']
+  inputStructure: 'detailed',
+  method: 'POST',
+  operationId: 'createUser',
+  path: '/users',
+  successStatus: 201,
+  summary: 'Create a new user',
+  tags: ['users']
 }).input(z.object({ body: zCreateUserBody })).output(zCreateUserResponse);
 
 /**
  * Delete a user
  */
 export const DeleteUser = oc.route({
-    inputStructure: 'detailed',
-    method: 'DELETE',
-    operationId: 'deleteUser',
-    path: '/users/{userId}',
-    successStatus: 204,
-    summary: 'Delete a user',
-    tags: ['users']
+  inputStructure: 'detailed',
+  method: 'DELETE',
+  operationId: 'deleteUser',
+  path: '/users/{userId}',
+  successStatus: 204,
+  summary: 'Delete a user',
+  tags: ['users']
 }).input(z.object({ headers: zDeleteUserHeaders.optional(), params: zDeleteUserPath })).output(zDeleteUserResponse);
 
 /**
  * Get a user by ID
  */
 export const GetUserById = oc.route({
-    inputStructure: 'detailed',
-    method: 'GET',
-    operationId: 'getUserById',
-    path: '/users/{userId}',
-    summary: 'Get a user by ID',
-    tags: ['users']
+  inputStructure: 'detailed',
+  method: 'GET',
+  operationId: 'getUserById',
+  path: '/users/{userId}',
+  summary: 'Get a user by ID',
+  tags: ['users']
 }).input(z.object({ params: zGetUserByIdPath })).output(zGetUserByIdResponse);
 
 /**
  * Update a user
  */
 export const UpdateUser = oc.route({
-    inputStructure: 'detailed',
-    method: 'PUT',
-    operationId: 'updateUser',
-    path: '/users/{userId}',
-    summary: 'Update a user',
-    tags: ['users']
+  inputStructure: 'detailed',
+  method: 'PUT',
+  operationId: 'updateUser',
+  path: '/users/{userId}',
+  summary: 'Update a user',
+  tags: ['users']
 }).input(z.object({ body: zUpdateUserBody, params: zUpdateUserPath })).output(zUpdateUserResponse);
 
 export const usersContracts = {
-    GetUsers,
-    CreateUser,
-    DeleteUser,
-    GetUserById,
-    UpdateUser
+  GetUsers,
+  CreateUser,
+  DeleteUser,
+  GetUserById,
+  UpdateUser
 };
 
 /**
  * Get all posts
  */
 export const GetPosts = oc.route({
-    inputStructure: 'detailed',
-    method: 'GET',
-    operationId: 'getPosts',
-    path: '/posts',
-    summary: 'Get all posts',
-    tags: ['posts']
+  inputStructure: 'detailed',
+  method: 'GET',
+  operationId: 'getPosts',
+  path: '/posts',
+  summary: 'Get all posts',
+  tags: ['posts']
 }).input(z.object({ query: zGetPostsQuery.optional() }).optional()).output(zGetPostsResponse);
 
 /**
  * Create a new post
  */
 export const CreatePost = oc.route({
-    inputStructure: 'detailed',
-    method: 'POST',
-    operationId: 'createPost',
-    path: '/posts',
-    successStatus: 201,
-    summary: 'Create a new post',
-    tags: ['posts']
+  inputStructure: 'detailed',
+  method: 'POST',
+  operationId: 'createPost',
+  path: '/posts',
+  successStatus: 201,
+  summary: 'Create a new post',
+  tags: ['posts']
 }).input(z.object({ body: zCreatePostBody, headers: zCreatePostHeaders })).output(zCreatePostResponse);
 
 /**
  * Get a post by ID
  */
 export const GetPostById = oc.route({
-    inputStructure: 'detailed',
-    method: 'GET',
-    operationId: 'getPostById',
-    path: '/posts/{postId}',
-    summary: 'Get a post by ID',
-    tags: ['posts']
+  inputStructure: 'detailed',
+  method: 'GET',
+  operationId: 'getPostById',
+  path: '/posts/{postId}',
+  summary: 'Get a post by ID',
+  tags: ['posts']
 }).input(z.object({ params: zGetPostByIdPath, query: zGetPostByIdQuery.optional() })).output(zGetPostByIdResponse);
 
 export const postsContracts = {
-    GetPosts,
-    CreatePost,
-    GetPostById
+  GetPosts,
+  CreatePost,
+  GetPostById
 };

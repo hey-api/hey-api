@@ -5,19 +5,19 @@ import { faker, type Faker } from '@faker-js/faker';
 import type { _3eNum1Период, _400, AdditionalPropertiesIntegerIssue, AdditionalPropertiesUnknownIssue, AdditionalPropertiesUnknownIssue2, AdditionalPropertiesUnknownIssueWritable, AnyOfAnyAndNull, AnyOfArrays, ApiVVersionODataControllerCountResponse, ArrayWithAnyOfProperties, ArrayWithArray, ArrayWithBooleans, ArrayWithNumbers, ArrayWithProperties, ArrayWithReferences, ArrayWithStrings, CallToTestOrderOfParamsData, CallWithDefaultOptionalParametersData, CallWithDefaultParametersData, CallWithDescriptionsData, CallWithDuplicateResponsesErrors, CallWithDuplicateResponsesResponses, CallWithParametersData, CallWithResponseAndNoContentResponseResponse, CallWithResponseResponse, CallWithResponsesErrors, CallWithResponsesResponses, CallWithResultFromHeaderErrors, CallWithResultFromHeaderResponses, CallWithWeirdParameterNamesData, CamelCaseCommentWithBreaks, CharactersInDescription, CollectionFormatData, CommentWithBackticks, CommentWithBackticksAndQuotes, CommentWithBreaks, CommentWithExpressionPlaceholders, CommentWithQuotes, CommentWithReservedCharacters, CommentWithSlashes, ComplexParamsData, ComplexParamsResponse, ComplexTypesData, ComplexTypesErrors, ComplexTypesResponses, CompositionBaseModel, CompositionExtendedModel, CompositionWithAllOfAndNullable, CompositionWithAnyOf, CompositionWithAnyOfAndNullable, CompositionWithAnyOfAnonymous, CompositionWithNestedAnyAndTypeNull, CompositionWithNestedAnyOfAndNull, CompositionWithOneOf, CompositionWithOneOfAndComplexArrayDictionary, CompositionWithOneOfAndNullable, CompositionWithOneOfAndProperties, CompositionWithOneOfAndSimpleArrayDictionary, CompositionWithOneOfAndSimpleDictionary, CompositionWithOneOfAnonymous, CompositionWithOneOfDiscriminator, ConstValue, Default, DeleteFooData, DeleteFooData2, DeleteFooData3, DeprecatedCallData, DeprecatedModel, DictionaryWithArray, DictionaryWithDictionary, DictionaryWithProperties, DictionaryWithPropertiesAndAdditionalProperties, DictionaryWithReference, DictionaryWithString, DummyAResponse, EnumFromDescription, EnumWithExtensions, EnumWithNumbers, EnumWithReplacedCharacters, EnumWithStrings, EnumWithXEnumNames, ExternalRefA, ExternalRefB, ExternalSharedModel, File, FileResponseData, FileResponseResponse, FileWritable, FreeFormObjectWithAdditionalPropertiesEqEmptyObject, FreeFormObjectWithAdditionalPropertiesEqTrue, FreeFormObjectWithoutAdditionalProperties, GenericSchemaDuplicateIssue1SystemBoolean, GenericSchemaDuplicateIssue1SystemBooleanWritable, GenericSchemaDuplicateIssue1SystemString, GenericSchemaDuplicateIssue1SystemStringWritable, GetApiVbyApiVersionSimpleOperationData, GetApiVbyApiVersionSimpleOperationErrors, GetApiVbyApiVersionSimpleOperationResponses, GetCallWithOptionalParamData, Import, ImportData, ImportResponses, IoK8sApimachineryPkgApisMetaV1DeleteOptions, IoK8sApimachineryPkgApisMetaV1Preconditions, ModelCircle, ModelFromZendesk, ModelSquare, ModelThatExtends, ModelThatExtendsExtends, ModelWithAdditionalPropertiesEqTrue, ModelWithAdditionalPropertiesRef, ModelWithAnyOfConstantSizeArray, ModelWithAnyOfConstantSizeArrayNullable, ModelWithAnyOfConstantSizeArrayWithNSizeAndOptions, ModelWithAnyOfConstantSizeArrayWithNSizeAndOptionsWritable, ModelWithArray, ModelWithArrayReadOnlyAndWriteOnly, ModelWithArrayReadOnlyAndWriteOnlyWritable, ModelWithBackticksInDescription, ModelWithBoolean, ModelWithCircularReference, ModelWithConst, ModelWithConstantSizeArray, ModelWithDictionary, ModelWithDuplicateImports, ModelWithDuplicateProperties, ModelWithEnum, ModelWithEnumFromDescription, ModelWithEnumWithHyphen, ModelWithInteger, ModelWithNestedArrayEnums, ModelWithNestedArrayEnumsData, ModelWithNestedArrayEnumsDataBar, ModelWithNestedArrayEnumsDataFoo, ModelWithNestedCompositionEnums, ModelWithNestedEnums, ModelWithNestedProperties, ModelWithNullableObject, ModelWithNullableString, ModelWithNumericEnumUnion, ModelWithOneOfEnum, ModelWithOrderedProperties, ModelWithPattern, ModelWithPatternWritable, ModelWithPrefixItemsConstantSizeArray, ModelWithProperties, ModelWithPropertiesWritable, ModelWithReadOnlyAndWriteOnly, ModelWithReadOnlyAndWriteOnlyWritable, ModelWithReference, ModelWithReferenceWritable, ModelWithString, ModelWithStringError, MultipartRequestData, MultipartResponseResponse, NestedAnyOfArraysNullable, NonAsciiæøåÆøÅöôêÊ字符串Data, NonAsciiæøåÆøÅöôêÊ字符串Response, NonAsciiStringæøåÆøÅöôêÊ字符串, NullableObject, OneOfAllOfIssue, OneOfAllOfIssueWritable, Pageable, ParameterSimpleParameterUnused, PostApiVbyApiVersionFormDataData, PostApiVbyApiVersionRequestBodyData, PostCallWithOptionalParamData, PostCallWithOptionalParamResponse, PostServiceWithEmptyTagResponse, PostServiceWithEmptyTagResponse2, PutWithFormUrlEncodedData, SchemaWithFormRestrictedKeys, SimpleBoolean, SimpleFile, SimpleFormData, SimpleInteger, SimpleParameter, SimpleReference, SimpleRequestBody, SimpleString, SimpleStringWithPattern, TestErrorCodeData, TestErrorCodeErrors, TestErrorCodeResponses, TypesData, TypesResponses, UploadFileData, UploadFileResponse, XFooBar } from '../types.gen';
 
 export type Options = {
-    faker?: Faker;
-    /**
-     * Whether to include optional properties, including add property to record object.
-     * Provide a number between 0 and 1 to randomly include based on that probability.
-     * @default true
-     */
-    includeOptional?: boolean | number;
-    /**
-     * Whether to use schema default values instead of generating fake data.
-     * Provide a number between 0 and 1 to randomly use defaults based on that probability.
-     * @default false
-     */
-    useDefault?: boolean | number;
+  faker?: Faker;
+  /**
+   * Whether to include optional properties, including add property to record object.
+   * Provide a number between 0 and 1 to randomly include based on that probability.
+   * @default true
+   */
+  includeOptional?: boolean | number;
+  /**
+   * Whether to use schema default values instead of generating fake data.
+   * Provide a number between 0 and 1 to randomly use defaults based on that probability.
+   * @default false
+   */
+  useDefault?: boolean | number;
 };
 
 const MAX_CALL_DEPTH = 10;
@@ -25,694 +25,694 @@ const MAX_CALL_DEPTH = 10;
 const resolveCondition = (condition: boolean | number, faker: Faker): boolean => condition === true || typeof condition === 'number' && faker.datatype.boolean({ probability: condition });
 
 export const fake400 = (options?: Options): _400 => {
-    const f = options?.faker ?? faker;
-    return f.string.sample();
+  const f = options?.faker ?? faker;
+  return f.string.sample();
 };
 
 export const fakeCamelCaseCommentWithBreaks = (options?: Options): CamelCaseCommentWithBreaks => {
-    const f = options?.faker ?? faker;
-    return f.number.int();
+  const f = options?.faker ?? faker;
+  return f.number.int();
 };
 
 export const fakeCommentWithBreaks = (options?: Options): CommentWithBreaks => {
-    const f = options?.faker ?? faker;
-    return f.number.int();
+  const f = options?.faker ?? faker;
+  return f.number.int();
 };
 
 export const fakeCommentWithBackticks = (options?: Options): CommentWithBackticks => {
-    const f = options?.faker ?? faker;
-    return f.number.int();
+  const f = options?.faker ?? faker;
+  return f.number.int();
 };
 
 export const fakeCommentWithBackticksAndQuotes = (options?: Options): CommentWithBackticksAndQuotes => {
-    const f = options?.faker ?? faker;
-    return f.number.int();
+  const f = options?.faker ?? faker;
+  return f.number.int();
 };
 
 export const fakeCommentWithSlashes = (options?: Options): CommentWithSlashes => {
-    const f = options?.faker ?? faker;
-    return f.number.int();
+  const f = options?.faker ?? faker;
+  return f.number.int();
 };
 
 export const fakeCommentWithExpressionPlaceholders = (options?: Options): CommentWithExpressionPlaceholders => {
-    const f = options?.faker ?? faker;
-    return f.number.int();
+  const f = options?.faker ?? faker;
+  return f.number.int();
 };
 
 export const fakeCommentWithQuotes = (options?: Options): CommentWithQuotes => {
-    const f = options?.faker ?? faker;
-    return f.number.int();
+  const f = options?.faker ?? faker;
+  return f.number.int();
 };
 
 export const fakeCommentWithReservedCharacters = (options?: Options): CommentWithReservedCharacters => {
-    const f = options?.faker ?? faker;
-    return f.number.int();
+  const f = options?.faker ?? faker;
+  return f.number.int();
 };
 
 export const fakeSimpleInteger = (options?: Options): SimpleInteger => {
-    const f = options?.faker ?? faker;
-    return f.number.int();
+  const f = options?.faker ?? faker;
+  return f.number.int();
 };
 
 export const fakeSimpleBoolean = (options?: Options): SimpleBoolean => {
-    const f = options?.faker ?? faker;
-    return f.datatype.boolean();
+  const f = options?.faker ?? faker;
+  return f.datatype.boolean();
 };
 
 export const fakeSimpleString = (options?: Options): SimpleString => {
-    const f = options?.faker ?? faker;
-    return f.string.sample();
+  const f = options?.faker ?? faker;
+  return f.string.sample();
 };
 
 export const fakeNonAsciiStringæøåÆøÅöôêÊ字符串 = (options?: Options): NonAsciiStringæøåÆøÅöôêÊ字符串 => {
-    const f = options?.faker ?? faker;
-    return f.string.sample();
+  const f = options?.faker ?? faker;
+  return f.string.sample();
 };
 
 export const fakeSimpleFile = (options?: Options): SimpleFile => {
-    const f = options?.faker ?? faker;
-    return new Blob([f.image.dataUri()]);
+  const f = options?.faker ?? faker;
+  return new Blob([f.image.dataUri()]);
 };
 
 export const fakeSimpleStringWithPattern = (options?: Options): SimpleStringWithPattern => {
-    const f = options?.faker ?? faker;
-    return f.datatype.boolean() ? f.helpers.fromRegExp('^[a-zA-Z0-9_]*$') : null;
+  const f = options?.faker ?? faker;
+  return f.datatype.boolean() ? f.helpers.fromRegExp('^[a-zA-Z0-9_]*$') : null;
 };
 
 export const fakeEnumWithStrings = (options?: Options): EnumWithStrings => {
-    const f = options?.faker ?? faker;
-    return f.helpers.arrayElement([
-        'Success',
-        'Warning',
-        'Error',
-        '\'Single Quote\'',
-        '"Double Quotes"',
-        'Non-ascii: øæåôöØÆÅÔÖ字符串'
-    ]);
+  const f = options?.faker ?? faker;
+  return f.helpers.arrayElement([
+    'Success',
+    'Warning',
+    'Error',
+    '\'Single Quote\'',
+    '"Double Quotes"',
+    'Non-ascii: øæåôöØÆÅÔÖ字符串'
+  ]);
 };
 
 export const fakeEnumWithReplacedCharacters = (options?: Options): EnumWithReplacedCharacters => {
-    const f = options?.faker ?? faker;
-    return f.helpers.arrayElement([
-        '\'Single Quote\'',
-        '"Double Quotes"',
-        'øæåôöØÆÅÔÖ字符串',
-        3.1,
-        ''
-    ]);
+  const f = options?.faker ?? faker;
+  return f.helpers.arrayElement([
+    '\'Single Quote\'',
+    '"Double Quotes"',
+    'øæåôöØÆÅÔÖ字符串',
+    3.1,
+    ''
+  ]);
 };
 
 export const fakeEnumWithNumbers = (options?: Options): EnumWithNumbers => {
-    const f = options?.faker ?? faker;
-    return resolveCondition(options?.useDefault ?? false, f) ? 200 : f.helpers.arrayElement([
-        1,
-        2,
-        3,
-        1.1,
-        1.2,
-        1.3,
-        100,
-        200,
-        300,
-        -100,
-        -200,
-        -300,
-        -1.1,
-        -1.2,
-        -1.3
-    ]);
+  const f = options?.faker ?? faker;
+  return resolveCondition(options?.useDefault ?? false, f) ? 200 : f.helpers.arrayElement([
+    1,
+    2,
+    3,
+    1.1,
+    1.2,
+    1.3,
+    100,
+    200,
+    300,
+    -100,
+    -200,
+    -300,
+    -1.1,
+    -1.2,
+    -1.3
+  ]);
 };
 
 export const fakeEnumFromDescription = (options?: Options): EnumFromDescription => {
-    const f = options?.faker ?? faker;
-    return f.number.float();
+  const f = options?.faker ?? faker;
+  return f.number.float();
 };
 
 export const fakeEnumWithExtensions = (options?: Options): EnumWithExtensions => {
-    const f = options?.faker ?? faker;
-    return f.helpers.arrayElement([
-        200,
-        400,
-        500
-    ]);
+  const f = options?.faker ?? faker;
+  return f.helpers.arrayElement([
+    200,
+    400,
+    500
+  ]);
 };
 
 export const fakeEnumWithXEnumNames = (options?: Options): EnumWithXEnumNames => {
-    const f = options?.faker ?? faker;
-    return f.helpers.arrayElement([
-        0,
-        1,
-        2
-    ]);
+  const f = options?.faker ?? faker;
+  return f.helpers.arrayElement([
+    0,
+    1,
+    2
+  ]);
 };
 
 export const fakeArrayWithNumbers = (options?: Options): ArrayWithNumbers => {
-    const f = options?.faker ?? faker;
-    return f.helpers.multiple(() => f.number.int());
+  const f = options?.faker ?? faker;
+  return f.helpers.multiple(() => f.number.int());
 };
 
 export const fakeArrayWithBooleans = (options?: Options): ArrayWithBooleans => {
-    const f = options?.faker ?? faker;
-    return f.helpers.multiple(() => f.datatype.boolean());
+  const f = options?.faker ?? faker;
+  return f.helpers.multiple(() => f.datatype.boolean());
 };
 
 export const fakeArrayWithStrings = (options?: Options): ArrayWithStrings => {
-    const f = options?.faker ?? faker;
-    return resolveCondition(options?.useDefault ?? false, f) ? ['test'] : f.helpers.multiple(() => f.string.sample());
+  const f = options?.faker ?? faker;
+  return resolveCondition(options?.useDefault ?? false, f) ? ['test'] : f.helpers.multiple(() => f.string.sample());
 };
 
 export const fakeArrayWithProperties = (options?: Options): ArrayWithProperties => {
-    const f = options?.faker ?? faker;
-    return f.helpers.multiple(() => ({
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { '16x16': fakeCamelCaseCommentWithBreaks(options) },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { bar: f.string.sample() }
-    }));
+  const f = options?.faker ?? faker;
+  return f.helpers.multiple(() => ({
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { '16x16': fakeCamelCaseCommentWithBreaks(options) },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { bar: f.string.sample() }
+  }));
 };
 
 export const fakeArrayWithAnyOfProperties = (options?: Options): ArrayWithAnyOfProperties => {
-    const f = options?.faker ?? faker;
-    return f.helpers.multiple(() => f.helpers.arrayElement([{
-            ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { foo: resolveCondition(options?.useDefault ?? false, f) ? 'test' : f.string.sample() }
-        }, {
-            ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { bar: f.string.sample() }
-        }]) as any);
+  const f = options?.faker ?? faker;
+  return f.helpers.multiple(() => f.helpers.arrayElement([{
+      ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { foo: resolveCondition(options?.useDefault ?? false, f) ? 'test' : f.string.sample() }
+    }, {
+      ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { bar: f.string.sample() }
+    }]) as any);
 };
 
 export const fakeAnyOfAnyAndNull = (options?: Options): AnyOfAnyAndNull => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { data: undefined }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { data: undefined }
+  };
 };
 
 export const fakeAnyOfArrays = (options?: Options): AnyOfArrays => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { results: f.helpers.multiple(() => f.helpers.arrayElement([{
-                    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { foo: f.string.sample() }
-                }, {
-                    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { bar: f.string.sample() }
-                }]) as any) }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { results: f.helpers.multiple(() => f.helpers.arrayElement([{
+          ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { foo: f.string.sample() }
+        }, {
+          ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { bar: f.string.sample() }
+        }]) as any) }
+  };
 };
 
 export const fakeDictionaryWithString = (options?: Options): DictionaryWithString => {
-    const f = options?.faker ?? faker;
-    return !resolveCondition(options?.includeOptional ?? true, f) ? {} as {} : {
-        additionalProp: f.string.sample()
-    };
+  const f = options?.faker ?? faker;
+  return !resolveCondition(options?.includeOptional ?? true, f) ? {} as {} : {
+    additionalProp: f.string.sample()
+  };
 };
 
 export const fakeDictionaryWithPropertiesAndAdditionalProperties = (options?: Options): DictionaryWithPropertiesAndAdditionalProperties => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { foo: f.number.float() },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { bar: f.datatype.boolean() }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { foo: f.number.float() },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { bar: f.datatype.boolean() }
+  };
 };
 
 export const fakeDictionaryWithDictionary = (options?: Options): DictionaryWithDictionary => {
-    const f = options?.faker ?? faker;
-    return !resolveCondition(options?.includeOptional ?? true, f) ? {} as {} : {
-        additionalProp: !resolveCondition(options?.includeOptional ?? true, f) ? {} as {} : {
-            additionalProp: f.string.sample()
-        }
-    };
+  const f = options?.faker ?? faker;
+  return !resolveCondition(options?.includeOptional ?? true, f) ? {} as {} : {
+    additionalProp: !resolveCondition(options?.includeOptional ?? true, f) ? {} as {} : {
+      additionalProp: f.string.sample()
+    }
+  };
 };
 
 export const fakeDictionaryWithProperties = (options?: Options): DictionaryWithProperties => {
-    const f = options?.faker ?? faker;
-    return !resolveCondition(options?.includeOptional ?? true, f) ? {} as {} : {
-        additionalProp: {
-            ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { foo: f.string.sample() },
-            ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { bar: f.string.sample() }
-        }
-    };
+  const f = options?.faker ?? faker;
+  return !resolveCondition(options?.includeOptional ?? true, f) ? {} as {} : {
+    additionalProp: {
+      ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { foo: f.string.sample() },
+      ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { bar: f.string.sample() }
+    }
+  };
 };
 
 export const fakeModelWithInteger = (options?: Options): ModelWithInteger => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { prop: f.number.int() }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { prop: f.number.int() }
+  };
 };
 
 export const fakeModelWithBoolean = (options?: Options): ModelWithBoolean => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { prop: f.datatype.boolean() }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { prop: f.datatype.boolean() }
+  };
 };
 
 export const fakeModelWithString = (options?: Options): ModelWithString => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { prop: f.string.sample() }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { prop: f.string.sample() }
+  };
 };
 
 export const fakeSimpleReference = (options?: Options): SimpleReference => fakeModelWithString(options);
 
 export const fakeArrayWithReferences = (options?: Options): ArrayWithReferences => {
-    const f = options?.faker ?? faker;
-    return f.helpers.multiple(() => fakeModelWithString(options));
+  const f = options?.faker ?? faker;
+  return f.helpers.multiple(() => fakeModelWithString(options));
 };
 
 export const fakeArrayWithArray = (options?: Options): ArrayWithArray => {
-    const f = options?.faker ?? faker;
-    return f.helpers.multiple(() => f.helpers.multiple(() => fakeModelWithString(options)));
+  const f = options?.faker ?? faker;
+  return f.helpers.multiple(() => f.helpers.multiple(() => fakeModelWithString(options)));
 };
 
 export const fakeDictionaryWithReference = (options?: Options): DictionaryWithReference => {
-    const f = options?.faker ?? faker;
-    return !resolveCondition(options?.includeOptional ?? true, f) ? {} as {} : {
-        additionalProp: fakeModelWithString(options)
-    };
+  const f = options?.faker ?? faker;
+  return !resolveCondition(options?.includeOptional ?? true, f) ? {} as {} : {
+    additionalProp: fakeModelWithString(options)
+  };
 };
 
 export const fakeDictionaryWithArray = (options?: Options): DictionaryWithArray => {
-    const f = options?.faker ?? faker;
-    return !resolveCondition(options?.includeOptional ?? true, f) ? {} as {} : {
-        additionalProp: f.helpers.multiple(() => fakeModelWithString(options))
-    };
+  const f = options?.faker ?? faker;
+  return !resolveCondition(options?.includeOptional ?? true, f) ? {} as {} : {
+    additionalProp: f.helpers.multiple(() => fakeModelWithString(options))
+  };
 };
 
 export const fakeModelWithStringError = (options?: Options): ModelWithStringError => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { prop: f.string.sample() }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { prop: f.string.sample() }
+  };
 };
 
 export const fakeModelFromZendesk = (options?: Options): ModelFromZendesk => {
-    const f = options?.faker ?? faker;
-    return f.string.sample();
+  const f = options?.faker ?? faker;
+  return f.string.sample();
 };
 
 export const fakeModelWithNullableString = (options?: Options): ModelWithNullableString => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { nullableProp1: f.datatype.boolean() ? f.string.sample() : null },
-        nullableRequiredProp1: f.datatype.boolean() ? f.string.sample() : null,
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { nullableProp2: f.datatype.boolean() ? f.string.sample() : null },
-        nullableRequiredProp2: f.datatype.boolean() ? f.string.sample() : null,
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { 'foo_bar-enum': f.helpers.arrayElement([
-                'Success',
-                'Warning',
-                'Error',
-                'ØÆÅ字符串'
-            ]) }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { nullableProp1: f.datatype.boolean() ? f.string.sample() : null },
+    nullableRequiredProp1: f.datatype.boolean() ? f.string.sample() : null,
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { nullableProp2: f.datatype.boolean() ? f.string.sample() : null },
+    nullableRequiredProp2: f.datatype.boolean() ? f.string.sample() : null,
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { 'foo_bar-enum': f.helpers.arrayElement([
+        'Success',
+        'Warning',
+        'Error',
+        'ØÆÅ字符串'
+      ]) }
+  };
 };
 
 export const fakeModelWithEnum = (options?: Options): ModelWithEnum => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { 'foo_bar-enum': f.helpers.arrayElement([
-                'Success',
-                'Warning',
-                'Error',
-                'ØÆÅ字符串'
-            ]) },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { statusCode: f.helpers.arrayElement([
-                '100',
-                '200 FOO',
-                '300 FOO_BAR',
-                '400 foo-bar',
-                '500 foo.bar',
-                '600 foo&bar'
-            ]) },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { bool: true }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { 'foo_bar-enum': f.helpers.arrayElement([
+        'Success',
+        'Warning',
+        'Error',
+        'ØÆÅ字符串'
+      ]) },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { statusCode: f.helpers.arrayElement([
+        '100',
+        '200 FOO',
+        '300 FOO_BAR',
+        '400 foo-bar',
+        '500 foo.bar',
+        '600 foo&bar'
+      ]) },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { bool: true }
+  };
 };
 
 export const fakeModelWithEnumWithHyphen = (options?: Options): ModelWithEnumWithHyphen => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { 'foo-bar-baz-qux': '3.0' }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { 'foo-bar-baz-qux': '3.0' }
+  };
 };
 
 export const fakeModelWithEnumFromDescription = (options?: Options): ModelWithEnumFromDescription => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { test: f.number.int() }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { test: f.number.int() }
+  };
 };
 
 export const fakeModelWithNestedEnums = (options?: Options): ModelWithNestedEnums => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { dictionaryWithEnum: !resolveCondition(options?.includeOptional ?? true, f) ? {} as {} : {
-                additionalProp: f.helpers.arrayElement([
-                    'Success',
-                    'Warning',
-                    'Error'
-                ])
-            } },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { dictionaryWithEnumFromDescription: !resolveCondition(options?.includeOptional ?? true, f) ? {} as {} : {
-                additionalProp: f.number.int()
-            } },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { arrayWithEnum: f.helpers.multiple(() => f.helpers.arrayElement([
-                'Success',
-                'Warning',
-                'Error'
-            ])) },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { arrayWithDescription: f.helpers.multiple(() => f.number.int()) },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { 'foo_bar-enum': f.helpers.arrayElement([
-                'Success',
-                'Warning',
-                'Error',
-                'ØÆÅ字符串'
-            ]) }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { dictionaryWithEnum: !resolveCondition(options?.includeOptional ?? true, f) ? {} as {} : {
+        additionalProp: f.helpers.arrayElement([
+          'Success',
+          'Warning',
+          'Error'
+        ])
+      } },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { dictionaryWithEnumFromDescription: !resolveCondition(options?.includeOptional ?? true, f) ? {} as {} : {
+        additionalProp: f.number.int()
+      } },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { arrayWithEnum: f.helpers.multiple(() => f.helpers.arrayElement([
+        'Success',
+        'Warning',
+        'Error'
+      ])) },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { arrayWithDescription: f.helpers.multiple(() => f.number.int()) },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { 'foo_bar-enum': f.helpers.arrayElement([
+        'Success',
+        'Warning',
+        'Error',
+        'ØÆÅ字符串'
+      ]) }
+  };
 };
 
 export const fakeModelWithArray = (options?: Options): ModelWithArray => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { prop: f.helpers.multiple(() => fakeModelWithString(options)) },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propWithFile: f.helpers.multiple(() => new Blob([f.image.dataUri()])) },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propWithNumber: f.helpers.multiple(() => f.number.float()) }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { prop: f.helpers.multiple(() => fakeModelWithString(options)) },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propWithFile: f.helpers.multiple(() => new Blob([f.image.dataUri()])) },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propWithNumber: f.helpers.multiple(() => f.number.float()) }
+  };
 };
 
 export const fakeModelWithDictionary = (options?: Options): ModelWithDictionary => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { prop: !resolveCondition(options?.includeOptional ?? true, f) ? {} as {} : {
-                additionalProp: f.string.sample()
-            } }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { prop: !resolveCondition(options?.includeOptional ?? true, f) ? {} as {} : {
+        additionalProp: f.string.sample()
+      } }
+  };
 };
 
 export const fakeDeprecatedModel = (options?: Options): DeprecatedModel => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { prop: f.string.sample() }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { prop: f.string.sample() }
+  };
 };
 
 export const fakeModelWithCircularReference = (options: Options = {}, _callDepth = 0): ModelWithCircularReference => {
-    const f = options?.faker ?? faker;
-    return {
-        ..._callDepth > MAX_CALL_DEPTH || !resolveCondition(options?.includeOptional ?? true, f) ? {} : { prop: fakeModelWithCircularReference(options, _callDepth + 1) }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ..._callDepth > MAX_CALL_DEPTH || !resolveCondition(options?.includeOptional ?? true, f) ? {} : { prop: fakeModelWithCircularReference(options, _callDepth + 1) }
+  };
 };
 
 export const fakeCompositionWithOneOf = (options?: Options): CompositionWithOneOf => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propA: f.helpers.arrayElement([
-                fakeModelWithString(options),
-                fakeModelWithEnum(options),
-                fakeModelWithArray(options),
-                fakeModelWithDictionary(options)
-            ]) as any }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propA: f.helpers.arrayElement([
+        fakeModelWithString(options),
+        fakeModelWithEnum(options),
+        fakeModelWithArray(options),
+        fakeModelWithDictionary(options)
+      ]) as any }
+  };
 };
 
 export const fakeCompositionWithOneOfAnonymous = (options?: Options): CompositionWithOneOfAnonymous => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propA: f.helpers.arrayElement([
-                {
-                    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propA: f.string.sample() }
-                },
-                f.string.sample(),
-                f.number.int()
-            ]) as any }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propA: f.helpers.arrayElement([
+        {
+          ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propA: f.string.sample() }
+        },
+        f.string.sample(),
+        f.number.int()
+      ]) as any }
+  };
 };
 
 export const fakeModelCircle = (options?: Options): ModelCircle => {
-    const f = options?.faker ?? faker;
-    return {
-        kind: f.string.sample(),
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { radius: f.number.float() }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    kind: f.string.sample(),
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { radius: f.number.float() }
+  };
 };
 
 export const fakeModelSquare = (options?: Options): ModelSquare => {
-    const f = options?.faker ?? faker;
-    return {
-        kind: f.string.sample(),
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { sideLength: f.number.float() }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    kind: f.string.sample(),
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { sideLength: f.number.float() }
+  };
 };
 
 export const fakeCompositionWithOneOfDiscriminator = (options?: Options): CompositionWithOneOfDiscriminator => {
-    const f = options?.faker ?? faker;
-    return f.helpers.arrayElement([fakeModelCircle(options), fakeModelSquare(options)]) as any;
+  const f = options?.faker ?? faker;
+  return f.helpers.arrayElement([fakeModelCircle(options), fakeModelSquare(options)]) as any;
 };
 
 export const fakeCompositionWithAnyOf = (options?: Options): CompositionWithAnyOf => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propA: f.helpers.arrayElement([
-                fakeModelWithString(options),
-                fakeModelWithEnum(options),
-                fakeModelWithArray(options),
-                fakeModelWithDictionary(options)
-            ]) as any }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propA: f.helpers.arrayElement([
+        fakeModelWithString(options),
+        fakeModelWithEnum(options),
+        fakeModelWithArray(options),
+        fakeModelWithDictionary(options)
+      ]) as any }
+  };
 };
 
 export const fakeCompositionWithAnyOfAnonymous = (options?: Options): CompositionWithAnyOfAnonymous => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propA: f.helpers.arrayElement([
-                {
-                    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propA: f.string.sample() }
-                },
-                f.string.sample(),
-                f.number.int()
-            ]) as any }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propA: f.helpers.arrayElement([
+        {
+          ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propA: f.string.sample() }
+        },
+        f.string.sample(),
+        f.number.int()
+      ]) as any }
+  };
 };
 
 export const fakeCompositionWithNestedAnyAndTypeNull = (options?: Options): CompositionWithNestedAnyAndTypeNull => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propA: f.helpers.arrayElement([f.helpers.multiple(() => f.datatype.boolean() ? fakeModelWithDictionary(options) : null), f.helpers.multiple(() => f.datatype.boolean() ? fakeModelWithArray(options) : null)]) as any }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propA: f.helpers.arrayElement([f.helpers.multiple(() => f.datatype.boolean() ? fakeModelWithDictionary(options) : null), f.helpers.multiple(() => f.datatype.boolean() ? fakeModelWithArray(options) : null)]) as any }
+  };
 };
 
 export const fake3eNum1Период = (options?: Options): _3eNum1Период => {
-    const f = options?.faker ?? faker;
-    return f.helpers.arrayElement(['Bird', 'Dog']);
+  const f = options?.faker ?? faker;
+  return f.helpers.arrayElement(['Bird', 'Dog']);
 };
 
 export const fakeConstValue = (): ConstValue => 'ConstValue';
 
 export const fakeCompositionWithNestedAnyOfAndNull = (options?: Options): CompositionWithNestedAnyOfAndNull => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propA: f.datatype.boolean() ? f.helpers.multiple(() => f.helpers.arrayElement([fake3eNum1Период(options), fakeConstValue()]) as any) : null }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propA: f.datatype.boolean() ? f.helpers.multiple(() => f.helpers.arrayElement([fake3eNum1Период(options), fakeConstValue()]) as any) : null }
+  };
 };
 
 export const fakeCompositionWithOneOfAndNullable = (options?: Options): CompositionWithOneOfAndNullable => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propA: f.helpers.arrayElement([
-                {
-                    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { boolean: f.datatype.boolean() }
-                },
-                fakeModelWithEnum(options),
-                fakeModelWithArray(options),
-                fakeModelWithDictionary(options),
-                null
-            ]) as any }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propA: f.helpers.arrayElement([
+        {
+          ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { boolean: f.datatype.boolean() }
+        },
+        fakeModelWithEnum(options),
+        fakeModelWithArray(options),
+        fakeModelWithDictionary(options),
+        null
+      ]) as any }
+  };
 };
 
 export const fakeCompositionWithOneOfAndSimpleDictionary = (options?: Options): CompositionWithOneOfAndSimpleDictionary => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propA: f.helpers.arrayElement([f.datatype.boolean(), !resolveCondition(options?.includeOptional ?? true, f) ? {} as {} : {
-                    additionalProp: f.number.float()
-                }]) as any }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propA: f.helpers.arrayElement([f.datatype.boolean(), !resolveCondition(options?.includeOptional ?? true, f) ? {} as {} : {
+          additionalProp: f.number.float()
+        }]) as any }
+  };
 };
 
 export const fakeCompositionWithOneOfAndSimpleArrayDictionary = (options?: Options): CompositionWithOneOfAndSimpleArrayDictionary => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propA: f.helpers.arrayElement([f.datatype.boolean(), !resolveCondition(options?.includeOptional ?? true, f) ? {} as {} : {
-                    additionalProp: f.helpers.multiple(() => f.datatype.boolean())
-                }]) as any }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propA: f.helpers.arrayElement([f.datatype.boolean(), !resolveCondition(options?.includeOptional ?? true, f) ? {} as {} : {
+          additionalProp: f.helpers.multiple(() => f.datatype.boolean())
+        }]) as any }
+  };
 };
 
 export const fakeCompositionWithOneOfAndComplexArrayDictionary = (options?: Options): CompositionWithOneOfAndComplexArrayDictionary => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propA: f.helpers.arrayElement([f.datatype.boolean(), !resolveCondition(options?.includeOptional ?? true, f) ? {} as {} : {
-                    additionalProp: f.helpers.multiple(() => f.helpers.arrayElement([f.number.float(), f.string.sample()]) as any)
-                }]) as any }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propA: f.helpers.arrayElement([f.datatype.boolean(), !resolveCondition(options?.includeOptional ?? true, f) ? {} as {} : {
+          additionalProp: f.helpers.multiple(() => f.helpers.arrayElement([f.number.float(), f.string.sample()]) as any)
+        }]) as any }
+  };
 };
 
 export const fakeCompositionWithAllOfAndNullable = (options?: Options): CompositionWithAllOfAndNullable => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propA: f.datatype.boolean() ? Object.assign({}, {
-                ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { boolean: f.datatype.boolean() }
-            }, fakeModelWithEnum(options), fakeModelWithArray(options), fakeModelWithDictionary(options)) : null }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propA: f.datatype.boolean() ? Object.assign({}, {
+        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { boolean: f.datatype.boolean() }
+      }, fakeModelWithEnum(options), fakeModelWithArray(options), fakeModelWithDictionary(options)) : null }
+  };
 };
 
 export const fakeCompositionWithAnyOfAndNullable = (options?: Options): CompositionWithAnyOfAndNullable => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propA: f.helpers.arrayElement([
-                {
-                    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { boolean: f.datatype.boolean() }
-                },
-                fakeModelWithEnum(options),
-                fakeModelWithArray(options),
-                fakeModelWithDictionary(options),
-                null
-            ]) as any }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propA: f.helpers.arrayElement([
+        {
+          ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { boolean: f.datatype.boolean() }
+        },
+        fakeModelWithEnum(options),
+        fakeModelWithArray(options),
+        fakeModelWithDictionary(options),
+        null
+      ]) as any }
+  };
 };
 
 export const fakeCompositionBaseModel = (options?: Options): CompositionBaseModel => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { firstName: f.person.firstName() },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { lastname: f.person.lastName() }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { firstName: f.person.firstName() },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { lastname: f.person.lastName() }
+  };
 };
 
 export const fakeCompositionExtendedModel = (options?: Options): CompositionExtendedModel => {
-    const f = options?.faker ?? faker;
-    return Object.assign({}, fakeCompositionBaseModel(options), {
-        age: f.number.int({ max: 120, min: 1 }),
-        firstName: f.person.firstName(),
-        lastname: f.person.lastName()
-    });
+  const f = options?.faker ?? faker;
+  return Object.assign({}, fakeCompositionBaseModel(options), {
+    age: f.number.int({ max: 120, min: 1 }),
+    firstName: f.person.firstName(),
+    lastname: f.person.lastName()
+  });
 };
 
 export const fakeModelWithProperties = (options?: Options): ModelWithProperties => {
-    const f = options?.faker ?? faker;
-    return {
-        required: f.string.sample(),
-        requiredAndReadOnly: f.string.sample(),
-        requiredAndNullable: f.datatype.boolean() ? f.string.sample() : null,
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { string: f.string.sample() },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { number: f.number.float() },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { boolean: f.datatype.boolean() },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { reference: fakeModelWithString(options) },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { 'property with space': f.string.sample() },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { default: f.string.sample() },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { try: f.string.sample() },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { '@namespace.string': f.string.sample() },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { '@namespace.integer': f.number.int() }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    required: f.string.sample(),
+    requiredAndReadOnly: f.string.sample(),
+    requiredAndNullable: f.datatype.boolean() ? f.string.sample() : null,
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { string: f.string.sample() },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { number: f.number.float() },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { boolean: f.datatype.boolean() },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { reference: fakeModelWithString(options) },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { 'property with space': f.string.sample() },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { default: f.string.sample() },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { try: f.string.sample() },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { '@namespace.string': f.string.sample() },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { '@namespace.integer': f.number.int() }
+  };
 };
 
 export const fakeModelWithReference = (options?: Options): ModelWithReference => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { prop: fakeModelWithProperties(options) }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { prop: fakeModelWithProperties(options) }
+  };
 };
 
 export const fakeModelWithNestedProperties = (options?: Options): ModelWithNestedProperties => {
-    const f = options?.faker ?? faker;
-    return {
-        first: f.datatype.boolean() ? {
-            second: f.datatype.boolean() ? {
-                third: f.datatype.boolean() ? f.string.sample() : null
-            } : null
-        } : null
-    };
+  const f = options?.faker ?? faker;
+  return {
+    first: f.datatype.boolean() ? {
+      second: f.datatype.boolean() ? {
+        third: f.datatype.boolean() ? f.string.sample() : null
+      } : null
+    } : null
+  };
 };
 
 export const fakeModelWithDuplicateProperties = (options?: Options): ModelWithDuplicateProperties => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { prop: fakeModelWithString(options) }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { prop: fakeModelWithString(options) }
+  };
 };
 
 export const fakeModelWithOrderedProperties = (options?: Options): ModelWithOrderedProperties => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { zebra: f.string.sample() },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { apple: f.string.sample() },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { hawaii: f.string.sample() }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { zebra: f.string.sample() },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { apple: f.string.sample() },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { hawaii: f.string.sample() }
+  };
 };
 
 export const fakeModelWithDuplicateImports = (options?: Options): ModelWithDuplicateImports => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propA: fakeModelWithString(options) },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propB: fakeModelWithString(options) },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propC: fakeModelWithString(options) }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propA: fakeModelWithString(options) },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propB: fakeModelWithString(options) },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propC: fakeModelWithString(options) }
+  };
 };
 
 export const fakeModelThatExtends = (options?: Options): ModelThatExtends => {
-    const f = options?.faker ?? faker;
-    return Object.assign({}, fakeModelWithString(options), {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propExtendsA: f.string.sample() },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propExtendsB: fakeModelWithString(options) }
-    });
+  const f = options?.faker ?? faker;
+  return Object.assign({}, fakeModelWithString(options), {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propExtendsA: f.string.sample() },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propExtendsB: fakeModelWithString(options) }
+  });
 };
 
 export const fakeModelThatExtendsExtends = (options?: Options): ModelThatExtendsExtends => {
-    const f = options?.faker ?? faker;
-    return Object.assign({}, fakeModelWithString(options), fakeModelThatExtends(options), {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propExtendsC: f.string.sample() },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propExtendsD: fakeModelWithString(options) }
-    });
+  const f = options?.faker ?? faker;
+  return Object.assign({}, fakeModelWithString(options), fakeModelThatExtends(options), {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propExtendsC: f.string.sample() },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propExtendsD: fakeModelWithString(options) }
+  });
 };
 
 export const fakeModelWithPattern = (options?: Options): ModelWithPattern => {
-    const f = options?.faker ?? faker;
-    return {
-        key: f.helpers.fromRegExp('^[a-zA-Z0-9_]*$'),
-        name: f.string.alpha({ length: { min: 0, max: 255 } }),
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { enabled: f.datatype.boolean() },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { modified: f.date.recent().toISOString() },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { id: f.helpers.fromRegExp('^\\d{2}-\\d{3}-\\d{4}$') },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { text: f.helpers.fromRegExp('^\\w+$') },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { patternWithSingleQuotes: f.helpers.fromRegExp('^[a-zA-Z0-9\']*$') },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { patternWithNewline: f.helpers.fromRegExp('aaa\\nbbb') },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { patternWithBacktick: f.helpers.fromRegExp('aaa`bbb') },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { patternWithUnicode: f.helpers.fromRegExp('^\\p{L}+$') }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    key: f.helpers.fromRegExp('^[a-zA-Z0-9_]*$'),
+    name: f.string.alpha({ length: { min: 0, max: 255 } }),
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { enabled: f.datatype.boolean() },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { modified: f.date.recent().toISOString() },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { id: f.helpers.fromRegExp('^\\d{2}-\\d{3}-\\d{4}$') },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { text: f.helpers.fromRegExp('^\\w+$') },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { patternWithSingleQuotes: f.helpers.fromRegExp('^[a-zA-Z0-9\']*$') },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { patternWithNewline: f.helpers.fromRegExp('aaa\\nbbb') },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { patternWithBacktick: f.helpers.fromRegExp('aaa`bbb') },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { patternWithUnicode: f.helpers.fromRegExp('^\\p{L}+$') }
+  };
 };
 
 export const fakeFile = (options?: Options): File => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { id: f.string.uuid() },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { updated_at: f.date.recent().toISOString() },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { created_at: f.date.recent().toISOString() },
-        mime: f.string.alpha({ length: { min: 1, max: 24 } }),
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { file: f.internet.url() }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { id: f.string.uuid() },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { updated_at: f.date.recent().toISOString() },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { created_at: f.date.recent().toISOString() },
+    mime: f.string.alpha({ length: { min: 1, max: 24 } }),
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { file: f.internet.url() }
+  };
 };
 
 export const fakeDefault = (options?: Options): Default => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { name: f.string.sample() }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { name: f.string.sample() }
+  };
 };
 
 export const fakePageable = (options?: Options): Pageable => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { page: resolveCondition(options?.useDefault ?? false, f) ? 0 : f.number.int({ min: 0 }) },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { size: f.number.int({ min: 1 }) },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { sort: f.helpers.multiple(() => f.string.sample()) }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { page: resolveCondition(options?.useDefault ?? false, f) ? 0 : f.number.int({ min: 0 }) },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { size: f.number.int({ min: 1 }) },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { sort: f.helpers.multiple(() => f.string.sample()) }
+  };
 };
 
 export const fakeFreeFormObjectWithoutAdditionalProperties = (): FreeFormObjectWithoutAdditionalProperties => ({});
@@ -722,317 +722,317 @@ export const fakeFreeFormObjectWithAdditionalPropertiesEqTrue = (): FreeFormObje
 export const fakeFreeFormObjectWithAdditionalPropertiesEqEmptyObject = (): FreeFormObjectWithAdditionalPropertiesEqEmptyObject => ({});
 
 export const fakeModelWithConst = (options?: Options): ModelWithConst => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { String: 'String' },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { number: 0 },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { null: undefined },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { withType: 'Some string' }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { String: 'String' },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { number: 0 },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { null: undefined },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { withType: 'Some string' }
+  };
 };
 
 export const fakeModelWithAdditionalPropertiesEqTrue = (options?: Options): ModelWithAdditionalPropertiesEqTrue => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { prop: f.string.sample() }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { prop: f.string.sample() }
+  };
 };
 
 export const fakeNestedAnyOfArraysNullable = (options?: Options): NestedAnyOfArraysNullable => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { nullableArray: f.datatype.boolean() ? f.helpers.multiple(() => f.helpers.arrayElement([f.string.sample(), f.datatype.boolean()]) as any) : null }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { nullableArray: f.datatype.boolean() ? f.helpers.multiple(() => f.helpers.arrayElement([f.string.sample(), f.datatype.boolean()]) as any) : null }
+  };
 };
 
 export const fakeNullableObject = (options?: Options): NullableObject => {
-    const f = options?.faker ?? faker;
-    return f.datatype.boolean() ? {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { foo: f.string.sample() }
-    } : null;
+  const f = options?.faker ?? faker;
+  return f.datatype.boolean() ? {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { foo: f.string.sample() }
+  } : null;
 };
 
 export const fakeCharactersInDescription = (options?: Options): CharactersInDescription => {
-    const f = options?.faker ?? faker;
-    return f.string.sample();
+  const f = options?.faker ?? faker;
+  return f.string.sample();
 };
 
 export const fakeModelWithNullableObject = (options?: Options): ModelWithNullableObject => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { data: fakeNullableObject(options) }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { data: fakeNullableObject(options) }
+  };
 };
 
 export const fakeModelWithAdditionalPropertiesRef = (options?: Options): ModelWithAdditionalPropertiesRef => {
-    const f = options?.faker ?? faker;
-    return !resolveCondition(options?.includeOptional ?? true, f) ? {} as {} : {
-        additionalProp: f.datatype.boolean() ? fakeNullableObject(options) : null
-    };
+  const f = options?.faker ?? faker;
+  return !resolveCondition(options?.includeOptional ?? true, f) ? {} as {} : {
+    additionalProp: f.datatype.boolean() ? fakeNullableObject(options) : null
+  };
 };
 
 export const fakeModelWithOneOfEnum = (options?: Options): ModelWithOneOfEnum => {
-    const f = options?.faker ?? faker;
-    return f.helpers.arrayElement([
-        {
-            foo: 'Bar'
-        },
-        {
-            foo: 'Baz'
-        },
-        {
-            foo: 'Qux'
-        },
-        {
-            content: f.date.recent().toISOString(),
-            foo: 'Quux'
-        },
-        {
-            content: [f.date.recent().toISOString(), f.date.recent().toISOString()],
-            foo: 'Corge'
-        }
-    ]) as any;
+  const f = options?.faker ?? faker;
+  return f.helpers.arrayElement([
+    {
+      foo: 'Bar'
+    },
+    {
+      foo: 'Baz'
+    },
+    {
+      foo: 'Qux'
+    },
+    {
+      content: f.date.recent().toISOString(),
+      foo: 'Quux'
+    },
+    {
+      content: [f.date.recent().toISOString(), f.date.recent().toISOString()],
+      foo: 'Corge'
+    }
+  ]) as any;
 };
 
 export const fakeModelWithNestedArrayEnumsDataFoo = (options?: Options): ModelWithNestedArrayEnumsDataFoo => {
-    const f = options?.faker ?? faker;
-    return f.helpers.arrayElement(['foo', 'bar']);
+  const f = options?.faker ?? faker;
+  return f.helpers.arrayElement(['foo', 'bar']);
 };
 
 export const fakeModelWithNestedArrayEnumsDataBar = (options?: Options): ModelWithNestedArrayEnumsDataBar => {
-    const f = options?.faker ?? faker;
-    return f.helpers.arrayElement(['baz', 'qux']);
+  const f = options?.faker ?? faker;
+  return f.helpers.arrayElement(['baz', 'qux']);
 };
 
 export const fakeModelWithNestedArrayEnumsData = (options?: Options): ModelWithNestedArrayEnumsData => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { foo: f.helpers.multiple(() => fakeModelWithNestedArrayEnumsDataFoo(options)) },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { bar: f.helpers.multiple(() => fakeModelWithNestedArrayEnumsDataBar(options)) }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { foo: f.helpers.multiple(() => fakeModelWithNestedArrayEnumsDataFoo(options)) },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { bar: f.helpers.multiple(() => fakeModelWithNestedArrayEnumsDataBar(options)) }
+  };
 };
 
 export const fakeModelWithNestedArrayEnums = (options?: Options): ModelWithNestedArrayEnums => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { array_strings: f.helpers.multiple(() => f.string.sample()) },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { data: fakeModelWithNestedArrayEnumsData(options) }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { array_strings: f.helpers.multiple(() => f.string.sample()) },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { data: fakeModelWithNestedArrayEnumsData(options) }
+  };
 };
 
 export const fakeModelWithNestedCompositionEnums = (options?: Options): ModelWithNestedCompositionEnums => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { foo: fakeModelWithNestedArrayEnumsDataFoo(options) }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { foo: fakeModelWithNestedArrayEnumsDataFoo(options) }
+  };
 };
 
 export const fakeModelWithReadOnlyAndWriteOnly = (options?: Options): ModelWithReadOnlyAndWriteOnly => {
-    const f = options?.faker ?? faker;
-    return {
-        foo: f.string.sample(),
-        bar: f.string.sample()
-    };
+  const f = options?.faker ?? faker;
+  return {
+    foo: f.string.sample(),
+    bar: f.string.sample()
+  };
 };
 
 export const fakeModelWithArrayReadOnlyAndWriteOnly = (options?: Options): ModelWithArrayReadOnlyAndWriteOnly => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { prop: f.helpers.multiple(() => fakeModelWithReadOnlyAndWriteOnly(options)) },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propWithFile: f.helpers.multiple(() => new Blob([f.image.dataUri()])) },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propWithNumber: f.helpers.multiple(() => f.number.float()) }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { prop: f.helpers.multiple(() => fakeModelWithReadOnlyAndWriteOnly(options)) },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propWithFile: f.helpers.multiple(() => new Blob([f.image.dataUri()])) },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propWithNumber: f.helpers.multiple(() => f.number.float()) }
+  };
 };
 
 export const fakeModelWithConstantSizeArray = (options?: Options): ModelWithConstantSizeArray => {
-    const f = options?.faker ?? faker;
-    return [f.number.float(), f.number.float()];
+  const f = options?.faker ?? faker;
+  return [f.number.float(), f.number.float()];
 };
 
 export const fakeModelWithAnyOfConstantSizeArray = (options?: Options): ModelWithAnyOfConstantSizeArray => {
-    const f = options?.faker ?? faker;
-    return [
-        f.helpers.arrayElement([f.number.float(), f.string.sample()]) as any,
-        f.helpers.arrayElement([f.number.float(), f.string.sample()]) as any,
-        f.helpers.arrayElement([f.number.float(), f.string.sample()]) as any
-    ];
+  const f = options?.faker ?? faker;
+  return [
+    f.helpers.arrayElement([f.number.float(), f.string.sample()]) as any,
+    f.helpers.arrayElement([f.number.float(), f.string.sample()]) as any,
+    f.helpers.arrayElement([f.number.float(), f.string.sample()]) as any
+  ];
 };
 
 export const fakeModelWithPrefixItemsConstantSizeArray = (options?: Options): ModelWithPrefixItemsConstantSizeArray => {
-    const f = options?.faker ?? faker;
-    return f.helpers.multiple(() => f.helpers.arrayElement([
-        fakeModelWithInteger(options),
-        f.number.float(),
-        f.string.sample()
-    ]) as any);
+  const f = options?.faker ?? faker;
+  return f.helpers.multiple(() => f.helpers.arrayElement([
+    fakeModelWithInteger(options),
+    f.number.float(),
+    f.string.sample()
+  ]) as any);
 };
 
 export const fakeModelWithAnyOfConstantSizeArrayNullable = (options?: Options): ModelWithAnyOfConstantSizeArrayNullable => {
-    const f = options?.faker ?? faker;
-    return [
-        f.helpers.arrayElement([
-            f.number.float(),
-            f.string.sample(),
-            null
-        ]) as any,
-        f.helpers.arrayElement([
-            f.number.float(),
-            f.string.sample(),
-            null
-        ]) as any,
-        f.helpers.arrayElement([
-            f.number.float(),
-            f.string.sample(),
-            null
-        ]) as any
-    ];
+  const f = options?.faker ?? faker;
+  return [
+    f.helpers.arrayElement([
+      f.number.float(),
+      f.string.sample(),
+      null
+    ]) as any,
+    f.helpers.arrayElement([
+      f.number.float(),
+      f.string.sample(),
+      null
+    ]) as any,
+    f.helpers.arrayElement([
+      f.number.float(),
+      f.string.sample(),
+      null
+    ]) as any
+  ];
 };
 
 export const fakeModelWithNumericEnumUnion = (options?: Options): ModelWithNumericEnumUnion => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { value: f.helpers.arrayElement([
-                -10,
-                -1,
-                0,
-                1,
-                3,
-                6,
-                12
-            ]) }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { value: f.helpers.arrayElement([
+        -10,
+        -1,
+        0,
+        1,
+        3,
+        6,
+        12
+      ]) }
+  };
 };
 
 export const fakeModelWithBackticksInDescription = (options?: Options): ModelWithBackticksInDescription => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { template: f.string.sample() }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { template: f.string.sample() }
+  };
 };
 
 export const fakeParameterSimpleParameterUnused = (options?: Options): ParameterSimpleParameterUnused => {
-    const f = options?.faker ?? faker;
-    return f.string.sample();
+  const f = options?.faker ?? faker;
+  return f.string.sample();
 };
 
 export const fakePostServiceWithEmptyTagResponse = (options?: Options): PostServiceWithEmptyTagResponse => {
-    const f = options?.faker ?? faker;
-    return f.string.sample();
+  const f = options?.faker ?? faker;
+  return f.string.sample();
 };
 
 export const fakePostServiceWithEmptyTagResponse2 = (options?: Options): PostServiceWithEmptyTagResponse2 => {
-    const f = options?.faker ?? faker;
-    return f.string.sample();
+  const f = options?.faker ?? faker;
+  return f.string.sample();
 };
 
 export const fakeDeleteFooData = (options?: Options): DeleteFooData => {
-    const f = options?.faker ?? faker;
-    return f.string.sample();
+  const f = options?.faker ?? faker;
+  return f.string.sample();
 };
 
 export const fakeDeleteFooData2 = (options?: Options): DeleteFooData2 => {
-    const f = options?.faker ?? faker;
-    return f.string.sample();
+  const f = options?.faker ?? faker;
+  return f.string.sample();
 };
 
 export const fakeImport = (options?: Options): Import => {
-    const f = options?.faker ?? faker;
-    return f.string.sample();
+  const f = options?.faker ?? faker;
+  return f.string.sample();
 };
 
 export const fakeModelWithAnyOfConstantSizeArrayWithNSizeAndOptions = (options?: Options): ModelWithAnyOfConstantSizeArrayWithNSizeAndOptions => {
-    const f = options?.faker ?? faker;
-    return [f.helpers.arrayElement([f.number.float(), fakeImport(options)]) as any, f.helpers.arrayElement([f.number.float(), fakeImport(options)]) as any];
+  const f = options?.faker ?? faker;
+  return [f.helpers.arrayElement([f.number.float(), fakeImport(options)]) as any, f.helpers.arrayElement([f.number.float(), fakeImport(options)]) as any];
 };
 
 export const fakeSchemaWithFormRestrictedKeys = (options?: Options): SchemaWithFormRestrictedKeys => {
-    const f = options?.faker ?? faker;
-    return {
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { description: f.lorem.sentence() },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { 'x-enum-descriptions': f.string.sample() },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { 'x-enum-varnames': f.string.sample() },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { 'x-enumNames': f.string.sample() },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { title: f.lorem.words() },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { object: {
         ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { description: f.lorem.sentence() },
         ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { 'x-enum-descriptions': f.string.sample() },
         ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { 'x-enum-varnames': f.string.sample() },
         ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { 'x-enumNames': f.string.sample() },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { title: f.lorem.words() },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { object: {
-                ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { description: f.lorem.sentence() },
-                ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { 'x-enum-descriptions': f.string.sample() },
-                ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { 'x-enum-varnames': f.string.sample() },
-                ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { 'x-enumNames': f.string.sample() },
-                ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { title: f.lorem.words() }
-            } },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { array: f.helpers.multiple(() => ({
-                ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { description: f.lorem.sentence() },
-                ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { 'x-enum-descriptions': f.string.sample() },
-                ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { 'x-enum-varnames': f.string.sample() },
-                ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { 'x-enumNames': f.string.sample() },
-                ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { title: f.lorem.words() }
-            })) }
-    };
+        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { title: f.lorem.words() }
+      } },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { array: f.helpers.multiple(() => ({
+        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { description: f.lorem.sentence() },
+        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { 'x-enum-descriptions': f.string.sample() },
+        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { 'x-enum-varnames': f.string.sample() },
+        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { 'x-enumNames': f.string.sample() },
+        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { title: f.lorem.words() }
+      })) }
+  };
 };
 
 export const fakeIoK8sApimachineryPkgApisMetaV1Preconditions = (options?: Options): IoK8sApimachineryPkgApisMetaV1Preconditions => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { resourceVersion: f.string.sample() },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { uid: f.string.sample() }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { resourceVersion: f.string.sample() },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { uid: f.string.sample() }
+  };
 };
 
 export const fakeIoK8sApimachineryPkgApisMetaV1DeleteOptions = (options?: Options): IoK8sApimachineryPkgApisMetaV1DeleteOptions => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { preconditions: fakeIoK8sApimachineryPkgApisMetaV1Preconditions(options) }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { preconditions: fakeIoK8sApimachineryPkgApisMetaV1Preconditions(options) }
+  };
 };
 
 export const fakeAdditionalPropertiesUnknownIssue = (options?: Options): AdditionalPropertiesUnknownIssue => {
-    const f = options?.faker ?? faker;
-    return !resolveCondition(options?.includeOptional ?? true, f) ? {} as {} : {
-        additionalProp: f.helpers.arrayElement([f.string.sample(), f.number.float()]) as any
-    };
+  const f = options?.faker ?? faker;
+  return !resolveCondition(options?.includeOptional ?? true, f) ? {} as {} : {
+    additionalProp: f.helpers.arrayElement([f.string.sample(), f.number.float()]) as any
+  };
 };
 
 export const fakeAdditionalPropertiesUnknownIssue2 = (options?: Options): AdditionalPropertiesUnknownIssue2 => {
-    const f = options?.faker ?? faker;
-    return !resolveCondition(options?.includeOptional ?? true, f) ? {} as {} : {
-        additionalProp: f.helpers.arrayElement([f.string.sample(), f.number.float()]) as any
-    };
+  const f = options?.faker ?? faker;
+  return !resolveCondition(options?.includeOptional ?? true, f) ? {} as {} : {
+    additionalProp: f.helpers.arrayElement([f.string.sample(), f.number.float()]) as any
+  };
 };
 
 export const fakeAdditionalPropertiesIntegerIssue = (options?: Options): AdditionalPropertiesIntegerIssue => {
-    const f = options?.faker ?? faker;
-    return {
-        value: f.number.int()
-    };
+  const f = options?.faker ?? faker;
+  return {
+    value: f.number.int()
+  };
 };
 
 export const fakeGenericSchemaDuplicateIssue1SystemBoolean = (options?: Options): GenericSchemaDuplicateIssue1SystemBoolean => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { item: f.datatype.boolean() },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { error: f.datatype.boolean() ? f.string.sample() : null },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { hasError: f.datatype.boolean() },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { data: {} }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { item: f.datatype.boolean() },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { error: f.datatype.boolean() ? f.string.sample() : null },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { hasError: f.datatype.boolean() },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { data: {} }
+  };
 };
 
 export const fakeGenericSchemaDuplicateIssue1SystemString = (options?: Options): GenericSchemaDuplicateIssue1SystemString => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { item: f.datatype.boolean() ? f.string.sample() : null },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { error: f.datatype.boolean() ? f.string.sample() : null },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { hasError: f.datatype.boolean() }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { item: f.datatype.boolean() ? f.string.sample() : null },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { error: f.datatype.boolean() ? f.string.sample() : null },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { hasError: f.datatype.boolean() }
+  };
 };
 
 export const fakeOneOfAllOfIssue = (options?: Options): OneOfAllOfIssue => fakeGenericSchemaDuplicateIssue1SystemString(options);
 
 export const fakeExternalSharedModel = (options?: Options): ExternalSharedModel => {
-    const f = options?.faker ?? faker;
-    return {
-        id: f.string.uuid(),
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { name: f.string.sample() }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    id: f.string.uuid(),
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { name: f.string.sample() }
+  };
 };
 
 export const fakeExternalRefA = (options?: Options): ExternalRefA => fakeExternalSharedModel(options);
@@ -1040,111 +1040,111 @@ export const fakeExternalRefA = (options?: Options): ExternalRefA => fakeExterna
 export const fakeExternalRefB = (options?: Options): ExternalRefB => fakeExternalSharedModel(options);
 
 export const fakeModelWithPropertiesWritable = (options?: Options): ModelWithPropertiesWritable => {
-    const f = options?.faker ?? faker;
-    return {
-        required: f.string.sample(),
-        requiredAndNullable: f.datatype.boolean() ? f.string.sample() : null,
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { string: f.string.sample() },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { number: f.number.float() },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { boolean: f.datatype.boolean() },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { reference: fakeModelWithString(options) },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { 'property with space': f.string.sample() },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { default: f.string.sample() },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { try: f.string.sample() }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    required: f.string.sample(),
+    requiredAndNullable: f.datatype.boolean() ? f.string.sample() : null,
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { string: f.string.sample() },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { number: f.number.float() },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { boolean: f.datatype.boolean() },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { reference: fakeModelWithString(options) },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { 'property with space': f.string.sample() },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { default: f.string.sample() },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { try: f.string.sample() }
+  };
 };
 
 export const fakeModelWithReferenceWritable = (options?: Options): ModelWithReferenceWritable => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { prop: fakeModelWithPropertiesWritable(options) }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { prop: fakeModelWithPropertiesWritable(options) }
+  };
 };
 
 export const fakeModelWithPatternWritable = (options?: Options): ModelWithPatternWritable => {
-    const f = options?.faker ?? faker;
-    return {
-        key: f.helpers.fromRegExp('^[a-zA-Z0-9_]*$'),
-        name: f.string.alpha({ length: { min: 0, max: 255 } }),
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { id: f.helpers.fromRegExp('^\\d{2}-\\d{3}-\\d{4}$') },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { text: f.helpers.fromRegExp('^\\w+$') },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { patternWithSingleQuotes: f.helpers.fromRegExp('^[a-zA-Z0-9\']*$') },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { patternWithNewline: f.helpers.fromRegExp('aaa\\nbbb') },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { patternWithBacktick: f.helpers.fromRegExp('aaa`bbb') },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { patternWithUnicode: f.helpers.fromRegExp('^\\p{L}+$') }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    key: f.helpers.fromRegExp('^[a-zA-Z0-9_]*$'),
+    name: f.string.alpha({ length: { min: 0, max: 255 } }),
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { id: f.helpers.fromRegExp('^\\d{2}-\\d{3}-\\d{4}$') },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { text: f.helpers.fromRegExp('^\\w+$') },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { patternWithSingleQuotes: f.helpers.fromRegExp('^[a-zA-Z0-9\']*$') },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { patternWithNewline: f.helpers.fromRegExp('aaa\\nbbb') },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { patternWithBacktick: f.helpers.fromRegExp('aaa`bbb') },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { patternWithUnicode: f.helpers.fromRegExp('^\\p{L}+$') }
+  };
 };
 
 export const fakeFileWritable = (options?: Options): FileWritable => {
-    const f = options?.faker ?? faker;
-    return {
-        mime: f.string.alpha({ length: { min: 1, max: 24 } })
-    };
+  const f = options?.faker ?? faker;
+  return {
+    mime: f.string.alpha({ length: { min: 1, max: 24 } })
+  };
 };
 
 export const fakeModelWithReadOnlyAndWriteOnlyWritable = (options?: Options): ModelWithReadOnlyAndWriteOnlyWritable => {
-    const f = options?.faker ?? faker;
-    return {
-        foo: f.string.sample(),
-        baz: f.string.sample()
-    };
+  const f = options?.faker ?? faker;
+  return {
+    foo: f.string.sample(),
+    baz: f.string.sample()
+  };
 };
 
 export const fakeModelWithArrayReadOnlyAndWriteOnlyWritable = (options?: Options): ModelWithArrayReadOnlyAndWriteOnlyWritable => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { prop: f.helpers.multiple(() => fakeModelWithReadOnlyAndWriteOnlyWritable(options)) },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propWithFile: f.helpers.multiple(() => new Blob([f.image.dataUri()])) },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propWithNumber: f.helpers.multiple(() => f.number.float()) }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { prop: f.helpers.multiple(() => fakeModelWithReadOnlyAndWriteOnlyWritable(options)) },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propWithFile: f.helpers.multiple(() => new Blob([f.image.dataUri()])) },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { propWithNumber: f.helpers.multiple(() => f.number.float()) }
+  };
 };
 
 export const fakeModelWithAnyOfConstantSizeArrayWithNSizeAndOptionsWritable = (options?: Options): ModelWithAnyOfConstantSizeArrayWithNSizeAndOptionsWritable => {
-    const f = options?.faker ?? faker;
-    return [f.helpers.arrayElement([f.number.float(), fakeImport(options)]) as any, f.helpers.arrayElement([f.number.float(), fakeImport(options)]) as any];
+  const f = options?.faker ?? faker;
+  return [f.helpers.arrayElement([f.number.float(), fakeImport(options)]) as any, f.helpers.arrayElement([f.number.float(), fakeImport(options)]) as any];
 };
 
 export const fakeAdditionalPropertiesUnknownIssueWritable = (options?: Options): AdditionalPropertiesUnknownIssueWritable => {
-    const f = options?.faker ?? faker;
-    return !resolveCondition(options?.includeOptional ?? true, f) ? {} as {} : {
-        additionalProp: f.helpers.arrayElement([f.string.sample(), f.number.float()]) as any
-    };
+  const f = options?.faker ?? faker;
+  return !resolveCondition(options?.includeOptional ?? true, f) ? {} as {} : {
+    additionalProp: f.helpers.arrayElement([f.string.sample(), f.number.float()]) as any
+  };
 };
 
 export const fakeGenericSchemaDuplicateIssue1SystemBooleanWritable = (options?: Options): GenericSchemaDuplicateIssue1SystemBooleanWritable => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { item: f.datatype.boolean() },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { error: f.datatype.boolean() ? f.string.sample() : null },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { data: {} }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { item: f.datatype.boolean() },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { error: f.datatype.boolean() ? f.string.sample() : null },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { data: {} }
+  };
 };
 
 export const fakeGenericSchemaDuplicateIssue1SystemStringWritable = (options?: Options): GenericSchemaDuplicateIssue1SystemStringWritable => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { item: f.datatype.boolean() ? f.string.sample() : null },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { error: f.datatype.boolean() ? f.string.sample() : null }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { item: f.datatype.boolean() ? f.string.sample() : null },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { error: f.datatype.boolean() ? f.string.sample() : null }
+  };
 };
 
 export const fakeOneOfAllOfIssueWritable = (options?: Options): OneOfAllOfIssueWritable => fakeGenericSchemaDuplicateIssue1SystemStringWritable(options);
 
 export const fakeSimpleParameter = (options?: Options): SimpleParameter => {
-    const f = options?.faker ?? faker;
-    return f.string.sample();
+  const f = options?.faker ?? faker;
+  return f.string.sample();
 };
 
 export const fakeCompositionWithOneOfAndProperties = (options?: Options): CompositionWithOneOfAndProperties => {
-    const f = options?.faker ?? faker;
-    return Object.assign({}, f.helpers.arrayElement([{
-            foo: fakeSimpleParameter(options)
-        }, {
-            bar: fakeNonAsciiStringæøåÆøÅöôêÊ字符串(options)
-        }]) as any, {
-        baz: f.datatype.boolean() ? f.number.int({ min: 0 }) : null,
-        qux: f.number.int({ min: 0 })
-    });
+  const f = options?.faker ?? faker;
+  return Object.assign({}, f.helpers.arrayElement([{
+      foo: fakeSimpleParameter(options)
+    }, {
+      bar: fakeNonAsciiStringæøåÆøÅöôêÊ字符串(options)
+    }]) as any, {
+    baz: f.datatype.boolean() ? f.number.int({ min: 0 }) : null,
+    qux: f.number.int({ min: 0 })
+  });
 };
 
 export const fakeXFooBar = (options?: Options): XFooBar => fakeModelWithString(options);
@@ -1156,10 +1156,10 @@ export const fakeSimpleFormData = (options?: Options): SimpleFormData => fakeMod
 export const fakePatchApiVbyApiVersionNoTagResponse = () => undefined;
 
 export const fakeImportRequest = (options?: Options): Omit<ImportData, 'url'> => {
-    const f = options?.faker ?? faker;
-    return {
-        body: f.helpers.arrayElement([fakeModelWithReadOnlyAndWriteOnlyWritable(options), fakeModelWithArrayReadOnlyAndWriteOnlyWritable(options)]) as any
-    };
+  const f = options?.faker ?? faker;
+  return {
+    body: f.helpers.arrayElement([fakeModelWithReadOnlyAndWriteOnlyWritable(options), fakeModelWithArrayReadOnlyAndWriteOnlyWritable(options)]) as any
+  };
 };
 
 export const fakeImportResponse200 = (options?: Options): ImportResponses[200] => fakeModelFromZendesk(options);
@@ -1171,196 +1171,196 @@ export const fakeFooWowResponse = () => undefined;
 export const fakeApiVVersionODataControllerCountResponse = (options?: Options): ApiVVersionODataControllerCountResponse => fakeModelFromZendesk(options);
 
 export const fakeGetApiVbyApiVersionSimpleOperationRequest = (options?: Options): Omit<GetApiVbyApiVersionSimpleOperationData, 'url'> => {
-    const f = options?.faker ?? faker;
-    return {
-        path: {
-            foo_param: f.string.sample()
-        }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    path: {
+      foo_param: f.string.sample()
+    }
+  };
 };
 
 export const fakeGetApiVbyApiVersionSimpleOperationResponse200 = (options?: Options): GetApiVbyApiVersionSimpleOperationResponses[200] => {
-    const f = options?.faker ?? faker;
-    return f.number.float();
+  const f = options?.faker ?? faker;
+  return f.number.float();
 };
 
 export const fakeGetApiVbyApiVersionSimpleOperationResponsedefault = (options?: Options): GetApiVbyApiVersionSimpleOperationErrors['default'] => fakeModelWithBoolean(options);
 
 export const fakeDeleteFooRequest = (options?: Options): Omit<DeleteFooData3, 'url'> => {
-    const f = options?.faker ?? faker;
-    return {
-        headers: {
-            'x-Foo-Bar': fakeModelWithString(options)
-        },
-        path: {
-            foo_param: f.string.sample(),
-            BarParam: f.string.sample()
-        }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    headers: {
+      'x-Foo-Bar': fakeModelWithString(options)
+    },
+    path: {
+      foo_param: f.string.sample(),
+      BarParam: f.string.sample()
+    }
+  };
 };
 
 export const fakeCallWithDescriptionsRequest = (options?: Options): Omit<CallWithDescriptionsData, 'url'> => {
-    const f = options?.faker ?? faker;
-    return {
-        query: {
-            ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { parameterWithBreaks: f.string.sample() },
-            ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { parameterWithBackticks: f.string.sample() },
-            ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { parameterWithSlashes: f.string.sample() },
-            ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { parameterWithExpressionPlaceholders: f.string.sample() },
-            ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { parameterWithQuotes: f.string.sample() },
-            ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { parameterWithReservedCharacters: f.string.sample() }
-        }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    query: {
+      ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { parameterWithBreaks: f.string.sample() },
+      ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { parameterWithBackticks: f.string.sample() },
+      ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { parameterWithSlashes: f.string.sample() },
+      ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { parameterWithExpressionPlaceholders: f.string.sample() },
+      ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { parameterWithQuotes: f.string.sample() },
+      ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { parameterWithReservedCharacters: f.string.sample() }
+    }
+  };
 };
 
 export const fakeDeprecatedCallRequest = (options?: Options): Omit<DeprecatedCallData, 'url'> => {
-    const f = options?.faker ?? faker;
-    return {
-        headers: {
-            parameter: f.datatype.boolean() ? fakeDeprecatedModel(options) : null
-        }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    headers: {
+      parameter: f.datatype.boolean() ? fakeDeprecatedModel(options) : null
+    }
+  };
 };
 
 export const fakeCallWithParametersRequest = (options?: Options): Omit<CallWithParametersData, 'url'> => {
-    const f = options?.faker ?? faker;
-    return {
-        body: f.datatype.boolean() ? {} : null,
-        headers: {
-            parameterHeader: f.datatype.boolean() ? f.string.sample() : null
-        },
-        path: {
-            parameterPath: f.datatype.boolean() ? f.string.sample() : null,
-            'api-version': f.datatype.boolean() ? f.string.sample() : null
-        },
-        query: {
-            ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { foo_ref_enum: fakeModelWithNestedArrayEnumsDataFoo(options) },
-            foo_all_of_enum: fakeModelWithNestedArrayEnumsDataFoo(options),
-            cursor: f.datatype.boolean() ? f.string.sample() : null
-        }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    body: f.datatype.boolean() ? {} : null,
+    headers: {
+      parameterHeader: f.datatype.boolean() ? f.string.sample() : null
+    },
+    path: {
+      parameterPath: f.datatype.boolean() ? f.string.sample() : null,
+      'api-version': f.datatype.boolean() ? f.string.sample() : null
+    },
+    query: {
+      ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { foo_ref_enum: fakeModelWithNestedArrayEnumsDataFoo(options) },
+      foo_all_of_enum: fakeModelWithNestedArrayEnumsDataFoo(options),
+      cursor: f.datatype.boolean() ? f.string.sample() : null
+    }
+  };
 };
 
 export const fakeCallWithWeirdParameterNamesRequest = (options?: Options): Omit<CallWithWeirdParameterNamesData, 'url'> => {
-    const f = options?.faker ?? faker;
-    return {
-        body: f.datatype.boolean() ? fakeModelWithString(options) : null,
-        headers: {
-            'parameter.header': f.datatype.boolean() ? f.string.sample() : null
-        },
-        path: {
-            ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { 'parameter.path.1': f.string.sample() },
-            ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { 'parameter-path-2': f.string.sample() },
-            ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { 'PARAMETER-PATH-3': f.string.sample() },
-            'api-version': f.datatype.boolean() ? f.string.sample() : null
-        },
-        query: {
-            ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { default: f.string.sample() },
-            'parameter-query': f.datatype.boolean() ? f.string.sample() : null
-        }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    body: f.datatype.boolean() ? fakeModelWithString(options) : null,
+    headers: {
+      'parameter.header': f.datatype.boolean() ? f.string.sample() : null
+    },
+    path: {
+      ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { 'parameter.path.1': f.string.sample() },
+      ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { 'parameter-path-2': f.string.sample() },
+      ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { 'PARAMETER-PATH-3': f.string.sample() },
+      'api-version': f.datatype.boolean() ? f.string.sample() : null
+    },
+    query: {
+      ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { default: f.string.sample() },
+      'parameter-query': f.datatype.boolean() ? f.string.sample() : null
+    }
+  };
 };
 
 export const fakeGetCallWithOptionalParamRequest = (options?: Options): Omit<GetCallWithOptionalParamData, 'url'> => {
-    const f = options?.faker ?? faker;
-    return {
-        body: fakeModelWithOneOfEnum(options),
-        query: {
-            ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { page: f.number.float() }
-        }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    body: fakeModelWithOneOfEnum(options),
+    query: {
+      ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { page: f.number.float() }
+    }
+  };
 };
 
 export const fakePostCallWithOptionalParamRequest = (options?: Options): Omit<PostCallWithOptionalParamData, 'url'> => {
-    const f = options?.faker ?? faker;
-    return {
-        body: {
-            ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { offset: f.datatype.boolean() ? f.number.float() : null }
-        },
-        query: {
-            parameter: fakePageable(options)
-        }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    body: {
+      ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { offset: f.datatype.boolean() ? f.number.float() : null }
+    },
+    query: {
+      parameter: fakePageable(options)
+    }
+  };
 };
 
 export const fakePostCallWithOptionalParamResponse = (options?: Options): PostCallWithOptionalParamResponse => {
-    const f = options?.faker ?? faker;
-    return f.number.float();
+  const f = options?.faker ?? faker;
+  return f.number.float();
 };
 
 export const fakePostApiVbyApiVersionRequestBodyRequest = (options?: Options): Omit<PostApiVbyApiVersionRequestBodyData, 'url'> => {
-    const f = options?.faker ?? faker;
-    return {
-        body: fakeSimpleRequestBody(options),
-        query: {
-            ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { parameter: f.string.sample() }
-        }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    body: fakeSimpleRequestBody(options),
+    query: {
+      ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { parameter: f.string.sample() }
+    }
+  };
 };
 
 export const fakePostApiVbyApiVersionFormDataRequest = (options?: Options): Omit<PostApiVbyApiVersionFormDataData, 'url'> => {
-    const f = options?.faker ?? faker;
-    return {
-        body: fakeSimpleFormData(options),
-        query: {
-            ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { parameter: f.string.sample() }
-        }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    body: fakeSimpleFormData(options),
+    query: {
+      ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { parameter: f.string.sample() }
+    }
+  };
 };
 
 export const fakeCallWithDefaultParametersRequest = (options?: Options): Omit<CallWithDefaultParametersData, 'url'> => {
-    const f = options?.faker ?? faker;
-    return {
-        query: {
-            ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { parameterString: f.datatype.boolean() ? resolveCondition(options?.useDefault ?? false, f) ? 'Hello World!' : f.string.sample() : null },
-            ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { parameterNumber: f.datatype.boolean() ? resolveCondition(options?.useDefault ?? false, f) ? 123 : f.number.float() : null },
-            ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { parameterBoolean: f.datatype.boolean() ? resolveCondition(options?.useDefault ?? false, f) ? true : f.datatype.boolean() : null },
-            ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { parameterEnum: resolveCondition(options?.useDefault ?? false, f) ? 'Success' : f.helpers.arrayElement([
-                    'Success',
-                    'Warning',
-                    'Error'
-                ]) },
-            ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { parameterModel: f.datatype.boolean() ? fakeModelWithString(options) : null }
-        }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    query: {
+      ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { parameterString: f.datatype.boolean() ? resolveCondition(options?.useDefault ?? false, f) ? 'Hello World!' : f.string.sample() : null },
+      ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { parameterNumber: f.datatype.boolean() ? resolveCondition(options?.useDefault ?? false, f) ? 123 : f.number.float() : null },
+      ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { parameterBoolean: f.datatype.boolean() ? resolveCondition(options?.useDefault ?? false, f) ? true : f.datatype.boolean() : null },
+      ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { parameterEnum: resolveCondition(options?.useDefault ?? false, f) ? 'Success' : f.helpers.arrayElement([
+          'Success',
+          'Warning',
+          'Error'
+        ]) },
+      ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { parameterModel: f.datatype.boolean() ? fakeModelWithString(options) : null }
+    }
+  };
 };
 
 export const fakeCallWithDefaultOptionalParametersRequest = (options?: Options): Omit<CallWithDefaultOptionalParametersData, 'url'> => {
-    const f = options?.faker ?? faker;
-    return {
-        query: {
-            ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { parameterString: resolveCondition(options?.useDefault ?? false, f) ? 'Hello World!' : f.string.sample() },
-            ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { parameterNumber: resolveCondition(options?.useDefault ?? false, f) ? 123 : f.number.float() },
-            ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { parameterBoolean: resolveCondition(options?.useDefault ?? false, f) ? true : f.datatype.boolean() },
-            ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { parameterEnum: resolveCondition(options?.useDefault ?? false, f) ? 'Success' : f.helpers.arrayElement([
-                    'Success',
-                    'Warning',
-                    'Error'
-                ]) },
-            ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { parameterModel: fakeModelWithString(options) }
-        }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    query: {
+      ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { parameterString: resolveCondition(options?.useDefault ?? false, f) ? 'Hello World!' : f.string.sample() },
+      ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { parameterNumber: resolveCondition(options?.useDefault ?? false, f) ? 123 : f.number.float() },
+      ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { parameterBoolean: resolveCondition(options?.useDefault ?? false, f) ? true : f.datatype.boolean() },
+      ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { parameterEnum: resolveCondition(options?.useDefault ?? false, f) ? 'Success' : f.helpers.arrayElement([
+          'Success',
+          'Warning',
+          'Error'
+        ]) },
+      ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { parameterModel: fakeModelWithString(options) }
+    }
+  };
 };
 
 export const fakeCallToTestOrderOfParamsRequest = (options?: Options): Omit<CallToTestOrderOfParamsData, 'url'> => {
-    const f = options?.faker ?? faker;
-    return {
-        query: {
-            ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { parameterOptionalStringWithDefault: resolveCondition(options?.useDefault ?? false, f) ? 'Hello World!' : f.string.sample() },
-            ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { parameterOptionalStringWithEmptyDefault: resolveCondition(options?.useDefault ?? false, f) ? '' : f.string.sample() },
-            ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { parameterOptionalStringWithNoDefault: f.string.sample() },
-            parameterStringWithDefault: resolveCondition(options?.useDefault ?? false, f) ? 'Hello World!' : f.string.sample(),
-            parameterStringWithEmptyDefault: resolveCondition(options?.useDefault ?? false, f) ? '' : f.string.sample(),
-            parameterStringWithNoDefault: f.string.sample(),
-            ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { parameterStringNullableWithNoDefault: f.datatype.boolean() ? f.string.sample() : null },
-            ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { parameterStringNullableWithDefault: f.datatype.boolean() ? f.string.sample() : null }
-        }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    query: {
+      ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { parameterOptionalStringWithDefault: resolveCondition(options?.useDefault ?? false, f) ? 'Hello World!' : f.string.sample() },
+      ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { parameterOptionalStringWithEmptyDefault: resolveCondition(options?.useDefault ?? false, f) ? '' : f.string.sample() },
+      ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { parameterOptionalStringWithNoDefault: f.string.sample() },
+      parameterStringWithDefault: resolveCondition(options?.useDefault ?? false, f) ? 'Hello World!' : f.string.sample(),
+      parameterStringWithEmptyDefault: resolveCondition(options?.useDefault ?? false, f) ? '' : f.string.sample(),
+      parameterStringWithNoDefault: f.string.sample(),
+      ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { parameterStringNullableWithNoDefault: f.datatype.boolean() ? f.string.sample() : null },
+      ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { parameterStringNullableWithDefault: f.datatype.boolean() ? f.string.sample() : null }
+    }
+  };
 };
 
 export const fakeCallWithResponseAndNoContentResponseResponse = (options?: Options): CallWithResponseAndNoContentResponseResponse => {
-    const f = options?.faker ?? faker;
-    return f.number.float();
+  const f = options?.faker ?? faker;
+  return f.number.float();
 };
 
 export const fakeDummyAResponse = (options?: Options): DummyAResponse => fake400(options);
@@ -1384,12 +1384,12 @@ export const fakeCallWithDuplicateResponsesResponse4Xx = (options?: Options): Ca
 export const fakeCallWithDuplicateResponsesResponsedefault = (options?: Options): CallWithDuplicateResponsesErrors['default'] => fakeModelWithBoolean(options);
 
 export const fakeCallWithResponsesResponse200 = (options?: Options): CallWithResponsesResponses[200] => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { '@namespace.string': f.string.sample() },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { '@namespace.integer': f.number.int() },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { value: f.helpers.multiple(() => fakeModelWithString(options)) }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { '@namespace.string': f.string.sample() },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { '@namespace.integer': f.number.int() },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { value: f.helpers.multiple(() => fakeModelWithString(options)) }
+  };
 };
 
 export const fakeCallWithResponsesResponse201 = (options?: Options): CallWithResponsesResponses[201] => fakeModelThatExtends(options);
@@ -1405,106 +1405,106 @@ export const fakeCallWithResponsesResponse502 = (options?: Options): CallWithRes
 export const fakeCallWithResponsesResponsedefault = (options?: Options): CallWithResponsesErrors['default'] => fakeModelWithStringError(options);
 
 export const fakeCollectionFormatRequest = (options?: Options): Omit<CollectionFormatData, 'url'> => {
-    const f = options?.faker ?? faker;
-    return {
-        query: {
-            parameterArrayCSV: f.datatype.boolean() ? f.helpers.multiple(() => f.string.sample()) : null,
-            parameterArraySSV: f.datatype.boolean() ? f.helpers.multiple(() => f.string.sample()) : null,
-            parameterArrayTSV: f.datatype.boolean() ? f.helpers.multiple(() => f.string.sample()) : null,
-            parameterArrayPipes: f.datatype.boolean() ? f.helpers.multiple(() => f.string.sample()) : null,
-            parameterArrayMulti: f.datatype.boolean() ? f.helpers.multiple(() => f.string.sample()) : null
-        }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    query: {
+      parameterArrayCSV: f.datatype.boolean() ? f.helpers.multiple(() => f.string.sample()) : null,
+      parameterArraySSV: f.datatype.boolean() ? f.helpers.multiple(() => f.string.sample()) : null,
+      parameterArrayTSV: f.datatype.boolean() ? f.helpers.multiple(() => f.string.sample()) : null,
+      parameterArrayPipes: f.datatype.boolean() ? f.helpers.multiple(() => f.string.sample()) : null,
+      parameterArrayMulti: f.datatype.boolean() ? f.helpers.multiple(() => f.string.sample()) : null
+    }
+  };
 };
 
 export const fakeTypesRequest = (options?: Options): Omit<TypesData, 'url'> => {
-    const f = options?.faker ?? faker;
-    return {
-        path: {
-            ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { id: f.number.int() }
-        },
-        query: {
-            parameterNumber: resolveCondition(options?.useDefault ?? false, f) ? 123 : f.number.float(),
-            parameterString: f.datatype.boolean() ? resolveCondition(options?.useDefault ?? false, f) ? 'default' : f.string.sample() : null,
-            parameterBoolean: f.datatype.boolean() ? resolveCondition(options?.useDefault ?? false, f) ? true : f.datatype.boolean() : null,
-            parameterObject: f.datatype.boolean() ? {} : null,
-            parameterArray: f.datatype.boolean() ? f.helpers.multiple(() => f.string.sample()) : null,
-            parameterDictionary: f.datatype.boolean() ? {} : null,
-            parameterEnum: f.helpers.arrayElement([
-                'Success',
-                'Warning',
-                'Error'
-            ])
-        }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    path: {
+      ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { id: f.number.int() }
+    },
+    query: {
+      parameterNumber: resolveCondition(options?.useDefault ?? false, f) ? 123 : f.number.float(),
+      parameterString: f.datatype.boolean() ? resolveCondition(options?.useDefault ?? false, f) ? 'default' : f.string.sample() : null,
+      parameterBoolean: f.datatype.boolean() ? resolveCondition(options?.useDefault ?? false, f) ? true : f.datatype.boolean() : null,
+      parameterObject: f.datatype.boolean() ? {} : null,
+      parameterArray: f.datatype.boolean() ? f.helpers.multiple(() => f.string.sample()) : null,
+      parameterDictionary: f.datatype.boolean() ? {} : null,
+      parameterEnum: f.helpers.arrayElement([
+        'Success',
+        'Warning',
+        'Error'
+      ])
+    }
+  };
 };
 
 export const fakeTypesResponse200 = (options?: Options): TypesResponses[200] => {
-    const f = options?.faker ?? faker;
-    return f.number.float();
+  const f = options?.faker ?? faker;
+  return f.number.float();
 };
 
 export const fakeTypesResponse201 = (options?: Options): TypesResponses[201] => {
-    const f = options?.faker ?? faker;
-    return f.string.sample();
+  const f = options?.faker ?? faker;
+  return f.string.sample();
 };
 
 export const fakeTypesResponse202 = (options?: Options): TypesResponses[202] => {
-    const f = options?.faker ?? faker;
-    return f.datatype.boolean();
+  const f = options?.faker ?? faker;
+  return f.datatype.boolean();
 };
 
 export const fakeTypesResponse203 = (): TypesResponses[203] => ({});
 
 export const fakeUploadFileRequest = (options?: Options): Omit<UploadFileData, 'url'> => {
-    const f = options?.faker ?? faker;
-    return {
-        body: new Blob([f.image.dataUri()]),
-        path: {
-            'api-version': f.datatype.boolean() ? f.string.sample() : null
-        }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    body: new Blob([f.image.dataUri()]),
+    path: {
+      'api-version': f.datatype.boolean() ? f.string.sample() : null
+    }
+  };
 };
 
 export const fakeUploadFileResponse = (options?: Options): UploadFileResponse => {
-    const f = options?.faker ?? faker;
-    return f.datatype.boolean();
+  const f = options?.faker ?? faker;
+  return f.datatype.boolean();
 };
 
 export const fakeFileResponseRequest = (options?: Options): Omit<FileResponseData, 'url'> => {
-    const f = options?.faker ?? faker;
-    return {
-        path: {
-            id: f.string.uuid(),
-            'api-version': f.string.sample()
-        }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    path: {
+      id: f.string.uuid(),
+      'api-version': f.string.sample()
+    }
+  };
 };
 
 export const fakeFileResponseResponse = (options?: Options): FileResponseResponse => {
-    const f = options?.faker ?? faker;
-    return new Blob([f.image.dataUri()]);
+  const f = options?.faker ?? faker;
+  return new Blob([f.image.dataUri()]);
 };
 
 export const fakeComplexTypesRequest = (options?: Options): Omit<ComplexTypesData, 'url'> => {
-    const f = options?.faker ?? faker;
-    return {
-        query: {
-            parameterObject: {
-                ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { first: {
-                        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { second: {
-                                ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { third: f.string.sample() }
-                            } }
-                    } }
-            },
-            parameterReference: fakeModelWithString(options)
-        }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    query: {
+      parameterObject: {
+        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { first: {
+            ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { second: {
+                ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { third: f.string.sample() }
+              } }
+          } }
+      },
+      parameterReference: fakeModelWithString(options)
+    }
+  };
 };
 
 export const fakeComplexTypesResponse200 = (options?: Options): ComplexTypesResponses[200] => {
-    const f = options?.faker ?? faker;
-    return f.helpers.multiple(() => fakeModelWithString(options));
+  const f = options?.faker ?? faker;
+  return f.helpers.multiple(() => fakeModelWithString(options));
 };
 
 export const fakeComplexTypesResponse400 = (): ComplexTypesErrors[400] => undefined;
@@ -1512,56 +1512,56 @@ export const fakeComplexTypesResponse400 = (): ComplexTypesErrors[400] => undefi
 export const fakeComplexTypesResponse500 = (): ComplexTypesErrors[500] => undefined;
 
 export const fakeMultipartResponseResponse = (options?: Options): MultipartResponseResponse => {
-    const f = options?.faker ?? faker;
-    return {
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { file: new Blob([f.image.dataUri()]) },
-        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { metadata: {
-                ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { foo: f.string.sample() },
-                ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { bar: f.string.sample() }
-            } }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { file: new Blob([f.image.dataUri()]) },
+    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { metadata: {
+        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { foo: f.string.sample() },
+        ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { bar: f.string.sample() }
+      } }
+  };
 };
 
 export const fakeMultipartRequestRequest = (options?: Options): Omit<MultipartRequestData, 'url'> => {
-    const f = options?.faker ?? faker;
-    return {
-        body: {
-            ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { content: new Blob([f.image.dataUri()]) },
-            ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { data: f.datatype.boolean() ? fakeModelWithString(options) : null }
-        }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    body: {
+      ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { content: new Blob([f.image.dataUri()]) },
+      ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { data: f.datatype.boolean() ? fakeModelWithString(options) : null }
+    }
+  };
 };
 
 export const fakeComplexParamsRequest = (options?: Options): Omit<ComplexParamsData, 'url'> => {
-    const f = options?.faker ?? faker;
-    return {
-        body: {
-            key: f.datatype.boolean() ? f.helpers.fromRegExp('^[a-zA-Z0-9_]*$') : null,
-            name: f.datatype.boolean() ? f.string.alpha({ length: { min: 0, max: 255 } }) : null,
-            ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { enabled: resolveCondition(options?.useDefault ?? false, f) ? true : f.datatype.boolean() },
-            type: f.helpers.arrayElement([
-                'Monkey',
-                'Horse',
-                'Bird'
-            ]),
-            ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { listOfModels: f.datatype.boolean() ? f.helpers.multiple(() => fakeModelWithString(options)) : null },
-            ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { listOfStrings: f.datatype.boolean() ? f.helpers.multiple(() => f.string.sample()) : null },
-            parameters: f.helpers.arrayElement([
-                fakeModelWithString(options),
-                fakeModelWithEnum(options),
-                fakeModelWithArray(options),
-                fakeModelWithDictionary(options)
-            ]) as any,
-            ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { user: {
-                    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { id: f.number.int() },
-                    ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { name: f.datatype.boolean() ? f.person.fullName() : null }
-                } }
-        },
-        path: {
-            id: f.number.int(),
-            'api-version': f.string.sample()
-        }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    body: {
+      key: f.datatype.boolean() ? f.helpers.fromRegExp('^[a-zA-Z0-9_]*$') : null,
+      name: f.datatype.boolean() ? f.string.alpha({ length: { min: 0, max: 255 } }) : null,
+      ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { enabled: resolveCondition(options?.useDefault ?? false, f) ? true : f.datatype.boolean() },
+      type: f.helpers.arrayElement([
+        'Monkey',
+        'Horse',
+        'Bird'
+      ]),
+      ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { listOfModels: f.datatype.boolean() ? f.helpers.multiple(() => fakeModelWithString(options)) : null },
+      ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { listOfStrings: f.datatype.boolean() ? f.helpers.multiple(() => f.string.sample()) : null },
+      parameters: f.helpers.arrayElement([
+        fakeModelWithString(options),
+        fakeModelWithEnum(options),
+        fakeModelWithArray(options),
+        fakeModelWithDictionary(options)
+      ]) as any,
+      ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { user: {
+          ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { id: f.number.int() },
+          ...!resolveCondition(options?.includeOptional ?? true, f) ? {} : { name: f.datatype.boolean() ? f.person.fullName() : null }
+        } }
+    },
+    path: {
+      id: f.number.int(),
+      'api-version': f.string.sample()
+    }
+  };
 };
 
 export const fakeComplexParamsResponse = (options?: Options): ComplexParamsResponse => fakeModelWithString(options);
@@ -1573,12 +1573,12 @@ export const fakeCallWithResultFromHeaderResponse400 = (): CallWithResultFromHea
 export const fakeCallWithResultFromHeaderResponse500 = (): CallWithResultFromHeaderErrors[500] => undefined;
 
 export const fakeTestErrorCodeRequest = (options?: Options): Omit<TestErrorCodeData, 'url'> => {
-    const f = options?.faker ?? faker;
-    return {
-        query: {
-            status: f.number.int()
-        }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    query: {
+      status: f.number.int()
+    }
+  };
 };
 
 export const fakeTestErrorCodeResponse200 = (): TestErrorCodeResponses[200] => undefined;
@@ -1592,19 +1592,19 @@ export const fakeTestErrorCodeResponse502 = (): TestErrorCodeErrors[502] => unde
 export const fakeTestErrorCodeResponse503 = (): TestErrorCodeErrors[503] => undefined;
 
 export const fakeNonAsciiæøåÆøÅöôêÊ字符串Request = (options?: Options): Omit<NonAsciiæøåÆøÅöôêÊ字符串Data, 'url'> => {
-    const f = options?.faker ?? faker;
-    return {
-        query: {
-            nonAsciiParamæøåÆØÅöôêÊ: f.number.int()
-        }
-    };
+  const f = options?.faker ?? faker;
+  return {
+    query: {
+      nonAsciiParamæøåÆØÅöôêÊ: f.number.int()
+    }
+  };
 };
 
 export const fakeNonAsciiæøåÆøÅöôêÊ字符串Response = (options?: Options): NonAsciiæøåÆøÅöôêÊ字符串Response => {
-    const f = options?.faker ?? faker;
-    return f.helpers.multiple(() => fakeNonAsciiStringæøåÆøÅöôêÊ字符串(options));
+  const f = options?.faker ?? faker;
+  return f.helpers.multiple(() => fakeNonAsciiStringæøåÆøÅöôêÊ字符串(options));
 };
 
 export const fakePutWithFormUrlEncodedRequest = (options?: Options): Omit<PutWithFormUrlEncodedData, 'url'> => ({
-    body: fakeArrayWithStrings(options)
+  body: fakeArrayWithStrings(options)
 });

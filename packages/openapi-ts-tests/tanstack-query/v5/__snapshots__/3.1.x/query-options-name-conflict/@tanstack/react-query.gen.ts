@@ -7,64 +7,64 @@ import { getMembers, getMembersOptions as getMembersOptions2, type Options } fro
 import type { GetMembersData, GetMembersOptionsData, GetMembersOptionsResponse, GetMembersResponse } from '../types.gen';
 
 export type QueryKey<TOptions extends Options> = [
-    Pick<TOptions, 'baseUrl' | 'body' | 'headers' | 'path' | 'query'> & {
-        _id: string;
-        _infinite?: boolean;
-        tags?: ReadonlyArray<string>;
-    }
+  Pick<TOptions, 'baseUrl' | 'body' | 'headers' | 'path' | 'query'> & {
+    _id: string;
+    _infinite?: boolean;
+    tags?: ReadonlyArray<string>;
+  }
 ];
 
 const createQueryKey = <TOptions extends Options>(id: string, options?: TOptions, infinite?: boolean, tags?: ReadonlyArray<string>): [
-    QueryKey<TOptions>[0]
+  QueryKey<TOptions>[0]
 ] => {
-    const params: QueryKey<TOptions>[0] = { _id: id, baseUrl: options?.baseUrl || (options?.client ?? client).getConfig().baseUrl } as QueryKey<TOptions>[0];
-    if (infinite) {
-        params._infinite = infinite;
-    }
-    if (tags) {
-        params.tags = tags;
-    }
-    if (options?.body) {
-        params.body = options.body;
-    }
-    if (options?.headers) {
-        params.headers = options.headers;
-    }
-    if (options?.path) {
-        params.path = options.path;
-    }
-    if (options?.query) {
-        params.query = options.query;
-    }
-    return [params];
+  const params: QueryKey<TOptions>[0] = { _id: id, baseUrl: options?.baseUrl || (options?.client ?? client).getConfig().baseUrl } as QueryKey<TOptions>[0];
+  if (infinite) {
+    params._infinite = infinite;
+  }
+  if (tags) {
+    params.tags = tags;
+  }
+  if (options?.body) {
+    params.body = options.body;
+  }
+  if (options?.headers) {
+    params.headers = options.headers;
+  }
+  if (options?.path) {
+    params.path = options.path;
+  }
+  if (options?.query) {
+    params.query = options.query;
+  }
+  return [params];
 };
 
 export const getMembersQueryKey = (options?: Options<GetMembersData>) => createQueryKey('getMembers', options);
 
 export const getMembersOptions = (options?: Options<GetMembersData>) => queryOptions<GetMembersResponse, DefaultError, GetMembersResponse, ReturnType<typeof getMembersQueryKey>>({
-    queryFn: async ({ queryKey, signal }) => {
-        const { data } = await getMembers({
-            ...options,
-            ...queryKey[0],
-            signal,
-            throwOnError: true
-        });
-        return data;
-    },
-    queryKey: getMembersQueryKey(options)
+  queryFn: async ({ queryKey, signal }) => {
+    const { data } = await getMembers({
+      ...options,
+      ...queryKey[0],
+      signal,
+      throwOnError: true
+    });
+    return data;
+  },
+  queryKey: getMembersQueryKey(options)
 });
 
 export const getMembersOptionsQueryKey = (options?: Options<GetMembersOptionsData>) => createQueryKey('getMembersOptions', options);
 
 export const getMembersOptionsOptions = (options?: Options<GetMembersOptionsData>) => queryOptions<GetMembersOptionsResponse, DefaultError, GetMembersOptionsResponse, ReturnType<typeof getMembersOptionsQueryKey>>({
-    queryFn: async ({ queryKey, signal }) => {
-        const { data } = await getMembersOptions2({
-            ...options,
-            ...queryKey[0],
-            signal,
-            throwOnError: true
-        });
-        return data;
-    },
-    queryKey: getMembersOptionsQueryKey(options)
+  queryFn: async ({ queryKey, signal }) => {
+    const { data } = await getMembersOptions2({
+      ...options,
+      ...queryKey[0],
+      signal,
+      throwOnError: true
+    });
+    return data;
+  },
+  queryKey: getMembersOptionsQueryKey(options)
 });

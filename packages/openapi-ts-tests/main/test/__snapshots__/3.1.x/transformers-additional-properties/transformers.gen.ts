@@ -3,26 +3,26 @@
 import type { PostFooResponse } from './types.gen';
 
 const fooSchemaResponseTransformer = (data: any) => {
-    data.foo = new Date(data.foo);
-    return data;
+  data.foo = new Date(data.foo);
+  return data;
 };
 
 const barSchemaResponseTransformer = (data: any) => {
-    data.bar = new Date(data.bar);
-    for (const key of Object.keys(data.baz)) {
-        data.baz[key] = fooSchemaResponseTransformer(data.baz[key]);
+  data.bar = new Date(data.bar);
+  for (const key of Object.keys(data.baz)) {
+    data.baz[key] = fooSchemaResponseTransformer(data.baz[key]);
+  }
+  if (data.qux) {
+    for (const key of Object.keys(data.qux)) {
+      if (!['quux'].includes(key)) {
+        data.qux[key] = new Date(data.qux[key]);
+      }
     }
-    if (data.qux) {
-        for (const key of Object.keys(data.qux)) {
-            if (!['quux'].includes(key)) {
-                data.qux[key] = new Date(data.qux[key]);
-            }
-        }
-    }
-    return data;
+  }
+  return data;
 };
 
 export const postFooResponseTransformer = async (data: any): Promise<PostFooResponse> => {
-    data = barSchemaResponseTransformer(data);
-    return data;
+  data = barSchemaResponseTransformer(data);
+  return data;
 };

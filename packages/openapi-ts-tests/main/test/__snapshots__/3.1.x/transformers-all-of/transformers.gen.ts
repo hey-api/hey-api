@@ -3,29 +3,29 @@
 import type { GetFooResponse } from './types.gen';
 
 const quxSchemaResponseTransformer = (data: any) => {
-    if (data.baz) {
-        data.baz = new Date(data.baz);
-    }
-    return data;
+  if (data.baz) {
+    data.baz = new Date(data.baz);
+  }
+  return data;
 };
 
 const bazSchemaResponseTransformer = (data: any) => {
-    data = quxSchemaResponseTransformer(data);
-    data.bar = new Date(data.bar);
-    return data;
+  data = quxSchemaResponseTransformer(data);
+  data.bar = new Date(data.bar);
+  return data;
 };
 
 const barSchemaResponseTransformer = (data: any) => {
-    data.foo = data.foo.map((item: any) => bazSchemaResponseTransformer(item));
-    return data;
+  data.foo = data.foo.map((item: any) => bazSchemaResponseTransformer(item));
+  return data;
 };
 
 const fooSchemaResponseTransformer = (data: any) => {
-    data.foo = data.foo.map((item: any) => barSchemaResponseTransformer(item));
-    return data;
+  data.foo = data.foo.map((item: any) => barSchemaResponseTransformer(item));
+  return data;
 };
 
 export const getFooResponseTransformer = async (data: any): Promise<GetFooResponse> => {
-    data = fooSchemaResponseTransformer(data);
-    return data;
+  data = fooSchemaResponseTransformer(data);
+  return data;
 };

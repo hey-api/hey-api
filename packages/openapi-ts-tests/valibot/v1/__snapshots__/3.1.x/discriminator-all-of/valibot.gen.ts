@@ -3,57 +3,57 @@
 import * as v from 'valibot';
 
 export const vFoo = v.object({
-    id: v.string()
+  id: v.string()
 });
 
 export const vBar = v.intersect([vFoo, v.object({
-        bar: v.optional(v.string()),
-        id: v.literal('Bar')
-    })]);
+    bar: v.optional(v.string()),
+    id: v.literal('Bar')
+  })]);
 
 export const vBaz = v.intersect([vFoo, v.object({
-        baz: v.optional(v.string()),
-        id: v.literal('Baz')
-    })]);
+    baz: v.optional(v.string()),
+    id: v.literal('Baz')
+  })]);
 
 export const vQux = v.intersect([vFoo, v.object({
-        qux: v.optional(v.boolean()),
-        id: v.literal('Qux')
-    })]);
+    qux: v.optional(v.boolean()),
+    id: v.literal('Qux')
+  })]);
 
 export const vFooMapped = v.object({
-    id: v.string()
+  id: v.string()
 });
 
 export const vBarMapped = v.intersect([vFooMapped, v.object({
-        bar: v.optional(v.string()),
-        id: v.literal('bar')
-    })]);
+    bar: v.optional(v.string()),
+    id: v.literal('bar')
+  })]);
 
 export const vBazMapped = v.intersect([vFooMapped, v.object({
-        baz: v.optional(v.string()),
-        id: v.literal('baz')
-    })]);
+    baz: v.optional(v.string()),
+    id: v.literal('baz')
+  })]);
 
 export const vQuxMapped = v.intersect([vFooMapped, v.object({
-        qux: v.optional(v.boolean()),
-        id: v.literal('QuxMapped')
-    })]);
+    qux: v.optional(v.boolean()),
+    id: v.literal('QuxMapped')
+  })]);
 
 export const vBarUnion = v.object({
-    id: v.optional(v.string()),
-    bar: v.optional(v.string())
+  id: v.optional(v.string()),
+  bar: v.optional(v.string())
 });
 
 export const vBazUnion = v.object({
-    id: v.optional(v.string()),
-    baz: v.optional(v.string())
+  id: v.optional(v.string()),
+  baz: v.optional(v.string())
 });
 
 export const vFooUnion = v.union([v.intersect([v.object({
-            id: v.literal('bar')
-        }), vBarUnion]), v.intersect([v.object({
-            id: v.literal('baz')
-        }), vBazUnion])]);
+      id: v.literal('bar')
+    }), vBarUnion]), v.intersect([v.object({
+      id: v.literal('baz')
+    }), vBazUnion])]);
 
 export const vQuxExtend = vFooUnion;

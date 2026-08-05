@@ -3,48 +3,48 @@
 import * as v from 'valibot';
 
 export const vIntegerFormats = v.object({
-    numberNoFormat: v.optional(v.number()),
-    numberInt8: v.optional(v.pipe(v.number(), v.minValue(-128, 'Invalid value: Expected int8 to be >= -128'), v.maxValue(127, 'Invalid value: Expected int8 to be <= 127'))),
-    numberInt16: v.optional(v.pipe(v.number(), v.minValue(-32768, 'Invalid value: Expected int16 to be >= -32768'), v.maxValue(32767, 'Invalid value: Expected int16 to be <= 32767'))),
-    numberInt32: v.optional(v.pipe(v.number(), v.minValue(-2147483648, 'Invalid value: Expected int32 to be >= -2147483648'), v.maxValue(2147483647, 'Invalid value: Expected int32 to be <= 2147483647'))),
-    numberInt64: v.optional(v.pipe(v.union([
-        v.number(),
-        v.string(),
-        v.bigint()
-    ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807'))),
-    numberUint8: v.optional(v.pipe(v.number(), v.minValue(0, 'Invalid value: Expected uint8 to be >= 0'), v.maxValue(255, 'Invalid value: Expected uint8 to be <= 255'))),
-    numberUint16: v.optional(v.pipe(v.number(), v.minValue(0, 'Invalid value: Expected uint16 to be >= 0'), v.maxValue(65535, 'Invalid value: Expected uint16 to be <= 65535'))),
-    numberUint32: v.optional(v.pipe(v.number(), v.minValue(0, 'Invalid value: Expected uint32 to be >= 0'), v.maxValue(4294967295, 'Invalid value: Expected uint32 to be <= 4294967295'))),
-    numberUint64: v.optional(v.pipe(v.union([
-        v.number(),
-        v.string(),
-        v.bigint()
-    ]), v.transform(x => BigInt(x)), v.minValue(BigInt('0'), 'Invalid value: Expected uint64 to be >= 0'), v.maxValue(BigInt('18446744073709551615'), 'Invalid value: Expected uint64 to be <= 18446744073709551615'))),
-    integerNoFormat: v.optional(v.pipe(v.number(), v.integer())),
-    integerInt8: v.optional(v.pipe(v.number(), v.integer(), v.minValue(-128, 'Invalid value: Expected int8 to be >= -128'), v.maxValue(127, 'Invalid value: Expected int8 to be <= 127'))),
-    integerInt16: v.optional(v.pipe(v.number(), v.integer(), v.minValue(-32768, 'Invalid value: Expected int16 to be >= -32768'), v.maxValue(32767, 'Invalid value: Expected int16 to be <= 32767'))),
-    integerInt32: v.optional(v.pipe(v.number(), v.integer(), v.minValue(-2147483648, 'Invalid value: Expected int32 to be >= -2147483648'), v.maxValue(2147483647, 'Invalid value: Expected int32 to be <= 2147483647'))),
-    integerInt64: v.optional(v.pipe(v.union([
-        v.number(),
-        v.string(),
-        v.bigint()
-    ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807'))),
-    integerUint8: v.optional(v.pipe(v.number(), v.integer(), v.minValue(0, 'Invalid value: Expected uint8 to be >= 0'), v.maxValue(255, 'Invalid value: Expected uint8 to be <= 255'))),
-    integerUint16: v.optional(v.pipe(v.number(), v.integer(), v.minValue(0, 'Invalid value: Expected uint16 to be >= 0'), v.maxValue(65535, 'Invalid value: Expected uint16 to be <= 65535'))),
-    integerUint32: v.optional(v.pipe(v.number(), v.integer(), v.minValue(0, 'Invalid value: Expected uint32 to be >= 0'), v.maxValue(4294967295, 'Invalid value: Expected uint32 to be <= 4294967295'))),
-    integerUint64: v.optional(v.pipe(v.union([
-        v.number(),
-        v.string(),
-        v.bigint()
-    ]), v.transform(x => BigInt(x)), v.minValue(BigInt('0'), 'Invalid value: Expected uint64 to be >= 0'), v.maxValue(BigInt('18446744073709551615'), 'Invalid value: Expected uint64 to be <= 18446744073709551615'))),
-    stringInt64: v.optional(v.pipe(v.union([
-        v.number(),
-        v.string(),
-        v.bigint()
-    ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807'))),
-    stringUint64: v.optional(v.pipe(v.union([
-        v.number(),
-        v.string(),
-        v.bigint()
-    ]), v.transform(x => BigInt(x)), v.minValue(BigInt('0'), 'Invalid value: Expected uint64 to be >= 0'), v.maxValue(BigInt('18446744073709551615'), 'Invalid value: Expected uint64 to be <= 18446744073709551615')))
+  numberNoFormat: v.optional(v.number()),
+  numberInt8: v.optional(v.pipe(v.number(), v.minValue(-128, 'Invalid value: Expected int8 to be >= -128'), v.maxValue(127, 'Invalid value: Expected int8 to be <= 127'))),
+  numberInt16: v.optional(v.pipe(v.number(), v.minValue(-32768, 'Invalid value: Expected int16 to be >= -32768'), v.maxValue(32767, 'Invalid value: Expected int16 to be <= 32767'))),
+  numberInt32: v.optional(v.pipe(v.number(), v.minValue(-2147483648, 'Invalid value: Expected int32 to be >= -2147483648'), v.maxValue(2147483647, 'Invalid value: Expected int32 to be <= 2147483647'))),
+  numberInt64: v.optional(v.pipe(v.union([
+    v.number(),
+    v.string(),
+    v.bigint()
+  ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807'))),
+  numberUint8: v.optional(v.pipe(v.number(), v.minValue(0, 'Invalid value: Expected uint8 to be >= 0'), v.maxValue(255, 'Invalid value: Expected uint8 to be <= 255'))),
+  numberUint16: v.optional(v.pipe(v.number(), v.minValue(0, 'Invalid value: Expected uint16 to be >= 0'), v.maxValue(65535, 'Invalid value: Expected uint16 to be <= 65535'))),
+  numberUint32: v.optional(v.pipe(v.number(), v.minValue(0, 'Invalid value: Expected uint32 to be >= 0'), v.maxValue(4294967295, 'Invalid value: Expected uint32 to be <= 4294967295'))),
+  numberUint64: v.optional(v.pipe(v.union([
+    v.number(),
+    v.string(),
+    v.bigint()
+  ]), v.transform(x => BigInt(x)), v.minValue(BigInt('0'), 'Invalid value: Expected uint64 to be >= 0'), v.maxValue(BigInt('18446744073709551615'), 'Invalid value: Expected uint64 to be <= 18446744073709551615'))),
+  integerNoFormat: v.optional(v.pipe(v.number(), v.integer())),
+  integerInt8: v.optional(v.pipe(v.number(), v.integer(), v.minValue(-128, 'Invalid value: Expected int8 to be >= -128'), v.maxValue(127, 'Invalid value: Expected int8 to be <= 127'))),
+  integerInt16: v.optional(v.pipe(v.number(), v.integer(), v.minValue(-32768, 'Invalid value: Expected int16 to be >= -32768'), v.maxValue(32767, 'Invalid value: Expected int16 to be <= 32767'))),
+  integerInt32: v.optional(v.pipe(v.number(), v.integer(), v.minValue(-2147483648, 'Invalid value: Expected int32 to be >= -2147483648'), v.maxValue(2147483647, 'Invalid value: Expected int32 to be <= 2147483647'))),
+  integerInt64: v.optional(v.pipe(v.union([
+    v.number(),
+    v.string(),
+    v.bigint()
+  ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807'))),
+  integerUint8: v.optional(v.pipe(v.number(), v.integer(), v.minValue(0, 'Invalid value: Expected uint8 to be >= 0'), v.maxValue(255, 'Invalid value: Expected uint8 to be <= 255'))),
+  integerUint16: v.optional(v.pipe(v.number(), v.integer(), v.minValue(0, 'Invalid value: Expected uint16 to be >= 0'), v.maxValue(65535, 'Invalid value: Expected uint16 to be <= 65535'))),
+  integerUint32: v.optional(v.pipe(v.number(), v.integer(), v.minValue(0, 'Invalid value: Expected uint32 to be >= 0'), v.maxValue(4294967295, 'Invalid value: Expected uint32 to be <= 4294967295'))),
+  integerUint64: v.optional(v.pipe(v.union([
+    v.number(),
+    v.string(),
+    v.bigint()
+  ]), v.transform(x => BigInt(x)), v.minValue(BigInt('0'), 'Invalid value: Expected uint64 to be >= 0'), v.maxValue(BigInt('18446744073709551615'), 'Invalid value: Expected uint64 to be <= 18446744073709551615'))),
+  stringInt64: v.optional(v.pipe(v.union([
+    v.number(),
+    v.string(),
+    v.bigint()
+  ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807'))),
+  stringUint64: v.optional(v.pipe(v.union([
+    v.number(),
+    v.string(),
+    v.bigint()
+  ]), v.transform(x => BigInt(x)), v.minValue(BigInt('0'), 'Invalid value: Expected uint64 to be >= 0'), v.maxValue(BigInt('18446744073709551615'), 'Invalid value: Expected uint64 to be <= 18446744073709551615')))
 });

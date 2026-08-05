@@ -79,6 +79,12 @@ export const stephenZhou = github({
   username: 'hyoban',
 });
 
+export const sukka = github({
+  name: 'Sukka',
+  title: 'Contributor',
+  username: 'sukkaw',
+});
+
 export const yuriMikhin = github({
   name: 'Yuri Mikhin',
   username: 'mikhin',
@@ -86,4 +92,4 @@ export const yuriMikhin = github({
 
 export const coreTeam: Array<Person> = [lubos];
 
-export const hallOfFame: Array<Person> = [ferdiKoomen, nicolasChaulet, jordanShatford];
+export const hallOfFame: Array<Person> = [ferdiKoomen, nicolasChaulet, jordanShatford, sukka];

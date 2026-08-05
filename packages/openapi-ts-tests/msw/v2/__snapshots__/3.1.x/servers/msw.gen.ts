@@ -5,71 +5,71 @@ import { http, type HttpHandler, HttpResponse, type HttpResponseResolver, type R
 import type { ClientOptions, GetFooResponses } from './types.gen';
 
 export type RequestHandlerOptions = RequestHandlerOptions2 & {
-    baseUrl?: ClientOptions['baseUrl'];
-    responseFallback?: 'error' | 'passthrough';
+  baseUrl?: ClientOptions['baseUrl'];
+  responseFallback?: 'error' | 'passthrough';
 };
 
 export type HandleGetFooResponse = {
-    body: GetFooResponses[200];
-    status?: 200;
+  body: GetFooResponses[200];
+  status?: 200;
 };
 
 /**
  * Handler for the `GET /foo` operation.
  */
 export function handleGetFoo(response?: HandleGetFooResponse | HttpResponseResolver<never, never>, options?: RequestHandlerOptions): HttpHandler {
-    return http.get<never, never>(`${options?.baseUrl ?? '*'}/foo`, info => {
-        if (typeof response === 'function') {
-            return response(info);
-        }
-        const body = response?.body;
-        if (body !== undefined) {
-            return HttpResponse.json(body, { status: response?.status ?? 200 });
-        }
-        if (options?.responseFallback === 'passthrough') {
-            return;
-        }
-        return new Response('Not Implemented', {
-            status: 501,
-            statusText: 'Not Implemented'
-        });
-    }, options);
+  return http.get<never, never>(`${options?.baseUrl ?? '*'}/foo`, info => {
+    if (typeof response === 'function') {
+      return response(info);
+    }
+    const body = response?.body;
+    if (body !== undefined) {
+      return HttpResponse.json(body, { status: response?.status ?? 200 });
+    }
+    if (options?.responseFallback === 'passthrough') {
+      return;
+    }
+    return new Response('Not Implemented', {
+      status: 501,
+      statusText: 'Not Implemented'
+    });
+  }, options);
 }
 
 export type MswHandlerFactories = {
-    /**
-     * Handler for the `GET /foo` operation.
-     */
-    getFoo: typeof handleGetFoo;
+  /**
+   * Handler for the `GET /foo` operation.
+   */
+  getFoo: typeof handleGetFoo;
 };
 
 export type CreateMswHandlersResult = {
-    all: (options?: {
-        pick?: {
-            [K in keyof MswHandlerFactories]?: Parameters<MswHandlerFactories[K]>[0] | Parameters<MswHandlerFactories[K]>;
-        };
-    }) => ReadonlyArray<HttpHandler>;
-    pick: MswHandlerFactories;
+  all: (options?: {
+    pick?: {
+      [K in keyof MswHandlerFactories]?: Parameters<MswHandlerFactories[K]>[0] | Parameters<MswHandlerFactories[K]>;
+    };
+  }) => ReadonlyArray<HttpHandler>;
+  pick: MswHandlerFactories;
 };
 
 export function createMswHandlers(config: RequestHandlerOptions = {}): CreateMswHandlersResult {
-    type Handler<R> = (response?: R, options?: RequestHandlerOptions) => HttpHandler;
-    function wrap<R>(handler: Handler<R>): Handler<R> {
-        return (response, options) => handler(response, { ...config, ...options });
+  type Handler<R> = (response?: R, options?: RequestHandlerOptions) => HttpHandler;
+  function wrap<R>(handler: Handler<R>): Handler<R> {
+    return (response, options) => handler(response, { ...config, ...options });
+  }
+  const pick: CreateMswHandlersResult['pick'] = {
+    getFoo: wrap(handleGetFoo)
+  };
+  const all: CreateMswHandlersResult['all'] = (options = {}) => {
+    type OverrideValue<R> = R | [
+      response?: R,
+      options?: RequestHandlerOptions
+    ];
+    function invoke<R>(fn: Handler<R>, override?: OverrideValue<R>): HttpHandler {
+      return Array.isArray(override) ? fn(...override) : fn(override);
     }
-    const pick: CreateMswHandlersResult['pick'] = {
-        getFoo: wrap(handleGetFoo)
-    };
-    const all: CreateMswHandlersResult['all'] = (options = {}) => {
-        type OverrideValue<R> = R | [
-            response?: R,
-            options?: RequestHandlerOptions
-        ];
-        function invoke<R>(fn: Handler<R>, override?: OverrideValue<R>): HttpHandler {
-            return Array.isArray(override) ? fn(...override) : fn(override);
-        }
-        const overrides = options.pick ?? {};
-        return [invoke(pick.getFoo, overrides.getFoo)];
-    };
-    return { all, pick };
+    const overrides = options.pick ?? {};
+    return [invoke(pick.getFoo, overrides.getFoo)];
+  };
+  return { all, pick };
 }

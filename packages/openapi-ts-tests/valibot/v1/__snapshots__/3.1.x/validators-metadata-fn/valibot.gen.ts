@@ -5,24 +5,24 @@ import * as v from 'valibot';
 export const vBaz = v.optional(v.pipe(v.pipe(v.string(), v.regex(/foo\nbar/)), v.metadata({ custom: 'value', title: 'string' }), v.readonly()), 'baz');
 
 export const vQux = v.pipe(v.record(v.string(), v.pipe(v.object({
-    qux: v.optional(v.pipe(v.string(), v.metadata({ custom: 'value', title: 'string' })))
+  qux: v.optional(v.pipe(v.string(), v.metadata({ custom: 'value', title: 'string' })))
 }), v.metadata({ custom: 'value', title: 'object' }))), v.metadata({ custom: 'value', title: 'object' }));
 
 /**
  * This is Foo schema.
  */
 export const vFoo: v.GenericSchema = v.nullish(v.pipe(v.object({
-    foo: v.optional(v.pipe(v.pipe(v.string(), v.regex(/^\d{3}-\d{2}-\d{4}$/, 'Must be a valid SSN format (###-##-####)')), v.metadata({ custom: 'value', title: 'This is foo property.' }))),
-    bar: v.optional(v.lazy(() => vBar)),
-    baz: v.optional(v.pipe(v.array(v.lazy(() => vFoo)), v.metadata({ custom: 'value', title: 'This is baz property.' }))),
-    qux: v.optional(v.pipe(v.pipe(v.number(), v.integer(), v.gtValue(0)), v.metadata({ custom: 'value', title: 'This is qux property.' })), 0)
+  foo: v.optional(v.pipe(v.pipe(v.string(), v.regex(/^\d{3}-\d{2}-\d{4}$/, 'Must be a valid SSN format (###-##-####)')), v.metadata({ custom: 'value', title: 'This is foo property.' }))),
+  bar: v.optional(v.lazy(() => vBar)),
+  baz: v.optional(v.pipe(v.array(v.lazy(() => vFoo)), v.metadata({ custom: 'value', title: 'This is baz property.' }))),
+  qux: v.optional(v.pipe(v.pipe(v.number(), v.integer(), v.gtValue(0)), v.metadata({ custom: 'value', title: 'This is qux property.' })), 0)
 }), v.metadata({ custom: 'value', title: 'object' })), null);
 
 /**
  * This is Bar schema.
  */
 export const vBar = v.pipe(v.object({
-    foo: v.optional(vFoo)
+  foo: v.optional(vFoo)
 }), v.metadata({ custom: 'value', title: 'This is Bar schema.' }));
 
 /**
@@ -31,21 +31,21 @@ export const vBar = v.pipe(v.object({
 export const vFoo2 = v.pipe(v.string(), v.metadata({ custom: 'value', title: 'This is Foo parameter.' }));
 
 export const vFoo3 = v.pipe(v.object({
-    foo: v.optional(vBar)
+  foo: v.optional(vBar)
 }), v.metadata({ custom: 'value', title: 'object' }));
 
 export const vPatchFooBody = v.pipe(v.object({
-    foo: v.optional(v.pipe(v.string(), v.metadata({ custom: 'value', title: 'string' })))
+  foo: v.optional(v.pipe(v.string(), v.metadata({ custom: 'value', title: 'string' })))
 }), v.metadata({ custom: 'value', title: 'object' }));
 
 export const vPatchFooQuery = v.pipe(v.object({
-    foo: v.optional(v.pipe(v.string(), v.metadata({ custom: 'value', title: 'This is Foo parameter.' }))),
-    bar: v.optional(vBar),
-    baz: v.optional(v.pipe(v.object({
-        baz: v.optional(v.pipe(v.string(), v.metadata({ custom: 'value', title: 'string' })))
-    }), v.metadata({ custom: 'value', title: 'object' }))),
-    qux: v.optional(v.pipe(v.pipe(v.string(), v.isoDate()), v.metadata({ custom: 'value', title: 'string' }))),
-    quux: v.optional(v.pipe(v.pipe(v.string(), v.isoTimestamp()), v.metadata({ custom: 'value', title: 'string' })))
+  foo: v.optional(v.pipe(v.string(), v.metadata({ custom: 'value', title: 'This is Foo parameter.' }))),
+  bar: v.optional(vBar),
+  baz: v.optional(v.pipe(v.object({
+    baz: v.optional(v.pipe(v.string(), v.metadata({ custom: 'value', title: 'string' })))
+  }), v.metadata({ custom: 'value', title: 'object' }))),
+  qux: v.optional(v.pipe(v.pipe(v.string(), v.isoDate()), v.metadata({ custom: 'value', title: 'string' }))),
+  quux: v.optional(v.pipe(v.pipe(v.string(), v.isoTimestamp()), v.metadata({ custom: 'value', title: 'string' })))
 }), v.metadata({ custom: 'value', title: 'object' }));
 
 export const vPostFooBody = vFoo3;

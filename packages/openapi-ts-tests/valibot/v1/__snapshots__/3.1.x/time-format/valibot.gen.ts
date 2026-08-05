@@ -3,14 +3,14 @@
 import * as v from 'valibot';
 
 export const vGetSearchQuery = v.object({
-    start_time: v.optional(v.pipe(v.string(), v.isoTimeSecond())),
-    end_time: v.pipe(v.string(), v.isoTimeSecond())
+  start_time: v.optional(v.pipe(v.string(), v.isoTimeSecond())),
+  end_time: v.pipe(v.string(), v.isoTimeSecond())
 });
 
 /**
  * Success
  */
 export const vGetSearchResponse = v.object({
-    result: v.optional(v.string()),
-    scheduled_time: v.optional(v.pipe(v.string(), v.isoTimeSecond()))
+  result: v.optional(v.string()),
+  scheduled_time: v.optional(v.pipe(v.string(), v.isoTimeSecond()))
 });

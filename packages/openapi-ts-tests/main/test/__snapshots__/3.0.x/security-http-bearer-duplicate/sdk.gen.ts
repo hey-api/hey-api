@@ -5,41 +5,41 @@ import { client } from './client.gen';
 import type { GetDataData, GetDataResponses, GetUniqueData, GetUniqueResponses, RefreshData, RefreshResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
-    /**
-     * You can provide a client instance returned by `createClient()` instead of
-     * individual options. This might be also useful if you want to implement a
-     * custom client.
-     */
-    client?: Client;
-    /**
-     * You can pass arbitrary values through the `meta` object. This can be
-     * used to access values that aren't defined as part of the SDK function.
-     */
-    meta?: keyof ClientMeta extends never ? Record<string, unknown> : ClientMeta;
+  /**
+   * You can provide a client instance returned by `createClient()` instead of
+   * individual options. This might be also useful if you want to implement a
+   * custom client.
+   */
+  client?: Client;
+  /**
+   * You can pass arbitrary values through the `meta` object. This can be
+   * used to access values that aren't defined as part of the SDK function.
+   */
+  meta?: keyof ClientMeta extends never ? Record<string, unknown> : ClientMeta;
 };
 
 export const getData = <ThrowOnError extends boolean = false>(options?: Options<GetDataData, ThrowOnError>): RequestResult<GetDataResponses, unknown, ThrowOnError> => (options?.client ?? client).get<GetDataResponses, unknown, ThrowOnError>({
-    security: [{
-            key: 'bearerAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/data',
-    ...options
+  security: [{
+      key: 'bearerAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/data',
+  ...options
 });
 
 export const refresh = <ThrowOnError extends boolean = false>(options?: Options<RefreshData, ThrowOnError>): RequestResult<RefreshResponses, unknown, ThrowOnError> => (options?.client ?? client).get<RefreshResponses, unknown, ThrowOnError>({
-    security: [{
-            key: 'refreshAuth',
-            scheme: 'bearer',
-            type: 'http'
-        }],
-    url: '/refresh',
-    ...options
+  security: [{
+      key: 'refreshAuth',
+      scheme: 'bearer',
+      type: 'http'
+    }],
+  url: '/refresh',
+  ...options
 });
 
 export const getUnique = <ThrowOnError extends boolean = false>(options?: Options<GetUniqueData, ThrowOnError>): RequestResult<GetUniqueResponses, unknown, ThrowOnError> => (options?.client ?? client).get<GetUniqueResponses, unknown, ThrowOnError>({
-    security: [{ scheme: 'basic', type: 'http' }],
-    url: '/unique',
-    ...options
+  security: [{ scheme: 'basic', type: 'http' }],
+  url: '/unique',
+  ...options
 });

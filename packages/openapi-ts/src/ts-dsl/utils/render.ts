@@ -6,7 +6,7 @@ import { ts } from '../../ts-compiler';
 import type { TsDsl } from '../../ts-dsl';
 import { $ } from '../../ts-dsl';
 import type { ModuleExport, ModuleImport, SortGroup, SortKey, SortModule } from './render-utils';
-import { astToString, moduleSortKey } from './render-utils';
+import { moduleSortKey } from './render-utils';
 
 type Exports = ReadonlyArray<ReadonlyArray<ModuleExport>>;
 type ExportsOptions = {
@@ -15,6 +15,8 @@ type ExportsOptions = {
 type Header = MaybeArray<string> | null | undefined;
 type HeaderArg = MaybeFunc<(ctx: RenderContext<TsDsl>) => Header>;
 type Imports = ReadonlyArray<ReadonlyArray<ModuleImport>>;
+type PrinterOptionsFn = (ctx: RenderContext<TsDsl>) => ts.PrinterOptions | undefined;
+export type UserPrinter = MaybeFunc<PrinterOptionsFn>;
 
 function headerToLines(header: Header): ReadonlyArray<string> {
   if (!header) return [];
@@ -28,6 +30,8 @@ function headerToLines(header: Header): ReadonlyArray<string> {
   }
   return lines;
 }
+
+const defaultPrinter = ts.createPrinter();
 
 export class TypeScriptRenderer implements Renderer {
   /**
@@ -48,20 +52,30 @@ export class TypeScriptRenderer implements Renderer {
    * @private
    */
   private _preferExportAll: boolean;
+  /**
+   * Function to generate printer options.
+   *
+   * @private
+   */
+  private _printer: PrinterOptionsFn;
 
   constructor(
     args: Pick<Partial<BaseOutput>, 'module'> & {
       header?: HeaderArg;
       preferExportAll?: boolean;
+      printer?: UserPrinter;
     } = {},
   ) {
+    const { printer } = args;
     this._header = args.header;
     this._module = args.module;
     this._preferExportAll = args.preferExportAll ?? false;
+    this._printer = typeof printer === 'function' ? printer : () => printer;
   }
 
   render(ctx: RenderContext<TsDsl>): string {
     const header = typeof this._header === 'function' ? this._header(ctx) : this._header;
+    const printerOptions = this._printer(ctx);
     return TypeScriptRenderer.astToString({
       exports: this.getExports(ctx),
       exportsOptions: {
@@ -70,6 +84,7 @@ export class TypeScriptRenderer implements Renderer {
       header,
       imports: this.getImports(ctx),
       nodes: ctx.file.nodes,
+      printer: printerOptions ? ts.createPrinter(printerOptions) : undefined,
     });
   }
 
@@ -84,12 +99,20 @@ export class TypeScriptRenderer implements Renderer {
     imports?: Imports;
     nodes?: ReadonlyArray<TsDsl>;
     /**
+     * Printer instance used to render AST nodes to source text.
+     *
+     * @default defaultPrinter
+     */
+    printer?: ts.Printer;
+    /**
      * Whether to include a trailing newline at the end of the file.
      *
      * @default true
      */
     trailingNewline?: boolean;
   }): string {
+    const printer = args.printer ?? defaultPrinter;
+
     let text = '';
     for (const header of headerToLines(args.header)) {
       text += `${header}\n`;
@@ -99,7 +122,7 @@ export class TypeScriptRenderer implements Renderer {
     for (const group of args.imports ?? []) {
       if (imports) imports += '\n';
       for (const imp of group) {
-        imports += `${astToString(TypeScriptRenderer.toImportAst(imp))}\n`;
+        imports += printer.format(TypeScriptRenderer.toImportAst(imp));
       }
     }
     text = `${text}${text && imports ? '\n' : ''}${imports}`;
@@ -107,7 +130,7 @@ export class TypeScriptRenderer implements Renderer {
     let nodes = '';
     for (const node of args.nodes ?? []) {
       if (nodes) nodes += '\n';
-      nodes += `${astToString(node.toAst())}\n`;
+      nodes += printer.format(node.toAst());
     }
     text = `${text}${text && nodes ? '\n' : ''}${nodes}`;
 
@@ -115,7 +138,7 @@ export class TypeScriptRenderer implements Renderer {
     for (const group of args.exports ?? []) {
       if ((!exports && nodes) || exports) exports += '\n';
       for (const exp of group) {
-        exports += `${astToString(TypeScriptRenderer.toExportAst(exp, args.exportsOptions))}\n`;
+        exports += printer.format(TypeScriptRenderer.toExportAst(exp, args.exportsOptions));
       }
     }
     text = `${text}${text && exports ? '\n' : ''}${exports}`;

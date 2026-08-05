@@ -1,16 +1,11 @@
 import { MinHeap } from '../minHeap';
 
 describe('MinHeap', () => {
-  it('pops items in increasing declIndex order', () => {
-    const idx = new Map<string, number>([
-      ['a', 10],
-      ['b', 5],
-      ['c', 20],
-    ]);
-    const h = new MinHeap(idx);
-    h.push('a');
-    h.push('b');
-    h.push('c');
+  it('pops items in increasing priority order', () => {
+    const h = new MinHeap();
+    h.push('a', 10);
+    h.push('b', 5);
+    h.push('c', 20);
 
     expect(h.pop()).toBe('b');
     expect(h.pop()).toBe('a');
@@ -19,26 +14,20 @@ describe('MinHeap', () => {
   });
 
   it('supports interleaved push/pop and maintains order', () => {
-    const idx = new Map<string, number>([
-      ['x', 0],
-      ['y', 1],
-      ['z', 2],
-    ]);
-    const h = new MinHeap(idx);
-    h.push('y');
+    const h = new MinHeap();
+    h.push('y', 1);
     expect(h.pop()).toBe('y');
 
-    h.push('z');
-    h.push('x');
+    h.push('z', 2);
+    h.push('x', 0);
     expect(h.pop()).toBe('x');
     expect(h.pop()).toBe('z');
   });
 
   it('handles duplicates (same id pushed multiple times)', () => {
-    const idx = new Map<string, number>([['dup', 1]]);
-    const h = new MinHeap(idx);
-    h.push('dup');
-    h.push('dup');
+    const h = new MinHeap();
+    h.push('dup', 1);
+    h.push('dup', 1);
     expect(h.pop()).toBe('dup');
     // second duplicate still present
     expect(h.pop()).toBe('dup');
@@ -46,10 +35,9 @@ describe('MinHeap', () => {
   });
 
   it('isEmpty returns true when empty and false when not', () => {
-    const idx = new Map<string, number>([['a', 0]]);
-    const h = new MinHeap(idx);
+    const h = new MinHeap();
     expect(h.isEmpty()).toBe(true);
-    h.push('a');
+    h.push('a', 0);
     expect(h.isEmpty()).toBe(false);
     h.pop();
     expect(h.isEmpty()).toBe(true);

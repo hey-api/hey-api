@@ -345,5 +345,6 @@ export type { ExampleOptions } from './utils/context';
 export { ctx, TsDslContext } from './utils/context';
 export { keywords } from './utils/keywords';
 export { regexp } from './utils/regexp';
+export type { UserPrinter } from './utils/render';
 export { TypeScriptRenderer } from './utils/render';
 export { reserved } from './utils/reserved';

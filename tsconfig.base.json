@@ -5,6 +5,7 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
+    "lib": ["ES2022"],
     "module": "ES2022",
     "moduleResolution": "Bundler",
     "noEmit": false,
@@ -13,6 +14,7 @@
     "sourceMap": true,
     "strict": true,
     "target": "ES2022",
+    "types": ["node"],
     "verbatimModuleSyntax": true
   }
 }

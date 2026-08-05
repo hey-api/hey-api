@@ -32,7 +32,7 @@ jobs:
           node-version-file: '.nvmrc'
           cache: pnpm
 
-      - name: Install dependencies
+      - name: Install Node dependencies
         run: pnpm install --frozen-lockfile
 
       - name: Run test coverage

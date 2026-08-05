@@ -61,8 +61,8 @@ import type { PyWithStatement as _PyWithStatement } from './nodes/statements/wit
 import type { PyWithItem as _PyWithItem } from './nodes/statements/with-item';
 import type { PyComment as _PyComment } from './nodes/structure/comment';
 import type { PySourceFile as _PySourceFile } from './nodes/structure/source-file';
-import type { PyPrinterOptions as _PyPrinterOptions } from './printer';
-import { createPrinter, printAst } from './printer';
+import type { PyPrinter as _PyPrinter, PyPrinterOptions as _PyPrinterOptions } from './printer';
+import { createPrinter } from './printer';
 
 export namespace py {
   // Base / Core
@@ -133,6 +133,7 @@ export namespace py {
 
   // Printer
   export type PrinterOptions = _PyPrinterOptions;
+  export type Printer = _PyPrinter;
 
   // Miscellaneous
   export type LiteralValue = _PyLiteralValue;
@@ -142,5 +143,4 @@ export const py = {
   PyNodeKind,
   createPrinter,
   factory,
-  printAst,
 } as const;

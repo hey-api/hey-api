@@ -47,6 +47,10 @@
   );
 }
 
+html {
+  container-type: inline-size;
+}
+
 :root[data-theme='light'] {
   --dt-bg: #fff;
   --dt-bg-2: #f6f6f7;

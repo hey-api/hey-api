@@ -13,5 +13,8 @@
   ],
   "prConcurrentLimit": 4,
   "schedule": ["before 3am on Monday"],
+  "toolSettings": {
+    "nodeMaxMemory": 1536
+  },
   "updatePinnedDependencies": true
 }

@@ -5,8 +5,8 @@ import * as v from 'valibot';
 export const vQuux = v.picklist(['Bar', 'Baz']);
 
 export const vQux = v.object({
-    id: v.string(),
-    type: vQuux
+  id: v.string(),
+  type: vQuux
 });
 
 export const vBaz = vQux;
@@ -14,21 +14,21 @@ export const vBaz = vQux;
 export const vBar = vQux;
 
 export const vFoo = v.union([v.intersect([v.object({
-            type: v.literal('Bar')
-        }), vBar]), v.intersect([v.object({
-            type: v.literal('Baz')
-        }), vBaz])]);
+      type: v.literal('Bar')
+    }), vBar]), v.intersect([v.object({
+      type: v.literal('Baz')
+    }), vBaz])]);
 
 export const vSpæcial = vQux;
 
 export const vQuuz = v.union([
-    v.intersect([v.object({
-            type: v.literal('bar')
-        }), vBar]),
-    v.intersect([v.object({
-            type: v.literal('baz')
-        }), vBaz]),
-    v.intersect([v.object({
-            type: v.literal('non-ascii')
-        }), vSpæcial])
+  v.intersect([v.object({
+      type: v.literal('bar')
+    }), vBar]),
+  v.intersect([v.object({
+      type: v.literal('baz')
+    }), vBaz]),
+  v.intersect([v.object({
+      type: v.literal('non-ascii')
+    }), vSpæcial])
 ]);

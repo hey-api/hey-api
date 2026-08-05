@@ -5,1189 +5,1189 @@ import { type DefaultBodyType, http, type HttpHandler, HttpResponse, type HttpRe
 import type { CallWithDuplicateResponsesResponses, CallWithNoContentResponseResponses, CallWithResponseAndNoContentResponseResponses, CallWithResponsesResponses, CallWithResultFromHeaderResponses, CallWithWeirdParameterNamesData, ClientOptions, ComplexTypesResponses, DummyAResponses, DummyBResponses, NonAsciiæøåÆøÅöôêÊ字符串Responses, PostApiVbyApiVersionBodyData, PostApiVbyApiVersionBodyResponses, TestErrorCodeResponses, TypesResponses } from './types.gen';
 
 export type RequestHandlerOptions = RequestHandlerOptions2 & {
-    baseUrl?: ClientOptions['baseUrl'];
-    responseFallback?: 'error' | 'passthrough';
+  baseUrl?: ClientOptions['baseUrl'];
+  responseFallback?: 'error' | 'passthrough';
 };
 
 export type HandleServiceWithEmptyTagResponse = {
-    body: DefaultBodyType;
-    status?: number;
+  body: DefaultBodyType;
+  status?: number;
 };
 
 /**
  * Handler for the `GET /api/v{api-version}/no+tag` operation.
  */
 export function handleServiceWithEmptyTag(response?: HandleServiceWithEmptyTagResponse | HttpResponseResolver<never, never>, options?: RequestHandlerOptions): HttpHandler {
-    return http.get<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/no+tag`, info => {
-        if (typeof response === 'function') {
-            return response(info);
-        }
-        const body = response?.body;
-        if (body !== undefined) {
-            return new HttpResponse(body, { status: response?.status });
-        }
-        if (options?.responseFallback === 'passthrough') {
-            return;
-        }
-        return new Response('Not Implemented', {
-            status: 501,
-            statusText: 'Not Implemented'
-        });
-    }, options);
+  return http.get<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/no+tag`, info => {
+    if (typeof response === 'function') {
+      return response(info);
+    }
+    const body = response?.body;
+    if (body !== undefined) {
+      return new HttpResponse(body, { status: response?.status });
+    }
+    if (options?.responseFallback === 'passthrough') {
+      return;
+    }
+    return new Response('Not Implemented', {
+      status: 501,
+      statusText: 'Not Implemented'
+    });
+  }, options);
 }
 
 export type HandlePatchApiVbyApiVersionNoTagResponse = {
-    body: DefaultBodyType;
-    status?: number;
+  body: DefaultBodyType;
+  status?: number;
 };
 
 /**
  * Handler for the `PATCH /api/v{api-version}/no+tag` operation.
  */
 export function handlePatchApiVbyApiVersionNoTag(response?: HandlePatchApiVbyApiVersionNoTagResponse | HttpResponseResolver<never, never>, options?: RequestHandlerOptions): HttpHandler {
-    return http.patch<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/no+tag`, info => {
-        if (typeof response === 'function') {
-            return response(info);
-        }
-        const body = response?.body;
-        if (body !== undefined) {
-            return new HttpResponse(body, { status: response?.status });
-        }
-        if (options?.responseFallback === 'passthrough') {
-            return;
-        }
-        return new Response('Not Implemented', {
-            status: 501,
-            statusText: 'Not Implemented'
-        });
-    }, options);
+  return http.patch<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/no+tag`, info => {
+    if (typeof response === 'function') {
+      return response(info);
+    }
+    const body = response?.body;
+    if (body !== undefined) {
+      return new HttpResponse(body, { status: response?.status });
+    }
+    if (options?.responseFallback === 'passthrough') {
+      return;
+    }
+    return new Response('Not Implemented', {
+      status: 501,
+      statusText: 'Not Implemented'
+    });
+  }, options);
 }
 
 export type HandleFooWowResponse = {
-    body: DefaultBodyType;
-    status?: number;
+  body: DefaultBodyType;
+  status?: number;
 };
 
 /**
  * Handler for the `PUT /api/v{api-version}/no+tag` operation.
  */
 export function handleFooWow(response?: HandleFooWowResponse | HttpResponseResolver<never, never>, options?: RequestHandlerOptions): HttpHandler {
-    return http.put<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/no+tag`, info => {
-        if (typeof response === 'function') {
-            return response(info);
-        }
-        const body = response?.body;
-        if (body !== undefined) {
-            return new HttpResponse(body, { status: response?.status });
-        }
-        if (options?.responseFallback === 'passthrough') {
-            return;
-        }
-        return new Response('Not Implemented', {
-            status: 501,
-            statusText: 'Not Implemented'
-        });
-    }, options);
+  return http.put<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/no+tag`, info => {
+    if (typeof response === 'function') {
+      return response(info);
+    }
+    const body = response?.body;
+    if (body !== undefined) {
+      return new HttpResponse(body, { status: response?.status });
+    }
+    if (options?.responseFallback === 'passthrough') {
+      return;
+    }
+    return new Response('Not Implemented', {
+      status: 501,
+      statusText: 'Not Implemented'
+    });
+  }, options);
 }
 
 export type HandleDeleteCallWithoutParametersAndResponseResponse = {
-    body: DefaultBodyType;
-    status?: number;
+  body: DefaultBodyType;
+  status?: number;
 };
 
 /**
  * Handler for the `DELETE /api/v{api-version}/simple` operation.
  */
 export function handleDeleteCallWithoutParametersAndResponse(response?: HandleDeleteCallWithoutParametersAndResponseResponse | HttpResponseResolver<never, never>, options?: RequestHandlerOptions): HttpHandler {
-    return http.delete<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/simple`, info => {
-        if (typeof response === 'function') {
-            return response(info);
-        }
-        const body = response?.body;
-        if (body !== undefined) {
-            return new HttpResponse(body, { status: response?.status });
-        }
-        if (options?.responseFallback === 'passthrough') {
-            return;
-        }
-        return new Response('Not Implemented', {
-            status: 501,
-            statusText: 'Not Implemented'
-        });
-    }, options);
+  return http.delete<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/simple`, info => {
+    if (typeof response === 'function') {
+      return response(info);
+    }
+    const body = response?.body;
+    if (body !== undefined) {
+      return new HttpResponse(body, { status: response?.status });
+    }
+    if (options?.responseFallback === 'passthrough') {
+      return;
+    }
+    return new Response('Not Implemented', {
+      status: 501,
+      statusText: 'Not Implemented'
+    });
+  }, options);
 }
 
 export type HandleGetCallWithoutParametersAndResponseResponse = {
-    body: DefaultBodyType;
-    status?: number;
+  body: DefaultBodyType;
+  status?: number;
 };
 
 /**
  * Handler for the `GET /api/v{api-version}/simple` operation.
  */
 export function handleGetCallWithoutParametersAndResponse(response?: HandleGetCallWithoutParametersAndResponseResponse | HttpResponseResolver<never, never>, options?: RequestHandlerOptions): HttpHandler {
-    return http.get<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/simple`, info => {
-        if (typeof response === 'function') {
-            return response(info);
-        }
-        const body = response?.body;
-        if (body !== undefined) {
-            return new HttpResponse(body, { status: response?.status });
-        }
-        if (options?.responseFallback === 'passthrough') {
-            return;
-        }
-        return new Response('Not Implemented', {
-            status: 501,
-            statusText: 'Not Implemented'
-        });
-    }, options);
+  return http.get<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/simple`, info => {
+    if (typeof response === 'function') {
+      return response(info);
+    }
+    const body = response?.body;
+    if (body !== undefined) {
+      return new HttpResponse(body, { status: response?.status });
+    }
+    if (options?.responseFallback === 'passthrough') {
+      return;
+    }
+    return new Response('Not Implemented', {
+      status: 501,
+      statusText: 'Not Implemented'
+    });
+  }, options);
 }
 
 export type HandleHeadCallWithoutParametersAndResponseResponse = {
-    body: DefaultBodyType;
-    status?: number;
+  body: DefaultBodyType;
+  status?: number;
 };
 
 /**
  * Handler for the `HEAD /api/v{api-version}/simple` operation.
  */
 export function handleHeadCallWithoutParametersAndResponse(response?: HandleHeadCallWithoutParametersAndResponseResponse | HttpResponseResolver<never, never>, options?: RequestHandlerOptions): HttpHandler {
-    return http.head<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/simple`, info => {
-        if (typeof response === 'function') {
-            return response(info);
-        }
-        const body = response?.body;
-        if (body !== undefined) {
-            return new HttpResponse(body, { status: response?.status });
-        }
-        if (options?.responseFallback === 'passthrough') {
-            return;
-        }
-        return new Response('Not Implemented', {
-            status: 501,
-            statusText: 'Not Implemented'
-        });
-    }, options);
+  return http.head<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/simple`, info => {
+    if (typeof response === 'function') {
+      return response(info);
+    }
+    const body = response?.body;
+    if (body !== undefined) {
+      return new HttpResponse(body, { status: response?.status });
+    }
+    if (options?.responseFallback === 'passthrough') {
+      return;
+    }
+    return new Response('Not Implemented', {
+      status: 501,
+      statusText: 'Not Implemented'
+    });
+  }, options);
 }
 
 export type HandleOptionsCallWithoutParametersAndResponseResponse = {
-    body: DefaultBodyType;
-    status?: number;
+  body: DefaultBodyType;
+  status?: number;
 };
 
 /**
  * Handler for the `OPTIONS /api/v{api-version}/simple` operation.
  */
 export function handleOptionsCallWithoutParametersAndResponse(response?: HandleOptionsCallWithoutParametersAndResponseResponse | HttpResponseResolver<never, never>, options?: RequestHandlerOptions): HttpHandler {
-    return http.options<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/simple`, info => {
-        if (typeof response === 'function') {
-            return response(info);
-        }
-        const body = response?.body;
-        if (body !== undefined) {
-            return new HttpResponse(body, { status: response?.status });
-        }
-        if (options?.responseFallback === 'passthrough') {
-            return;
-        }
-        return new Response('Not Implemented', {
-            status: 501,
-            statusText: 'Not Implemented'
-        });
-    }, options);
+  return http.options<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/simple`, info => {
+    if (typeof response === 'function') {
+      return response(info);
+    }
+    const body = response?.body;
+    if (body !== undefined) {
+      return new HttpResponse(body, { status: response?.status });
+    }
+    if (options?.responseFallback === 'passthrough') {
+      return;
+    }
+    return new Response('Not Implemented', {
+      status: 501,
+      statusText: 'Not Implemented'
+    });
+  }, options);
 }
 
 export type HandlePatchCallWithoutParametersAndResponseResponse = {
-    body: DefaultBodyType;
-    status?: number;
+  body: DefaultBodyType;
+  status?: number;
 };
 
 /**
  * Handler for the `PATCH /api/v{api-version}/simple` operation.
  */
 export function handlePatchCallWithoutParametersAndResponse(response?: HandlePatchCallWithoutParametersAndResponseResponse | HttpResponseResolver<never, never>, options?: RequestHandlerOptions): HttpHandler {
-    return http.patch<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/simple`, info => {
-        if (typeof response === 'function') {
-            return response(info);
-        }
-        const body = response?.body;
-        if (body !== undefined) {
-            return new HttpResponse(body, { status: response?.status });
-        }
-        if (options?.responseFallback === 'passthrough') {
-            return;
-        }
-        return new Response('Not Implemented', {
-            status: 501,
-            statusText: 'Not Implemented'
-        });
-    }, options);
+  return http.patch<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/simple`, info => {
+    if (typeof response === 'function') {
+      return response(info);
+    }
+    const body = response?.body;
+    if (body !== undefined) {
+      return new HttpResponse(body, { status: response?.status });
+    }
+    if (options?.responseFallback === 'passthrough') {
+      return;
+    }
+    return new Response('Not Implemented', {
+      status: 501,
+      statusText: 'Not Implemented'
+    });
+  }, options);
 }
 
 export type HandlePostCallWithoutParametersAndResponseResponse = {
-    body: DefaultBodyType;
-    status?: number;
+  body: DefaultBodyType;
+  status?: number;
 };
 
 /**
  * Handler for the `POST /api/v{api-version}/simple` operation.
  */
 export function handlePostCallWithoutParametersAndResponse(response?: HandlePostCallWithoutParametersAndResponseResponse | HttpResponseResolver<never, never>, options?: RequestHandlerOptions): HttpHandler {
-    return http.post<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/simple`, info => {
-        if (typeof response === 'function') {
-            return response(info);
-        }
-        const body = response?.body;
-        if (body !== undefined) {
-            return new HttpResponse(body, { status: response?.status });
-        }
-        if (options?.responseFallback === 'passthrough') {
-            return;
-        }
-        return new Response('Not Implemented', {
-            status: 501,
-            statusText: 'Not Implemented'
-        });
-    }, options);
+  return http.post<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/simple`, info => {
+    if (typeof response === 'function') {
+      return response(info);
+    }
+    const body = response?.body;
+    if (body !== undefined) {
+      return new HttpResponse(body, { status: response?.status });
+    }
+    if (options?.responseFallback === 'passthrough') {
+      return;
+    }
+    return new Response('Not Implemented', {
+      status: 501,
+      statusText: 'Not Implemented'
+    });
+  }, options);
 }
 
 export type HandlePutCallWithoutParametersAndResponseResponse = {
-    body: DefaultBodyType;
-    status?: number;
+  body: DefaultBodyType;
+  status?: number;
 };
 
 /**
  * Handler for the `PUT /api/v{api-version}/simple` operation.
  */
 export function handlePutCallWithoutParametersAndResponse(response?: HandlePutCallWithoutParametersAndResponseResponse | HttpResponseResolver<never, never>, options?: RequestHandlerOptions): HttpHandler {
-    return http.put<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/simple`, info => {
-        if (typeof response === 'function') {
-            return response(info);
-        }
-        const body = response?.body;
-        if (body !== undefined) {
-            return new HttpResponse(body, { status: response?.status });
-        }
-        if (options?.responseFallback === 'passthrough') {
-            return;
-        }
-        return new Response('Not Implemented', {
-            status: 501,
-            statusText: 'Not Implemented'
-        });
-    }, options);
+  return http.put<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/simple`, info => {
+    if (typeof response === 'function') {
+      return response(info);
+    }
+    const body = response?.body;
+    if (body !== undefined) {
+      return new HttpResponse(body, { status: response?.status });
+    }
+    if (options?.responseFallback === 'passthrough') {
+      return;
+    }
+    return new Response('Not Implemented', {
+      status: 501,
+      statusText: 'Not Implemented'
+    });
+  }, options);
 }
 
 export type HandleCallWithDescriptionsResponse = {
-    body: DefaultBodyType;
-    status?: number;
+  body: DefaultBodyType;
+  status?: number;
 };
 
 /**
  * Handler for the `POST /api/v{api-version}/descriptions/` operation.
  */
 export function handleCallWithDescriptions(response?: HandleCallWithDescriptionsResponse | HttpResponseResolver<never, never>, options?: RequestHandlerOptions): HttpHandler {
-    return http.post<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/descriptions/`, info => {
-        if (typeof response === 'function') {
-            return response(info);
-        }
-        const body = response?.body;
-        if (body !== undefined) {
-            return new HttpResponse(body, { status: response?.status });
-        }
-        if (options?.responseFallback === 'passthrough') {
-            return;
-        }
-        return new Response('Not Implemented', {
-            status: 501,
-            statusText: 'Not Implemented'
-        });
-    }, options);
+  return http.post<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/descriptions/`, info => {
+    if (typeof response === 'function') {
+      return response(info);
+    }
+    const body = response?.body;
+    if (body !== undefined) {
+      return new HttpResponse(body, { status: response?.status });
+    }
+    if (options?.responseFallback === 'passthrough') {
+      return;
+    }
+    return new Response('Not Implemented', {
+      status: 501,
+      statusText: 'Not Implemented'
+    });
+  }, options);
 }
 
 export type HandleCallWithParametersResponse = {
-    body: DefaultBodyType;
-    status?: number;
+  body: DefaultBodyType;
+  status?: number;
 };
 
 /**
  * Handler for the `POST /api/v{api-version}/parameters/{parameterPath}` operation.
  */
 export function handleCallWithParameters(response?: HandleCallWithParametersResponse | HttpResponseResolver<{
+  parameterPath: string;
+  apiVersion: string;
+}, never>, options?: RequestHandlerOptions): HttpHandler {
+  return http.post<{
     parameterPath: string;
     apiVersion: string;
-}, never>, options?: RequestHandlerOptions): HttpHandler {
-    return http.post<{
-        parameterPath: string;
-        apiVersion: string;
-    }, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/parameters/:parameterPath`, info => {
-        if (typeof response === 'function') {
-            return response(info);
-        }
-        const body = response?.body;
-        if (body !== undefined) {
-            return new HttpResponse(body, { status: response?.status });
-        }
-        if (options?.responseFallback === 'passthrough') {
-            return;
-        }
-        return new Response('Not Implemented', {
-            status: 501,
-            statusText: 'Not Implemented'
-        });
-    }, options);
+  }, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/parameters/:parameterPath`, info => {
+    if (typeof response === 'function') {
+      return response(info);
+    }
+    const body = response?.body;
+    if (body !== undefined) {
+      return new HttpResponse(body, { status: response?.status });
+    }
+    if (options?.responseFallback === 'passthrough') {
+      return;
+    }
+    return new Response('Not Implemented', {
+      status: 501,
+      statusText: 'Not Implemented'
+    });
+  }, options);
 }
 
 export type HandleCallWithWeirdParameterNamesResponse = {
-    body: DefaultBodyType;
-    status?: number;
+  body: DefaultBodyType;
+  status?: number;
 };
 
 /**
  * Handler for the `POST /api/v{api-version}/parameters/{parameter.path.1}/{parameter-path-2}/{PARAMETER-PATH-3}` operation.
  */
 export function handleCallWithWeirdParameterNames(response?: HandleCallWithWeirdParameterNamesResponse | HttpResponseResolver<{
+  parameterPath1: string;
+  parameterPath2: string;
+  PARAMETERPATH3: string;
+  apiVersion: string;
+}, CallWithWeirdParameterNamesData['body']>, options?: RequestHandlerOptions): HttpHandler {
+  return http.post<{
     parameterPath1: string;
     parameterPath2: string;
     PARAMETERPATH3: string;
     apiVersion: string;
-}, CallWithWeirdParameterNamesData['body']>, options?: RequestHandlerOptions): HttpHandler {
-    return http.post<{
-        parameterPath1: string;
-        parameterPath2: string;
-        PARAMETERPATH3: string;
-        apiVersion: string;
-    }, CallWithWeirdParameterNamesData['body']>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/parameters/:parameterPath1/:parameterPath2/:PARAMETERPATH3`, info => {
-        if (typeof response === 'function') {
-            return response(info);
-        }
-        const body = response?.body;
-        if (body !== undefined) {
-            return new HttpResponse(body, { status: response?.status });
-        }
-        if (options?.responseFallback === 'passthrough') {
-            return;
-        }
-        return new Response('Not Implemented', {
-            status: 501,
-            statusText: 'Not Implemented'
-        });
-    }, options);
+  }, CallWithWeirdParameterNamesData['body']>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/parameters/:parameterPath1/:parameterPath2/:PARAMETERPATH3`, info => {
+    if (typeof response === 'function') {
+      return response(info);
+    }
+    const body = response?.body;
+    if (body !== undefined) {
+      return new HttpResponse(body, { status: response?.status });
+    }
+    if (options?.responseFallback === 'passthrough') {
+      return;
+    }
+    return new Response('Not Implemented', {
+      status: 501,
+      statusText: 'Not Implemented'
+    });
+  }, options);
 }
 
 export type HandleCallWithDefaultParametersResponse = {
-    body: DefaultBodyType;
-    status?: number;
+  body: DefaultBodyType;
+  status?: number;
 };
 
 /**
  * Handler for the `GET /api/v{api-version}/defaults` operation.
  */
 export function handleCallWithDefaultParameters(response?: HandleCallWithDefaultParametersResponse | HttpResponseResolver<never, never>, options?: RequestHandlerOptions): HttpHandler {
-    return http.get<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/defaults`, info => {
-        if (typeof response === 'function') {
-            return response(info);
-        }
-        const body = response?.body;
-        if (body !== undefined) {
-            return new HttpResponse(body, { status: response?.status });
-        }
-        if (options?.responseFallback === 'passthrough') {
-            return;
-        }
-        return new Response('Not Implemented', {
-            status: 501,
-            statusText: 'Not Implemented'
-        });
-    }, options);
+  return http.get<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/defaults`, info => {
+    if (typeof response === 'function') {
+      return response(info);
+    }
+    const body = response?.body;
+    if (body !== undefined) {
+      return new HttpResponse(body, { status: response?.status });
+    }
+    if (options?.responseFallback === 'passthrough') {
+      return;
+    }
+    return new Response('Not Implemented', {
+      status: 501,
+      statusText: 'Not Implemented'
+    });
+  }, options);
 }
 
 export type HandleCallWithDefaultOptionalParametersResponse = {
-    body: DefaultBodyType;
-    status?: number;
+  body: DefaultBodyType;
+  status?: number;
 };
 
 /**
  * Handler for the `POST /api/v{api-version}/defaults` operation.
  */
 export function handleCallWithDefaultOptionalParameters(response?: HandleCallWithDefaultOptionalParametersResponse | HttpResponseResolver<never, never>, options?: RequestHandlerOptions): HttpHandler {
-    return http.post<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/defaults`, info => {
-        if (typeof response === 'function') {
-            return response(info);
-        }
-        const body = response?.body;
-        if (body !== undefined) {
-            return new HttpResponse(body, { status: response?.status });
-        }
-        if (options?.responseFallback === 'passthrough') {
-            return;
-        }
-        return new Response('Not Implemented', {
-            status: 501,
-            statusText: 'Not Implemented'
-        });
-    }, options);
+  return http.post<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/defaults`, info => {
+    if (typeof response === 'function') {
+      return response(info);
+    }
+    const body = response?.body;
+    if (body !== undefined) {
+      return new HttpResponse(body, { status: response?.status });
+    }
+    if (options?.responseFallback === 'passthrough') {
+      return;
+    }
+    return new Response('Not Implemented', {
+      status: 501,
+      statusText: 'Not Implemented'
+    });
+  }, options);
 }
 
 export type HandleCallToTestOrderOfParamsResponse = {
-    body: DefaultBodyType;
-    status?: number;
+  body: DefaultBodyType;
+  status?: number;
 };
 
 /**
  * Handler for the `PUT /api/v{api-version}/defaults` operation.
  */
 export function handleCallToTestOrderOfParams(response?: HandleCallToTestOrderOfParamsResponse | HttpResponseResolver<never, never>, options?: RequestHandlerOptions): HttpHandler {
-    return http.put<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/defaults`, info => {
-        if (typeof response === 'function') {
-            return response(info);
-        }
-        const body = response?.body;
-        if (body !== undefined) {
-            return new HttpResponse(body, { status: response?.status });
-        }
-        if (options?.responseFallback === 'passthrough') {
-            return;
-        }
-        return new Response('Not Implemented', {
-            status: 501,
-            statusText: 'Not Implemented'
-        });
-    }, options);
+  return http.put<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/defaults`, info => {
+    if (typeof response === 'function') {
+      return response(info);
+    }
+    const body = response?.body;
+    if (body !== undefined) {
+      return new HttpResponse(body, { status: response?.status });
+    }
+    if (options?.responseFallback === 'passthrough') {
+      return;
+    }
+    return new Response('Not Implemented', {
+      status: 501,
+      statusText: 'Not Implemented'
+    });
+  }, options);
 }
 
 export type HandleDuplicateNameResponse = {
-    body: DefaultBodyType;
-    status?: number;
+  body: DefaultBodyType;
+  status?: number;
 };
 
 /**
  * Handler for the `DELETE /api/v{api-version}/duplicate` operation.
  */
 export function handleDuplicateName(response?: HandleDuplicateNameResponse | HttpResponseResolver<never, never>, options?: RequestHandlerOptions): HttpHandler {
-    return http.delete<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/duplicate`, info => {
-        if (typeof response === 'function') {
-            return response(info);
-        }
-        const body = response?.body;
-        if (body !== undefined) {
-            return new HttpResponse(body, { status: response?.status });
-        }
-        if (options?.responseFallback === 'passthrough') {
-            return;
-        }
-        return new Response('Not Implemented', {
-            status: 501,
-            statusText: 'Not Implemented'
-        });
-    }, options);
+  return http.delete<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/duplicate`, info => {
+    if (typeof response === 'function') {
+      return response(info);
+    }
+    const body = response?.body;
+    if (body !== undefined) {
+      return new HttpResponse(body, { status: response?.status });
+    }
+    if (options?.responseFallback === 'passthrough') {
+      return;
+    }
+    return new Response('Not Implemented', {
+      status: 501,
+      statusText: 'Not Implemented'
+    });
+  }, options);
 }
 
 export type HandleDuplicateName2Response = {
-    body: DefaultBodyType;
-    status?: number;
+  body: DefaultBodyType;
+  status?: number;
 };
 
 /**
  * Handler for the `GET /api/v{api-version}/duplicate` operation.
  */
 export function handleDuplicateName2(response?: HandleDuplicateName2Response | HttpResponseResolver<never, never>, options?: RequestHandlerOptions): HttpHandler {
-    return http.get<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/duplicate`, info => {
-        if (typeof response === 'function') {
-            return response(info);
-        }
-        const body = response?.body;
-        if (body !== undefined) {
-            return new HttpResponse(body, { status: response?.status });
-        }
-        if (options?.responseFallback === 'passthrough') {
-            return;
-        }
-        return new Response('Not Implemented', {
-            status: 501,
-            statusText: 'Not Implemented'
-        });
-    }, options);
+  return http.get<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/duplicate`, info => {
+    if (typeof response === 'function') {
+      return response(info);
+    }
+    const body = response?.body;
+    if (body !== undefined) {
+      return new HttpResponse(body, { status: response?.status });
+    }
+    if (options?.responseFallback === 'passthrough') {
+      return;
+    }
+    return new Response('Not Implemented', {
+      status: 501,
+      statusText: 'Not Implemented'
+    });
+  }, options);
 }
 
 export type HandleDuplicateName3Response = {
-    body: DefaultBodyType;
-    status?: number;
+  body: DefaultBodyType;
+  status?: number;
 };
 
 /**
  * Handler for the `POST /api/v{api-version}/duplicate` operation.
  */
 export function handleDuplicateName3(response?: HandleDuplicateName3Response | HttpResponseResolver<never, never>, options?: RequestHandlerOptions): HttpHandler {
-    return http.post<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/duplicate`, info => {
-        if (typeof response === 'function') {
-            return response(info);
-        }
-        const body = response?.body;
-        if (body !== undefined) {
-            return new HttpResponse(body, { status: response?.status });
-        }
-        if (options?.responseFallback === 'passthrough') {
-            return;
-        }
-        return new Response('Not Implemented', {
-            status: 501,
-            statusText: 'Not Implemented'
-        });
-    }, options);
+  return http.post<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/duplicate`, info => {
+    if (typeof response === 'function') {
+      return response(info);
+    }
+    const body = response?.body;
+    if (body !== undefined) {
+      return new HttpResponse(body, { status: response?.status });
+    }
+    if (options?.responseFallback === 'passthrough') {
+      return;
+    }
+    return new Response('Not Implemented', {
+      status: 501,
+      statusText: 'Not Implemented'
+    });
+  }, options);
 }
 
 export type HandleDuplicateName4Response = {
-    body: DefaultBodyType;
-    status?: number;
+  body: DefaultBodyType;
+  status?: number;
 };
 
 /**
  * Handler for the `PUT /api/v{api-version}/duplicate` operation.
  */
 export function handleDuplicateName4(response?: HandleDuplicateName4Response | HttpResponseResolver<never, never>, options?: RequestHandlerOptions): HttpHandler {
-    return http.put<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/duplicate`, info => {
-        if (typeof response === 'function') {
-            return response(info);
-        }
-        const body = response?.body;
-        if (body !== undefined) {
-            return new HttpResponse(body, { status: response?.status });
-        }
-        if (options?.responseFallback === 'passthrough') {
-            return;
-        }
-        return new Response('Not Implemented', {
-            status: 501,
-            statusText: 'Not Implemented'
-        });
-    }, options);
+  return http.put<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/duplicate`, info => {
+    if (typeof response === 'function') {
+      return response(info);
+    }
+    const body = response?.body;
+    if (body !== undefined) {
+      return new HttpResponse(body, { status: response?.status });
+    }
+    if (options?.responseFallback === 'passthrough') {
+      return;
+    }
+    return new Response('Not Implemented', {
+      status: 501,
+      statusText: 'Not Implemented'
+    });
+  }, options);
 }
 
 export type HandleCallWithNoContentResponseResponse = {
-    body: CallWithNoContentResponseResponses[204];
-    status?: 204;
+  body: CallWithNoContentResponseResponses[204];
+  status?: 204;
 };
 
 /**
  * Handler for the `GET /api/v{api-version}/no-content` operation.
  */
 export function handleCallWithNoContentResponse(response?: HandleCallWithNoContentResponseResponse | HttpResponseResolver<never, never>, options?: RequestHandlerOptions): HttpHandler {
-    return http.get<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/no-content`, info => {
-        if (typeof response === 'function') {
-            return response(info);
-        }
-        const body = response?.body;
-        if (body !== undefined) {
-            return new HttpResponse(body, { status: response?.status ?? 204 });
-        }
-        if (options?.responseFallback === 'passthrough') {
-            return;
-        }
-        return new Response('Not Implemented', {
-            status: 501,
-            statusText: 'Not Implemented'
-        });
-    }, options);
+  return http.get<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/no-content`, info => {
+    if (typeof response === 'function') {
+      return response(info);
+    }
+    const body = response?.body;
+    if (body !== undefined) {
+      return new HttpResponse(body, { status: response?.status ?? 204 });
+    }
+    if (options?.responseFallback === 'passthrough') {
+      return;
+    }
+    return new Response('Not Implemented', {
+      status: 501,
+      statusText: 'Not Implemented'
+    });
+  }, options);
 }
 
 export type HandleCallWithResponseAndNoContentResponseResponse = {
-    body: CallWithResponseAndNoContentResponseResponses[200];
-    status?: 200;
+  body: CallWithResponseAndNoContentResponseResponses[200];
+  status?: 200;
 };
 
 type ToResponseUnion<T> = {
-    [K in Extract<keyof T, number>]: {
-        status: K;
-        body: T[K];
-    };
+  [K in Extract<keyof T, number>]: {
+    status: K;
+    body: T[K];
+  };
 }[Extract<keyof T, number>];
 
 /**
  * Handler for the `GET /api/v{api-version}/multiple-tags/response-and-no-content` operation.
  */
 export function handleCallWithResponseAndNoContentResponse(response?: HandleCallWithResponseAndNoContentResponseResponse | ToResponseUnion<CallWithResponseAndNoContentResponseResponses> | HttpResponseResolver<never, never>, options?: RequestHandlerOptions): HttpHandler {
-    return http.get<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/multiple-tags/response-and-no-content`, info => {
-        if (typeof response === 'function') {
-            return response(info);
-        }
-        const body = response?.body;
-        if (body !== undefined) {
-            return HttpResponse.json(body, { status: response?.status ?? 200 });
-        }
-        if (options?.responseFallback === 'passthrough') {
-            return;
-        }
-        return new Response('Not Implemented', {
-            status: 501,
-            statusText: 'Not Implemented'
-        });
-    }, options);
+  return http.get<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/multiple-tags/response-and-no-content`, info => {
+    if (typeof response === 'function') {
+      return response(info);
+    }
+    const body = response?.body;
+    if (body !== undefined) {
+      return HttpResponse.json(body, { status: response?.status ?? 200 });
+    }
+    if (options?.responseFallback === 'passthrough') {
+      return;
+    }
+    return new Response('Not Implemented', {
+      status: 501,
+      statusText: 'Not Implemented'
+    });
+  }, options);
 }
 
 export type HandleDummyAResponse = {
-    body: DummyAResponses[204];
-    status?: 204;
+  body: DummyAResponses[204];
+  status?: 204;
 };
 
 /**
  * Handler for the `GET /api/v{api-version}/multiple-tags/a` operation.
  */
 export function handleDummyA(response?: HandleDummyAResponse | HttpResponseResolver<never, never>, options?: RequestHandlerOptions): HttpHandler {
-    return http.get<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/multiple-tags/a`, info => {
-        if (typeof response === 'function') {
-            return response(info);
-        }
-        const body = response?.body;
-        if (body !== undefined) {
-            return new HttpResponse(body, { status: response?.status ?? 204 });
-        }
-        if (options?.responseFallback === 'passthrough') {
-            return;
-        }
-        return new Response('Not Implemented', {
-            status: 501,
-            statusText: 'Not Implemented'
-        });
-    }, options);
+  return http.get<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/multiple-tags/a`, info => {
+    if (typeof response === 'function') {
+      return response(info);
+    }
+    const body = response?.body;
+    if (body !== undefined) {
+      return new HttpResponse(body, { status: response?.status ?? 204 });
+    }
+    if (options?.responseFallback === 'passthrough') {
+      return;
+    }
+    return new Response('Not Implemented', {
+      status: 501,
+      statusText: 'Not Implemented'
+    });
+  }, options);
 }
 
 export type HandleDummyBResponse = {
-    body: DummyBResponses[204];
-    status?: 204;
+  body: DummyBResponses[204];
+  status?: 204;
 };
 
 /**
  * Handler for the `GET /api/v{api-version}/multiple-tags/b` operation.
  */
 export function handleDummyB(response?: HandleDummyBResponse | HttpResponseResolver<never, never>, options?: RequestHandlerOptions): HttpHandler {
-    return http.get<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/multiple-tags/b`, info => {
-        if (typeof response === 'function') {
-            return response(info);
-        }
-        const body = response?.body;
-        if (body !== undefined) {
-            return new HttpResponse(body, { status: response?.status ?? 204 });
-        }
-        if (options?.responseFallback === 'passthrough') {
-            return;
-        }
-        return new Response('Not Implemented', {
-            status: 501,
-            statusText: 'Not Implemented'
-        });
-    }, options);
+  return http.get<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/multiple-tags/b`, info => {
+    if (typeof response === 'function') {
+      return response(info);
+    }
+    const body = response?.body;
+    if (body !== undefined) {
+      return new HttpResponse(body, { status: response?.status ?? 204 });
+    }
+    if (options?.responseFallback === 'passthrough') {
+      return;
+    }
+    return new Response('Not Implemented', {
+      status: 501,
+      statusText: 'Not Implemented'
+    });
+  }, options);
 }
 
 export type HandleCallWithResponseResponse = {
-    body: DefaultBodyType;
-    status?: number;
+  body: DefaultBodyType;
+  status?: number;
 };
 
 /**
  * Handler for the `GET /api/v{api-version}/response` operation.
  */
 export function handleCallWithResponse(response?: HandleCallWithResponseResponse | HttpResponseResolver<never, never>, options?: RequestHandlerOptions): HttpHandler {
-    return http.get<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/response`, info => {
-        if (typeof response === 'function') {
-            return response(info);
-        }
-        const body = response?.body;
-        if (body !== undefined) {
-            return new HttpResponse(body, { status: response?.status });
-        }
-        if (options?.responseFallback === 'passthrough') {
-            return;
-        }
-        return new Response('Not Implemented', {
-            status: 501,
-            statusText: 'Not Implemented'
-        });
-    }, options);
+  return http.get<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/response`, info => {
+    if (typeof response === 'function') {
+      return response(info);
+    }
+    const body = response?.body;
+    if (body !== undefined) {
+      return new HttpResponse(body, { status: response?.status });
+    }
+    if (options?.responseFallback === 'passthrough') {
+      return;
+    }
+    return new Response('Not Implemented', {
+      status: 501,
+      statusText: 'Not Implemented'
+    });
+  }, options);
 }
 
 export type HandleCallWithDuplicateResponsesResponse = {
-    body: CallWithDuplicateResponsesResponses[201];
-    status?: 201;
+  body: CallWithDuplicateResponsesResponses[201];
+  status?: 201;
 };
 
 /**
  * Handler for the `POST /api/v{api-version}/response` operation.
  */
 export function handleCallWithDuplicateResponses(response?: HandleCallWithDuplicateResponsesResponse | ToResponseUnion<CallWithDuplicateResponsesResponses> | HttpResponseResolver<never, never>, options?: RequestHandlerOptions): HttpHandler {
-    return http.post<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/response`, info => {
-        if (typeof response === 'function') {
-            return response(info);
-        }
-        const body = response?.body;
-        if (body !== undefined) {
-            return HttpResponse.json(body, { status: response?.status ?? 201 });
-        }
-        if (options?.responseFallback === 'passthrough') {
-            return;
-        }
-        return new Response('Not Implemented', {
-            status: 501,
-            statusText: 'Not Implemented'
-        });
-    }, options);
+  return http.post<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/response`, info => {
+    if (typeof response === 'function') {
+      return response(info);
+    }
+    const body = response?.body;
+    if (body !== undefined) {
+      return HttpResponse.json(body, { status: response?.status ?? 201 });
+    }
+    if (options?.responseFallback === 'passthrough') {
+      return;
+    }
+    return new Response('Not Implemented', {
+      status: 501,
+      statusText: 'Not Implemented'
+    });
+  }, options);
 }
 
 export type HandleCallWithResponsesResponse = {
-    body: CallWithResponsesResponses[200];
-    status?: 200;
+  body: CallWithResponsesResponses[200];
+  status?: 200;
 };
 
 /**
  * Handler for the `PUT /api/v{api-version}/response` operation.
  */
 export function handleCallWithResponses(response?: HandleCallWithResponsesResponse | ToResponseUnion<CallWithResponsesResponses> | HttpResponseResolver<never, never>, options?: RequestHandlerOptions): HttpHandler {
-    return http.put<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/response`, info => {
-        if (typeof response === 'function') {
-            return response(info);
-        }
-        const body = response?.body;
-        if (body !== undefined) {
-            return HttpResponse.json(body, { status: response?.status ?? 200 });
-        }
-        if (options?.responseFallback === 'passthrough') {
-            return;
-        }
-        return new Response('Not Implemented', {
-            status: 501,
-            statusText: 'Not Implemented'
-        });
-    }, options);
+  return http.put<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/response`, info => {
+    if (typeof response === 'function') {
+      return response(info);
+    }
+    const body = response?.body;
+    if (body !== undefined) {
+      return HttpResponse.json(body, { status: response?.status ?? 200 });
+    }
+    if (options?.responseFallback === 'passthrough') {
+      return;
+    }
+    return new Response('Not Implemented', {
+      status: 501,
+      statusText: 'Not Implemented'
+    });
+  }, options);
 }
 
 export type HandleCollectionFormatResponse = {
-    body: DefaultBodyType;
-    status?: number;
+  body: DefaultBodyType;
+  status?: number;
 };
 
 /**
  * Handler for the `GET /api/v{api-version}/collectionFormat` operation.
  */
 export function handleCollectionFormat(response?: HandleCollectionFormatResponse | HttpResponseResolver<never, never>, options?: RequestHandlerOptions): HttpHandler {
-    return http.get<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/collectionFormat`, info => {
-        if (typeof response === 'function') {
-            return response(info);
-        }
-        const body = response?.body;
-        if (body !== undefined) {
-            return new HttpResponse(body, { status: response?.status });
-        }
-        if (options?.responseFallback === 'passthrough') {
-            return;
-        }
-        return new Response('Not Implemented', {
-            status: 501,
-            statusText: 'Not Implemented'
-        });
-    }, options);
+  return http.get<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/collectionFormat`, info => {
+    if (typeof response === 'function') {
+      return response(info);
+    }
+    const body = response?.body;
+    if (body !== undefined) {
+      return new HttpResponse(body, { status: response?.status });
+    }
+    if (options?.responseFallback === 'passthrough') {
+      return;
+    }
+    return new Response('Not Implemented', {
+      status: 501,
+      statusText: 'Not Implemented'
+    });
+  }, options);
 }
 
 export type HandleTypesResponse = {
-    body: TypesResponses[200];
-    status?: 200;
+  body: TypesResponses[200];
+  status?: 200;
 };
 
 /**
  * Handler for the `GET /api/v{api-version}/types` operation.
  */
 export function handleTypes(response?: HandleTypesResponse | ToResponseUnion<TypesResponses> | HttpResponseResolver<{
-    id: string;
+  id: string;
 }, never>, options?: RequestHandlerOptions): HttpHandler {
-    return http.get<{
-        id: string;
-    }, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/types`, info => {
-        if (typeof response === 'function') {
-            return response(info);
-        }
-        const body = response?.body;
-        if (body !== undefined) {
-            return HttpResponse.json(body, { status: response?.status ?? 200 });
-        }
-        if (options?.responseFallback === 'passthrough') {
-            return;
-        }
-        return new Response('Not Implemented', {
-            status: 501,
-            statusText: 'Not Implemented'
-        });
-    }, options);
+  return http.get<{
+    id: string;
+  }, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/types`, info => {
+    if (typeof response === 'function') {
+      return response(info);
+    }
+    const body = response?.body;
+    if (body !== undefined) {
+      return HttpResponse.json(body, { status: response?.status ?? 200 });
+    }
+    if (options?.responseFallback === 'passthrough') {
+      return;
+    }
+    return new Response('Not Implemented', {
+      status: 501,
+      statusText: 'Not Implemented'
+    });
+  }, options);
 }
 
 export type HandleComplexTypesResponse = {
-    body: ComplexTypesResponses[200];
-    status?: 200;
+  body: ComplexTypesResponses[200];
+  status?: 200;
 };
 
 /**
  * Handler for the `GET /api/v{api-version}/complex` operation.
  */
 export function handleComplexTypes(response?: HandleComplexTypesResponse | HttpResponseResolver<never, never>, options?: RequestHandlerOptions): HttpHandler {
-    return http.get<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/complex`, info => {
-        if (typeof response === 'function') {
-            return response(info);
-        }
-        const body = response?.body;
-        if (body !== undefined) {
-            return HttpResponse.json(body, { status: response?.status ?? 200 });
-        }
-        if (options?.responseFallback === 'passthrough') {
-            return;
-        }
-        return new Response('Not Implemented', {
-            status: 501,
-            statusText: 'Not Implemented'
-        });
-    }, options);
+  return http.get<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/complex`, info => {
+    if (typeof response === 'function') {
+      return response(info);
+    }
+    const body = response?.body;
+    if (body !== undefined) {
+      return HttpResponse.json(body, { status: response?.status ?? 200 });
+    }
+    if (options?.responseFallback === 'passthrough') {
+      return;
+    }
+    return new Response('Not Implemented', {
+      status: 501,
+      statusText: 'Not Implemented'
+    });
+  }, options);
 }
 
 export type HandleCallWithResultFromHeaderResponse = {
-    body: CallWithResultFromHeaderResponses[200];
-    status?: 200;
+  body: CallWithResultFromHeaderResponses[200];
+  status?: 200;
 };
 
 /**
  * Handler for the `POST /api/v{api-version}/header` operation.
  */
 export function handleCallWithResultFromHeader(response?: HandleCallWithResultFromHeaderResponse | HttpResponseResolver<never, never>, options?: RequestHandlerOptions): HttpHandler {
-    return http.post<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/header`, info => {
-        if (typeof response === 'function') {
-            return response(info);
-        }
-        const body = response?.body;
-        if (body !== undefined) {
-            return new HttpResponse(body, { status: response?.status ?? 200 });
-        }
-        if (options?.responseFallback === 'passthrough') {
-            return;
-        }
-        return new Response('Not Implemented', {
-            status: 501,
-            statusText: 'Not Implemented'
-        });
-    }, options);
+  return http.post<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/header`, info => {
+    if (typeof response === 'function') {
+      return response(info);
+    }
+    const body = response?.body;
+    if (body !== undefined) {
+      return new HttpResponse(body, { status: response?.status ?? 200 });
+    }
+    if (options?.responseFallback === 'passthrough') {
+      return;
+    }
+    return new Response('Not Implemented', {
+      status: 501,
+      statusText: 'Not Implemented'
+    });
+  }, options);
 }
 
 export type HandleTestErrorCodeResponse = {
-    body: TestErrorCodeResponses[200];
-    status?: 200;
+  body: TestErrorCodeResponses[200];
+  status?: 200;
 };
 
 /**
  * Handler for the `POST /api/v{api-version}/error` operation.
  */
 export function handleTestErrorCode(response?: HandleTestErrorCodeResponse | HttpResponseResolver<never, never>, options?: RequestHandlerOptions): HttpHandler {
-    return http.post<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/error`, info => {
-        if (typeof response === 'function') {
-            return response(info);
-        }
-        const body = response?.body;
-        if (body !== undefined) {
-            return new HttpResponse(body, { status: response?.status ?? 200 });
-        }
-        if (options?.responseFallback === 'passthrough') {
-            return;
-        }
-        return new Response('Not Implemented', {
-            status: 501,
-            statusText: 'Not Implemented'
-        });
-    }, options);
+  return http.post<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/error`, info => {
+    if (typeof response === 'function') {
+      return response(info);
+    }
+    const body = response?.body;
+    if (body !== undefined) {
+      return new HttpResponse(body, { status: response?.status ?? 200 });
+    }
+    if (options?.responseFallback === 'passthrough') {
+      return;
+    }
+    return new Response('Not Implemented', {
+      status: 501,
+      statusText: 'Not Implemented'
+    });
+  }, options);
 }
 
 export type HandleNonAsciiæøåÆøÅöôêÊ字符串Response = {
-    body: NonAsciiæøåÆøÅöôêÊ字符串Responses[200];
-    status?: 200;
+  body: NonAsciiæøåÆøÅöôêÊ字符串Responses[200];
+  status?: 200;
 };
 
 /**
  * Handler for the `POST /api/v{api-version}/non-ascii-æøåÆØÅöôêÊ字符串` operation.
  */
 export function handleNonAsciiæøåÆøÅöôêÊ字符串(response?: HandleNonAsciiæøåÆøÅöôêÊ字符串Response | HttpResponseResolver<never, never>, options?: RequestHandlerOptions): HttpHandler {
-    return http.post<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/non-ascii-æøåÆØÅöôêÊ字符串`, info => {
-        if (typeof response === 'function') {
-            return response(info);
-        }
-        const body = response?.body;
-        if (body !== undefined) {
-            return HttpResponse.json(body, { status: response?.status ?? 200 });
-        }
-        if (options?.responseFallback === 'passthrough') {
-            return;
-        }
-        return new Response('Not Implemented', {
-            status: 501,
-            statusText: 'Not Implemented'
-        });
-    }, options);
+  return http.post<never, never>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/non-ascii-æøåÆØÅöôêÊ字符串`, info => {
+    if (typeof response === 'function') {
+      return response(info);
+    }
+    const body = response?.body;
+    if (body !== undefined) {
+      return HttpResponse.json(body, { status: response?.status ?? 200 });
+    }
+    if (options?.responseFallback === 'passthrough') {
+      return;
+    }
+    return new Response('Not Implemented', {
+      status: 501,
+      statusText: 'Not Implemented'
+    });
+  }, options);
 }
 
 export type HandlePostApiVbyApiVersionBodyResponse = {
-    body: PostApiVbyApiVersionBodyResponses[200];
-    status?: 200;
+  body: PostApiVbyApiVersionBodyResponses[200];
+  status?: 200;
 };
 
 /**
  * Handler for the `POST /api/v{api-version}/body` operation.
  */
 export function handlePostApiVbyApiVersionBody(response?: HandlePostApiVbyApiVersionBodyResponse | HttpResponseResolver<never, PostApiVbyApiVersionBodyData['body']>, options?: RequestHandlerOptions): HttpHandler {
-    return http.post<never, PostApiVbyApiVersionBodyData['body']>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/body`, info => {
-        if (typeof response === 'function') {
-            return response(info);
-        }
-        const body = response?.body;
-        if (body !== undefined) {
-            return HttpResponse.json(body, { status: response?.status ?? 200 });
-        }
-        if (options?.responseFallback === 'passthrough') {
-            return;
-        }
-        return new Response('Not Implemented', {
-            status: 501,
-            statusText: 'Not Implemented'
-        });
-    }, options);
+  return http.post<never, PostApiVbyApiVersionBodyData['body']>(`${options?.baseUrl ?? '*'}/api/v:apiVersion/body`, info => {
+    if (typeof response === 'function') {
+      return response(info);
+    }
+    const body = response?.body;
+    if (body !== undefined) {
+      return HttpResponse.json(body, { status: response?.status ?? 200 });
+    }
+    if (options?.responseFallback === 'passthrough') {
+      return;
+    }
+    return new Response('Not Implemented', {
+      status: 501,
+      statusText: 'Not Implemented'
+    });
+  }, options);
 }
 
 export type MswHandlerFactories = {
-    /**
-     * Handler for the `GET /api/v{api-version}/no+tag` operation.
-     */
-    serviceWithEmptyTag: typeof handleServiceWithEmptyTag;
-    /**
-     * Handler for the `PATCH /api/v{api-version}/no+tag` operation.
-     */
-    patchApiVbyApiVersionNoTag: typeof handlePatchApiVbyApiVersionNoTag;
-    /**
-     * Handler for the `PUT /api/v{api-version}/no+tag` operation.
-     */
-    fooWow: typeof handleFooWow;
-    /**
-     * Handler for the `DELETE /api/v{api-version}/simple` operation.
-     */
-    deleteCallWithoutParametersAndResponse: typeof handleDeleteCallWithoutParametersAndResponse;
-    /**
-     * Handler for the `GET /api/v{api-version}/simple` operation.
-     */
-    getCallWithoutParametersAndResponse: typeof handleGetCallWithoutParametersAndResponse;
-    /**
-     * Handler for the `HEAD /api/v{api-version}/simple` operation.
-     */
-    headCallWithoutParametersAndResponse: typeof handleHeadCallWithoutParametersAndResponse;
-    /**
-     * Handler for the `OPTIONS /api/v{api-version}/simple` operation.
-     */
-    optionsCallWithoutParametersAndResponse: typeof handleOptionsCallWithoutParametersAndResponse;
-    /**
-     * Handler for the `PATCH /api/v{api-version}/simple` operation.
-     */
-    patchCallWithoutParametersAndResponse: typeof handlePatchCallWithoutParametersAndResponse;
-    /**
-     * Handler for the `POST /api/v{api-version}/simple` operation.
-     */
-    postCallWithoutParametersAndResponse: typeof handlePostCallWithoutParametersAndResponse;
-    /**
-     * Handler for the `PUT /api/v{api-version}/simple` operation.
-     */
-    putCallWithoutParametersAndResponse: typeof handlePutCallWithoutParametersAndResponse;
-    /**
-     * Handler for the `POST /api/v{api-version}/descriptions/` operation.
-     */
-    callWithDescriptions: typeof handleCallWithDescriptions;
-    /**
-     * Handler for the `POST /api/v{api-version}/parameters/{parameterPath}` operation.
-     */
-    callWithParameters: typeof handleCallWithParameters;
-    /**
-     * Handler for the `POST /api/v{api-version}/parameters/{parameter.path.1}/{parameter-path-2}/{PARAMETER-PATH-3}` operation.
-     */
-    callWithWeirdParameterNames: typeof handleCallWithWeirdParameterNames;
-    /**
-     * Handler for the `GET /api/v{api-version}/defaults` operation.
-     */
-    callWithDefaultParameters: typeof handleCallWithDefaultParameters;
-    /**
-     * Handler for the `POST /api/v{api-version}/defaults` operation.
-     */
-    callWithDefaultOptionalParameters: typeof handleCallWithDefaultOptionalParameters;
-    /**
-     * Handler for the `PUT /api/v{api-version}/defaults` operation.
-     */
-    callToTestOrderOfParams: typeof handleCallToTestOrderOfParams;
-    /**
-     * Handler for the `DELETE /api/v{api-version}/duplicate` operation.
-     */
-    duplicateName: typeof handleDuplicateName;
-    /**
-     * Handler for the `GET /api/v{api-version}/duplicate` operation.
-     */
-    duplicateName2: typeof handleDuplicateName2;
-    /**
-     * Handler for the `POST /api/v{api-version}/duplicate` operation.
-     */
-    duplicateName3: typeof handleDuplicateName3;
-    /**
-     * Handler for the `PUT /api/v{api-version}/duplicate` operation.
-     */
-    duplicateName4: typeof handleDuplicateName4;
-    /**
-     * Handler for the `GET /api/v{api-version}/no-content` operation.
-     */
-    callWithNoContentResponse: typeof handleCallWithNoContentResponse;
-    /**
-     * Handler for the `GET /api/v{api-version}/multiple-tags/response-and-no-content` operation.
-     */
-    callWithResponseAndNoContentResponse: typeof handleCallWithResponseAndNoContentResponse;
-    /**
-     * Handler for the `GET /api/v{api-version}/multiple-tags/a` operation.
-     */
-    dummyA: typeof handleDummyA;
-    /**
-     * Handler for the `GET /api/v{api-version}/multiple-tags/b` operation.
-     */
-    dummyB: typeof handleDummyB;
-    /**
-     * Handler for the `GET /api/v{api-version}/response` operation.
-     */
-    callWithResponse: typeof handleCallWithResponse;
-    /**
-     * Handler for the `POST /api/v{api-version}/response` operation.
-     */
-    callWithDuplicateResponses: typeof handleCallWithDuplicateResponses;
-    /**
-     * Handler for the `PUT /api/v{api-version}/response` operation.
-     */
-    callWithResponses: typeof handleCallWithResponses;
-    /**
-     * Handler for the `GET /api/v{api-version}/collectionFormat` operation.
-     */
-    collectionFormat: typeof handleCollectionFormat;
-    /**
-     * Handler for the `GET /api/v{api-version}/types` operation.
-     */
-    types: typeof handleTypes;
-    /**
-     * Handler for the `GET /api/v{api-version}/complex` operation.
-     */
-    complexTypes: typeof handleComplexTypes;
-    /**
-     * Handler for the `POST /api/v{api-version}/header` operation.
-     */
-    callWithResultFromHeader: typeof handleCallWithResultFromHeader;
-    /**
-     * Handler for the `POST /api/v{api-version}/error` operation.
-     */
-    testErrorCode: typeof handleTestErrorCode;
-    /**
-     * Handler for the `POST /api/v{api-version}/non-ascii-æøåÆØÅöôêÊ字符串` operation.
-     */
-    nonAsciiæøåÆøÅöôêÊ字符串: typeof handleNonAsciiæøåÆøÅöôêÊ字符串;
-    /**
-     * Handler for the `POST /api/v{api-version}/body` operation.
-     */
-    postApiVbyApiVersionBody: typeof handlePostApiVbyApiVersionBody;
+  /**
+   * Handler for the `GET /api/v{api-version}/no+tag` operation.
+   */
+  serviceWithEmptyTag: typeof handleServiceWithEmptyTag;
+  /**
+   * Handler for the `PATCH /api/v{api-version}/no+tag` operation.
+   */
+  patchApiVbyApiVersionNoTag: typeof handlePatchApiVbyApiVersionNoTag;
+  /**
+   * Handler for the `PUT /api/v{api-version}/no+tag` operation.
+   */
+  fooWow: typeof handleFooWow;
+  /**
+   * Handler for the `DELETE /api/v{api-version}/simple` operation.
+   */
+  deleteCallWithoutParametersAndResponse: typeof handleDeleteCallWithoutParametersAndResponse;
+  /**
+   * Handler for the `GET /api/v{api-version}/simple` operation.
+   */
+  getCallWithoutParametersAndResponse: typeof handleGetCallWithoutParametersAndResponse;
+  /**
+   * Handler for the `HEAD /api/v{api-version}/simple` operation.
+   */
+  headCallWithoutParametersAndResponse: typeof handleHeadCallWithoutParametersAndResponse;
+  /**
+   * Handler for the `OPTIONS /api/v{api-version}/simple` operation.
+   */
+  optionsCallWithoutParametersAndResponse: typeof handleOptionsCallWithoutParametersAndResponse;
+  /**
+   * Handler for the `PATCH /api/v{api-version}/simple` operation.
+   */
+  patchCallWithoutParametersAndResponse: typeof handlePatchCallWithoutParametersAndResponse;
+  /**
+   * Handler for the `POST /api/v{api-version}/simple` operation.
+   */
+  postCallWithoutParametersAndResponse: typeof handlePostCallWithoutParametersAndResponse;
+  /**
+   * Handler for the `PUT /api/v{api-version}/simple` operation.
+   */
+  putCallWithoutParametersAndResponse: typeof handlePutCallWithoutParametersAndResponse;
+  /**
+   * Handler for the `POST /api/v{api-version}/descriptions/` operation.
+   */
+  callWithDescriptions: typeof handleCallWithDescriptions;
+  /**
+   * Handler for the `POST /api/v{api-version}/parameters/{parameterPath}` operation.
+   */
+  callWithParameters: typeof handleCallWithParameters;
+  /**
+   * Handler for the `POST /api/v{api-version}/parameters/{parameter.path.1}/{parameter-path-2}/{PARAMETER-PATH-3}` operation.
+   */
+  callWithWeirdParameterNames: typeof handleCallWithWeirdParameterNames;
+  /**
+   * Handler for the `GET /api/v{api-version}/defaults` operation.
+   */
+  callWithDefaultParameters: typeof handleCallWithDefaultParameters;
+  /**
+   * Handler for the `POST /api/v{api-version}/defaults` operation.
+   */
+  callWithDefaultOptionalParameters: typeof handleCallWithDefaultOptionalParameters;
+  /**
+   * Handler for the `PUT /api/v{api-version}/defaults` operation.
+   */
+  callToTestOrderOfParams: typeof handleCallToTestOrderOfParams;
+  /**
+   * Handler for the `DELETE /api/v{api-version}/duplicate` operation.
+   */
+  duplicateName: typeof handleDuplicateName;
+  /**
+   * Handler for the `GET /api/v{api-version}/duplicate` operation.
+   */
+  duplicateName2: typeof handleDuplicateName2;
+  /**
+   * Handler for the `POST /api/v{api-version}/duplicate` operation.
+   */
+  duplicateName3: typeof handleDuplicateName3;
+  /**
+   * Handler for the `PUT /api/v{api-version}/duplicate` operation.
+   */
+  duplicateName4: typeof handleDuplicateName4;
+  /**
+   * Handler for the `GET /api/v{api-version}/no-content` operation.
+   */
+  callWithNoContentResponse: typeof handleCallWithNoContentResponse;
+  /**
+   * Handler for the `GET /api/v{api-version}/multiple-tags/response-and-no-content` operation.
+   */
+  callWithResponseAndNoContentResponse: typeof handleCallWithResponseAndNoContentResponse;
+  /**
+   * Handler for the `GET /api/v{api-version}/multiple-tags/a` operation.
+   */
+  dummyA: typeof handleDummyA;
+  /**
+   * Handler for the `GET /api/v{api-version}/multiple-tags/b` operation.
+   */
+  dummyB: typeof handleDummyB;
+  /**
+   * Handler for the `GET /api/v{api-version}/response` operation.
+   */
+  callWithResponse: typeof handleCallWithResponse;
+  /**
+   * Handler for the `POST /api/v{api-version}/response` operation.
+   */
+  callWithDuplicateResponses: typeof handleCallWithDuplicateResponses;
+  /**
+   * Handler for the `PUT /api/v{api-version}/response` operation.
+   */
+  callWithResponses: typeof handleCallWithResponses;
+  /**
+   * Handler for the `GET /api/v{api-version}/collectionFormat` operation.
+   */
+  collectionFormat: typeof handleCollectionFormat;
+  /**
+   * Handler for the `GET /api/v{api-version}/types` operation.
+   */
+  types: typeof handleTypes;
+  /**
+   * Handler for the `GET /api/v{api-version}/complex` operation.
+   */
+  complexTypes: typeof handleComplexTypes;
+  /**
+   * Handler for the `POST /api/v{api-version}/header` operation.
+   */
+  callWithResultFromHeader: typeof handleCallWithResultFromHeader;
+  /**
+   * Handler for the `POST /api/v{api-version}/error` operation.
+   */
+  testErrorCode: typeof handleTestErrorCode;
+  /**
+   * Handler for the `POST /api/v{api-version}/non-ascii-æøåÆØÅöôêÊ字符串` operation.
+   */
+  nonAsciiæøåÆøÅöôêÊ字符串: typeof handleNonAsciiæøåÆøÅöôêÊ字符串;
+  /**
+   * Handler for the `POST /api/v{api-version}/body` operation.
+   */
+  postApiVbyApiVersionBody: typeof handlePostApiVbyApiVersionBody;
 };
 
 export type CreateMswHandlersResult = {
-    all: (options?: {
-        pick?: {
-            [K in keyof MswHandlerFactories]?: Parameters<MswHandlerFactories[K]>[0] | Parameters<MswHandlerFactories[K]>;
-        };
-    }) => ReadonlyArray<HttpHandler>;
-    pick: MswHandlerFactories;
+  all: (options?: {
+    pick?: {
+      [K in keyof MswHandlerFactories]?: Parameters<MswHandlerFactories[K]>[0] | Parameters<MswHandlerFactories[K]>;
+    };
+  }) => ReadonlyArray<HttpHandler>;
+  pick: MswHandlerFactories;
 };
 
 export function createMswHandlers(config: RequestHandlerOptions = {}): CreateMswHandlersResult {
-    type Handler<R> = (response?: R, options?: RequestHandlerOptions) => HttpHandler;
-    function wrap<R>(handler: Handler<R>): Handler<R> {
-        return (response, options) => handler(response, { ...config, ...options });
+  type Handler<R> = (response?: R, options?: RequestHandlerOptions) => HttpHandler;
+  function wrap<R>(handler: Handler<R>): Handler<R> {
+    return (response, options) => handler(response, { ...config, ...options });
+  }
+  const pick: CreateMswHandlersResult['pick'] = {
+    serviceWithEmptyTag: wrap(handleServiceWithEmptyTag),
+    patchApiVbyApiVersionNoTag: wrap(handlePatchApiVbyApiVersionNoTag),
+    fooWow: wrap(handleFooWow),
+    deleteCallWithoutParametersAndResponse: wrap(handleDeleteCallWithoutParametersAndResponse),
+    getCallWithoutParametersAndResponse: wrap(handleGetCallWithoutParametersAndResponse),
+    headCallWithoutParametersAndResponse: wrap(handleHeadCallWithoutParametersAndResponse),
+    optionsCallWithoutParametersAndResponse: wrap(handleOptionsCallWithoutParametersAndResponse),
+    patchCallWithoutParametersAndResponse: wrap(handlePatchCallWithoutParametersAndResponse),
+    postCallWithoutParametersAndResponse: wrap(handlePostCallWithoutParametersAndResponse),
+    putCallWithoutParametersAndResponse: wrap(handlePutCallWithoutParametersAndResponse),
+    callWithDescriptions: wrap(handleCallWithDescriptions),
+    callWithParameters: wrap(handleCallWithParameters),
+    callWithWeirdParameterNames: wrap(handleCallWithWeirdParameterNames),
+    callWithDefaultParameters: wrap(handleCallWithDefaultParameters),
+    callWithDefaultOptionalParameters: wrap(handleCallWithDefaultOptionalParameters),
+    callToTestOrderOfParams: wrap(handleCallToTestOrderOfParams),
+    duplicateName: wrap(handleDuplicateName),
+    duplicateName2: wrap(handleDuplicateName2),
+    duplicateName3: wrap(handleDuplicateName3),
+    duplicateName4: wrap(handleDuplicateName4),
+    callWithNoContentResponse: wrap(handleCallWithNoContentResponse),
+    callWithResponseAndNoContentResponse: wrap(handleCallWithResponseAndNoContentResponse),
+    dummyA: wrap(handleDummyA),
+    dummyB: wrap(handleDummyB),
+    callWithResponse: wrap(handleCallWithResponse),
+    callWithDuplicateResponses: wrap(handleCallWithDuplicateResponses),
+    callWithResponses: wrap(handleCallWithResponses),
+    collectionFormat: wrap(handleCollectionFormat),
+    types: wrap(handleTypes),
+    complexTypes: wrap(handleComplexTypes),
+    callWithResultFromHeader: wrap(handleCallWithResultFromHeader),
+    testErrorCode: wrap(handleTestErrorCode),
+    nonAsciiæøåÆøÅöôêÊ字符串: wrap(handleNonAsciiæøåÆøÅöôêÊ字符串),
+    postApiVbyApiVersionBody: wrap(handlePostApiVbyApiVersionBody)
+  };
+  const all: CreateMswHandlersResult['all'] = (options = {}) => {
+    type OverrideValue<R> = R | [
+      response?: R,
+      options?: RequestHandlerOptions
+    ];
+    function invoke<R>(fn: Handler<R>, override?: OverrideValue<R>): HttpHandler {
+      return Array.isArray(override) ? fn(...override) : fn(override);
     }
-    const pick: CreateMswHandlersResult['pick'] = {
-        serviceWithEmptyTag: wrap(handleServiceWithEmptyTag),
-        patchApiVbyApiVersionNoTag: wrap(handlePatchApiVbyApiVersionNoTag),
-        fooWow: wrap(handleFooWow),
-        deleteCallWithoutParametersAndResponse: wrap(handleDeleteCallWithoutParametersAndResponse),
-        getCallWithoutParametersAndResponse: wrap(handleGetCallWithoutParametersAndResponse),
-        headCallWithoutParametersAndResponse: wrap(handleHeadCallWithoutParametersAndResponse),
-        optionsCallWithoutParametersAndResponse: wrap(handleOptionsCallWithoutParametersAndResponse),
-        patchCallWithoutParametersAndResponse: wrap(handlePatchCallWithoutParametersAndResponse),
-        postCallWithoutParametersAndResponse: wrap(handlePostCallWithoutParametersAndResponse),
-        putCallWithoutParametersAndResponse: wrap(handlePutCallWithoutParametersAndResponse),
-        callWithDescriptions: wrap(handleCallWithDescriptions),
-        callWithParameters: wrap(handleCallWithParameters),
-        callWithWeirdParameterNames: wrap(handleCallWithWeirdParameterNames),
-        callWithDefaultParameters: wrap(handleCallWithDefaultParameters),
-        callWithDefaultOptionalParameters: wrap(handleCallWithDefaultOptionalParameters),
-        callToTestOrderOfParams: wrap(handleCallToTestOrderOfParams),
-        duplicateName: wrap(handleDuplicateName),
-        duplicateName2: wrap(handleDuplicateName2),
-        duplicateName3: wrap(handleDuplicateName3),
-        duplicateName4: wrap(handleDuplicateName4),
-        callWithNoContentResponse: wrap(handleCallWithNoContentResponse),
-        callWithResponseAndNoContentResponse: wrap(handleCallWithResponseAndNoContentResponse),
-        dummyA: wrap(handleDummyA),
-        dummyB: wrap(handleDummyB),
-        callWithResponse: wrap(handleCallWithResponse),
-        callWithDuplicateResponses: wrap(handleCallWithDuplicateResponses),
-        callWithResponses: wrap(handleCallWithResponses),
-        collectionFormat: wrap(handleCollectionFormat),
-        types: wrap(handleTypes),
-        complexTypes: wrap(handleComplexTypes),
-        callWithResultFromHeader: wrap(handleCallWithResultFromHeader),
-        testErrorCode: wrap(handleTestErrorCode),
-        nonAsciiæøåÆøÅöôêÊ字符串: wrap(handleNonAsciiæøåÆøÅöôêÊ字符串),
-        postApiVbyApiVersionBody: wrap(handlePostApiVbyApiVersionBody)
-    };
-    const all: CreateMswHandlersResult['all'] = (options = {}) => {
-        type OverrideValue<R> = R | [
-            response?: R,
-            options?: RequestHandlerOptions
-        ];
-        function invoke<R>(fn: Handler<R>, override?: OverrideValue<R>): HttpHandler {
-            return Array.isArray(override) ? fn(...override) : fn(override);
-        }
-        const overrides = options.pick ?? {};
-        return [
-            invoke(pick.callWithWeirdParameterNames, overrides.callWithWeirdParameterNames),
-            invoke(pick.callWithResponseAndNoContentResponse, overrides.callWithResponseAndNoContentResponse),
-            invoke(pick.dummyA, overrides.dummyA),
-            invoke(pick.dummyB, overrides.dummyB),
-            invoke(pick.callWithParameters, overrides.callWithParameters),
-            invoke(pick.serviceWithEmptyTag, overrides.serviceWithEmptyTag),
-            invoke(pick.patchApiVbyApiVersionNoTag, overrides.patchApiVbyApiVersionNoTag),
-            invoke(pick.fooWow, overrides.fooWow),
-            invoke(pick.deleteCallWithoutParametersAndResponse, overrides.deleteCallWithoutParametersAndResponse),
-            invoke(pick.getCallWithoutParametersAndResponse, overrides.getCallWithoutParametersAndResponse),
-            invoke(pick.headCallWithoutParametersAndResponse, overrides.headCallWithoutParametersAndResponse),
-            invoke(pick.optionsCallWithoutParametersAndResponse, overrides.optionsCallWithoutParametersAndResponse),
-            invoke(pick.patchCallWithoutParametersAndResponse, overrides.patchCallWithoutParametersAndResponse),
-            invoke(pick.postCallWithoutParametersAndResponse, overrides.postCallWithoutParametersAndResponse),
-            invoke(pick.putCallWithoutParametersAndResponse, overrides.putCallWithoutParametersAndResponse),
-            invoke(pick.callWithDescriptions, overrides.callWithDescriptions),
-            invoke(pick.callWithDefaultParameters, overrides.callWithDefaultParameters),
-            invoke(pick.callWithDefaultOptionalParameters, overrides.callWithDefaultOptionalParameters),
-            invoke(pick.callToTestOrderOfParams, overrides.callToTestOrderOfParams),
-            invoke(pick.duplicateName, overrides.duplicateName),
-            invoke(pick.duplicateName2, overrides.duplicateName2),
-            invoke(pick.duplicateName3, overrides.duplicateName3),
-            invoke(pick.duplicateName4, overrides.duplicateName4),
-            invoke(pick.callWithNoContentResponse, overrides.callWithNoContentResponse),
-            invoke(pick.callWithResponse, overrides.callWithResponse),
-            invoke(pick.callWithDuplicateResponses, overrides.callWithDuplicateResponses),
-            invoke(pick.callWithResponses, overrides.callWithResponses),
-            invoke(pick.collectionFormat, overrides.collectionFormat),
-            invoke(pick.types, overrides.types),
-            invoke(pick.complexTypes, overrides.complexTypes),
-            invoke(pick.callWithResultFromHeader, overrides.callWithResultFromHeader),
-            invoke(pick.testErrorCode, overrides.testErrorCode),
-            invoke(pick.nonAsciiæøåÆøÅöôêÊ字符串, overrides.nonAsciiæøåÆøÅöôêÊ字符串),
-            invoke(pick.postApiVbyApiVersionBody, overrides.postApiVbyApiVersionBody)
-        ];
-    };
-    return { all, pick };
+    const overrides = options.pick ?? {};
+    return [
+      invoke(pick.callWithWeirdParameterNames, overrides.callWithWeirdParameterNames),
+      invoke(pick.callWithResponseAndNoContentResponse, overrides.callWithResponseAndNoContentResponse),
+      invoke(pick.dummyA, overrides.dummyA),
+      invoke(pick.dummyB, overrides.dummyB),
+      invoke(pick.callWithParameters, overrides.callWithParameters),
+      invoke(pick.serviceWithEmptyTag, overrides.serviceWithEmptyTag),
+      invoke(pick.patchApiVbyApiVersionNoTag, overrides.patchApiVbyApiVersionNoTag),
+      invoke(pick.fooWow, overrides.fooWow),
+      invoke(pick.deleteCallWithoutParametersAndResponse, overrides.deleteCallWithoutParametersAndResponse),
+      invoke(pick.getCallWithoutParametersAndResponse, overrides.getCallWithoutParametersAndResponse),
+      invoke(pick.headCallWithoutParametersAndResponse, overrides.headCallWithoutParametersAndResponse),
+      invoke(pick.optionsCallWithoutParametersAndResponse, overrides.optionsCallWithoutParametersAndResponse),
+      invoke(pick.patchCallWithoutParametersAndResponse, overrides.patchCallWithoutParametersAndResponse),
+      invoke(pick.postCallWithoutParametersAndResponse, overrides.postCallWithoutParametersAndResponse),
+      invoke(pick.putCallWithoutParametersAndResponse, overrides.putCallWithoutParametersAndResponse),
+      invoke(pick.callWithDescriptions, overrides.callWithDescriptions),
+      invoke(pick.callWithDefaultParameters, overrides.callWithDefaultParameters),
+      invoke(pick.callWithDefaultOptionalParameters, overrides.callWithDefaultOptionalParameters),
+      invoke(pick.callToTestOrderOfParams, overrides.callToTestOrderOfParams),
+      invoke(pick.duplicateName, overrides.duplicateName),
+      invoke(pick.duplicateName2, overrides.duplicateName2),
+      invoke(pick.duplicateName3, overrides.duplicateName3),
+      invoke(pick.duplicateName4, overrides.duplicateName4),
+      invoke(pick.callWithNoContentResponse, overrides.callWithNoContentResponse),
+      invoke(pick.callWithResponse, overrides.callWithResponse),
+      invoke(pick.callWithDuplicateResponses, overrides.callWithDuplicateResponses),
+      invoke(pick.callWithResponses, overrides.callWithResponses),
+      invoke(pick.collectionFormat, overrides.collectionFormat),
+      invoke(pick.types, overrides.types),
+      invoke(pick.complexTypes, overrides.complexTypes),
+      invoke(pick.callWithResultFromHeader, overrides.callWithResultFromHeader),
+      invoke(pick.testErrorCode, overrides.testErrorCode),
+      invoke(pick.nonAsciiæøåÆøÅöôêÊ字符串, overrides.nonAsciiæøåÆøÅöôêÊ字符串),
+      invoke(pick.postApiVbyApiVersionBody, overrides.postApiVbyApiVersionBody)
+    ];
+  };
+  return { all, pick };
 }

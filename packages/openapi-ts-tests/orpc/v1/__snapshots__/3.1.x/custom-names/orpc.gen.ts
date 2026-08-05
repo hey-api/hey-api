@@ -9,108 +9,108 @@ import { vCreatePostBody, vCreatePostHeaders, vCreatePostResponse, vCreateUserBo
  * Get all users
  */
 export const getUsersRpc = oc.route({
-    inputStructure: 'detailed',
-    method: 'GET',
-    operationId: 'getUsers',
-    path: '/users',
-    summary: 'Get all users',
-    tags: ['users']
+  inputStructure: 'detailed',
+  method: 'GET',
+  operationId: 'getUsers',
+  path: '/users',
+  summary: 'Get all users',
+  tags: ['users']
 }).input(v.optional(v.object({ query: v.optional(vGetUsersQuery) }))).output(vGetUsersResponse);
 
 /**
  * Create a new user
  */
 export const createUserRpc = oc.route({
-    inputStructure: 'detailed',
-    method: 'POST',
-    operationId: 'createUser',
-    path: '/users',
-    successStatus: 201,
-    summary: 'Create a new user',
-    tags: ['users']
+  inputStructure: 'detailed',
+  method: 'POST',
+  operationId: 'createUser',
+  path: '/users',
+  successStatus: 201,
+  summary: 'Create a new user',
+  tags: ['users']
 }).input(v.object({ body: vCreateUserBody })).output(vCreateUserResponse);
 
 /**
  * Delete a user
  */
 export const deleteUserRpc = oc.route({
-    inputStructure: 'detailed',
-    method: 'DELETE',
-    operationId: 'deleteUser',
-    path: '/users/{userId}',
-    successStatus: 204,
-    summary: 'Delete a user',
-    tags: ['users']
+  inputStructure: 'detailed',
+  method: 'DELETE',
+  operationId: 'deleteUser',
+  path: '/users/{userId}',
+  successStatus: 204,
+  summary: 'Delete a user',
+  tags: ['users']
 }).input(v.object({ headers: v.optional(vDeleteUserHeaders), params: vDeleteUserPath })).output(vDeleteUserResponse);
 
 /**
  * Get a user by ID
  */
 export const getUserByIdRpc = oc.route({
-    inputStructure: 'detailed',
-    method: 'GET',
-    operationId: 'getUserById',
-    path: '/users/{userId}',
-    summary: 'Get a user by ID',
-    tags: ['users']
+  inputStructure: 'detailed',
+  method: 'GET',
+  operationId: 'getUserById',
+  path: '/users/{userId}',
+  summary: 'Get a user by ID',
+  tags: ['users']
 }).input(v.object({ params: vGetUserByIdPath })).output(vGetUserByIdResponse);
 
 /**
  * Update a user
  */
 export const updateUserRpc = oc.route({
-    inputStructure: 'detailed',
-    method: 'PUT',
-    operationId: 'updateUser',
-    path: '/users/{userId}',
-    summary: 'Update a user',
-    tags: ['users']
+  inputStructure: 'detailed',
+  method: 'PUT',
+  operationId: 'updateUser',
+  path: '/users/{userId}',
+  summary: 'Update a user',
+  tags: ['users']
 }).input(v.object({ body: vUpdateUserBody, params: vUpdateUserPath })).output(vUpdateUserResponse);
 
 /**
  * Get all posts
  */
 export const getPostsRpc = oc.route({
-    inputStructure: 'detailed',
-    method: 'GET',
-    operationId: 'getPosts',
-    path: '/posts',
-    summary: 'Get all posts',
-    tags: ['posts']
+  inputStructure: 'detailed',
+  method: 'GET',
+  operationId: 'getPosts',
+  path: '/posts',
+  summary: 'Get all posts',
+  tags: ['posts']
 }).input(v.optional(v.object({ query: v.optional(vGetPostsQuery) }))).output(vGetPostsResponse);
 
 /**
  * Create a new post
  */
 export const createPostRpc = oc.route({
-    inputStructure: 'detailed',
-    method: 'POST',
-    operationId: 'createPost',
-    path: '/posts',
-    successStatus: 201,
-    summary: 'Create a new post',
-    tags: ['posts']
+  inputStructure: 'detailed',
+  method: 'POST',
+  operationId: 'createPost',
+  path: '/posts',
+  successStatus: 201,
+  summary: 'Create a new post',
+  tags: ['posts']
 }).input(v.object({ body: vCreatePostBody, headers: vCreatePostHeaders })).output(vCreatePostResponse);
 
 /**
  * Get a post by ID
  */
 export const getPostByIdRpc = oc.route({
-    inputStructure: 'detailed',
-    method: 'GET',
-    operationId: 'getPostById',
-    path: '/posts/{postId}',
-    summary: 'Get a post by ID',
-    tags: ['posts']
+  inputStructure: 'detailed',
+  method: 'GET',
+  operationId: 'getPostById',
+  path: '/posts/{postId}',
+  summary: 'Get a post by ID',
+  tags: ['posts']
 }).input(v.object({ params: vGetPostByIdPath, query: v.optional(vGetPostByIdQuery) })).output(vGetPostByIdResponse);
 
 export const rpcContract = {
-    getUsersRpc,
-    createUserRpc,
-    deleteUserRpc,
-    getUserByIdRpc,
-    updateUserRpc,
-    getPostsRpc,
-    createPostRpc,
-    getPostByIdRpc
+  getUsersRpc,
+  createUserRpc,
+  deleteUserRpc,
+  getUserByIdRpc,
+  updateUserRpc,
+  getPostsRpc,
+  createPostRpc,
+  getPostByIdRpc
 };

@@ -18,6 +18,12 @@ export class SymbolRegistry implements ISymbolRegistry {
   private _registered: Set<SymbolId> = new Set();
   private _stubs: Set<SymbolId> = new Set();
   private _stubCache: Map<QueryCacheKey, SymbolId> = new Map();
+  /**
+   * Precomputed index key space for each live stub, keyed by symbol id. Since
+   * a stub's meta never changes after `reference()` creates it, its key space
+   * is computed once here and reused for the lifetime of the stub.
+   */
+  private _stubKeySpaces: Map<SymbolId, IndexKeySpace> = new Map();
   private _values: Map<SymbolId, Symbol> = new Map();
 
   dump(): ReadonlyArray<RegistryDumpEntry> {
@@ -65,6 +71,7 @@ export class SymbolRegistry implements ISymbolRegistry {
     this._values.set(stub.id, stub);
     this._stubs.add(stub.id);
     this._stubCache.set(cacheKey, stub.id);
+    this._stubKeySpaces.set(stub.id, indexKeySpace);
     return stub;
   }
 
@@ -95,7 +102,8 @@ export class SymbolRegistry implements ISymbolRegistry {
     prefix = '',
     entries: Array<IndexEntry> = [],
   ): IndexKeySpace {
-    for (const [key, value] of Object.entries(meta)) {
+    for (const key in meta) {
+      const value = meta[key];
       const path = prefix ? `${prefix}.${key}` : key;
       if (value && typeof value === 'object' && !Array.isArray(value)) {
         this.buildIndexKeySpace(value as ISymbolMeta, path, entries);
@@ -111,10 +119,11 @@ export class SymbolRegistry implements ISymbolRegistry {
    * Avoids rebuilding the key space when it's already available.
    */
   private cacheKeyFromKeySpace(indexKeySpace: IndexKeySpace): QueryCacheKey {
-    return indexKeySpace
-      .map((indexEntry) => indexEntry[2])
-      .sort() // ensure order-insensitivity
-      .join('|');
+    const serialized: Array<string> = [];
+    for (let i = 0, len = indexKeySpace.length; i < len; i++) {
+      serialized.push(indexKeySpace[i]![2]);
+    }
+    return serialized.sort().join('|');
   }
 
   private indexSymbol(symbolId: SymbolId, indexKeySpace: IndexKeySpace): void {
@@ -150,8 +159,7 @@ export class SymbolRegistry implements ISymbolRegistry {
     }
   }
 
-  private isSubset(sub: IndexKeySpace, sup: IndexKeySpace): boolean {
-    const supMap = new Map(sup.map((e) => [e[0], e[1]] as const));
+  private isSubset(sub: IndexKeySpace, supMap: Map<IndexEntry[0], IndexEntry[1]>): boolean {
     for (const [key, value] of sub) {
       if (!supMap.has(key) || supMap.get(key) !== value) {
         return false;
@@ -228,14 +236,17 @@ export class SymbolRegistry implements ISymbolRegistry {
   }
 
   private replaceStubs(symbol: Symbol, indexKeySpace: IndexKeySpace): void {
+    if (!this._stubs.size) return;
+    const supMap = new Map(indexKeySpace.map((e) => [e[0], e[1]] as const));
     for (const stubId of this._stubs.values()) {
       const stub = this._values.get(stubId);
       if (stub?.meta) {
-        const stubKeySpace = this.buildIndexKeySpace(stub.meta);
-        if (this.isSubset(stubKeySpace, indexKeySpace)) {
+        const stubKeySpace = this._stubKeySpaces.get(stubId) ?? this.buildIndexKeySpace(stub.meta);
+        if (this.isSubset(stubKeySpace, supMap)) {
           const cacheKey = this.cacheKeyFromKeySpace(stubKeySpace);
           this._stubCache.delete(cacheKey);
           this._stubs.delete(stubId);
+          this._stubKeySpaces.delete(stubId);
           stub.setCanonical(symbol);
         }
       }

@@ -3,39 +3,39 @@
 import * as z from 'zod/mini';
 
 export const zContact = z.union([
-    z.object({
-        email: z.string()
-    }),
-    z.object({
-        phone: z.string()
-    })
+  z.object({
+    email: z.string()
+  }),
+  z.object({
+    phone: z.string()
+  })
 ]);
 
 export const zUser = z.intersection(zContact, z.object({
-    username: z.string()
+  username: z.string()
 }));
 
 export const zDogDetails = z.object({
-    breed: z.string(),
-    barkVolume: z.int().check(z.gte(1), z.lte(10))
+  breed: z.string(),
+  barkVolume: z.int().check(z.gte(1), z.lte(10))
 });
 
 export const zCatDetails = z.object({
-    furLength: z.enum([
-        'short',
-        'medium',
-        'long'
-    ]),
-    purrs: z.boolean()
+  furLength: z.enum([
+    'short',
+    'medium',
+    'long'
+  ]),
+  purrs: z.boolean()
 });
 
 export const zPetStore = z.object({
-    animals: z.array(z.object({
-        name: z.string(),
-        type: z._default(z.optional(z.enum(['dog', 'cat'])), 'dog'),
-        details: z.union([
-            zDogDetails,
-            zCatDetails
-        ])
-    }))
+  animals: z.array(z.object({
+    name: z.string(),
+    type: z._default(z.optional(z.enum(['dog', 'cat'])), 'dog'),
+    details: z.union([
+      zDogDetails,
+      zCatDetails
+    ])
+  }))
 });

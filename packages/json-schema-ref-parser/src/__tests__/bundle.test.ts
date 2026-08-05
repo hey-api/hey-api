@@ -749,5 +749,114 @@ describe('bundle', () => {
       expect(prefixedKey).toBeDefined();
       expect(merged.paths[prefixedKey!].get).toBeDefined();
     });
+
+    it('merges Swagger 2.0 definitions from multiple inputs', async () => {
+      // regression test for https://github.com/hey-api/hey-api/issues/4112
+      const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'json-schema-ref-parser-'));
+
+      try {
+        const feedsPath = path.join(tempDir, 'feeds.json');
+        const ordersPath = path.join(tempDir, 'orders.json');
+
+        writeJsonFile(feedsPath, {
+          definitions: {
+            Order: {
+              properties: {
+                id: {
+                  type: 'integer',
+                },
+              },
+              type: 'object',
+            },
+          },
+          info: { title: 'Feeds', version: '1.0.0' },
+          paths: {
+            '/feeds': {
+              get: {
+                operationId: 'getFeeds',
+                responses: {
+                  '200': {
+                    description: 'OK',
+                    schema: {
+                      $ref: '#/definitions/Order',
+                    },
+                  },
+                },
+              },
+            },
+          },
+          swagger: '2.0',
+        });
+
+        writeJsonFile(ordersPath, {
+          definitions: {
+            Order: {
+              properties: {
+                name: {
+                  type: 'string',
+                },
+              },
+              type: 'object',
+            },
+            OrderList: {
+              properties: {
+                items: {
+                  items: {
+                    $ref: '#/definitions/Order',
+                  },
+                  type: 'array',
+                },
+              },
+              type: 'object',
+            },
+          },
+          info: { title: 'Orders', version: '1.0.0' },
+          paths: {
+            '/orderList': {
+              get: {
+                operationId: 'getOrderList',
+                responses: {
+                  '200': {
+                    description: 'OK',
+                    schema: {
+                      $ref: '#/definitions/OrderList',
+                    },
+                  },
+                },
+              },
+            },
+          },
+          swagger: '2.0',
+        });
+
+        const refParser = new $RefParser();
+        const merged = (await refParser.bundleMany({
+          pathOrUrlOrSchemas: [feedsPath, ordersPath],
+        })) as any;
+
+        expect(merged.swagger).toBe('2.0');
+        expect(merged.definitions).toBeUndefined();
+        expect(merged.paths['/feeds']).toBeDefined();
+        expect(merged.paths['/orderList']).toBeDefined();
+
+        const schemas = merged.components.schemas as Record<string, any>;
+        expect(schemas.feeds_Order).toBeDefined();
+        expect(schemas.orders_Order).toBeDefined();
+        expect(schemas.orders_OrderList).toBeDefined();
+
+        // Internal $ref to a definition should be rewritten to the prefixed component schema
+        expect(schemas.orders_OrderList.properties.items.items.$ref).toBe(
+          '#/components/schemas/orders_Order',
+        );
+        expect(merged.paths['/feeds'].get.responses['200'].schema.$ref).toBe(
+          '#/components/schemas/feeds_Order',
+        );
+        expect(merged.paths['/orderList'].get.responses['200'].schema.$ref).toBe(
+          '#/components/schemas/orders_OrderList',
+        );
+      } finally {
+        fs.rmSync(tempDir, { force: true, recursive: true });
+      }
+    });
   });
 });

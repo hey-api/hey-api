@@ -45,9 +45,9 @@
     "test": "turbo run build && vitest",
     "typecheck": "turbo run typecheck",
     "td": "turbo run dev --filter",
-    "tt": "turbo run build && vitest run --project",
-    "tw": "turbo run build && vitest watch --project",
-    "tu": "turbo run build && vitest watch --update --project",
+    "tt": "./scripts/turbo-test-scoped.sh run",
+    "tw": "./scripts/turbo-test-scoped.sh watch",
+    "tu": "./scripts/turbo-test-scoped.sh watch --update",
     "tb": "turbo run build --filter",
     "tb:exe": "turbo run build:exe --filter",
     "ty": "turbo run typecheck --filter",
@@ -57,7 +57,7 @@
     "play:py": "python ./dev/playground.py"
   },
   "devDependencies": {
-    "@arethetypeswrong/core": "0.18.3",
+    "@arethetypeswrong/core": "0.18.4",
     "@changesets/cli": "2.31.0",
     "@changesets/get-github-info": "0.8.0",
     "@changesets/parse": "0.4.3",
@@ -66,24 +66,24 @@
     "@hey-api/openapi-ts": "workspace:*",
     "@tsdown/exe": "0.22.3",
     "@types/node": "24.13.2",
-    "@typescript/native-preview": "7.0.0-dev.20260622.1",
+    "@typescript/native-preview": "7.0.0-dev.20260704.1",
     "@vitest/coverage-v8": "4.1.9",
     "eslint-plugin-simple-import-sort": "12.1.1",
     "eslint-plugin-sort-destructure-keys": "3.0.0",
     "eslint-plugin-typescript-sort-keys": "3.3.0",
     "husky": "9.1.7",
     "lint-staged": "17.0.8",
-    "oxfmt": "0.55.0",
-    "oxlint": "1.71.0",
+    "oxfmt": "0.57.0",
+    "oxlint": "1.74.0",
     "publint": "0.3.21",
     "tsdown": "0.22.3",
     "tsx": "4.21.0",
-    "turbo": "2.9.18",
+    "turbo": "2.10.5",
     "typescript": "6.0.3",
     "vitest": "4.1.9"
   },
   "engines": {
     "node": ">=22.18.0"
   },
-  "packageManager": "pnpm@11.8.0"
+  "packageManager": "pnpm@11.9.0"
 }

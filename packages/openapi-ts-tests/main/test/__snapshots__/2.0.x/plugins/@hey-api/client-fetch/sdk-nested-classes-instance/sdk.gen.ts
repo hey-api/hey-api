@@ -5,96 +5,96 @@ import { client } from './client.gen';
 import type { BusinessGetData, BusinessGetResponses, BusinessProvidersDomainsGetData, BusinessProvidersDomainsGetResponses, BusinessProvidersDomainsPostData, BusinessProvidersDomainsPostResponses, GetData, GetResponses, PutBusinessProvidersDomainsData, PutBusinessProvidersDomainsResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
-    /**
-     * You can provide a client instance returned by `createClient()` instead of
-     * individual options. This might be also useful if you want to implement a
-     * custom client.
-     */
-    client?: Client;
-    /**
-     * You can pass arbitrary values through the `meta` object. This can be
-     * used to access values that aren't defined as part of the SDK function.
-     */
-    meta?: keyof ClientMeta extends never ? Record<string, unknown> : ClientMeta;
+  /**
+   * You can provide a client instance returned by `createClient()` instead of
+   * individual options. This might be also useful if you want to implement a
+   * custom client.
+   */
+  client?: Client;
+  /**
+   * You can pass arbitrary values through the `meta` object. This can be
+   * used to access values that aren't defined as part of the SDK function.
+   */
+  meta?: keyof ClientMeta extends never ? Record<string, unknown> : ClientMeta;
 };
 
 class HeyApiClient {
-    protected client: Client;
-    
-    constructor(args?: {
-        client?: Client;
-    }) {
-        this.client = args?.client ?? client;
-    }
+  protected client: Client;
+
+  constructor(args?: {
+    client?: Client;
+  }) {
+    this.client = args?.client ?? client;
+  }
 }
 
 class HeyApiRegistry<T> {
-    private readonly defaultKey = 'default';
-    
-    private readonly instances: Map<string, T> = new Map();
-    
-    get(key?: string): T {
-        const instance = this.instances.get(key ?? this.defaultKey);
-        if (!instance) {
-            throw new Error(`No SDK client found. Create one with "new NestedSdkWithInstance()" to fix this error.`);
-        }
-        return instance;
+  private readonly defaultKey = 'default';
+
+  private readonly instances: Map<string, T> = new Map();
+
+  get(key?: string): T {
+    const instance = this.instances.get(key ?? this.defaultKey);
+    if (!instance) {
+      throw new Error(`No SDK client found. Create one with "new NestedSdkWithInstance()" to fix this error.`);
     }
-    
-    set(value: T, key?: string): void {
-        this.instances.set(key ?? this.defaultKey, value);
-    }
+    return instance;
+  }
+
+  set(value: T, key?: string): void {
+    this.instances.set(key ?? this.defaultKey, value);
+  }
 }
 
 export class Domains extends HeyApiClient {
-    public get<ThrowOnError extends boolean = false>(options?: Options<BusinessProvidersDomainsGetData, ThrowOnError>): RequestResult<BusinessProvidersDomainsGetResponses, unknown, ThrowOnError> {
-        return (options?.client ?? this.client).get<BusinessProvidersDomainsGetResponses, unknown, ThrowOnError>({ url: '/business/providers/domains', ...options });
-    }
-    
-    public post<ThrowOnError extends boolean = false>(options?: Options<BusinessProvidersDomainsPostData, ThrowOnError>): RequestResult<BusinessProvidersDomainsPostResponses, unknown, ThrowOnError> {
-        return (options?.client ?? this.client).post<BusinessProvidersDomainsPostResponses, unknown, ThrowOnError>({ url: '/business/providers/domains', ...options });
-    }
+  public get<ThrowOnError extends boolean = false>(options?: Options<BusinessProvidersDomainsGetData, ThrowOnError>): RequestResult<BusinessProvidersDomainsGetResponses, unknown, ThrowOnError> {
+    return (options?.client ?? this.client).get<BusinessProvidersDomainsGetResponses, unknown, ThrowOnError>({ url: '/business/providers/domains', ...options });
+  }
+
+  public post<ThrowOnError extends boolean = false>(options?: Options<BusinessProvidersDomainsPostData, ThrowOnError>): RequestResult<BusinessProvidersDomainsPostResponses, unknown, ThrowOnError> {
+    return (options?.client ?? this.client).post<BusinessProvidersDomainsPostResponses, unknown, ThrowOnError>({ url: '/business/providers/domains', ...options });
+  }
 }
 
 export class Providers extends HeyApiClient {
-    private _domains?: Domains;
-    get domains(): Domains {
-        return this._domains ??= new Domains({ client: this.client });
-    }
+  private _domains?: Domains;
+  get domains(): Domains {
+    return this._domains ??= new Domains({ client: this.client });
+  }
 }
 
 export class Business extends HeyApiClient {
-    public get<ThrowOnError extends boolean = false>(options?: Options<BusinessGetData, ThrowOnError>): RequestResult<BusinessGetResponses, unknown, ThrowOnError> {
-        return (options?.client ?? this.client).get<BusinessGetResponses, unknown, ThrowOnError>({ url: '/locations/businesses', ...options });
-    }
-    
-    private _providers?: Providers;
-    get providers(): Providers {
-        return this._providers ??= new Providers({ client: this.client });
-    }
+  public get<ThrowOnError extends boolean = false>(options?: Options<BusinessGetData, ThrowOnError>): RequestResult<BusinessGetResponses, unknown, ThrowOnError> {
+    return (options?.client ?? this.client).get<BusinessGetResponses, unknown, ThrowOnError>({ url: '/locations/businesses', ...options });
+  }
+
+  private _providers?: Providers;
+  get providers(): Providers {
+    return this._providers ??= new Providers({ client: this.client });
+  }
 }
 
 export class NestedSdkWithInstance extends HeyApiClient {
-    public static readonly __registry: HeyApiRegistry<NestedSdkWithInstance> = new HeyApiRegistry<NestedSdkWithInstance>();
-    
-    constructor(args?: {
-        client?: Client;
-        key?: string;
-    }) {
-        super(args);
-        NestedSdkWithInstance.__registry.set(this, args?.key);
-    }
-    
-    public putBusinessProvidersDomains<ThrowOnError extends boolean = false>(options?: Options<PutBusinessProvidersDomainsData, ThrowOnError>): RequestResult<PutBusinessProvidersDomainsResponses, unknown, ThrowOnError> {
-        return (options?.client ?? this.client).put<PutBusinessProvidersDomainsResponses, unknown, ThrowOnError>({ url: '/business/providers/domains', ...options });
-    }
-    
-    public get<ThrowOnError extends boolean = false>(options?: Options<GetData, ThrowOnError>): RequestResult<GetResponses, unknown, ThrowOnError> {
-        return (options?.client ?? this.client).get<GetResponses, unknown, ThrowOnError>({ url: '/locations', ...options });
-    }
-    
-    private _business?: Business;
-    get business(): Business {
-        return this._business ??= new Business({ client: this.client });
-    }
+  public static readonly __registry: HeyApiRegistry<NestedSdkWithInstance> = new HeyApiRegistry<NestedSdkWithInstance>();
+
+  constructor(args?: {
+    client?: Client;
+    key?: string;
+  }) {
+    super(args);
+    NestedSdkWithInstance.__registry.set(this, args?.key);
+  }
+
+  public putBusinessProvidersDomains<ThrowOnError extends boolean = false>(options?: Options<PutBusinessProvidersDomainsData, ThrowOnError>): RequestResult<PutBusinessProvidersDomainsResponses, unknown, ThrowOnError> {
+    return (options?.client ?? this.client).put<PutBusinessProvidersDomainsResponses, unknown, ThrowOnError>({ url: '/business/providers/domains', ...options });
+  }
+
+  public get<ThrowOnError extends boolean = false>(options?: Options<GetData, ThrowOnError>): RequestResult<GetResponses, unknown, ThrowOnError> {
+    return (options?.client ?? this.client).get<GetResponses, unknown, ThrowOnError>({ url: '/locations', ...options });
+  }
+
+  private _business?: Business;
+  get business(): Business {
+    return this._business ??= new Business({ client: this.client });
+  }
 }

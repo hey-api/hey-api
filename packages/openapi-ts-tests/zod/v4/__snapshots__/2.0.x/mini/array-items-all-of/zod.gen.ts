@@ -3,18 +3,18 @@
 import * as z from 'zod/mini';
 
 export const zArrayWithAllOfObjects = z.array(z.intersection(z.object({
-    id: z.optional(z.int())
+  id: z.optional(z.int())
 }), z.object({
-    name: z.optional(z.string())
+  name: z.optional(z.string())
 })));
 
 export const zArrayWithAllOfPrimitives = z.array(z.intersection(z.number(), z.string()));
 
 export const zBaseModel = z.object({
-    id: z.optional(z.int()),
-    createdAt: z.optional(z.iso.datetime())
+  id: z.optional(z.int()),
+  createdAt: z.optional(z.iso.datetime())
 });
 
 export const zArrayWithAllOfRefs = z.array(z.intersection(zBaseModel, z.object({
-    extra: z.optional(z.string())
+  extra: z.optional(z.string())
 })));

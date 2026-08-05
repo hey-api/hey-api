@@ -3,45 +3,45 @@
 import * as z from 'zod';
 
 export const zUser = z.object({
-    id: z.string(),
-    email: z.email(),
-    name: z.string(),
-    createdAt: z.iso.datetime().optional()
+  id: z.string(),
+  email: z.email(),
+  name: z.string(),
+  createdAt: z.iso.datetime().optional()
 });
 
 export const zCreateUserInput = z.object({
-    email: z.email(),
-    name: z.string(),
-    password: z.string().min(8).optional()
+  email: z.email(),
+  name: z.string(),
+  password: z.string().min(8).optional()
 });
 
 export const zUpdateUserInput = z.object({
-    email: z.email().optional(),
-    name: z.string().optional()
+  email: z.email().optional(),
+  name: z.string().optional()
 });
 
 export const zPost = z.object({
-    id: z.string(),
-    title: z.string(),
-    content: z.string(),
-    authorId: z.string(),
-    status: z.enum([
-        'draft',
-        'published',
-        'archived'
-    ]).optional(),
-    createdAt: z.iso.datetime().optional()
+  id: z.string(),
+  title: z.string(),
+  content: z.string(),
+  authorId: z.string(),
+  status: z.enum([
+    'draft',
+    'published',
+    'archived'
+  ]).optional(),
+  createdAt: z.iso.datetime().optional()
 });
 
 export const zCreatePostInput = z.object({
-    title: z.string(),
-    content: z.string(),
-    status: z.enum(['draft', 'published']).optional().default('draft')
+  title: z.string(),
+  content: z.string(),
+  status: z.enum(['draft', 'published']).optional().default('draft')
 });
 
 export const zGetUsersQuery = z.object({
-    limit: z.int().optional().default(10),
-    offset: z.int().optional().default(0)
+  limit: z.int().optional().default(10),
+  offset: z.int().optional().default(0)
 });
 
 /**
@@ -57,11 +57,11 @@ export const zCreateUserBody = zCreateUserInput;
 export const zCreateUserResponse = zUser;
 
 export const zDeleteUserHeaders = z.object({
-    'X-Request-Id': z.string().optional()
+  'X-Request-Id': z.string().optional()
 });
 
 export const zDeleteUserPath = z.object({
-    userId: z.string()
+  userId: z.string()
 });
 
 /**
@@ -70,7 +70,7 @@ export const zDeleteUserPath = z.object({
 export const zDeleteUserResponse = z.void();
 
 export const zGetUserByIdPath = z.object({
-    userId: z.string()
+  userId: z.string()
 });
 
 /**
@@ -81,7 +81,7 @@ export const zGetUserByIdResponse = zUser;
 export const zUpdateUserBody = zUpdateUserInput;
 
 export const zUpdateUserPath = z.object({
-    userId: z.string()
+  userId: z.string()
 });
 
 /**
@@ -90,12 +90,12 @@ export const zUpdateUserPath = z.object({
 export const zUpdateUserResponse = zUser;
 
 export const zGetPostsQuery = z.object({
-    authorId: z.string().optional(),
-    status: z.enum([
-        'draft',
-        'published',
-        'archived'
-    ]).optional()
+  authorId: z.string().optional(),
+  status: z.enum([
+    'draft',
+    'published',
+    'archived'
+  ]).optional()
 });
 
 /**
@@ -106,7 +106,7 @@ export const zGetPostsResponse = z.array(zPost);
 export const zCreatePostBody = zCreatePostInput;
 
 export const zCreatePostHeaders = z.object({
-    'X-Author-Id': z.string()
+  'X-Author-Id': z.string()
 });
 
 /**
@@ -115,11 +115,11 @@ export const zCreatePostHeaders = z.object({
 export const zCreatePostResponse = zPost;
 
 export const zGetPostByIdPath = z.object({
-    postId: z.string()
+  postId: z.string()
 });
 
 export const zGetPostByIdQuery = z.object({
-    includeComments: z.boolean().optional().default(false)
+  includeComments: z.boolean().optional().default(false)
 });
 
 /**

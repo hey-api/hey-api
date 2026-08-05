@@ -2,10 +2,10 @@
 
 import * as z from 'zod/v4';
 
-export const zBar = z.object({
-    bar: z.array(z.lazy((): any => zBar)).nullable()
+export const zBar = z.strictObject({
+  bar: z.array(z.lazy((): any => zBar)).nullable()
 });
 
-export const zFoo = z.object({
-    foo: zBar
+export const zFoo = z.strictObject({
+  foo: zBar
 });

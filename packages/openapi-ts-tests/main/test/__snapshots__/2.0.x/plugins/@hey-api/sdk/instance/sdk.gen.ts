@@ -5,93 +5,93 @@ import { client } from './client.gen';
 import type { FooBarPostData, FooBarPostResponses, FooBarPutData, FooBarPutResponses, FooPostData, FooPostResponses, FooPutData, FooPutResponses, GetFooBarData, GetFooBarResponses, GetFooData, GetFooResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
-    /**
-     * You can provide a client instance returned by `createClient()` instead of
-     * individual options. This might be also useful if you want to implement a
-     * custom client.
-     */
-    client?: Client;
-    /**
-     * You can pass arbitrary values through the `meta` object. This can be
-     * used to access values that aren't defined as part of the SDK function.
-     */
-    meta?: keyof ClientMeta extends never ? Record<string, unknown> : ClientMeta;
+  /**
+   * You can provide a client instance returned by `createClient()` instead of
+   * individual options. This might be also useful if you want to implement a
+   * custom client.
+   */
+  client?: Client;
+  /**
+   * You can pass arbitrary values through the `meta` object. This can be
+   * used to access values that aren't defined as part of the SDK function.
+   */
+  meta?: keyof ClientMeta extends never ? Record<string, unknown> : ClientMeta;
 };
 
 class HeyApiClient {
-    protected client: Client;
-    
-    constructor(args?: {
-        client?: Client;
-    }) {
-        this.client = args?.client ?? client;
-    }
+  protected client: Client;
+
+  constructor(args?: {
+    client?: Client;
+  }) {
+    this.client = args?.client ?? client;
+  }
 }
 
 class HeyApiRegistry<T> {
-    private readonly defaultKey = 'default';
-    
-    private readonly instances: Map<string, T> = new Map();
-    
-    get(key?: string): T {
-        const instance = this.instances.get(key ?? this.defaultKey);
-        if (!instance) {
-            throw new Error(`No SDK client found. Create one with "new Sdk()" to fix this error.`);
-        }
-        return instance;
+  private readonly defaultKey = 'default';
+
+  private readonly instances: Map<string, T> = new Map();
+
+  get(key?: string): T {
+    const instance = this.instances.get(key ?? this.defaultKey);
+    if (!instance) {
+      throw new Error(`No SDK client found. Create one with "new Sdk()" to fix this error.`);
     }
-    
-    set(value: T, key?: string): void {
-        this.instances.set(key ?? this.defaultKey, value);
-    }
+    return instance;
+  }
+
+  set(value: T, key?: string): void {
+    this.instances.set(key ?? this.defaultKey, value);
+  }
 }
 
 export class Bar extends HeyApiClient {
-    public post<ThrowOnError extends boolean = false>(options?: Options<FooBarPostData, ThrowOnError>): RequestResult<FooBarPostResponses, unknown, ThrowOnError> {
-        return (options?.client ?? this.client).post<FooBarPostResponses, unknown, ThrowOnError>({ url: '/foo/bar', ...options });
-    }
-    
-    public put<ThrowOnError extends boolean = false>(options?: Options<FooBarPutData, ThrowOnError>): RequestResult<FooBarPutResponses, unknown, ThrowOnError> {
-        return (options?.client ?? this.client).put<FooBarPutResponses, unknown, ThrowOnError>({ url: '/foo/bar', ...options });
-    }
+  public post<ThrowOnError extends boolean = false>(options?: Options<FooBarPostData, ThrowOnError>): RequestResult<FooBarPostResponses, unknown, ThrowOnError> {
+    return (options?.client ?? this.client).post<FooBarPostResponses, unknown, ThrowOnError>({ url: '/foo/bar', ...options });
+  }
+
+  public put<ThrowOnError extends boolean = false>(options?: Options<FooBarPutData, ThrowOnError>): RequestResult<FooBarPutResponses, unknown, ThrowOnError> {
+    return (options?.client ?? this.client).put<FooBarPutResponses, unknown, ThrowOnError>({ url: '/foo/bar', ...options });
+  }
 }
 
 export class Foo extends HeyApiClient {
-    public post<ThrowOnError extends boolean = false>(options?: Options<FooPostData, ThrowOnError>): RequestResult<FooPostResponses, unknown, ThrowOnError> {
-        return (options?.client ?? this.client).post<FooPostResponses, unknown, ThrowOnError>({ url: '/foo', ...options });
-    }
-    
-    public put<ThrowOnError extends boolean = false>(options?: Options<FooPutData, ThrowOnError>): RequestResult<FooPutResponses, unknown, ThrowOnError> {
-        return (options?.client ?? this.client).put<FooPutResponses, unknown, ThrowOnError>({ url: '/foo', ...options });
-    }
-    
-    private _bar?: Bar;
-    get bar(): Bar {
-        return this._bar ??= new Bar({ client: this.client });
-    }
+  public post<ThrowOnError extends boolean = false>(options?: Options<FooPostData, ThrowOnError>): RequestResult<FooPostResponses, unknown, ThrowOnError> {
+    return (options?.client ?? this.client).post<FooPostResponses, unknown, ThrowOnError>({ url: '/foo', ...options });
+  }
+
+  public put<ThrowOnError extends boolean = false>(options?: Options<FooPutData, ThrowOnError>): RequestResult<FooPutResponses, unknown, ThrowOnError> {
+    return (options?.client ?? this.client).put<FooPutResponses, unknown, ThrowOnError>({ url: '/foo', ...options });
+  }
+
+  private _bar?: Bar;
+  get bar(): Bar {
+    return this._bar ??= new Bar({ client: this.client });
+  }
 }
 
 export class Sdk extends HeyApiClient {
-    public static readonly __registry: HeyApiRegistry<Sdk> = new HeyApiRegistry<Sdk>();
-    
-    constructor(args?: {
-        client?: Client;
-        key?: string;
-    }) {
-        super(args);
-        Sdk.__registry.set(this, args?.key);
-    }
-    
-    public getFoo<ThrowOnError extends boolean = false>(options?: Options<GetFooData, ThrowOnError>): RequestResult<GetFooResponses, unknown, ThrowOnError> {
-        return (options?.client ?? this.client).get<GetFooResponses, unknown, ThrowOnError>({ url: '/foo', ...options });
-    }
-    
-    public getFooBar<ThrowOnError extends boolean = false>(options?: Options<GetFooBarData, ThrowOnError>): RequestResult<GetFooBarResponses, unknown, ThrowOnError> {
-        return (options?.client ?? this.client).get<GetFooBarResponses, unknown, ThrowOnError>({ url: '/foo/bar', ...options });
-    }
-    
-    private _foo?: Foo;
-    get foo(): Foo {
-        return this._foo ??= new Foo({ client: this.client });
-    }
+  public static readonly __registry: HeyApiRegistry<Sdk> = new HeyApiRegistry<Sdk>();
+
+  constructor(args?: {
+    client?: Client;
+    key?: string;
+  }) {
+    super(args);
+    Sdk.__registry.set(this, args?.key);
+  }
+
+  public getFoo<ThrowOnError extends boolean = false>(options?: Options<GetFooData, ThrowOnError>): RequestResult<GetFooResponses, unknown, ThrowOnError> {
+    return (options?.client ?? this.client).get<GetFooResponses, unknown, ThrowOnError>({ url: '/foo', ...options });
+  }
+
+  public getFooBar<ThrowOnError extends boolean = false>(options?: Options<GetFooBarData, ThrowOnError>): RequestResult<GetFooBarResponses, unknown, ThrowOnError> {
+    return (options?.client ?? this.client).get<GetFooBarResponses, unknown, ThrowOnError>({ url: '/foo/bar', ...options });
+  }
+
+  private _foo?: Foo;
+  get foo(): Foo {
+    return this._foo ??= new Foo({ client: this.client });
+  }
 }

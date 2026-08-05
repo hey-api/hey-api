@@ -8,108 +8,108 @@ import { BarBazService, BarService, FooBazService, FooService, type Options } fr
 import type { FooBarPostData, FooBarPostResponse, FooBarPutData, FooBarPutResponse, FooPostData, FooPostResponse, FooPutData, FooPutResponse, GetFooBarData, GetFooBarResponse, GetFooData, GetFooResponse } from '../types.gen';
 
 export type QueryKey<TOptions extends Options> = [
-    Pick<TOptions, 'path'> & {
-        _id: string;
-        baseUrl?: _JSONValue;
-        body?: _JSONValue;
-        query?: _JSONValue;
-        tags?: _JSONValue;
-    }
+  Pick<TOptions, 'path'> & {
+    _id: string;
+    baseUrl?: _JSONValue;
+    body?: _JSONValue;
+    query?: _JSONValue;
+    tags?: _JSONValue;
+  }
 ];
 
 const createQueryKey = <TOptions extends Options>(id: string, options?: TOptions, tags?: ReadonlyArray<string>): [
-    QueryKey<TOptions>[0]
+  QueryKey<TOptions>[0]
 ] => {
-    const params: QueryKey<TOptions>[0] = { _id: id, baseUrl: options?.baseUrl || (options?.client ?? client).getConfig().baseUrl } as QueryKey<TOptions>[0];
-    if (tags) {
-        params.tags = tags as unknown as _JSONValue;
+  const params: QueryKey<TOptions>[0] = { _id: id, baseUrl: options?.baseUrl || (options?.client ?? client).getConfig().baseUrl } as QueryKey<TOptions>[0];
+  if (tags) {
+    params.tags = tags as unknown as _JSONValue;
+  }
+  if (options?.body !== undefined) {
+    const normalizedBody = serializeQueryKeyValue(options.body);
+    if (normalizedBody !== undefined) {
+      params.body = normalizedBody;
     }
-    if (options?.body !== undefined) {
-        const normalizedBody = serializeQueryKeyValue(options.body);
-        if (normalizedBody !== undefined) {
-            params.body = normalizedBody;
-        }
+  }
+  if (options?.path) {
+    params.path = options.path;
+  }
+  if (options?.query !== undefined) {
+    const normalizedQuery = serializeQueryKeyValue(options.query);
+    if (normalizedQuery !== undefined) {
+      params.query = normalizedQuery;
     }
-    if (options?.path) {
-        params.path = options.path;
-    }
-    if (options?.query !== undefined) {
-        const normalizedQuery = serializeQueryKeyValue(options.query);
-        if (normalizedQuery !== undefined) {
-            params.query = normalizedQuery;
-        }
-    }
-    return [params];
+  }
+  return [params];
 };
 
 export const getFooQueryKey = (options?: Options<GetFooData>) => createQueryKey('getFoo', options);
 
 export const getFooQuery = defineQueryOptions<Options<GetFooData>, GetFooResponse, Error>((options?: Options<GetFooData>) => ({
-    key: getFooQueryKey(options),
-    query: async (context) => {
-        const { data } = await FooBazService.getFoo({
-            ...options,
-            ...context,
-            throwOnError: true
-        });
-        return data;
-    }
+  key: getFooQueryKey(options),
+  query: async (context) => {
+    const { data } = await FooBazService.getFoo({
+      ...options,
+      ...context,
+      throwOnError: true
+    });
+    return data;
+  }
 }));
 
 export const fooPostMutation = (options?: Partial<Options<FooPostData>>): UseMutationOptions<FooPostResponse, Options<FooPostData>, Error> => ({
-    mutation: async (vars) => {
-        const { data } = await FooService.post({
-            ...options,
-            ...vars,
-            throwOnError: true
-        });
-        return data;
-    }
+  mutation: async (vars) => {
+    const { data } = await FooService.post({
+      ...options,
+      ...vars,
+      throwOnError: true
+    });
+    return data;
+  }
 });
 
 export const fooPutMutation = (options?: Partial<Options<FooPutData>>): UseMutationOptions<FooPutResponse, Options<FooPutData>, Error> => ({
-    mutation: async (vars) => {
-        const { data } = await FooService.put({
-            ...options,
-            ...vars,
-            throwOnError: true
-        });
-        return data;
-    }
+  mutation: async (vars) => {
+    const { data } = await FooService.put({
+      ...options,
+      ...vars,
+      throwOnError: true
+    });
+    return data;
+  }
 });
 
 export const getFooBarQueryKey = (options?: Options<GetFooBarData>) => createQueryKey('getFooBar', options);
 
 export const getFooBarQuery = defineQueryOptions<Options<GetFooBarData>, GetFooBarResponse, Error>((options?: Options<GetFooBarData>) => ({
-    key: getFooBarQueryKey(options),
-    query: async (context) => {
-        const { data } = await BarBazService.getFooBar({
-            ...options,
-            ...context,
-            throwOnError: true
-        });
-        return data;
-    }
+  key: getFooBarQueryKey(options),
+  query: async (context) => {
+    const { data } = await BarBazService.getFooBar({
+      ...options,
+      ...context,
+      throwOnError: true
+    });
+    return data;
+  }
 }));
 
 export const fooBarPostMutation = (options?: Partial<Options<FooBarPostData>>): UseMutationOptions<FooBarPostResponse, Options<FooBarPostData>, Error> => ({
-    mutation: async (vars) => {
-        const { data } = await BarService.post({
-            ...options,
-            ...vars,
-            throwOnError: true
-        });
-        return data;
-    }
+  mutation: async (vars) => {
+    const { data } = await BarService.post({
+      ...options,
+      ...vars,
+      throwOnError: true
+    });
+    return data;
+  }
 });
 
 export const fooBarPutMutation = (options?: Partial<Options<FooBarPutData>>): UseMutationOptions<FooBarPutResponse, Options<FooBarPutData>, Error> => ({
-    mutation: async (vars) => {
-        const { data } = await BarService.put({
-            ...options,
-            ...vars,
-            throwOnError: true
-        });
-        return data;
-    }
+  mutation: async (vars) => {
+    const { data } = await BarService.put({
+      ...options,
+      ...vars,
+      throwOnError: true
+    });
+    return data;
+  }
 });

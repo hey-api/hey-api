@@ -3,5 +3,5 @@
 import { z } from 'zod/v3';
 
 export const zGetFooPath = z.object({
-    guidId: z.string()
+  guidId: z.string()
 });

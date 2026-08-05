@@ -3,32 +3,32 @@
 import * as z from 'zod/mini';
 
 export const zUserNotificationDeleteContentBase = z.object({
-    name: z.string()
+  name: z.string()
 });
 
 export const zUserNotificationDeleteContentError = z.intersection(zUserNotificationDeleteContentBase, z.object({
-    finishedAt: z.iso.datetime(),
-    error: z.string()
+  finishedAt: z.iso.datetime(),
+  error: z.string()
 }));
 
 export const zUserNotificationDeleteContentRunning = z.intersection(zUserNotificationDeleteContentBase, z.object({
-    startedAt: z.iso.datetime()
+  startedAt: z.iso.datetime()
 }));
 
 export const zUserNotificationDeleteContentSuccess = z.intersection(zUserNotificationDeleteContentBase, z.object({
-    finishedAt: z.iso.datetime()
+  finishedAt: z.iso.datetime()
 }));
 
 export const zUserNotificationDeleteContent = z.union([
-    z.intersection(z.object({
-        status: z.literal('running')
-    }), zUserNotificationDeleteContentRunning),
-    z.intersection(z.object({
-        status: z.literal('success')
-    }), zUserNotificationDeleteContentSuccess),
-    z.intersection(z.object({
-        status: z.literal('error')
-    }), zUserNotificationDeleteContentError)
+  z.intersection(z.object({
+    status: z.literal('running')
+  }), zUserNotificationDeleteContentRunning),
+  z.intersection(z.object({
+    status: z.literal('success')
+  }), zUserNotificationDeleteContentSuccess),
+  z.intersection(z.object({
+    status: z.literal('error')
+  }), zUserNotificationDeleteContentError)
 ]);
 
 /**

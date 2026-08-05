@@ -917,7 +917,7 @@ describe(`OpenAPI ${version}`, () => {
     {
       config: createConfig({
         input: 'transformers-temporal.json',
-        output: 'transformers-temporal',
+        output: 'transformers-temporal-polyfill',
         plugins: [
           '@hey-api/client-fetch',
           {
@@ -926,7 +926,21 @@ describe(`OpenAPI ${version}`, () => {
           },
         ],
       }),
-      description: 'transforms dates using the Temporal API',
+      description: 'transforms dates using the Temporal API with polyfill',
+    },
+    {
+      config: createConfig({
+        input: 'transformers-temporal.json',
+        output: 'transformers-temporal-global',
+        plugins: [
+          '@hey-api/client-fetch',
+          {
+            dates: { polyfill: false, type: 'temporal' },
+            name: '@hey-api/transformers',
+          },
+        ],
+      }),
+      description: 'transforms dates using the Temporal API without polyfill',
     },
     {
       config: createConfig({

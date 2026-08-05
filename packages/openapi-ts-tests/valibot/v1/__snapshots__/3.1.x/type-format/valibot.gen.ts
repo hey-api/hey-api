@@ -3,17 +3,17 @@
 import * as v from 'valibot';
 
 export const vFoo = v.object({
-    bar: v.optional(v.pipe(v.number(), v.integer())),
-    foo: v.optional(v.pipe(v.union([
-        v.number(),
-        v.string(),
-        v.bigint()
-    ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')), BigInt(0)),
-    id: v.string()
+  bar: v.optional(v.pipe(v.number(), v.integer())),
+  foo: v.optional(v.pipe(v.union([
+    v.number(),
+    v.string(),
+    v.bigint()
+  ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')), BigInt(0)),
+  id: v.string()
 });
 
 export const vBar = v.objectWithRest({
-    foo: v.pipe(v.number(), v.integer())
+  foo: v.pipe(v.number(), v.integer())
 }, v.pipe(v.number(), v.integer()));
 
 /**

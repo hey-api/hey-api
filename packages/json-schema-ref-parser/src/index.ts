@@ -499,6 +499,14 @@ export class $RefParser {
         }
       }
 
+      // Swagger 2.0 reusable schemas live under `definitions` rather than
+      // `components.schemas`, so treat them as a source for `schemas`.
+      const srcDefinitions = (schema.definitions || {}) as any;
+      for (const [name] of Object.entries(srcDefinitions)) {
+        const newName = `${prefix}_${name}`;
+        refMap.set(`#/components/schemas/${name}`, `#/components/schemas/${newName}`);
+      }
+
       const srcTags: any[] = Array.isArray(schema.tags) ? schema.tags : [];
       for (const t of srcTags) {
         if (!t || typeof t !== 'object' || typeof t.name !== 'string') {
@@ -525,6 +533,19 @@ export class $RefParser {
             url.stripHash(sourcePath),
           );
         }
+      }
+
+      // Copy Swagger 2.0 `definitions` into the merged `components.schemas`
+      // container, remapping their internal `$ref`s along the way.
+      for (const [name, val] of Object.entries(srcDefinitions)) {
+        const newName = `${prefix}_${name}`;
+        merged.components.schemas[newName] = cloneAndRewrite(
+          val,
+          refMap,
+          tagMap,
+          prefix,
+          url.stripHash(sourcePath),
+        );
       }
 
       const HTTP_METHODS = new Set([

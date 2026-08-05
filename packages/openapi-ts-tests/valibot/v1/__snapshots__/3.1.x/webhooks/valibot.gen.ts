@@ -3,1230 +3,1230 @@
 import * as v from 'valibot';
 
 export const vSessionUserPhoneCalloutRingingWebhookRequest = v.object({
-    body: v.optional(v.strictObject({
-        event: v.string(),
-        event_ts: v.pipe(v.union([
+  body: v.optional(v.strictObject({
+    event: v.string(),
+    event_ts: v.pipe(v.union([
+      v.number(),
+      v.string(),
+      v.bigint()
+    ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
+    payload: v.strictObject({
+      account_id: v.string(),
+      object: v.strictObject({
+        id: v.optional(v.pipe(v.union([
+          v.number(),
+          v.string(),
+          v.bigint()
+        ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807'))),
+        uuid: v.optional(v.string()),
+        session_id: v.string(),
+        session_name: v.string(),
+        session_key: v.string(),
+        user_key: v.string(),
+        host_id: v.string(),
+        participant: v.strictObject({
+          invitee_name: v.string(),
+          phone_number: v.pipe(v.union([
             v.number(),
             v.string(),
             v.bigint()
-        ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
-        payload: v.strictObject({
-            account_id: v.string(),
-            object: v.strictObject({
-                id: v.optional(v.pipe(v.union([
-                    v.number(),
-                    v.string(),
-                    v.bigint()
-                ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807'))),
-                uuid: v.optional(v.string()),
-                session_id: v.string(),
-                session_name: v.string(),
-                session_key: v.string(),
-                user_key: v.string(),
-                host_id: v.string(),
-                participant: v.strictObject({
-                    invitee_name: v.string(),
-                    phone_number: v.pipe(v.union([
-                        v.number(),
-                        v.string(),
-                        v.bigint()
-                    ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
-                    from_number: v.pipe(v.union([
-                        v.number(),
-                        v.string(),
-                        v.bigint()
-                    ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807'))
-                })
-            })
+          ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
+          from_number: v.pipe(v.union([
+            v.number(),
+            v.string(),
+            v.bigint()
+          ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807'))
         })
-    })),
-    path: v.optional(v.never()),
-    query: v.optional(v.never())
+      })
+    })
+  })),
+  path: v.optional(v.never()),
+  query: v.optional(v.never())
 });
 
 export const vSessionUserRoomSystemCalloutRingingWebhookRequest = v.object({
-    body: v.optional(v.strictObject({
-        event: v.string(),
-        event_ts: v.pipe(v.union([
-            v.number(),
-            v.string(),
-            v.bigint()
-        ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
-        payload: v.strictObject({
-            account_id: v.string(),
-            object: v.strictObject({
-                id: v.optional(v.pipe(v.union([
-                    v.number(),
-                    v.string(),
-                    v.bigint()
-                ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807'))),
-                uuid: v.optional(v.string()),
-                session_id: v.string(),
-                session_name: v.string(),
-                host_id: v.string(),
-                message_id: v.string(),
-                inviter_name: v.string(),
-                participant: v.objectWithRest({
-                    call_type: v.string(),
-                    device_ip: v.string()
-                }, v.unknown())
-            })
-        })
-    })),
-    path: v.optional(v.never()),
-    query: v.optional(v.never())
+  body: v.optional(v.strictObject({
+    event: v.string(),
+    event_ts: v.pipe(v.union([
+      v.number(),
+      v.string(),
+      v.bigint()
+    ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
+    payload: v.strictObject({
+      account_id: v.string(),
+      object: v.strictObject({
+        id: v.optional(v.pipe(v.union([
+          v.number(),
+          v.string(),
+          v.bigint()
+        ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807'))),
+        uuid: v.optional(v.string()),
+        session_id: v.string(),
+        session_name: v.string(),
+        host_id: v.string(),
+        message_id: v.string(),
+        inviter_name: v.string(),
+        participant: v.objectWithRest({
+          call_type: v.string(),
+          device_ip: v.string()
+        }, v.unknown())
+      })
+    })
+  })),
+  path: v.optional(v.never()),
+  query: v.optional(v.never())
 });
 
 export const vSessionRecordingStartedWebhookRequest = v.object({
-    body: v.optional(v.strictObject({
-        event: v.picklist(['session.recording_started']),
-        event_ts: v.pipe(v.union([
-            v.number(),
-            v.string(),
-            v.bigint()
-        ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
-        payload: v.strictObject({
-            account_id: v.string(),
-            object: v.strictObject({
-                session_id: v.string(),
-                session_name: v.string(),
-                session_key: v.string(),
-                start_time: v.pipe(v.string(), v.isoTimestamp()),
-                timezone: v.string(),
-                recording_file: v.object({
-                    recording_start: v.optional(v.string()),
-                    recording_end: v.optional(v.string())
-                })
-            })
+  body: v.optional(v.strictObject({
+    event: v.picklist(['session.recording_started']),
+    event_ts: v.pipe(v.union([
+      v.number(),
+      v.string(),
+      v.bigint()
+    ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
+    payload: v.strictObject({
+      account_id: v.string(),
+      object: v.strictObject({
+        session_id: v.string(),
+        session_name: v.string(),
+        session_key: v.string(),
+        start_time: v.pipe(v.string(), v.isoTimestamp()),
+        timezone: v.string(),
+        recording_file: v.object({
+          recording_start: v.optional(v.string()),
+          recording_end: v.optional(v.string())
         })
-    })),
-    path: v.optional(v.never()),
-    query: v.optional(v.never())
+      })
+    })
+  })),
+  path: v.optional(v.never()),
+  query: v.optional(v.never())
 });
 
 export const vSessionRecordingResumedWebhookRequest = v.object({
-    body: v.optional(v.strictObject({
-        event: v.picklist(['session.recording_resumed']),
-        event_ts: v.pipe(v.union([
-            v.number(),
-            v.string(),
-            v.bigint()
-        ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
-        payload: v.strictObject({
-            account_id: v.string(),
-            object: v.strictObject({
-                session_id: v.string(),
-                session_name: v.string(),
-                session_key: v.string(),
-                start_time: v.pipe(v.string(), v.isoTimestamp()),
-                timezone: v.string(),
-                recording_file: v.object({
-                    recording_start: v.optional(v.string()),
-                    recording_end: v.optional(v.string())
-                })
-            })
+  body: v.optional(v.strictObject({
+    event: v.picklist(['session.recording_resumed']),
+    event_ts: v.pipe(v.union([
+      v.number(),
+      v.string(),
+      v.bigint()
+    ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
+    payload: v.strictObject({
+      account_id: v.string(),
+      object: v.strictObject({
+        session_id: v.string(),
+        session_name: v.string(),
+        session_key: v.string(),
+        start_time: v.pipe(v.string(), v.isoTimestamp()),
+        timezone: v.string(),
+        recording_file: v.object({
+          recording_start: v.optional(v.string()),
+          recording_end: v.optional(v.string())
         })
-    })),
-    path: v.optional(v.never()),
-    query: v.optional(v.never())
+      })
+    })
+  })),
+  path: v.optional(v.never()),
+  query: v.optional(v.never())
 });
 
 export const vSessionLiveStreamingStoppedWebhookRequest = v.object({
-    body: v.optional(v.strictObject({
-        event: v.picklist(['session.live_streaming_stopped']),
-        event_ts: v.pipe(v.union([
-            v.number(),
-            v.string(),
-            v.bigint()
-        ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
-        payload: v.strictObject({
-            account_id: v.string(),
-            object: v.strictObject({
-                id: v.string(),
-                session_id: v.string(),
-                session_name: v.string(),
-                session_key: v.optional(v.string()),
-                start_time: v.pipe(v.string(), v.isoTimestamp()),
-                live_streaming: v.object({
-                    service: v.picklist([
-                        'Facebook',
-                        'Workplace_by_Facebook',
-                        'YouTube',
-                        'Custom_Live_Streaming_Service'
-                    ]),
-                    custom_live_streaming_settings: v.object({
-                        stream_url: v.string(),
-                        stream_key: v.string(),
-                        page_url: v.string(),
-                        resolution: v.optional(v.string())
-                    }),
-                    date_time: v.pipe(v.string(), v.isoTimestamp())
-                })
-            })
+  body: v.optional(v.strictObject({
+    event: v.picklist(['session.live_streaming_stopped']),
+    event_ts: v.pipe(v.union([
+      v.number(),
+      v.string(),
+      v.bigint()
+    ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
+    payload: v.strictObject({
+      account_id: v.string(),
+      object: v.strictObject({
+        id: v.string(),
+        session_id: v.string(),
+        session_name: v.string(),
+        session_key: v.optional(v.string()),
+        start_time: v.pipe(v.string(), v.isoTimestamp()),
+        live_streaming: v.object({
+          service: v.picklist([
+            'Facebook',
+            'Workplace_by_Facebook',
+            'YouTube',
+            'Custom_Live_Streaming_Service'
+          ]),
+          custom_live_streaming_settings: v.object({
+            stream_url: v.string(),
+            stream_key: v.string(),
+            page_url: v.string(),
+            resolution: v.optional(v.string())
+          }),
+          date_time: v.pipe(v.string(), v.isoTimestamp())
         })
-    })),
-    path: v.optional(v.never()),
-    query: v.optional(v.never())
+      })
+    })
+  })),
+  path: v.optional(v.never()),
+  query: v.optional(v.never())
 });
 
 export const vSessionStreamIngestionStoppedWebhookRequest = v.object({
-    body: v.optional(v.strictObject({
-        event: v.picklist(['session.stream_ingestion_stopped']),
-        event_ts: v.pipe(v.union([
-            v.number(),
-            v.string(),
-            v.bigint()
-        ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
-        payload: v.strictObject({
-            account_id: v.string(),
-            object: v.strictObject({
-                session_id: v.string(),
-                session_name: v.string(),
-                session_key: v.optional(v.string()),
-                stream_ingestion: v.object({
-                    stream_id: v.string(),
-                    stream_name: v.string(),
-                    stream_description: v.optional(v.string()),
-                    stream_key: v.string(),
-                    stream_url: v.string(),
-                    backup_stream_url: v.string()
-                })
-            })
+  body: v.optional(v.strictObject({
+    event: v.picklist(['session.stream_ingestion_stopped']),
+    event_ts: v.pipe(v.union([
+      v.number(),
+      v.string(),
+      v.bigint()
+    ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
+    payload: v.strictObject({
+      account_id: v.string(),
+      object: v.strictObject({
+        session_id: v.string(),
+        session_name: v.string(),
+        session_key: v.optional(v.string()),
+        stream_ingestion: v.object({
+          stream_id: v.string(),
+          stream_name: v.string(),
+          stream_description: v.optional(v.string()),
+          stream_key: v.string(),
+          stream_url: v.string(),
+          backup_stream_url: v.string()
         })
-    })),
-    path: v.optional(v.never()),
-    query: v.optional(v.never())
+      })
+    })
+  })),
+  path: v.optional(v.never()),
+  query: v.optional(v.never())
 });
 
 export const vSessionUserRoomSystemCalloutRejectedWebhookRequest = v.object({
-    body: v.optional(v.strictObject({
-        event: v.string(),
-        event_ts: v.pipe(v.union([
-            v.number(),
-            v.string(),
-            v.bigint()
-        ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
-        payload: v.strictObject({
-            account_id: v.string(),
-            object: v.strictObject({
-                id: v.optional(v.pipe(v.union([
-                    v.number(),
-                    v.string(),
-                    v.bigint()
-                ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807'))),
-                uuid: v.optional(v.string()),
-                session_id: v.string(),
-                session_name: v.string(),
-                host_id: v.string(),
-                message_id: v.string(),
-                inviter_name: v.string(),
-                participant: v.objectWithRest({
-                    call_type: v.string(),
-                    device_ip: v.string()
-                }, v.unknown())
-            })
-        })
-    })),
-    path: v.optional(v.never()),
-    query: v.optional(v.never())
+  body: v.optional(v.strictObject({
+    event: v.string(),
+    event_ts: v.pipe(v.union([
+      v.number(),
+      v.string(),
+      v.bigint()
+    ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
+    payload: v.strictObject({
+      account_id: v.string(),
+      object: v.strictObject({
+        id: v.optional(v.pipe(v.union([
+          v.number(),
+          v.string(),
+          v.bigint()
+        ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807'))),
+        uuid: v.optional(v.string()),
+        session_id: v.string(),
+        session_name: v.string(),
+        host_id: v.string(),
+        message_id: v.string(),
+        inviter_name: v.string(),
+        participant: v.objectWithRest({
+          call_type: v.string(),
+          device_ip: v.string()
+        }, v.unknown())
+      })
+    })
+  })),
+  path: v.optional(v.never()),
+  query: v.optional(v.never())
 });
 
 export const vSessionAlertWebhookRequest = v.object({
-    body: v.optional(v.strictObject({
-        event: v.picklist(['session.alert']),
-        event_ts: v.pipe(v.union([
-            v.number(),
-            v.string(),
-            v.bigint()
-        ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
-        payload: v.strictObject({
-            account_id: v.string(),
-            object: v.strictObject({
-                id: v.string(),
-                session_id: v.string(),
-                session_name: v.string(),
-                session_key: v.optional(v.string()),
-                issues: v.array(v.picklist([
-                    'Unstable audio quality',
-                    'Unstable video quality',
-                    'Unstable screen share quality',
-                    'High CPU occupation',
-                    'Call Reconnection'
-                ]))
-            })
-        })
-    })),
-    path: v.optional(v.never()),
-    query: v.optional(v.never())
+  body: v.optional(v.strictObject({
+    event: v.picklist(['session.alert']),
+    event_ts: v.pipe(v.union([
+      v.number(),
+      v.string(),
+      v.bigint()
+    ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
+    payload: v.strictObject({
+      account_id: v.string(),
+      object: v.strictObject({
+        id: v.string(),
+        session_id: v.string(),
+        session_name: v.string(),
+        session_key: v.optional(v.string()),
+        issues: v.array(v.picklist([
+          'Unstable audio quality',
+          'Unstable video quality',
+          'Unstable screen share quality',
+          'High CPU occupation',
+          'Call Reconnection'
+        ]))
+      })
+    })
+  })),
+  path: v.optional(v.never()),
+  query: v.optional(v.never())
 });
 
 export const vSessionSharingEndedWebhookRequest = v.object({
-    body: v.optional(v.strictObject({
-        event: v.picklist(['session.sharing_ended']),
-        event_ts: v.pipe(v.union([
-            v.number(),
-            v.string(),
-            v.bigint()
-        ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
-        payload: v.strictObject({
-            account_id: v.string(),
-            object: v.strictObject({
-                id: v.string(),
-                session_id: v.string(),
-                session_name: v.string(),
-                session_key: v.optional(v.string()),
-                user: v.strictObject({
-                    id: v.string(),
-                    name: v.string(),
-                    user_key: v.optional(v.string()),
-                    sharing_details: v.strictObject({
-                        content: v.picklist([
-                            'application',
-                            'whiteboard',
-                            'desktop',
-                            'unknown'
-                        ]),
-                        date_time: v.pipe(v.string(), v.isoTimestamp())
-                    })
-                })
-            })
+  body: v.optional(v.strictObject({
+    event: v.picklist(['session.sharing_ended']),
+    event_ts: v.pipe(v.union([
+      v.number(),
+      v.string(),
+      v.bigint()
+    ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
+    payload: v.strictObject({
+      account_id: v.string(),
+      object: v.strictObject({
+        id: v.string(),
+        session_id: v.string(),
+        session_name: v.string(),
+        session_key: v.optional(v.string()),
+        user: v.strictObject({
+          id: v.string(),
+          name: v.string(),
+          user_key: v.optional(v.string()),
+          sharing_details: v.strictObject({
+            content: v.picklist([
+              'application',
+              'whiteboard',
+              'desktop',
+              'unknown'
+            ]),
+            date_time: v.pipe(v.string(), v.isoTimestamp())
+          })
         })
-    })),
-    path: v.optional(v.never()),
-    query: v.optional(v.never())
+      })
+    })
+  })),
+  path: v.optional(v.never()),
+  query: v.optional(v.never())
 });
 
 export const vSessionRecordingPausedWebhookRequest = v.object({
-    body: v.optional(v.strictObject({
-        event: v.picklist(['session.recording_paused']),
-        event_ts: v.pipe(v.union([
-            v.number(),
-            v.string(),
-            v.bigint()
-        ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
-        payload: v.strictObject({
-            account_id: v.string(),
-            object: v.strictObject({
-                session_id: v.string(),
-                session_name: v.string(),
-                session_key: v.string(),
-                start_time: v.pipe(v.string(), v.isoTimestamp()),
-                timezone: v.string(),
-                recording_file: v.object({
-                    recording_start: v.optional(v.string()),
-                    recording_end: v.optional(v.string())
-                })
-            })
+  body: v.optional(v.strictObject({
+    event: v.picklist(['session.recording_paused']),
+    event_ts: v.pipe(v.union([
+      v.number(),
+      v.string(),
+      v.bigint()
+    ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
+    payload: v.strictObject({
+      account_id: v.string(),
+      object: v.strictObject({
+        session_id: v.string(),
+        session_name: v.string(),
+        session_key: v.string(),
+        start_time: v.pipe(v.string(), v.isoTimestamp()),
+        timezone: v.string(),
+        recording_file: v.object({
+          recording_start: v.optional(v.string()),
+          recording_end: v.optional(v.string())
         })
-    })),
-    path: v.optional(v.never()),
-    query: v.optional(v.never())
+      })
+    })
+  })),
+  path: v.optional(v.never()),
+  query: v.optional(v.never())
 });
 
 export const vSessionEndedWebhookRequest = v.object({
-    body: v.optional(v.strictObject({
-        event: v.picklist(['session.ended']),
-        event_ts: v.pipe(v.union([
-            v.number(),
-            v.string(),
-            v.bigint()
-        ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
-        payload: v.strictObject({
-            account_id: v.string(),
-            object: v.strictObject({
-                id: v.string(),
-                session_id: v.string(),
-                session_name: v.string(),
-                session_key: v.optional(v.string()),
-                start_time: v.pipe(v.string(), v.isoTimestamp()),
-                end_time: v.pipe(v.string(), v.isoTimestamp())
-            })
-        })
-    })),
-    path: v.optional(v.never()),
-    query: v.optional(v.never())
+  body: v.optional(v.strictObject({
+    event: v.picklist(['session.ended']),
+    event_ts: v.pipe(v.union([
+      v.number(),
+      v.string(),
+      v.bigint()
+    ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
+    payload: v.strictObject({
+      account_id: v.string(),
+      object: v.strictObject({
+        id: v.string(),
+        session_id: v.string(),
+        session_name: v.string(),
+        session_key: v.optional(v.string()),
+        start_time: v.pipe(v.string(), v.isoTimestamp()),
+        end_time: v.pipe(v.string(), v.isoTimestamp())
+      })
+    })
+  })),
+  path: v.optional(v.never()),
+  query: v.optional(v.never())
 });
 
 export const vSessionStartedWebhookRequest = v.object({
-    body: v.optional(v.strictObject({
-        event: v.picklist(['session.started']),
-        event_ts: v.pipe(v.union([
-            v.number(),
-            v.string(),
-            v.bigint()
-        ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
-        payload: v.strictObject({
-            account_id: v.string(),
-            object: v.strictObject({
-                id: v.string(),
-                session_id: v.string(),
-                session_name: v.string(),
-                session_key: v.optional(v.string()),
-                start_time: v.pipe(v.string(), v.isoTimestamp())
-            })
-        })
-    })),
-    path: v.optional(v.never()),
-    query: v.optional(v.never())
+  body: v.optional(v.strictObject({
+    event: v.picklist(['session.started']),
+    event_ts: v.pipe(v.union([
+      v.number(),
+      v.string(),
+      v.bigint()
+    ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
+    payload: v.strictObject({
+      account_id: v.string(),
+      object: v.strictObject({
+        id: v.string(),
+        session_id: v.string(),
+        session_name: v.string(),
+        session_key: v.optional(v.string()),
+        start_time: v.pipe(v.string(), v.isoTimestamp())
+      })
+    })
+  })),
+  path: v.optional(v.never()),
+  query: v.optional(v.never())
 });
 
 export const vSessionStreamIngestionUnbindWebhookRequest = v.object({
-    body: v.optional(v.strictObject({
-        event: v.picklist(['session.stream_ingestion_unbind']),
-        event_ts: v.pipe(v.union([
-            v.number(),
-            v.string(),
-            v.bigint()
-        ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
-        payload: v.strictObject({
-            account_id: v.string(),
-            object: v.strictObject({
-                session_id: v.string(),
-                session_name: v.string(),
-                session_key: v.optional(v.string()),
-                stream_ingestion: v.object({
-                    stream_id: v.string(),
-                    stream_name: v.string(),
-                    stream_description: v.optional(v.string()),
-                    stream_key: v.string(),
-                    stream_url: v.string(),
-                    backup_stream_url: v.string()
-                })
-            })
+  body: v.optional(v.strictObject({
+    event: v.picklist(['session.stream_ingestion_unbind']),
+    event_ts: v.pipe(v.union([
+      v.number(),
+      v.string(),
+      v.bigint()
+    ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
+    payload: v.strictObject({
+      account_id: v.string(),
+      object: v.strictObject({
+        session_id: v.string(),
+        session_name: v.string(),
+        session_key: v.optional(v.string()),
+        stream_ingestion: v.object({
+          stream_id: v.string(),
+          stream_name: v.string(),
+          stream_description: v.optional(v.string()),
+          stream_key: v.string(),
+          stream_url: v.string(),
+          backup_stream_url: v.string()
         })
-    })),
-    path: v.optional(v.never()),
-    query: v.optional(v.never())
+      })
+    })
+  })),
+  path: v.optional(v.never()),
+  query: v.optional(v.never())
 });
 
 export const vSessionLiveStreamingStartedWebhookRequest = v.object({
-    body: v.optional(v.strictObject({
-        event: v.picklist(['session.live_streaming_started']),
-        event_ts: v.pipe(v.union([
-            v.number(),
-            v.string(),
-            v.bigint()
-        ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
-        payload: v.strictObject({
-            account_id: v.string(),
-            object: v.strictObject({
-                id: v.string(),
-                session_id: v.string(),
-                session_name: v.string(),
-                session_key: v.optional(v.string()),
-                start_time: v.pipe(v.string(), v.isoTimestamp()),
-                live_streaming: v.object({
-                    service: v.picklist([
-                        'Facebook',
-                        'Workplace_by_Facebook',
-                        'YouTube',
-                        'Custom_Live_Streaming_Service'
-                    ]),
-                    custom_live_streaming_settings: v.object({
-                        stream_url: v.string(),
-                        stream_key: v.string(),
-                        page_url: v.string(),
-                        resolution: v.optional(v.string())
-                    }),
-                    date_time: v.pipe(v.string(), v.isoTimestamp())
-                })
-            })
+  body: v.optional(v.strictObject({
+    event: v.picklist(['session.live_streaming_started']),
+    event_ts: v.pipe(v.union([
+      v.number(),
+      v.string(),
+      v.bigint()
+    ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
+    payload: v.strictObject({
+      account_id: v.string(),
+      object: v.strictObject({
+        id: v.string(),
+        session_id: v.string(),
+        session_name: v.string(),
+        session_key: v.optional(v.string()),
+        start_time: v.pipe(v.string(), v.isoTimestamp()),
+        live_streaming: v.object({
+          service: v.picklist([
+            'Facebook',
+            'Workplace_by_Facebook',
+            'YouTube',
+            'Custom_Live_Streaming_Service'
+          ]),
+          custom_live_streaming_settings: v.object({
+            stream_url: v.string(),
+            stream_key: v.string(),
+            page_url: v.string(),
+            resolution: v.optional(v.string())
+          }),
+          date_time: v.pipe(v.string(), v.isoTimestamp())
         })
-    })),
-    path: v.optional(v.never()),
-    query: v.optional(v.never())
+      })
+    })
+  })),
+  path: v.optional(v.never()),
+  query: v.optional(v.never())
 });
 
 export const vSessionUserRoomSystemCalloutMissedWebhookRequest = v.object({
-    body: v.optional(v.strictObject({
-        event: v.string(),
-        event_ts: v.pipe(v.union([
-            v.number(),
-            v.string(),
-            v.bigint()
-        ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
-        payload: v.strictObject({
-            account_id: v.string(),
-            object: v.strictObject({
-                id: v.optional(v.pipe(v.union([
-                    v.number(),
-                    v.string(),
-                    v.bigint()
-                ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807'))),
-                uuid: v.optional(v.string()),
-                session_id: v.string(),
-                session_name: v.string(),
-                host_id: v.string(),
-                message_id: v.string(),
-                inviter_name: v.string(),
-                participant: v.objectWithRest({
-                    call_type: v.string(),
-                    device_ip: v.string()
-                }, v.unknown())
-            })
-        })
-    })),
-    path: v.optional(v.never()),
-    query: v.optional(v.never())
+  body: v.optional(v.strictObject({
+    event: v.string(),
+    event_ts: v.pipe(v.union([
+      v.number(),
+      v.string(),
+      v.bigint()
+    ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
+    payload: v.strictObject({
+      account_id: v.string(),
+      object: v.strictObject({
+        id: v.optional(v.pipe(v.union([
+          v.number(),
+          v.string(),
+          v.bigint()
+        ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807'))),
+        uuid: v.optional(v.string()),
+        session_id: v.string(),
+        session_name: v.string(),
+        host_id: v.string(),
+        message_id: v.string(),
+        inviter_name: v.string(),
+        participant: v.objectWithRest({
+          call_type: v.string(),
+          device_ip: v.string()
+        }, v.unknown())
+      })
+    })
+  })),
+  path: v.optional(v.never()),
+  query: v.optional(v.never())
 });
 
 export const vSessionUserPhoneCalloutAcceptedWebhookRequest = v.object({
-    body: v.optional(v.strictObject({
-        event: v.string(),
-        event_ts: v.pipe(v.union([
+  body: v.optional(v.strictObject({
+    event: v.string(),
+    event_ts: v.pipe(v.union([
+      v.number(),
+      v.string(),
+      v.bigint()
+    ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
+    payload: v.strictObject({
+      account_id: v.string(),
+      object: v.strictObject({
+        id: v.optional(v.pipe(v.union([
+          v.number(),
+          v.string(),
+          v.bigint()
+        ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807'))),
+        uuid: v.optional(v.string()),
+        session_id: v.string(),
+        session_name: v.string(),
+        session_key: v.string(),
+        user_key: v.string(),
+        host_id: v.string(),
+        participant: v.strictObject({
+          invitee_name: v.string(),
+          phone_number: v.pipe(v.union([
             v.number(),
             v.string(),
             v.bigint()
-        ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
-        payload: v.strictObject({
-            account_id: v.string(),
-            object: v.strictObject({
-                id: v.optional(v.pipe(v.union([
-                    v.number(),
-                    v.string(),
-                    v.bigint()
-                ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807'))),
-                uuid: v.optional(v.string()),
-                session_id: v.string(),
-                session_name: v.string(),
-                session_key: v.string(),
-                user_key: v.string(),
-                host_id: v.string(),
-                participant: v.strictObject({
-                    invitee_name: v.string(),
-                    phone_number: v.pipe(v.union([
-                        v.number(),
-                        v.string(),
-                        v.bigint()
-                    ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
-                    from_number: v.pipe(v.union([
-                        v.number(),
-                        v.string(),
-                        v.bigint()
-                    ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807'))
-                })
-            })
+          ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
+          from_number: v.pipe(v.union([
+            v.number(),
+            v.string(),
+            v.bigint()
+          ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807'))
         })
-    })),
-    path: v.optional(v.never()),
-    query: v.optional(v.never())
+      })
+    })
+  })),
+  path: v.optional(v.never()),
+  query: v.optional(v.never())
 });
 
 export const vSessionUserLeftWebhookRequest = v.object({
-    body: v.optional(v.strictObject({
-        event: v.picklist(['session.user_left']),
-        event_ts: v.pipe(v.union([
-            v.number(),
-            v.string(),
-            v.bigint()
-        ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
-        payload: v.strictObject({
-            account_id: v.string(),
-            object: v.strictObject({
-                id: v.string(),
-                session_id: v.string(),
-                session_name: v.string(),
-                session_key: v.optional(v.string()),
-                user: v.strictObject({
-                    id: v.string(),
-                    name: v.string(),
-                    leave_time: v.pipe(v.string(), v.isoTimestamp()),
-                    leave_reason: v.optional(v.string()),
-                    user_key: v.optional(v.string()),
-                    phone_number: v.optional(v.string()),
-                    participant_uuid: v.string()
-                })
-            })
+  body: v.optional(v.strictObject({
+    event: v.picklist(['session.user_left']),
+    event_ts: v.pipe(v.union([
+      v.number(),
+      v.string(),
+      v.bigint()
+    ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
+    payload: v.strictObject({
+      account_id: v.string(),
+      object: v.strictObject({
+        id: v.string(),
+        session_id: v.string(),
+        session_name: v.string(),
+        session_key: v.optional(v.string()),
+        user: v.strictObject({
+          id: v.string(),
+          name: v.string(),
+          leave_time: v.pipe(v.string(), v.isoTimestamp()),
+          leave_reason: v.optional(v.string()),
+          user_key: v.optional(v.string()),
+          phone_number: v.optional(v.string()),
+          participant_uuid: v.string()
         })
-    })),
-    path: v.optional(v.never()),
-    query: v.optional(v.never())
+      })
+    })
+  })),
+  path: v.optional(v.never()),
+  query: v.optional(v.never())
 });
 
 export const vSessionSharingStartedWebhookRequest = v.object({
-    body: v.optional(v.strictObject({
-        event: v.picklist(['session.sharing_started']),
-        event_ts: v.pipe(v.union([
-            v.number(),
-            v.string(),
-            v.bigint()
-        ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
-        payload: v.strictObject({
-            account_id: v.string(),
-            object: v.strictObject({
-                id: v.string(),
-                session_id: v.string(),
-                session_name: v.string(),
-                session_key: v.optional(v.string()),
-                user: v.strictObject({
-                    id: v.string(),
-                    name: v.string(),
-                    user_key: v.optional(v.string()),
-                    sharing_details: v.strictObject({
-                        content: v.picklist([
-                            'application',
-                            'whiteboard',
-                            'desktop',
-                            'unknown'
-                        ]),
-                        date_time: v.pipe(v.string(), v.isoTimestamp())
-                    })
-                })
-            })
+  body: v.optional(v.strictObject({
+    event: v.picklist(['session.sharing_started']),
+    event_ts: v.pipe(v.union([
+      v.number(),
+      v.string(),
+      v.bigint()
+    ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
+    payload: v.strictObject({
+      account_id: v.string(),
+      object: v.strictObject({
+        id: v.string(),
+        session_id: v.string(),
+        session_name: v.string(),
+        session_key: v.optional(v.string()),
+        user: v.strictObject({
+          id: v.string(),
+          name: v.string(),
+          user_key: v.optional(v.string()),
+          sharing_details: v.strictObject({
+            content: v.picklist([
+              'application',
+              'whiteboard',
+              'desktop',
+              'unknown'
+            ]),
+            date_time: v.pipe(v.string(), v.isoTimestamp())
+          })
         })
-    })),
-    path: v.optional(v.never()),
-    query: v.optional(v.never())
+      })
+    })
+  })),
+  path: v.optional(v.never()),
+  query: v.optional(v.never())
 });
 
 export const vSessionUserPhoneCalloutCanceledWebhookRequest = v.object({
-    body: v.optional(v.strictObject({
-        event: v.string(),
-        event_ts: v.pipe(v.union([
+  body: v.optional(v.strictObject({
+    event: v.string(),
+    event_ts: v.pipe(v.union([
+      v.number(),
+      v.string(),
+      v.bigint()
+    ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
+    payload: v.strictObject({
+      account_id: v.string(),
+      object: v.strictObject({
+        session_id: v.string(),
+        session_name: v.string(),
+        session_key: v.string(),
+        user_key: v.string(),
+        participant: v.strictObject({
+          invitee_name: v.string(),
+          phone_number: v.pipe(v.union([
             v.number(),
             v.string(),
             v.bigint()
-        ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
-        payload: v.strictObject({
-            account_id: v.string(),
-            object: v.strictObject({
-                session_id: v.string(),
-                session_name: v.string(),
-                session_key: v.string(),
-                user_key: v.string(),
-                participant: v.strictObject({
-                    invitee_name: v.string(),
-                    phone_number: v.pipe(v.union([
-                        v.number(),
-                        v.string(),
-                        v.bigint()
-                    ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
-                    from_number: v.pipe(v.union([
-                        v.number(),
-                        v.string(),
-                        v.bigint()
-                    ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807'))
-                })
-            })
+          ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
+          from_number: v.pipe(v.union([
+            v.number(),
+            v.string(),
+            v.bigint()
+          ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807'))
         })
-    })),
-    path: v.optional(v.never()),
-    query: v.optional(v.never())
+      })
+    })
+  })),
+  path: v.optional(v.never()),
+  query: v.optional(v.never())
 });
 
 export const vSessionRecordingTranscriptCompletedWebhookRequest = v.object({
-    body: v.optional(v.strictObject({
-        event: v.picklist(['session.recording_transcript_completed']),
-        event_ts: v.pipe(v.union([
-            v.number(),
-            v.string(),
-            v.bigint()
-        ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
-        download_token: v.string(),
-        payload: v.strictObject({
-            account_id: v.string(),
-            object: v.strictObject({
-                session_id: v.string(),
-                session_name: v.string(),
-                session_key: v.string(),
-                start_time: v.pipe(v.string(), v.isoTimestamp()),
-                timezone: v.string(),
-                recording_files: v.array(v.object({
-                    id: v.optional(v.string()),
-                    recording_start: v.optional(v.string()),
-                    recording_end: v.optional(v.string()),
-                    file_name: v.optional(v.string()),
-                    file_path: v.optional(v.string()),
-                    file_type: v.optional(v.picklist([
-                        'MP4',
-                        'M4A',
-                        'CHAT',
-                        'TRANSCRIPT',
-                        'CSV',
-                        'CC',
-                        'TB',
-                        'CHAT_MESSAGE',
-                        'TIMELINE'
-                    ])),
-                    file_size: v.optional(v.number()),
-                    file_extension: v.optional(v.picklist([
-                        'MP4',
-                        'M4A',
-                        'TXT',
-                        'VTT',
-                        'CSV',
-                        'JSON',
-                        'JPG'
-                    ])),
-                    download_url: v.optional(v.string()),
-                    status: v.optional(v.picklist(['completed'])),
-                    recording_type: v.optional(v.picklist([
-                        'shared_screen_with_speaker_view(CC)',
-                        'shared_screen_with_speaker_view',
-                        'shared_screen_with_gallery_view',
-                        'gallery_view',
-                        'shared_screen',
-                        'audio_only',
-                        'audio_transcript',
-                        'chat_file',
-                        'active_speaker',
-                        'host_video',
-                        'audio_only_each_participant',
-                        'cc_transcript',
-                        'closed_caption',
-                        'poll',
-                        'timeline',
-                        'thumbnail',
-                        'chat_message'
-                    ]))
-                }))
-            })
-        })
-    })),
-    path: v.optional(v.never()),
-    query: v.optional(v.never())
+  body: v.optional(v.strictObject({
+    event: v.picklist(['session.recording_transcript_completed']),
+    event_ts: v.pipe(v.union([
+      v.number(),
+      v.string(),
+      v.bigint()
+    ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
+    download_token: v.string(),
+    payload: v.strictObject({
+      account_id: v.string(),
+      object: v.strictObject({
+        session_id: v.string(),
+        session_name: v.string(),
+        session_key: v.string(),
+        start_time: v.pipe(v.string(), v.isoTimestamp()),
+        timezone: v.string(),
+        recording_files: v.array(v.object({
+          id: v.optional(v.string()),
+          recording_start: v.optional(v.string()),
+          recording_end: v.optional(v.string()),
+          file_name: v.optional(v.string()),
+          file_path: v.optional(v.string()),
+          file_type: v.optional(v.picklist([
+            'MP4',
+            'M4A',
+            'CHAT',
+            'TRANSCRIPT',
+            'CSV',
+            'CC',
+            'TB',
+            'CHAT_MESSAGE',
+            'TIMELINE'
+          ])),
+          file_size: v.optional(v.number()),
+          file_extension: v.optional(v.picklist([
+            'MP4',
+            'M4A',
+            'TXT',
+            'VTT',
+            'CSV',
+            'JSON',
+            'JPG'
+          ])),
+          download_url: v.optional(v.string()),
+          status: v.optional(v.picklist(['completed'])),
+          recording_type: v.optional(v.picklist([
+            'shared_screen_with_speaker_view(CC)',
+            'shared_screen_with_speaker_view',
+            'shared_screen_with_gallery_view',
+            'gallery_view',
+            'shared_screen',
+            'audio_only',
+            'audio_transcript',
+            'chat_file',
+            'active_speaker',
+            'host_video',
+            'audio_only_each_participant',
+            'cc_transcript',
+            'closed_caption',
+            'poll',
+            'timeline',
+            'thumbnail',
+            'chat_message'
+          ]))
+        }))
+      })
+    })
+  })),
+  path: v.optional(v.never()),
+  query: v.optional(v.never())
 });
 
 export const vSessionRecordingDeletedWebhookRequest = v.object({
-    body: v.optional(v.strictObject({
-        event: v.picklist(['session.recording_deleted']),
-        event_ts: v.pipe(v.union([
-            v.number(),
-            v.string(),
-            v.bigint()
-        ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
-        payload: v.strictObject({
-            account_id: v.string(),
-            operator: v.pipe(v.string(), v.email()),
-            operator_id: v.string(),
-            object: v.strictObject({
-                session_id: v.string(),
-                session_name: v.string(),
-                session_key: v.string(),
-                start_time: v.pipe(v.string(), v.isoTimestamp()),
-                timezone: v.string()
-            })
-        })
-    })),
-    path: v.optional(v.never()),
-    query: v.optional(v.never())
+  body: v.optional(v.strictObject({
+    event: v.picklist(['session.recording_deleted']),
+    event_ts: v.pipe(v.union([
+      v.number(),
+      v.string(),
+      v.bigint()
+    ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
+    payload: v.strictObject({
+      account_id: v.string(),
+      operator: v.pipe(v.string(), v.email()),
+      operator_id: v.string(),
+      object: v.strictObject({
+        session_id: v.string(),
+        session_name: v.string(),
+        session_key: v.string(),
+        start_time: v.pipe(v.string(), v.isoTimestamp()),
+        timezone: v.string()
+      })
+    })
+  })),
+  path: v.optional(v.never()),
+  query: v.optional(v.never())
 });
 
 export const vSessionUserRoomSystemCalloutFailedWebhookRequest = v.object({
-    body: v.optional(v.strictObject({
-        event: v.string(),
-        event_ts: v.pipe(v.union([
-            v.number(),
-            v.string(),
-            v.bigint()
-        ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
-        payload: v.strictObject({
-            account_id: v.string(),
-            object: v.strictObject({
-                id: v.optional(v.pipe(v.union([
-                    v.number(),
-                    v.string(),
-                    v.bigint()
-                ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807'))),
-                uuid: v.optional(v.string()),
-                session_id: v.string(),
-                session_name: v.string(),
-                host_id: v.string(),
-                message_id: v.string(),
-                inviter_name: v.string(),
-                reason_type: v.picklist([
-                    0,
-                    1,
-                    2,
-                    3,
-                    4,
-                    7,
-                    8,
-                    9,
-                    10,
-                    11,
-                    12,
-                    13,
-                    14
-                ]),
-                participant: v.objectWithRest({
-                    call_type: v.string(),
-                    device_ip: v.string()
-                }, v.unknown())
-            })
-        })
-    })),
-    path: v.optional(v.never()),
-    query: v.optional(v.never())
+  body: v.optional(v.strictObject({
+    event: v.string(),
+    event_ts: v.pipe(v.union([
+      v.number(),
+      v.string(),
+      v.bigint()
+    ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
+    payload: v.strictObject({
+      account_id: v.string(),
+      object: v.strictObject({
+        id: v.optional(v.pipe(v.union([
+          v.number(),
+          v.string(),
+          v.bigint()
+        ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807'))),
+        uuid: v.optional(v.string()),
+        session_id: v.string(),
+        session_name: v.string(),
+        host_id: v.string(),
+        message_id: v.string(),
+        inviter_name: v.string(),
+        reason_type: v.picklist([
+          0,
+          1,
+          2,
+          3,
+          4,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14
+        ]),
+        participant: v.objectWithRest({
+          call_type: v.string(),
+          device_ip: v.string()
+        }, v.unknown())
+      })
+    })
+  })),
+  path: v.optional(v.never()),
+  query: v.optional(v.never())
 });
 
 export const vSessionRecordingCompletedWebhookRequest = v.object({
-    body: v.optional(v.strictObject({
-        event: v.picklist(['session.recording_completed']),
-        event_ts: v.pipe(v.union([
-            v.number(),
-            v.string(),
-            v.bigint()
-        ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
-        download_token: v.string(),
-        payload: v.strictObject({
-            account_id: v.string(),
-            object: v.strictObject({
-                session_id: v.string(),
-                session_name: v.string(),
-                session_key: v.string(),
-                start_time: v.pipe(v.string(), v.isoTimestamp()),
-                timezone: v.string(),
-                recording_files: v.array(v.object({
-                    id: v.optional(v.string()),
-                    recording_start: v.optional(v.string()),
-                    recording_end: v.optional(v.string()),
-                    file_name: v.optional(v.string()),
-                    file_path: v.optional(v.string()),
-                    file_type: v.optional(v.picklist([
-                        'MP4',
-                        'M4A',
-                        'CHAT',
-                        'TRANSCRIPT',
-                        'CSV',
-                        'CC',
-                        'TB',
-                        'CHAT_MESSAGE'
-                    ])),
-                    file_size: v.optional(v.number()),
-                    file_extension: v.optional(v.picklist([
-                        'MP4',
-                        'M4A',
-                        'TXT',
-                        'VTT',
-                        'CSV',
-                        'JSON',
-                        'JPG'
-                    ])),
-                    download_url: v.optional(v.string()),
-                    status: v.optional(v.picklist(['completed'])),
-                    recording_type: v.optional(v.picklist([
-                        'shared_screen_with_speaker_view(CC)',
-                        'shared_screen_with_speaker_view',
-                        'shared_screen_with_gallery_view',
-                        'gallery_view',
-                        'shared_screen',
-                        'audio_only',
-                        'audio_transcript',
-                        'chat_file',
-                        'active_speaker',
-                        'host_video',
-                        'audio_only_each_participant',
-                        'cc_transcript',
-                        'closed_caption',
-                        'poll',
-                        'timeline',
-                        'thumbnail',
-                        'chat_message'
-                    ]))
-                })),
-                participant_audio_files: v.optional(v.array(v.object({
-                    id: v.optional(v.string()),
-                    recording_start: v.optional(v.string()),
-                    recording_end: v.optional(v.string()),
-                    file_name: v.optional(v.string()),
-                    file_path: v.optional(v.string()),
-                    file_type: v.optional(v.picklist([
-                        'MP4',
-                        'M4A',
-                        'CHAT',
-                        'TRANSCRIPT',
-                        'CSV',
-                        'CC',
-                        'TB',
-                        'CHAT_MESSAGE'
-                    ])),
-                    file_size: v.optional(v.number()),
-                    file_extension: v.optional(v.picklist([
-                        'MP4',
-                        'M4A',
-                        'TXT',
-                        'VTT',
-                        'CSV',
-                        'JSON',
-                        'JPG'
-                    ])),
-                    download_url: v.optional(v.string()),
-                    status: v.optional(v.picklist(['completed'])),
-                    recording_type: v.optional(v.picklist([
-                        'shared_screen_with_speaker_view(CC)',
-                        'shared_screen_with_speaker_view',
-                        'shared_screen_with_gallery_view',
-                        'gallery_view',
-                        'shared_screen',
-                        'audio_only',
-                        'audio_transcript',
-                        'chat_file',
-                        'active_speaker',
-                        'host_video',
-                        'audio_only_each_participant',
-                        'cc_transcript',
-                        'closed_caption',
-                        'poll',
-                        'timeline',
-                        'thumbnail',
-                        'chat_message'
-                    ])),
-                    user_id: v.optional(v.string()),
-                    user_key: v.optional(v.string())
-                }))),
-                participant_video_files: v.optional(v.array(v.object({
-                    id: v.optional(v.string()),
-                    recording_start: v.optional(v.string()),
-                    recording_end: v.optional(v.string()),
-                    file_name: v.optional(v.string()),
-                    file_path: v.optional(v.string()),
-                    file_type: v.optional(v.picklist(['MP4'])),
-                    file_size: v.optional(v.number()),
-                    file_extension: v.optional(v.picklist(['MP4'])),
-                    download_url: v.optional(v.string()),
-                    status: v.optional(v.picklist(['completed'])),
-                    recording_type: v.optional(v.picklist(['individual_user', 'individual_shared_screen'])),
-                    user_id: v.optional(v.string()),
-                    user_key: v.optional(v.string())
-                })))
-            })
-        })
-    })),
-    path: v.optional(v.never()),
-    query: v.optional(v.never())
+  body: v.optional(v.strictObject({
+    event: v.picklist(['session.recording_completed']),
+    event_ts: v.pipe(v.union([
+      v.number(),
+      v.string(),
+      v.bigint()
+    ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
+    download_token: v.string(),
+    payload: v.strictObject({
+      account_id: v.string(),
+      object: v.strictObject({
+        session_id: v.string(),
+        session_name: v.string(),
+        session_key: v.string(),
+        start_time: v.pipe(v.string(), v.isoTimestamp()),
+        timezone: v.string(),
+        recording_files: v.array(v.object({
+          id: v.optional(v.string()),
+          recording_start: v.optional(v.string()),
+          recording_end: v.optional(v.string()),
+          file_name: v.optional(v.string()),
+          file_path: v.optional(v.string()),
+          file_type: v.optional(v.picklist([
+            'MP4',
+            'M4A',
+            'CHAT',
+            'TRANSCRIPT',
+            'CSV',
+            'CC',
+            'TB',
+            'CHAT_MESSAGE'
+          ])),
+          file_size: v.optional(v.number()),
+          file_extension: v.optional(v.picklist([
+            'MP4',
+            'M4A',
+            'TXT',
+            'VTT',
+            'CSV',
+            'JSON',
+            'JPG'
+          ])),
+          download_url: v.optional(v.string()),
+          status: v.optional(v.picklist(['completed'])),
+          recording_type: v.optional(v.picklist([
+            'shared_screen_with_speaker_view(CC)',
+            'shared_screen_with_speaker_view',
+            'shared_screen_with_gallery_view',
+            'gallery_view',
+            'shared_screen',
+            'audio_only',
+            'audio_transcript',
+            'chat_file',
+            'active_speaker',
+            'host_video',
+            'audio_only_each_participant',
+            'cc_transcript',
+            'closed_caption',
+            'poll',
+            'timeline',
+            'thumbnail',
+            'chat_message'
+          ]))
+        })),
+        participant_audio_files: v.optional(v.array(v.object({
+          id: v.optional(v.string()),
+          recording_start: v.optional(v.string()),
+          recording_end: v.optional(v.string()),
+          file_name: v.optional(v.string()),
+          file_path: v.optional(v.string()),
+          file_type: v.optional(v.picklist([
+            'MP4',
+            'M4A',
+            'CHAT',
+            'TRANSCRIPT',
+            'CSV',
+            'CC',
+            'TB',
+            'CHAT_MESSAGE'
+          ])),
+          file_size: v.optional(v.number()),
+          file_extension: v.optional(v.picklist([
+            'MP4',
+            'M4A',
+            'TXT',
+            'VTT',
+            'CSV',
+            'JSON',
+            'JPG'
+          ])),
+          download_url: v.optional(v.string()),
+          status: v.optional(v.picklist(['completed'])),
+          recording_type: v.optional(v.picklist([
+            'shared_screen_with_speaker_view(CC)',
+            'shared_screen_with_speaker_view',
+            'shared_screen_with_gallery_view',
+            'gallery_view',
+            'shared_screen',
+            'audio_only',
+            'audio_transcript',
+            'chat_file',
+            'active_speaker',
+            'host_video',
+            'audio_only_each_participant',
+            'cc_transcript',
+            'closed_caption',
+            'poll',
+            'timeline',
+            'thumbnail',
+            'chat_message'
+          ])),
+          user_id: v.optional(v.string()),
+          user_key: v.optional(v.string())
+        }))),
+        participant_video_files: v.optional(v.array(v.object({
+          id: v.optional(v.string()),
+          recording_start: v.optional(v.string()),
+          recording_end: v.optional(v.string()),
+          file_name: v.optional(v.string()),
+          file_path: v.optional(v.string()),
+          file_type: v.optional(v.picklist(['MP4'])),
+          file_size: v.optional(v.number()),
+          file_extension: v.optional(v.picklist(['MP4'])),
+          download_url: v.optional(v.string()),
+          status: v.optional(v.picklist(['completed'])),
+          recording_type: v.optional(v.picklist(['individual_user', 'individual_shared_screen'])),
+          user_id: v.optional(v.string()),
+          user_key: v.optional(v.string())
+        })))
+      })
+    })
+  })),
+  path: v.optional(v.never()),
+  query: v.optional(v.never())
 });
 
 export const vSessionRecordingTranscriptFailedWebhookRequest = v.object({
-    body: v.optional(v.strictObject({
-        event: v.picklist(['session.recording_transcript_failed']),
-        event_ts: v.pipe(v.union([
-            v.number(),
-            v.string(),
-            v.bigint()
-        ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
-        payload: v.strictObject({
-            account_id: v.string(),
-            object: v.strictObject({
-                session_id: v.string(),
-                session_name: v.string(),
-                session_key: v.string(),
-                start_time: v.pipe(v.string(), v.isoTimestamp()),
-                timezone: v.string()
-            })
-        })
-    })),
-    path: v.optional(v.never()),
-    query: v.optional(v.never())
+  body: v.optional(v.strictObject({
+    event: v.picklist(['session.recording_transcript_failed']),
+    event_ts: v.pipe(v.union([
+      v.number(),
+      v.string(),
+      v.bigint()
+    ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
+    payload: v.strictObject({
+      account_id: v.string(),
+      object: v.strictObject({
+        session_id: v.string(),
+        session_name: v.string(),
+        session_key: v.string(),
+        start_time: v.pipe(v.string(), v.isoTimestamp()),
+        timezone: v.string()
+      })
+    })
+  })),
+  path: v.optional(v.never()),
+  query: v.optional(v.never())
 });
 
 export const vSessionRecordingTrashedWebhookRequest = v.object({
-    body: v.optional(v.strictObject({
-        event: v.picklist(['session.recording_trashed']),
-        event_ts: v.pipe(v.union([
-            v.number(),
-            v.string(),
-            v.bigint()
-        ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
-        payload: v.strictObject({
-            account_id: v.string(),
-            operator: v.pipe(v.string(), v.email()),
-            operator_id: v.string(),
-            object: v.strictObject({
-                session_id: v.string(),
-                session_name: v.string(),
-                session_key: v.string(),
-                start_time: v.pipe(v.string(), v.isoTimestamp()),
-                timezone: v.string()
-            })
-        })
-    })),
-    path: v.optional(v.never()),
-    query: v.optional(v.never())
+  body: v.optional(v.strictObject({
+    event: v.picklist(['session.recording_trashed']),
+    event_ts: v.pipe(v.union([
+      v.number(),
+      v.string(),
+      v.bigint()
+    ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
+    payload: v.strictObject({
+      account_id: v.string(),
+      operator: v.pipe(v.string(), v.email()),
+      operator_id: v.string(),
+      object: v.strictObject({
+        session_id: v.string(),
+        session_name: v.string(),
+        session_key: v.string(),
+        start_time: v.pipe(v.string(), v.isoTimestamp()),
+        timezone: v.string()
+      })
+    })
+  })),
+  path: v.optional(v.never()),
+  query: v.optional(v.never())
 });
 
 export const vSessionUserJoinedWebhookRequest = v.object({
-    body: v.optional(v.strictObject({
-        event: v.picklist(['session.user_joined']),
-        event_ts: v.pipe(v.union([
-            v.number(),
-            v.string(),
-            v.bigint()
-        ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
-        payload: v.strictObject({
-            account_id: v.string(),
-            object: v.strictObject({
-                id: v.string(),
-                session_id: v.string(),
-                session_name: v.string(),
-                session_key: v.optional(v.string()),
-                user: v.strictObject({
-                    id: v.string(),
-                    name: v.string(),
-                    join_time: v.pipe(v.string(), v.isoTimestamp()),
-                    user_key: v.optional(v.string()),
-                    phone_number: v.optional(v.string()),
-                    participant_uuid: v.string()
-                })
-            })
+  body: v.optional(v.strictObject({
+    event: v.picklist(['session.user_joined']),
+    event_ts: v.pipe(v.union([
+      v.number(),
+      v.string(),
+      v.bigint()
+    ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
+    payload: v.strictObject({
+      account_id: v.string(),
+      object: v.strictObject({
+        id: v.string(),
+        session_id: v.string(),
+        session_name: v.string(),
+        session_key: v.optional(v.string()),
+        user: v.strictObject({
+          id: v.string(),
+          name: v.string(),
+          join_time: v.pipe(v.string(), v.isoTimestamp()),
+          user_key: v.optional(v.string()),
+          phone_number: v.optional(v.string()),
+          participant_uuid: v.string()
         })
-    })),
-    path: v.optional(v.never()),
-    query: v.optional(v.never())
+      })
+    })
+  })),
+  path: v.optional(v.never()),
+  query: v.optional(v.never())
 });
 
 export const vSessionStreamIngestionStartedWebhookRequest = v.object({
-    body: v.optional(v.strictObject({
-        event: v.picklist(['session.stream_ingestion_started']),
-        event_ts: v.pipe(v.union([
-            v.number(),
-            v.string(),
-            v.bigint()
-        ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
-        payload: v.strictObject({
-            account_id: v.string(),
-            object: v.strictObject({
-                session_id: v.string(),
-                session_name: v.string(),
-                session_key: v.optional(v.string()),
-                stream_ingestion: v.object({
-                    stream_id: v.string(),
-                    stream_name: v.string(),
-                    stream_description: v.optional(v.string()),
-                    stream_key: v.string(),
-                    stream_url: v.string(),
-                    backup_stream_url: v.string()
-                })
-            })
+  body: v.optional(v.strictObject({
+    event: v.picklist(['session.stream_ingestion_started']),
+    event_ts: v.pipe(v.union([
+      v.number(),
+      v.string(),
+      v.bigint()
+    ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
+    payload: v.strictObject({
+      account_id: v.string(),
+      object: v.strictObject({
+        session_id: v.string(),
+        session_name: v.string(),
+        session_key: v.optional(v.string()),
+        stream_ingestion: v.object({
+          stream_id: v.string(),
+          stream_name: v.string(),
+          stream_description: v.optional(v.string()),
+          stream_key: v.string(),
+          stream_url: v.string(),
+          backup_stream_url: v.string()
         })
-    })),
-    path: v.optional(v.never()),
-    query: v.optional(v.never())
+      })
+    })
+  })),
+  path: v.optional(v.never()),
+  query: v.optional(v.never())
 });
 
 export const vSessionStreamIngestionConnectedWebhookRequest = v.object({
-    body: v.optional(v.strictObject({
-        event: v.picklist(['session.stream_ingestion_connected']),
-        event_ts: v.pipe(v.union([
-            v.number(),
-            v.string(),
-            v.bigint()
-        ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
-        payload: v.strictObject({
-            account_id: v.string(),
-            object: v.strictObject({
-                session_id: v.string(),
-                session_name: v.string(),
-                session_key: v.optional(v.string()),
-                stream_ingestion: v.object({
-                    stream_id: v.string(),
-                    stream_name: v.string(),
-                    stream_description: v.optional(v.string()),
-                    stream_key: v.string(),
-                    stream_url: v.string(),
-                    backup_stream_url: v.string()
-                })
-            })
+  body: v.optional(v.strictObject({
+    event: v.picklist(['session.stream_ingestion_connected']),
+    event_ts: v.pipe(v.union([
+      v.number(),
+      v.string(),
+      v.bigint()
+    ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
+    payload: v.strictObject({
+      account_id: v.string(),
+      object: v.strictObject({
+        session_id: v.string(),
+        session_name: v.string(),
+        session_key: v.optional(v.string()),
+        stream_ingestion: v.object({
+          stream_id: v.string(),
+          stream_name: v.string(),
+          stream_description: v.optional(v.string()),
+          stream_key: v.string(),
+          stream_url: v.string(),
+          backup_stream_url: v.string()
         })
-    })),
-    path: v.optional(v.never()),
-    query: v.optional(v.never())
+      })
+    })
+  })),
+  path: v.optional(v.never()),
+  query: v.optional(v.never())
 });
 
 export const vSessionStreamIngestionDisconnectedWebhookRequest = v.object({
-    body: v.optional(v.strictObject({
-        event: v.picklist(['session.stream_ingestion_disconnected']),
-        event_ts: v.pipe(v.union([
-            v.number(),
-            v.string(),
-            v.bigint()
-        ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
-        payload: v.strictObject({
-            account_id: v.string(),
-            object: v.strictObject({
-                session_id: v.string(),
-                session_name: v.string(),
-                session_key: v.optional(v.string()),
-                stream_ingestion: v.object({
-                    stream_id: v.string(),
-                    stream_name: v.string(),
-                    stream_description: v.optional(v.string()),
-                    stream_key: v.string(),
-                    stream_url: v.string(),
-                    backup_stream_url: v.string()
-                })
-            })
+  body: v.optional(v.strictObject({
+    event: v.picklist(['session.stream_ingestion_disconnected']),
+    event_ts: v.pipe(v.union([
+      v.number(),
+      v.string(),
+      v.bigint()
+    ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
+    payload: v.strictObject({
+      account_id: v.string(),
+      object: v.strictObject({
+        session_id: v.string(),
+        session_name: v.string(),
+        session_key: v.optional(v.string()),
+        stream_ingestion: v.object({
+          stream_id: v.string(),
+          stream_name: v.string(),
+          stream_description: v.optional(v.string()),
+          stream_key: v.string(),
+          stream_url: v.string(),
+          backup_stream_url: v.string()
         })
-    })),
-    path: v.optional(v.never()),
-    query: v.optional(v.never())
+      })
+    })
+  })),
+  path: v.optional(v.never()),
+  query: v.optional(v.never())
 });
 
 export const vSessionRecordingRecoveredWebhookRequest = v.object({
-    body: v.optional(v.strictObject({
-        event: v.picklist(['session.recording_recovered']),
-        event_ts: v.pipe(v.union([
-            v.number(),
-            v.string(),
-            v.bigint()
-        ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
-        payload: v.strictObject({
-            account_id: v.string(),
-            operator: v.pipe(v.string(), v.email()),
-            operator_id: v.string(),
-            object: v.strictObject({
-                session_id: v.string(),
-                session_name: v.string(),
-                session_key: v.string(),
-                start_time: v.pipe(v.string(), v.isoTimestamp()),
-                timezone: v.string()
-            })
-        })
-    })),
-    path: v.optional(v.never()),
-    query: v.optional(v.never())
+  body: v.optional(v.strictObject({
+    event: v.picklist(['session.recording_recovered']),
+    event_ts: v.pipe(v.union([
+      v.number(),
+      v.string(),
+      v.bigint()
+    ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
+    payload: v.strictObject({
+      account_id: v.string(),
+      operator: v.pipe(v.string(), v.email()),
+      operator_id: v.string(),
+      object: v.strictObject({
+        session_id: v.string(),
+        session_name: v.string(),
+        session_key: v.string(),
+        start_time: v.pipe(v.string(), v.isoTimestamp()),
+        timezone: v.string()
+      })
+    })
+  })),
+  path: v.optional(v.never()),
+  query: v.optional(v.never())
 });
 
 export const vSessionUserPhoneCalloutMissedWebhookRequest = v.object({
-    body: v.optional(v.strictObject({
-        event: v.string(),
-        event_ts: v.pipe(v.union([
+  body: v.optional(v.strictObject({
+    event: v.string(),
+    event_ts: v.pipe(v.union([
+      v.number(),
+      v.string(),
+      v.bigint()
+    ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
+    payload: v.strictObject({
+      account_id: v.string(),
+      object: v.strictObject({
+        id: v.optional(v.pipe(v.union([
+          v.number(),
+          v.string(),
+          v.bigint()
+        ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807'))),
+        uuid: v.optional(v.string()),
+        session_id: v.string(),
+        session_name: v.string(),
+        session_key: v.string(),
+        user_key: v.string(),
+        host_id: v.string(),
+        participant: v.strictObject({
+          invitee_name: v.string(),
+          phone_number: v.pipe(v.union([
             v.number(),
             v.string(),
             v.bigint()
-        ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
-        payload: v.strictObject({
-            account_id: v.string(),
-            object: v.strictObject({
-                id: v.optional(v.pipe(v.union([
-                    v.number(),
-                    v.string(),
-                    v.bigint()
-                ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807'))),
-                uuid: v.optional(v.string()),
-                session_id: v.string(),
-                session_name: v.string(),
-                session_key: v.string(),
-                user_key: v.string(),
-                host_id: v.string(),
-                participant: v.strictObject({
-                    invitee_name: v.string(),
-                    phone_number: v.pipe(v.union([
-                        v.number(),
-                        v.string(),
-                        v.bigint()
-                    ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
-                    from_number: v.pipe(v.union([
-                        v.number(),
-                        v.string(),
-                        v.bigint()
-                    ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807'))
-                })
-            })
+          ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
+          from_number: v.pipe(v.union([
+            v.number(),
+            v.string(),
+            v.bigint()
+          ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807'))
         })
-    })),
-    path: v.optional(v.never()),
-    query: v.optional(v.never())
+      })
+    })
+  })),
+  path: v.optional(v.never()),
+  query: v.optional(v.never())
 });
 
 export const vSessionUserPhoneCalloutRejectedWebhookRequest = v.object({
-    body: v.optional(v.strictObject({
-        event: v.string(),
-        event_ts: v.pipe(v.union([
+  body: v.optional(v.strictObject({
+    event: v.string(),
+    event_ts: v.pipe(v.union([
+      v.number(),
+      v.string(),
+      v.bigint()
+    ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
+    payload: v.strictObject({
+      account_id: v.string(),
+      object: v.strictObject({
+        id: v.optional(v.pipe(v.union([
+          v.number(),
+          v.string(),
+          v.bigint()
+        ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807'))),
+        uuid: v.optional(v.string()),
+        session_id: v.string(),
+        session_name: v.string(),
+        session_key: v.string(),
+        user_key: v.string(),
+        host_id: v.string(),
+        participant: v.strictObject({
+          invitee_name: v.string(),
+          phone_number: v.pipe(v.union([
             v.number(),
             v.string(),
             v.bigint()
-        ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
-        payload: v.strictObject({
-            account_id: v.string(),
-            object: v.strictObject({
-                id: v.optional(v.pipe(v.union([
-                    v.number(),
-                    v.string(),
-                    v.bigint()
-                ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807'))),
-                uuid: v.optional(v.string()),
-                session_id: v.string(),
-                session_name: v.string(),
-                session_key: v.string(),
-                user_key: v.string(),
-                host_id: v.string(),
-                participant: v.strictObject({
-                    invitee_name: v.string(),
-                    phone_number: v.pipe(v.union([
-                        v.number(),
-                        v.string(),
-                        v.bigint()
-                    ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
-                    from_number: v.pipe(v.union([
-                        v.number(),
-                        v.string(),
-                        v.bigint()
-                    ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807'))
-                })
-            })
+          ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
+          from_number: v.pipe(v.union([
+            v.number(),
+            v.string(),
+            v.bigint()
+          ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807'))
         })
-    })),
-    path: v.optional(v.never()),
-    query: v.optional(v.never())
+      })
+    })
+  })),
+  path: v.optional(v.never()),
+  query: v.optional(v.never())
 });
 
 export const vSessionUserRoomSystemCalloutAcceptedWebhookRequest = v.object({
-    body: v.optional(v.strictObject({
-        event: v.string(),
-        event_ts: v.pipe(v.union([
-            v.number(),
-            v.string(),
-            v.bigint()
-        ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
-        payload: v.strictObject({
-            account_id: v.string(),
-            object: v.strictObject({
-                id: v.optional(v.pipe(v.union([
-                    v.number(),
-                    v.string(),
-                    v.bigint()
-                ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807'))),
-                uuid: v.optional(v.string()),
-                session_id: v.string(),
-                session_name: v.string(),
-                host_id: v.string(),
-                message_id: v.string(),
-                inviter_name: v.string(),
-                participant: v.objectWithRest({
-                    call_type: v.string(),
-                    device_ip: v.string()
-                }, v.unknown())
-            })
-        })
-    })),
-    path: v.optional(v.never()),
-    query: v.optional(v.never())
+  body: v.optional(v.strictObject({
+    event: v.string(),
+    event_ts: v.pipe(v.union([
+      v.number(),
+      v.string(),
+      v.bigint()
+    ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
+    payload: v.strictObject({
+      account_id: v.string(),
+      object: v.strictObject({
+        id: v.optional(v.pipe(v.union([
+          v.number(),
+          v.string(),
+          v.bigint()
+        ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807'))),
+        uuid: v.optional(v.string()),
+        session_id: v.string(),
+        session_name: v.string(),
+        host_id: v.string(),
+        message_id: v.string(),
+        inviter_name: v.string(),
+        participant: v.objectWithRest({
+          call_type: v.string(),
+          device_ip: v.string()
+        }, v.unknown())
+      })
+    })
+  })),
+  path: v.optional(v.never()),
+  query: v.optional(v.never())
 });
 
 export const vSessionRecordingStoppedWebhookRequest = v.object({
-    body: v.optional(v.strictObject({
-        event: v.picklist(['session.recording_stopped']),
-        event_ts: v.pipe(v.union([
-            v.number(),
-            v.string(),
-            v.bigint()
-        ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
-        payload: v.strictObject({
-            account_id: v.string(),
-            object: v.strictObject({
-                session_id: v.string(),
-                session_name: v.string(),
-                session_key: v.string(),
-                start_time: v.pipe(v.string(), v.isoTimestamp()),
-                timezone: v.string(),
-                recording_file: v.object({
-                    recording_start: v.optional(v.string()),
-                    recording_end: v.optional(v.string())
-                })
-            })
+  body: v.optional(v.strictObject({
+    event: v.picklist(['session.recording_stopped']),
+    event_ts: v.pipe(v.union([
+      v.number(),
+      v.string(),
+      v.bigint()
+    ]), v.transform(x => BigInt(x)), v.minValue(BigInt('-9223372036854775808'), 'Invalid value: Expected int64 to be >= -9223372036854775808'), v.maxValue(BigInt('9223372036854775807'), 'Invalid value: Expected int64 to be <= 9223372036854775807')),
+    payload: v.strictObject({
+      account_id: v.string(),
+      object: v.strictObject({
+        session_id: v.string(),
+        session_name: v.string(),
+        session_key: v.string(),
+        start_time: v.pipe(v.string(), v.isoTimestamp()),
+        timezone: v.string(),
+        recording_file: v.object({
+          recording_start: v.optional(v.string()),
+          recording_end: v.optional(v.string())
         })
-    })),
-    path: v.optional(v.never()),
-    query: v.optional(v.never())
+      })
+    })
+  })),
+  path: v.optional(v.never()),
+  query: v.optional(v.never())
 });

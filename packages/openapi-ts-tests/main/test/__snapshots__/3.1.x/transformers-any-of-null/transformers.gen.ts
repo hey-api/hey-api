@@ -3,53 +3,53 @@
 import type { GetFooResponse, GetNullablePollResponse, GetPollResponse, NestedDateObjectResponse } from './types.gen';
 
 const fooSchemaResponseTransformer = (data: any) => {
-    if (data.foo) {
-        data.foo = new Date(data.foo);
-    }
-    if (data.bar) {
-        data.bar = new Date(data.bar);
-    }
-    if (data.baz) {
-        data.baz = new Date(data.baz);
-    }
-    if (data.requiredQux) {
-        data.requiredQux = new Date(data.requiredQux);
-    }
-    return data;
+  if (data.foo) {
+    data.foo = new Date(data.foo);
+  }
+  if (data.bar) {
+    data.bar = new Date(data.bar);
+  }
+  if (data.baz) {
+    data.baz = new Date(data.baz);
+  }
+  if (data.requiredQux) {
+    data.requiredQux = new Date(data.requiredQux);
+  }
+  return data;
 };
 
 export const getFooResponseTransformer = async (data: any): Promise<GetFooResponse> => {
-    data = data.map((item: any) => fooSchemaResponseTransformer(item));
-    return data;
+  data = data.map((item: any) => fooSchemaResponseTransformer(item));
+  return data;
 };
 
 const pollSchemaResponseTransformer = (data: any) => {
-    data.createdAt = new Date(data.createdAt);
-    return data;
+  data.createdAt = new Date(data.createdAt);
+  return data;
 };
 
 export const getPollResponseTransformer = async (data: any): Promise<GetPollResponse> => {
-    data = pollSchemaResponseTransformer(data);
-    return data;
+  data = pollSchemaResponseTransformer(data);
+  return data;
 };
 
 export const getNullablePollResponseTransformer = async (data: any): Promise<GetNullablePollResponse> => {
-    if (data) {
-        data = pollSchemaResponseTransformer(data);
-    }
-    return data;
+  if (data) {
+    data = pollSchemaResponseTransformer(data);
+  }
+  return data;
 };
 
 const nestedDateObjectSchemaResponseTransformer = (data: any) => {
-    if (data.foo) {
-        if (data.foo.bar) {
-            data.foo.bar = new Date(data.foo.bar);
-        }
+  if (data.foo) {
+    if (data.foo.bar) {
+      data.foo.bar = new Date(data.foo.bar);
     }
-    return data;
+  }
+  return data;
 };
 
 export const nestedDateObjectResponseTransformer = async (data: any): Promise<NestedDateObjectResponse> => {
-    data = nestedDateObjectSchemaResponseTransformer(data);
-    return data;
+  data = nestedDateObjectSchemaResponseTransformer(data);
+  return data;
 };

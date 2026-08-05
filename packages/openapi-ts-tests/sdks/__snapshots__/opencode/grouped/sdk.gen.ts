@@ -5,17 +5,17 @@ import { client } from './client.gen';
 import type { AppAgentsData, AppAgentsErrors, AppAgentsResponses, AppLogData, AppLogErrors, AppLogResponses, AppSkillsData, AppSkillsErrors, AppSkillsResponses, AuthRemoveData, AuthRemoveErrors, AuthRemoveResponses, AuthSetData, AuthSetErrors, AuthSetResponses, CommandListData, CommandListErrors, CommandListResponses, ConfigGetData, ConfigGetErrors, ConfigGetResponses, ConfigProvidersData, ConfigProvidersErrors, ConfigProvidersResponses, ConfigUpdateData, ConfigUpdateErrors, ConfigUpdateResponses, EventSubscribeData, EventSubscribeResponse, EventSubscribeResponses, ExperimentalConsoleGetData, ExperimentalConsoleGetErrors, ExperimentalConsoleGetResponses, ExperimentalConsoleListOrgsData, ExperimentalConsoleListOrgsErrors, ExperimentalConsoleListOrgsResponses, ExperimentalConsoleSwitchOrgData, ExperimentalConsoleSwitchOrgResponses, ExperimentalResourceListData, ExperimentalResourceListErrors, ExperimentalResourceListResponses, ExperimentalSessionListData, ExperimentalSessionListErrors, ExperimentalSessionListResponses, ExperimentalWorkspaceAdapterListData, ExperimentalWorkspaceAdapterListErrors, ExperimentalWorkspaceAdapterListResponses, ExperimentalWorkspaceCreateData, ExperimentalWorkspaceCreateErrors, ExperimentalWorkspaceCreateResponses, ExperimentalWorkspaceListData, ExperimentalWorkspaceListErrors, ExperimentalWorkspaceListResponses, ExperimentalWorkspaceRemoveData, ExperimentalWorkspaceRemoveErrors, ExperimentalWorkspaceRemoveResponses, ExperimentalWorkspaceStatusData, ExperimentalWorkspaceStatusErrors, ExperimentalWorkspaceStatusResponses, ExperimentalWorkspaceSyncListData, ExperimentalWorkspaceSyncListErrors, ExperimentalWorkspaceSyncListResponses, ExperimentalWorkspaceWarpData, ExperimentalWorkspaceWarpErrors, ExperimentalWorkspaceWarpResponses, FileListData, FileListErrors, FileListResponses, FileReadData, FileReadErrors, FileReadResponses, FileStatusData, FileStatusErrors, FileStatusResponses, FindFilesData, FindFilesErrors, FindFilesResponses, FindSymbolsData, FindSymbolsErrors, FindSymbolsResponses, FindTextData, FindTextErrors, FindTextResponses, FormatterStatusData, FormatterStatusErrors, FormatterStatusResponses, GlobalConfigGetData, GlobalConfigGetErrors, GlobalConfigGetResponses, GlobalConfigUpdateData, GlobalConfigUpdateErrors, GlobalConfigUpdateResponses, GlobalDisposeData, GlobalDisposeErrors, GlobalDisposeResponses, GlobalEventData, GlobalEventErrors, GlobalEventResponse, GlobalEventResponses, GlobalHealthData, GlobalHealthErrors, GlobalHealthResponses, GlobalUpgradeData, GlobalUpgradeErrors, GlobalUpgradeResponses, InstanceDisposeData, InstanceDisposeErrors, InstanceDisposeResponses, LspStatusData, LspStatusErrors, LspStatusResponses, McpAddData, McpAddErrors, McpAddResponses, McpAuthAuthenticateData, McpAuthAuthenticateErrors, McpAuthAuthenticateResponses, McpAuthCallbackData, McpAuthCallbackErrors, McpAuthCallbackResponses, McpAuthRemoveData, McpAuthRemoveErrors, McpAuthRemoveResponses, McpAuthStartData, McpAuthStartErrors, McpAuthStartResponses, McpConnectData, McpConnectErrors, McpConnectResponses, McpDisconnectData, McpDisconnectErrors, McpDisconnectResponses, McpStatusData, McpStatusErrors, McpStatusResponses, PartDeleteData, PartDeleteErrors, PartDeleteResponses, PartUpdateData, PartUpdateErrors, PartUpdateResponses, PathGetData, PathGetErrors, PathGetResponses, PermissionListData, PermissionListErrors, PermissionListResponses, PermissionReplyData, PermissionReplyErrors, PermissionReplyResponses, PermissionRespondData, PermissionRespondErrors, PermissionRespondResponses, ProjectCurrentData, ProjectCurrentErrors, ProjectCurrentResponses, ProjectInitGitData, ProjectInitGitErrors, ProjectInitGitResponses, ProjectListData, ProjectListErrors, ProjectListResponses, ProjectUpdateData, ProjectUpdateErrors, ProjectUpdateResponses, ProviderAuthData, ProviderAuthErrors, ProviderAuthResponses, ProviderListData, ProviderListErrors, ProviderListResponses, ProviderOauthAuthorizeData, ProviderOauthAuthorizeErrors, ProviderOauthAuthorizeResponses, ProviderOauthCallbackData, ProviderOauthCallbackErrors, ProviderOauthCallbackResponses, PtyConnectData, PtyConnectErrors, PtyConnectResponses, PtyConnectTokenData, PtyConnectTokenErrors, PtyConnectTokenResponses, PtyCreateData, PtyCreateErrors, PtyCreateResponses, PtyGetData, PtyGetErrors, PtyGetResponses, PtyListData, PtyListErrors, PtyListResponses, PtyRemoveData, PtyRemoveErrors, PtyRemoveResponses, PtyShellsData, PtyShellsErrors, PtyShellsResponses, PtyUpdateData, PtyUpdateErrors, PtyUpdateResponses, QuestionListData, QuestionListErrors, QuestionListResponses, QuestionRejectData, QuestionRejectErrors, QuestionRejectResponses, QuestionReplyData, QuestionReplyErrors, QuestionReplyResponses, SessionAbortData, SessionAbortErrors, SessionAbortResponses, SessionChildrenData, SessionChildrenErrors, SessionChildrenResponses, SessionCommandData, SessionCommandErrors, SessionCommandResponses, SessionCreateData, SessionCreateErrors, SessionCreateResponses, SessionDeleteData, SessionDeleteErrors, SessionDeleteMessageData, SessionDeleteMessageErrors, SessionDeleteMessageResponses, SessionDeleteResponses, SessionDiffData, SessionDiffErrors, SessionDiffResponses, SessionForkData, SessionForkErrors, SessionForkResponses, SessionGetData, SessionGetErrors, SessionGetResponses, SessionInitData, SessionInitErrors, SessionInitResponses, SessionListData, SessionListErrors, SessionListResponses, SessionMessageData, SessionMessageErrors, SessionMessageResponses, SessionMessagesData, SessionMessagesErrors, SessionMessagesResponses, SessionPromptAsyncData, SessionPromptAsyncErrors, SessionPromptAsyncResponses, SessionPromptData, SessionPromptErrors, SessionPromptResponses, SessionRevertData, SessionRevertErrors, SessionRevertResponses, SessionShareData, SessionShareErrors, SessionShareResponses, SessionShellData, SessionShellErrors, SessionShellResponses, SessionStatusData, SessionStatusErrors, SessionStatusResponses, SessionSummarizeData, SessionSummarizeErrors, SessionSummarizeResponses, SessionTodoData, SessionTodoErrors, SessionTodoResponses, SessionUnrevertData, SessionUnrevertErrors, SessionUnrevertResponses, SessionUnshareData, SessionUnshareErrors, SessionUnshareResponses, SessionUpdateData, SessionUpdateErrors, SessionUpdateResponses, SyncHistoryListData, SyncHistoryListErrors, SyncHistoryListResponses, SyncReplayData, SyncReplayErrors, SyncReplayResponses, SyncStartData, SyncStartErrors, SyncStartResponses, SyncStealData, SyncStealErrors, SyncStealResponses, ToolIdsData, ToolIdsErrors, ToolIdsResponses, ToolListData, ToolListErrors, ToolListResponses, TuiAppendPromptData, TuiAppendPromptErrors, TuiAppendPromptResponses, TuiClearPromptData, TuiClearPromptErrors, TuiClearPromptResponses, TuiControlNextData, TuiControlNextErrors, TuiControlNextResponses, TuiControlResponseData, TuiControlResponseErrors, TuiControlResponseResponses, TuiExecuteCommandData, TuiExecuteCommandErrors, TuiExecuteCommandResponses, TuiOpenHelpData, TuiOpenHelpErrors, TuiOpenHelpResponses, TuiOpenModelsData, TuiOpenModelsErrors, TuiOpenModelsResponses, TuiOpenSessionsData, TuiOpenSessionsErrors, TuiOpenSessionsResponses, TuiOpenThemesData, TuiOpenThemesErrors, TuiOpenThemesResponses, TuiPublishData, TuiPublishErrors, TuiPublishResponses, TuiSelectSessionData, TuiSelectSessionErrors, TuiSelectSessionResponses, TuiShowToastData, TuiShowToastErrors, TuiShowToastResponses, TuiSubmitPromptData, TuiSubmitPromptErrors, TuiSubmitPromptResponses, V2ModelListData, V2ModelListErrors, V2ModelListResponses, V2ProviderGetData, V2ProviderGetErrors, V2ProviderGetResponses, V2ProviderListData, V2ProviderListErrors, V2ProviderListResponses, V2SessionCompactData, V2SessionCompactErrors, V2SessionCompactResponses, V2SessionContextData, V2SessionContextErrors, V2SessionContextResponses, V2SessionListData, V2SessionListErrors, V2SessionListResponses, V2SessionMessagesData, V2SessionMessagesErrors, V2SessionMessagesResponses, V2SessionPromptData, V2SessionPromptErrors, V2SessionPromptResponses, V2SessionWaitData, V2SessionWaitErrors, V2SessionWaitResponses, VcsApplyData, VcsApplyErrors, VcsApplyResponses, VcsDiffData, VcsDiffErrors, VcsDiffRawData, VcsDiffRawErrors, VcsDiffRawResponses, VcsDiffResponses, VcsGetData, VcsGetErrors, VcsGetResponses, VcsStatusData, VcsStatusErrors, VcsStatusResponses, WorktreeCreateData, WorktreeCreateErrors, WorktreeCreateResponses, WorktreeListData, WorktreeListErrors, WorktreeListResponses, WorktreeRemoveData, WorktreeRemoveErrors, WorktreeRemoveResponses, WorktreeResetData, WorktreeResetErrors, WorktreeResetResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
-    /**
-     * You can provide a client instance returned by `createClient()` instead of
-     * individual options. This might be also useful if you want to implement a
-     * custom client.
-     */
-    client?: Client;
-    /**
-     * You can pass arbitrary values through the `meta` object. This can be
-     * used to access values that aren't defined as part of the SDK function.
-     */
-    meta?: keyof ClientMeta extends never ? Record<string, unknown> : ClientMeta;
+  /**
+   * You can provide a client instance returned by `createClient()` instead of
+   * individual options. This might be also useful if you want to implement a
+   * custom client.
+   */
+  client?: Client;
+  /**
+   * You can pass arbitrary values through the `meta` object. This can be
+   * used to access values that aren't defined as part of the SDK function.
+   */
+  meta?: keyof ClientMeta extends never ? Record<string, unknown> : ClientMeta;
 };
 
 /**
@@ -31,12 +31,12 @@ export const authRemove = <ThrowOnError extends boolean = false>(options: Option
  * Set authentication credentials
  */
 export const authSet = <ThrowOnError extends boolean = false>(options: Options<AuthSetData, ThrowOnError>): RequestResult<AuthSetResponses, AuthSetErrors, ThrowOnError> => (options.client ?? client).put<AuthSetResponses, AuthSetErrors, ThrowOnError>({
-    url: '/auth/{providerID}',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+  url: '/auth/{providerID}',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 /**
@@ -45,12 +45,12 @@ export const authSet = <ThrowOnError extends boolean = false>(options: Options<A
  * Write a log entry to the server logs with specified level and metadata.
  */
 export const appLog = <ThrowOnError extends boolean = false>(options?: Options<AppLogData, ThrowOnError>): RequestResult<AppLogResponses, AppLogErrors, ThrowOnError> => (options?.client ?? client).post<AppLogResponses, AppLogErrors, ThrowOnError>({
-    url: '/log',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options?.headers
-    }
+  url: '/log',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options?.headers
+  }
 });
 
 /**
@@ -80,12 +80,12 @@ export const globalConfigGet = <ThrowOnError extends boolean = false>(options?: 
  * Update global OpenCode configuration settings and preferences.
  */
 export const globalConfigUpdate = <ThrowOnError extends boolean = false>(options?: Options<GlobalConfigUpdateData, ThrowOnError>): RequestResult<GlobalConfigUpdateResponses, GlobalConfigUpdateErrors, ThrowOnError> => (options?.client ?? client).patch<GlobalConfigUpdateResponses, GlobalConfigUpdateErrors, ThrowOnError>({
-    url: '/global/config',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options?.headers
-    }
+  url: '/global/config',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options?.headers
+  }
 });
 
 /**
@@ -101,12 +101,12 @@ export const globalDispose = <ThrowOnError extends boolean = false>(options?: Op
  * Upgrade opencode to the specified version or latest if not specified.
  */
 export const globalUpgrade = <ThrowOnError extends boolean = false>(options?: Options<GlobalUpgradeData, ThrowOnError>): RequestResult<GlobalUpgradeResponses, GlobalUpgradeErrors, ThrowOnError> => (options?.client ?? client).post<GlobalUpgradeResponses, GlobalUpgradeErrors, ThrowOnError>({
-    url: '/global/upgrade',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options?.headers
-    }
+  url: '/global/upgrade',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options?.headers
+  }
 });
 
 /**
@@ -129,12 +129,12 @@ export const configGet = <ThrowOnError extends boolean = false>(options?: Option
  * Update OpenCode configuration settings and preferences.
  */
 export const configUpdate = <ThrowOnError extends boolean = false>(options?: Options<ConfigUpdateData, ThrowOnError>): RequestResult<ConfigUpdateResponses, ConfigUpdateErrors, ThrowOnError> => (options?.client ?? client).patch<ConfigUpdateResponses, ConfigUpdateErrors, ThrowOnError>({
-    url: '/config',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options?.headers
-    }
+  url: '/config',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options?.headers
+  }
 });
 
 /**
@@ -164,12 +164,12 @@ export const experimentalConsoleListOrgs = <ThrowOnError extends boolean = false
  * Persist a new active Console account/org selection for the current local OpenCode state.
  */
 export const experimentalConsoleSwitchOrg = <ThrowOnError extends boolean = false>(options?: Options<ExperimentalConsoleSwitchOrgData, ThrowOnError>): RequestResult<ExperimentalConsoleSwitchOrgResponses, unknown, ThrowOnError> => (options?.client ?? client).post<ExperimentalConsoleSwitchOrgResponses, unknown, ThrowOnError>({
-    url: '/experimental/console/switch',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options?.headers
-    }
+  url: '/experimental/console/switch',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options?.headers
+  }
 });
 
 /**
@@ -192,12 +192,12 @@ export const toolIds = <ThrowOnError extends boolean = false>(options?: Options<
  * Remove a git worktree and delete its branch.
  */
 export const worktreeRemove = <ThrowOnError extends boolean = false>(options?: Options<WorktreeRemoveData, ThrowOnError>): RequestResult<WorktreeRemoveResponses, WorktreeRemoveErrors, ThrowOnError> => (options?.client ?? client).delete<WorktreeRemoveResponses, WorktreeRemoveErrors, ThrowOnError>({
-    url: '/experimental/worktree',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options?.headers
-    }
+  url: '/experimental/worktree',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options?.headers
+  }
 });
 
 /**
@@ -213,12 +213,12 @@ export const worktreeList = <ThrowOnError extends boolean = false>(options?: Opt
  * Create a new git worktree for the current project and run any configured startup scripts.
  */
 export const worktreeCreate = <ThrowOnError extends boolean = false>(options?: Options<WorktreeCreateData, ThrowOnError>): RequestResult<WorktreeCreateResponses, WorktreeCreateErrors, ThrowOnError> => (options?.client ?? client).post<WorktreeCreateResponses, WorktreeCreateErrors, ThrowOnError>({
-    url: '/experimental/worktree',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options?.headers
-    }
+  url: '/experimental/worktree',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options?.headers
+  }
 });
 
 /**
@@ -227,12 +227,12 @@ export const worktreeCreate = <ThrowOnError extends boolean = false>(options?: O
  * Reset a worktree branch to the primary default branch.
  */
 export const worktreeReset = <ThrowOnError extends boolean = false>(options?: Options<WorktreeResetData, ThrowOnError>): RequestResult<WorktreeResetResponses, WorktreeResetErrors, ThrowOnError> => (options?.client ?? client).post<WorktreeResetResponses, WorktreeResetErrors, ThrowOnError>({
-    url: '/experimental/worktree/reset',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options?.headers
-    }
+  url: '/experimental/worktree/reset',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options?.headers
+  }
 });
 
 /**
@@ -339,12 +339,12 @@ export const vcsDiffRaw = <ThrowOnError extends boolean = false>(options?: Optio
  * Apply a raw patch to the current working tree.
  */
 export const vcsApply = <ThrowOnError extends boolean = false>(options?: Options<VcsApplyData, ThrowOnError>): RequestResult<VcsApplyResponses, VcsApplyErrors, ThrowOnError> => (options?.client ?? client).post<VcsApplyResponses, VcsApplyErrors, ThrowOnError>({
-    url: '/vcs/apply',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options?.headers
-    }
+  url: '/vcs/apply',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options?.headers
+  }
 });
 
 /**
@@ -395,12 +395,12 @@ export const mcpStatus = <ThrowOnError extends boolean = false>(options?: Option
  * Dynamically add a new Model Context Protocol (MCP) server to the system.
  */
 export const mcpAdd = <ThrowOnError extends boolean = false>(options?: Options<McpAddData, ThrowOnError>): RequestResult<McpAddResponses, McpAddErrors, ThrowOnError> => (options?.client ?? client).post<McpAddResponses, McpAddErrors, ThrowOnError>({
-    url: '/mcp',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options?.headers
-    }
+  url: '/mcp',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options?.headers
+  }
 });
 
 /**
@@ -423,12 +423,12 @@ export const mcpAuthStart = <ThrowOnError extends boolean = false>(options: Opti
  * Complete OAuth authentication for a Model Context Protocol (MCP) server using the authorization code.
  */
 export const mcpAuthCallback = <ThrowOnError extends boolean = false>(options: Options<McpAuthCallbackData, ThrowOnError>): RequestResult<McpAuthCallbackResponses, McpAuthCallbackErrors, ThrowOnError> => (options.client ?? client).post<McpAuthCallbackResponses, McpAuthCallbackErrors, ThrowOnError>({
-    url: '/mcp/{name}/auth/callback',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+  url: '/mcp/{name}/auth/callback',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 /**
@@ -475,12 +475,12 @@ export const projectInitGit = <ThrowOnError extends boolean = false>(options?: O
  * Update project properties such as name, icon, and commands.
  */
 export const projectUpdate = <ThrowOnError extends boolean = false>(options: Options<ProjectUpdateData, ThrowOnError>): RequestResult<ProjectUpdateResponses, ProjectUpdateErrors, ThrowOnError> => (options.client ?? client).patch<ProjectUpdateResponses, ProjectUpdateErrors, ThrowOnError>({
-    url: '/project/{projectID}',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+  url: '/project/{projectID}',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 /**
@@ -503,12 +503,12 @@ export const ptyList = <ThrowOnError extends boolean = false>(options?: Options<
  * Create a new pseudo-terminal (PTY) session for running shell commands and processes.
  */
 export const ptyCreate = <ThrowOnError extends boolean = false>(options?: Options<PtyCreateData, ThrowOnError>): RequestResult<PtyCreateResponses, PtyCreateErrors, ThrowOnError> => (options?.client ?? client).post<PtyCreateResponses, PtyCreateErrors, ThrowOnError>({
-    url: '/pty',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options?.headers
-    }
+  url: '/pty',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options?.headers
+  }
 });
 
 /**
@@ -531,12 +531,12 @@ export const ptyGet = <ThrowOnError extends boolean = false>(options: Options<Pt
  * Update properties of an existing pseudo-terminal (PTY) session.
  */
 export const ptyUpdate = <ThrowOnError extends boolean = false>(options: Options<PtyUpdateData, ThrowOnError>): RequestResult<PtyUpdateResponses, PtyUpdateErrors, ThrowOnError> => (options.client ?? client).put<PtyUpdateResponses, PtyUpdateErrors, ThrowOnError>({
-    url: '/pty/{ptyID}',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+  url: '/pty/{ptyID}',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 /**
@@ -559,12 +559,12 @@ export const questionList = <ThrowOnError extends boolean = false>(options?: Opt
  * Provide answers to a question request from the AI assistant.
  */
 export const questionReply = <ThrowOnError extends boolean = false>(options: Options<QuestionReplyData, ThrowOnError>): RequestResult<QuestionReplyResponses, QuestionReplyErrors, ThrowOnError> => (options.client ?? client).post<QuestionReplyResponses, QuestionReplyErrors, ThrowOnError>({
-    url: '/question/{requestID}/reply',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+  url: '/question/{requestID}/reply',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 /**
@@ -587,12 +587,12 @@ export const permissionList = <ThrowOnError extends boolean = false>(options?: O
  * Approve or deny a permission request from the AI assistant.
  */
 export const permissionReply = <ThrowOnError extends boolean = false>(options: Options<PermissionReplyData, ThrowOnError>): RequestResult<PermissionReplyResponses, PermissionReplyErrors, ThrowOnError> => (options.client ?? client).post<PermissionReplyResponses, PermissionReplyErrors, ThrowOnError>({
-    url: '/permission/{requestID}/reply',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+  url: '/permission/{requestID}/reply',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 /**
@@ -615,12 +615,12 @@ export const providerAuth = <ThrowOnError extends boolean = false>(options?: Opt
  * Start the OAuth authorization flow for a provider.
  */
 export const providerOauthAuthorize = <ThrowOnError extends boolean = false>(options: Options<ProviderOauthAuthorizeData, ThrowOnError>): RequestResult<ProviderOauthAuthorizeResponses, ProviderOauthAuthorizeErrors, ThrowOnError> => (options.client ?? client).post<ProviderOauthAuthorizeResponses, ProviderOauthAuthorizeErrors, ThrowOnError>({
-    url: '/provider/{providerID}/oauth/authorize',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+  url: '/provider/{providerID}/oauth/authorize',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 /**
@@ -629,12 +629,12 @@ export const providerOauthAuthorize = <ThrowOnError extends boolean = false>(opt
  * Handle the OAuth callback from a provider after user authorization.
  */
 export const providerOauthCallback = <ThrowOnError extends boolean = false>(options: Options<ProviderOauthCallbackData, ThrowOnError>): RequestResult<ProviderOauthCallbackResponses, ProviderOauthCallbackErrors, ThrowOnError> => (options.client ?? client).post<ProviderOauthCallbackResponses, ProviderOauthCallbackErrors, ThrowOnError>({
-    url: '/provider/{providerID}/oauth/callback',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+  url: '/provider/{providerID}/oauth/callback',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 /**
@@ -650,12 +650,12 @@ export const sessionList = <ThrowOnError extends boolean = false>(options?: Opti
  * Create a new OpenCode session for interacting with AI assistants and managing conversations.
  */
 export const sessionCreate = <ThrowOnError extends boolean = false>(options?: Options<SessionCreateData, ThrowOnError>): RequestResult<SessionCreateResponses, SessionCreateErrors, ThrowOnError> => (options?.client ?? client).post<SessionCreateResponses, SessionCreateErrors, ThrowOnError>({
-    url: '/session',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options?.headers
-    }
+  url: '/session',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options?.headers
+  }
 });
 
 /**
@@ -685,12 +685,12 @@ export const sessionGet = <ThrowOnError extends boolean = false>(options: Option
  * Update properties of an existing session, such as title or other metadata.
  */
 export const sessionUpdate = <ThrowOnError extends boolean = false>(options: Options<SessionUpdateData, ThrowOnError>): RequestResult<SessionUpdateResponses, SessionUpdateErrors, ThrowOnError> => (options.client ?? client).patch<SessionUpdateResponses, SessionUpdateErrors, ThrowOnError>({
-    url: '/session/{sessionID}',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+  url: '/session/{sessionID}',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 /**
@@ -727,12 +727,12 @@ export const sessionMessages = <ThrowOnError extends boolean = false>(options: O
  * Create and send a new message to a session, streaming the AI response.
  */
 export const sessionPrompt = <ThrowOnError extends boolean = false>(options: Options<SessionPromptData, ThrowOnError>): RequestResult<SessionPromptResponses, SessionPromptErrors, ThrowOnError> => (options.client ?? client).post<SessionPromptResponses, SessionPromptErrors, ThrowOnError>({
-    url: '/session/{sessionID}/message',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+  url: '/session/{sessionID}/message',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 /**
@@ -755,12 +755,12 @@ export const sessionMessage = <ThrowOnError extends boolean = false>(options: Op
  * Create a new session by forking an existing session at a specific message point.
  */
 export const sessionFork = <ThrowOnError extends boolean = false>(options: Options<SessionForkData, ThrowOnError>): RequestResult<SessionForkResponses, SessionForkErrors, ThrowOnError> => (options.client ?? client).post<SessionForkResponses, SessionForkErrors, ThrowOnError>({
-    url: '/session/{sessionID}/fork',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+  url: '/session/{sessionID}/fork',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 /**
@@ -776,12 +776,12 @@ export const sessionAbort = <ThrowOnError extends boolean = false>(options: Opti
  * Analyze the current application and create an AGENTS.md file with project-specific agent configurations.
  */
 export const sessionInit = <ThrowOnError extends boolean = false>(options: Options<SessionInitData, ThrowOnError>): RequestResult<SessionInitResponses, SessionInitErrors, ThrowOnError> => (options.client ?? client).post<SessionInitResponses, SessionInitErrors, ThrowOnError>({
-    url: '/session/{sessionID}/init',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+  url: '/session/{sessionID}/init',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 /**
@@ -804,12 +804,12 @@ export const sessionShare = <ThrowOnError extends boolean = false>(options: Opti
  * Generate a concise summary of the session using AI compaction to preserve key information.
  */
 export const sessionSummarize = <ThrowOnError extends boolean = false>(options: Options<SessionSummarizeData, ThrowOnError>): RequestResult<SessionSummarizeResponses, SessionSummarizeErrors, ThrowOnError> => (options.client ?? client).post<SessionSummarizeResponses, SessionSummarizeErrors, ThrowOnError>({
-    url: '/session/{sessionID}/summarize',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+  url: '/session/{sessionID}/summarize',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 /**
@@ -818,12 +818,12 @@ export const sessionSummarize = <ThrowOnError extends boolean = false>(options: 
  * Create and send a new message to a session asynchronously, starting the session if needed and returning immediately.
  */
 export const sessionPromptAsync = <ThrowOnError extends boolean = false>(options: Options<SessionPromptAsyncData, ThrowOnError>): RequestResult<SessionPromptAsyncResponses, SessionPromptAsyncErrors, ThrowOnError> => (options.client ?? client).post<SessionPromptAsyncResponses, SessionPromptAsyncErrors, ThrowOnError>({
-    url: '/session/{sessionID}/prompt_async',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+  url: '/session/{sessionID}/prompt_async',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 /**
@@ -832,12 +832,12 @@ export const sessionPromptAsync = <ThrowOnError extends boolean = false>(options
  * Send a new command to a session for execution by the AI assistant.
  */
 export const sessionCommand = <ThrowOnError extends boolean = false>(options: Options<SessionCommandData, ThrowOnError>): RequestResult<SessionCommandResponses, SessionCommandErrors, ThrowOnError> => (options.client ?? client).post<SessionCommandResponses, SessionCommandErrors, ThrowOnError>({
-    url: '/session/{sessionID}/command',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+  url: '/session/{sessionID}/command',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 /**
@@ -846,12 +846,12 @@ export const sessionCommand = <ThrowOnError extends boolean = false>(options: Op
  * Execute a shell command within the session context and return the AI's response.
  */
 export const sessionShell = <ThrowOnError extends boolean = false>(options: Options<SessionShellData, ThrowOnError>): RequestResult<SessionShellResponses, SessionShellErrors, ThrowOnError> => (options.client ?? client).post<SessionShellResponses, SessionShellErrors, ThrowOnError>({
-    url: '/session/{sessionID}/shell',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+  url: '/session/{sessionID}/shell',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 /**
@@ -860,12 +860,12 @@ export const sessionShell = <ThrowOnError extends boolean = false>(options: Opti
  * Revert a specific message in a session, undoing its effects and restoring the previous state.
  */
 export const sessionRevert = <ThrowOnError extends boolean = false>(options: Options<SessionRevertData, ThrowOnError>): RequestResult<SessionRevertResponses, SessionRevertErrors, ThrowOnError> => (options.client ?? client).post<SessionRevertResponses, SessionRevertErrors, ThrowOnError>({
-    url: '/session/{sessionID}/revert',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+  url: '/session/{sessionID}/revert',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 /**
@@ -883,12 +883,12 @@ export const sessionUnrevert = <ThrowOnError extends boolean = false>(options: O
  * @deprecated
  */
 export const permissionRespond = <ThrowOnError extends boolean = false>(options: Options<PermissionRespondData, ThrowOnError>): RequestResult<PermissionRespondResponses, PermissionRespondErrors, ThrowOnError> => (options.client ?? client).post<PermissionRespondResponses, PermissionRespondErrors, ThrowOnError>({
-    url: '/session/{sessionID}/permissions/{permissionID}',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+  url: '/session/{sessionID}/permissions/{permissionID}',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 /**
@@ -900,12 +900,12 @@ export const partDelete = <ThrowOnError extends boolean = false>(options: Option
  * Update a part in a message.
  */
 export const partUpdate = <ThrowOnError extends boolean = false>(options: Options<PartUpdateData, ThrowOnError>): RequestResult<PartUpdateResponses, PartUpdateErrors, ThrowOnError> => (options.client ?? client).patch<PartUpdateResponses, PartUpdateErrors, ThrowOnError>({
-    url: '/session/{sessionID}/message/{messageID}/part/{partID}',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+  url: '/session/{sessionID}/message/{messageID}/part/{partID}',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 /**
@@ -921,12 +921,12 @@ export const syncStart = <ThrowOnError extends boolean = false>(options?: Option
  * Validate and replay a complete sync event history.
  */
 export const syncReplay = <ThrowOnError extends boolean = false>(options?: Options<SyncReplayData, ThrowOnError>): RequestResult<SyncReplayResponses, SyncReplayErrors, ThrowOnError> => (options?.client ?? client).post<SyncReplayResponses, SyncReplayErrors, ThrowOnError>({
-    url: '/sync/replay',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options?.headers
-    }
+  url: '/sync/replay',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options?.headers
+  }
 });
 
 /**
@@ -935,12 +935,12 @@ export const syncReplay = <ThrowOnError extends boolean = false>(options?: Optio
  * Update a session to belong to the current workspace through the sync event system.
  */
 export const syncSteal = <ThrowOnError extends boolean = false>(options?: Options<SyncStealData, ThrowOnError>): RequestResult<SyncStealResponses, SyncStealErrors, ThrowOnError> => (options?.client ?? client).post<SyncStealResponses, SyncStealErrors, ThrowOnError>({
-    url: '/sync/steal',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options?.headers
-    }
+  url: '/sync/steal',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options?.headers
+  }
 });
 
 /**
@@ -949,12 +949,12 @@ export const syncSteal = <ThrowOnError extends boolean = false>(options?: Option
  * List sync events for all aggregates. Keys are aggregate IDs the client already knows about, values are the last known sequence ID. Events with seq > value are returned for those aggregates. Aggregates not listed in the input get their full history.
  */
 export const syncHistoryList = <ThrowOnError extends boolean = false>(options?: Options<SyncHistoryListData, ThrowOnError>): RequestResult<SyncHistoryListResponses, SyncHistoryListErrors, ThrowOnError> => (options?.client ?? client).post<SyncHistoryListResponses, SyncHistoryListErrors, ThrowOnError>({
-    url: '/sync/history',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options?.headers
-    }
+  url: '/sync/history',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options?.headers
+  }
 });
 
 /**
@@ -970,12 +970,12 @@ export const v2SessionList = <ThrowOnError extends boolean = false>(options?: Op
  * Create a v2 session message and queue it for the agent loop.
  */
 export const v2SessionPrompt = <ThrowOnError extends boolean = false>(options: Options<V2SessionPromptData, ThrowOnError>): RequestResult<V2SessionPromptResponses, V2SessionPromptErrors, ThrowOnError> => (options.client ?? client).post<V2SessionPromptResponses, V2SessionPromptErrors, ThrowOnError>({
-    url: '/api/session/{sessionID}/prompt',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+  url: '/api/session/{sessionID}/prompt',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 /**
@@ -1033,12 +1033,12 @@ export const v2ProviderGet = <ThrowOnError extends boolean = false>(options: Opt
  * Append prompt to the TUI.
  */
 export const tuiAppendPrompt = <ThrowOnError extends boolean = false>(options?: Options<TuiAppendPromptData, ThrowOnError>): RequestResult<TuiAppendPromptResponses, TuiAppendPromptErrors, ThrowOnError> => (options?.client ?? client).post<TuiAppendPromptResponses, TuiAppendPromptErrors, ThrowOnError>({
-    url: '/tui/append-prompt',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options?.headers
-    }
+  url: '/tui/append-prompt',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options?.headers
+  }
 });
 
 /**
@@ -1089,12 +1089,12 @@ export const tuiClearPrompt = <ThrowOnError extends boolean = false>(options?: O
  * Execute a TUI command.
  */
 export const tuiExecuteCommand = <ThrowOnError extends boolean = false>(options?: Options<TuiExecuteCommandData, ThrowOnError>): RequestResult<TuiExecuteCommandResponses, TuiExecuteCommandErrors, ThrowOnError> => (options?.client ?? client).post<TuiExecuteCommandResponses, TuiExecuteCommandErrors, ThrowOnError>({
-    url: '/tui/execute-command',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options?.headers
-    }
+  url: '/tui/execute-command',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options?.headers
+  }
 });
 
 /**
@@ -1103,12 +1103,12 @@ export const tuiExecuteCommand = <ThrowOnError extends boolean = false>(options?
  * Show a toast notification in the TUI.
  */
 export const tuiShowToast = <ThrowOnError extends boolean = false>(options?: Options<TuiShowToastData, ThrowOnError>): RequestResult<TuiShowToastResponses, TuiShowToastErrors, ThrowOnError> => (options?.client ?? client).post<TuiShowToastResponses, TuiShowToastErrors, ThrowOnError>({
-    url: '/tui/show-toast',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options?.headers
-    }
+  url: '/tui/show-toast',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options?.headers
+  }
 });
 
 /**
@@ -1117,12 +1117,12 @@ export const tuiShowToast = <ThrowOnError extends boolean = false>(options?: Opt
  * Publish a TUI event.
  */
 export const tuiPublish = <ThrowOnError extends boolean = false>(options?: Options<TuiPublishData, ThrowOnError>): RequestResult<TuiPublishResponses, TuiPublishErrors, ThrowOnError> => (options?.client ?? client).post<TuiPublishResponses, TuiPublishErrors, ThrowOnError>({
-    url: '/tui/publish',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options?.headers
-    }
+  url: '/tui/publish',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options?.headers
+  }
 });
 
 /**
@@ -1131,12 +1131,12 @@ export const tuiPublish = <ThrowOnError extends boolean = false>(options?: Optio
  * Navigate the TUI to display the specified session.
  */
 export const tuiSelectSession = <ThrowOnError extends boolean = false>(options?: Options<TuiSelectSessionData, ThrowOnError>): RequestResult<TuiSelectSessionResponses, TuiSelectSessionErrors, ThrowOnError> => (options?.client ?? client).post<TuiSelectSessionResponses, TuiSelectSessionErrors, ThrowOnError>({
-    url: '/tui/select-session',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options?.headers
-    }
+  url: '/tui/select-session',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options?.headers
+  }
 });
 
 /**
@@ -1152,12 +1152,12 @@ export const tuiControlNext = <ThrowOnError extends boolean = false>(options?: O
  * Submit a response to the TUI request queue to complete a pending request.
  */
 export const tuiControlResponse = <ThrowOnError extends boolean = false>(options?: Options<TuiControlResponseData, ThrowOnError>): RequestResult<TuiControlResponseResponses, TuiControlResponseErrors, ThrowOnError> => (options?.client ?? client).post<TuiControlResponseResponses, TuiControlResponseErrors, ThrowOnError>({
-    url: '/tui/control/response',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options?.headers
-    }
+  url: '/tui/control/response',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options?.headers
+  }
 });
 
 /**
@@ -1180,12 +1180,12 @@ export const experimentalWorkspaceList = <ThrowOnError extends boolean = false>(
  * Create a workspace for the current project.
  */
 export const experimentalWorkspaceCreate = <ThrowOnError extends boolean = false>(options?: Options<ExperimentalWorkspaceCreateData, ThrowOnError>): RequestResult<ExperimentalWorkspaceCreateResponses, ExperimentalWorkspaceCreateErrors, ThrowOnError> => (options?.client ?? client).post<ExperimentalWorkspaceCreateResponses, ExperimentalWorkspaceCreateErrors, ThrowOnError>({
-    url: '/experimental/workspace',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options?.headers
-    }
+  url: '/experimental/workspace',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options?.headers
+  }
 });
 
 /**
@@ -1215,12 +1215,12 @@ export const experimentalWorkspaceRemove = <ThrowOnError extends boolean = false
  * Move a session's sync history into the target workspace, or detach it to the local project.
  */
 export const experimentalWorkspaceWarp = <ThrowOnError extends boolean = false>(options?: Options<ExperimentalWorkspaceWarpData, ThrowOnError>): RequestResult<ExperimentalWorkspaceWarpResponses, ExperimentalWorkspaceWarpErrors, ThrowOnError> => (options?.client ?? client).post<ExperimentalWorkspaceWarpResponses, ExperimentalWorkspaceWarpErrors, ThrowOnError>({
-    url: '/experimental/workspace/warp',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options?.headers
-    }
+  url: '/experimental/workspace/warp',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options?.headers
+  }
 });
 
 /**

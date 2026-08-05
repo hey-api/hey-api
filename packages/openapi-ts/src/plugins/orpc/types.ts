@@ -4,9 +4,21 @@ import type { PluginValidatorNames } from '../types';
 import type { ContractsConfig, UserContractsConfig } from './contracts/types';
 import type { OrpcImports } from './imports';
 
+export type OrpcCompatibilityVersion = '1' | '2';
+
 export type UserConfig = Plugin.Name<'orpc'> &
   Plugin.Hooks &
   Plugin.UserExports & {
+    /**
+     * The compatibility version to target for generated output.
+     *
+     * Can be:
+     * - `'1'`: oRPC v1 (default).
+     * - `'2'`: oRPC v2.
+     *
+     * @default '2'
+     */
+    compatibilityVersion?: OrpcCompatibilityVersion;
     /**
      * Define the structure of generated oRPC contracts.
      *
@@ -21,6 +33,14 @@ export type UserConfig = Plugin.Name<'orpc'> &
      * @default 'single'
      */
     contracts?: OperationsStrategy | UserContractsConfig;
+    /**
+     * Infer `queryStyles` metadata for query parameters from OpenAPI serialization styles.
+     *
+     * Only applies when `compatibilityVersion` is set to `'2'`.
+     *
+     * @default true
+     */
+    inferQueryStyles?: boolean;
     /**
      * Validate input/output schemas.
      *
@@ -54,8 +74,12 @@ export type UserConfig = Plugin.Name<'orpc'> &
 export type Config = Plugin.Name<'orpc'> &
   Plugin.Hooks &
   Plugin.Exports & {
+    /** The compatibility version to target for generated output. */
+    compatibilityVersion: OrpcCompatibilityVersion;
     /** Define the structure of generated oRPC contracts. */
     contracts: ContractsConfig;
+    /** Infer `queryStyles` metadata for query parameters from OpenAPI serialization styles. */
+    inferQueryStyles: boolean;
     /** Validate input/output schemas. */
     validator: {
       /** The validator plugin to use for input schemas. */

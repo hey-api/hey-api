@@ -262,10 +262,14 @@ export default defineConfig({
                 },
                 {
                   badge: { text: 'Vote', variant: 'tip' },
+                  slug: 'docs/openapi/typescript/plugins/playwright',
+                },
+                {
+                  badge: { text: 'Vote', variant: 'tip' },
                   slug: 'docs/openapi/typescript/plugins/supertest',
                 },
               ],
-              label: 'Mocks',
+              label: 'Testing',
             },
             {
               collapsed: true,
@@ -277,7 +281,10 @@ export default defineConfig({
                 },
                 'docs/openapi/typescript/plugins/fastify',
                 'docs/openapi/typescript/plugins/nest',
-                'docs/openapi/typescript/plugins/orpc',
+                {
+                  label: 'oRPC',
+                  link: 'docs/openapi/typescript/plugins/orpc',
+                },
                 {
                   badge: { text: 'Vote', variant: 'tip' },
                   slug: 'docs/openapi/typescript/plugins/adonis',

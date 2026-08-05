@@ -5,7 +5,7 @@ import type { MaybeArray, MaybeFunc } from '@hey-api/types';
 import { py } from '../../py-compiler';
 import type { PyDsl } from '../../py-dsl';
 import type { ModuleExport, ModuleImport, SortGroup, SortKey, SortModule } from './render-utils';
-import { astToString, moduleSortKey } from './render-utils';
+import { moduleSortKey } from './render-utils';
 
 type Exports = ReadonlyArray<ReadonlyArray<ModuleExport>>;
 type ExportsOptions = {
@@ -14,6 +14,8 @@ type ExportsOptions = {
 type Header = MaybeArray<string> | null | undefined;
 type HeaderArg = MaybeFunc<(ctx: RenderContext<PyDsl>) => Header>;
 type Imports = Array<ReadonlyArray<ModuleImport>>;
+type PrinterOptionsFn = (ctx: RenderContext<PyDsl>) => py.PrinterOptions | undefined;
+export type UserPrinter = MaybeFunc<PrinterOptionsFn>;
 
 function headerToLines(header: Header): ReadonlyArray<string> {
   if (!header) return [];
@@ -27,6 +29,8 @@ function headerToLines(header: Header): ReadonlyArray<string> {
   }
   return lines;
 }
+
+const defaultPrinter = py.createPrinter();
 
 export class PythonRenderer implements Renderer {
   /**
@@ -47,20 +51,30 @@ export class PythonRenderer implements Renderer {
    * @private
    */
   private _preferExportAll: boolean;
+  /**
+   * Function to generate printer options.
+   *
+   * @private
+   */
+  private _printer: PrinterOptionsFn;
 
   constructor(
     args: Pick<Partial<BaseOutput>, 'module'> & {
       header?: HeaderArg;
       preferExportAll?: boolean;
+      printer?: UserPrinter;
     } = {},
   ) {
+    const { printer } = args;
     this._header = args.header;
     this._module = args.module;
     this._preferExportAll = args.preferExportAll ?? false;
+    this._printer = typeof printer === 'function' ? printer : () => printer;
   }
 
   render(ctx: RenderContext<PyDsl>): string {
     const header = typeof this._header === 'function' ? this._header(ctx) : this._header;
+    const printerOptions = this._printer(ctx);
     return PythonRenderer.astToString({
       exports: this.getExports(ctx),
       exportsOptions: {
@@ -69,6 +83,7 @@ export class PythonRenderer implements Renderer {
       header,
       imports: this.getImports(ctx),
       nodes: ctx.file.nodes,
+      printer: printerOptions ? py.createPrinter(printerOptions) : undefined,
     });
   }
 
@@ -83,12 +98,20 @@ export class PythonRenderer implements Renderer {
     imports?: Imports;
     nodes?: ReadonlyArray<PyDsl>;
     /**
+     * Printer instance used to render AST nodes to source text.
+     *
+     * @default defaultPrinter
+     */
+    printer?: py.Printer;
+    /**
      * Whether to include a trailing newline at the end of the file.
      *
      * @default true
      */
     trailingNewline?: boolean;
   }): string {
+    const printer = args.printer ?? defaultPrinter;
+
     let text = '';
     for (const header of headerToLines(args.header)) {
       text += `${header}\n`;
@@ -130,7 +153,7 @@ export class PythonRenderer implements Renderer {
     for (const group of argsImports) {
       if (imports) imports += '\n';
       for (const imp of group) {
-        imports += `${astToString(PythonRenderer.toImportAst(imp))}`;
+        imports += printer.format(PythonRenderer.toImportAst(imp));
       }
     }
     text = `${text}${text && imports ? '\n' : ''}${imports}`;
@@ -139,7 +162,7 @@ export class PythonRenderer implements Renderer {
     for (const group of args.exports ?? []) {
       if (exports) exports += '\n';
       for (const exp of group) {
-        exports += `${astToString(PythonRenderer.toExportAst(exp, args.exportsOptions))}`;
+        exports += printer.format(PythonRenderer.toExportAst(exp, args.exportsOptions));
       }
     }
     text = `${text}${text && exports ? '\n' : ''}${exports}`;
@@ -147,7 +170,7 @@ export class PythonRenderer implements Renderer {
     let nodes = '';
     for (const node of args.nodes ?? []) {
       if (nodes) nodes += '\n\n';
-      nodes += `${astToString(node.toAst())}`;
+      nodes += printer.format(node.toAst());
     }
     text = `${text}${text && nodes ? '\n\n' : ''}${nodes}`;
 

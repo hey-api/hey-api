@@ -1,7 +1,7 @@
 import fs from 'node:fs';
+import { styleText } from 'node:util';
 
-import colors from 'ansi-colors';
-import { sync } from 'cross-spawn';
+import { xSync } from 'tinyexec';
 
 import { ConfigError } from '../../error';
 
@@ -67,16 +67,18 @@ export function postprocessOutput(
     const name = resolved.name ?? resolved.command;
     const args = resolved.args.map((arg) => arg.replace('{{path}}', config.path));
 
-    console.log(`${jobPrefix}🧹 Running ${colors.cyanBright(name)}`);
-    const result = sync(resolved.command, args);
-
-    if (result.error) {
-      throw new ConfigError(`Post-processor "${name}" failed to run: ${result.error.message}`);
+    console.log(`${jobPrefix}🧹 Running ${styleText('cyanBright', name)}`);
+    let result;
+    try {
+      result = xSync(resolved.command, args);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      throw new ConfigError(`Post-processor "${name}" failed to run: ${message}`);
     }
 
-    if (result.status !== null && result.status !== 0) {
-      let message = `Post-processor "${name}" exited with code ${result.status}`;
-      const stderr = result.stderr?.toString().trim();
+    if (result.exitCode !== undefined && result.exitCode !== 0) {
+      let message = `Post-processor "${name}" exited with code ${result.exitCode}`;
+      const stderr = result.stderr.trim();
       if (stderr) {
         message += `:\n${stderr}`;
       }

@@ -5,17 +5,17 @@ import { type Client, type ClientMeta, formDataBodySerializer, type Options as O
 import type { ApiVVersionODataControllerCountData, ApiVVersionODataControllerCountResponses, CallToTestOrderOfParamsData, CallWithDefaultOptionalParametersData, CallWithDefaultParametersData, CallWithDescriptionsData, CallWithDuplicateResponsesData, CallWithDuplicateResponsesErrors, CallWithDuplicateResponsesResponses, CallWithNoContentResponseData, CallWithNoContentResponseResponses, CallWithParametersData, CallWithResponseAndNoContentResponseData, CallWithResponseAndNoContentResponseResponses, CallWithResponseData, CallWithResponseResponses, CallWithResponsesData, CallWithResponsesErrors, CallWithResponsesResponses, CallWithResultFromHeaderData, CallWithResultFromHeaderErrors, CallWithResultFromHeaderResponses, CallWithWeirdParameterNamesData, CollectionFormatData, ComplexParamsData, ComplexParamsResponses, ComplexTypesData, ComplexTypesErrors, ComplexTypesResponses, DeleteCallWithoutParametersAndResponseData, DeleteFooData3, DeprecatedCallData, DummyAData, DummyAResponses, DummyBData, DummyBResponses, DuplicateName2Data, DuplicateName3Data, DuplicateName4Data, DuplicateNameData, ExportData, FileResponseData, FileResponseResponses, FooWowData, FooWowResponses, GetApiVbyApiVersionSimpleOperationData, GetApiVbyApiVersionSimpleOperationErrors, GetApiVbyApiVersionSimpleOperationResponses, GetCallWithOptionalParamData, GetCallWithoutParametersAndResponseData, HeadCallWithoutParametersAndResponseData, ImportData, ImportResponses, MultipartRequestData, MultipartResponseData, MultipartResponseResponses, NonAsciiæøåÆøÅöôêÊ字符串Data, NonAsciiæøåÆøÅöôêÊ字符串Responses, OptionsCallWithoutParametersAndResponseData, PatchApiVbyApiVersionNoTagData, PatchApiVbyApiVersionNoTagResponses, PatchCallWithoutParametersAndResponseData, PostApiVbyApiVersionFormDataData, PostApiVbyApiVersionRequestBodyData, PostCallWithOptionalParamData, PostCallWithOptionalParamResponses, PostCallWithoutParametersAndResponseData, PutCallWithoutParametersAndResponseData, PutWithFormUrlEncodedData, TestErrorCodeData, TestErrorCodeErrors, TestErrorCodeResponses, TypesData, TypesResponses, UploadFileData, UploadFileResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
-    /**
-     * You can provide a client instance returned by `createClient()` instead of
-     * individual options. This might be also useful if you want to implement a
-     * custom client.
-     */
-    client: Client;
-    /**
-     * You can pass arbitrary values through the `meta` object. This can be
-     * used to access values that aren't defined as part of the SDK function.
-     */
-    meta?: keyof ClientMeta extends never ? Record<string, unknown> : ClientMeta;
+  /**
+   * You can provide a client instance returned by `createClient()` instead of
+   * individual options. This might be also useful if you want to implement a
+   * custom client.
+   */
+  client: Client;
+  /**
+   * You can pass arbitrary values through the `meta` object. This can be
+   * used to access values that aren't defined as part of the SDK function.
+   */
+  meta?: keyof ClientMeta extends never ? Record<string, unknown> : ClientMeta;
 };
 
 export const export_ = <ThrowOnError extends boolean = false>(options: Options<ExportData, ThrowOnError>): RequestResult<unknown, unknown, ThrowOnError> => options.client.get<unknown, unknown, ThrowOnError>({ url: '/api/v{api-version}/no+tag', ...options });
@@ -23,12 +23,12 @@ export const export_ = <ThrowOnError extends boolean = false>(options: Options<E
 export const patchApiVbyApiVersionNoTag = <ThrowOnError extends boolean = false>(options: Options<PatchApiVbyApiVersionNoTagData, ThrowOnError>): RequestResult<PatchApiVbyApiVersionNoTagResponses, unknown, ThrowOnError> => options.client.patch<PatchApiVbyApiVersionNoTagResponses, unknown, ThrowOnError>({ url: '/api/v{api-version}/no+tag', ...options });
 
 export const import_ = <ThrowOnError extends boolean = false>(options: Options<ImportData, ThrowOnError>): RequestResult<ImportResponses, unknown, ThrowOnError> => options.client.post<ImportResponses, unknown, ThrowOnError>({
-    url: '/api/v{api-version}/no+tag',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+  url: '/api/v{api-version}/no+tag',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 export const fooWow = <ThrowOnError extends boolean = false>(options: Options<FooWowData, ThrowOnError>): RequestResult<FooWowResponses, unknown, ThrowOnError> => options.client.put<FooWowResponses, unknown, ThrowOnError>({ url: '/api/v{api-version}/no+tag', ...options });
@@ -61,58 +61,58 @@ export const callWithDescriptions = <ThrowOnError extends boolean = false>(optio
 export const deprecatedCall = <ThrowOnError extends boolean = false>(options: Options<DeprecatedCallData, ThrowOnError>): RequestResult<unknown, unknown, ThrowOnError> => options.client.post<unknown, unknown, ThrowOnError>({ url: '/api/v{api-version}/parameters/deprecated', ...options });
 
 export const callWithParameters = <ThrowOnError extends boolean = false>(options: Options<CallWithParametersData, ThrowOnError>): RequestResult<unknown, unknown, ThrowOnError> => options.client.post<unknown, unknown, ThrowOnError>({
-    url: '/api/v{api-version}/parameters/{parameterPath}',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+  url: '/api/v{api-version}/parameters/{parameterPath}',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 export const callWithWeirdParameterNames = <ThrowOnError extends boolean = false>(options: Options<CallWithWeirdParameterNamesData, ThrowOnError>): RequestResult<unknown, unknown, ThrowOnError> => options.client.post<unknown, unknown, ThrowOnError>({
-    url: '/api/v{api-version}/parameters/{parameter.path.1}/{parameter-path-2}/{PARAMETER-PATH-3}',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+  url: '/api/v{api-version}/parameters/{parameter.path.1}/{parameter-path-2}/{PARAMETER-PATH-3}',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 export const getCallWithOptionalParam = <ThrowOnError extends boolean = false>(options: Options<GetCallWithOptionalParamData, ThrowOnError>): RequestResult<unknown, unknown, ThrowOnError> => options.client.get<unknown, unknown, ThrowOnError>({
-    url: '/api/v{api-version}/parameters',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+  url: '/api/v{api-version}/parameters',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 export const postCallWithOptionalParam = <ThrowOnError extends boolean = false>(options: Options<PostCallWithOptionalParamData, ThrowOnError>): RequestResult<PostCallWithOptionalParamResponses, unknown, ThrowOnError> => options.client.post<PostCallWithOptionalParamResponses, unknown, ThrowOnError>({
-    url: '/api/v{api-version}/parameters',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+  url: '/api/v{api-version}/parameters',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 export const postApiVbyApiVersionRequestBody = <ThrowOnError extends boolean = false>(options: Options<PostApiVbyApiVersionRequestBodyData, ThrowOnError>): RequestResult<unknown, unknown, ThrowOnError> => options.client.post<unknown, unknown, ThrowOnError>({
-    url: '/api/v{api-version}/requestBody',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+  url: '/api/v{api-version}/requestBody',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 export const postApiVbyApiVersionFormData = <ThrowOnError extends boolean = false>(options: Options<PostApiVbyApiVersionFormDataData, ThrowOnError>): RequestResult<unknown, unknown, ThrowOnError> => options.client.post<unknown, unknown, ThrowOnError>({
-    ...formDataBodySerializer,
-    url: '/api/v{api-version}/formData',
-    ...options,
-    headers: {
-        'Content-Type': null,
-        ...options.headers
-    }
+  ...formDataBodySerializer,
+  url: '/api/v{api-version}/formData',
+  ...options,
+  headers: {
+    'Content-Type': null,
+    ...options.headers
+  }
 });
 
 export const callWithDefaultParameters = <ThrowOnError extends boolean = false>(options: Options<CallWithDefaultParametersData, ThrowOnError>): RequestResult<unknown, unknown, ThrowOnError> => options.client.get<unknown, unknown, ThrowOnError>({ url: '/api/v{api-version}/defaults', ...options });
@@ -148,42 +148,42 @@ export const collectionFormat = <ThrowOnError extends boolean = false>(options: 
 export const types = <ThrowOnError extends boolean = false>(options: Options<TypesData, ThrowOnError>): RequestResult<TypesResponses, unknown, ThrowOnError> => options.client.get<TypesResponses, unknown, ThrowOnError>({ url: '/api/v{api-version}/types', ...options });
 
 export const uploadFile = <ThrowOnError extends boolean = false>(options: Options<UploadFileData, ThrowOnError>): RequestResult<UploadFileResponses, unknown, ThrowOnError> => options.client.post<UploadFileResponses, unknown, ThrowOnError>({
-    ...urlSearchParamsBodySerializer,
-    url: '/api/v{api-version}/upload',
-    ...options,
-    headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        ...options.headers
-    }
+  ...urlSearchParamsBodySerializer,
+  url: '/api/v{api-version}/upload',
+  ...options,
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded',
+    ...options.headers
+  }
 });
 
 export const fileResponse = <ThrowOnError extends boolean = false>(options: Options<FileResponseData, ThrowOnError>): RequestResult<FileResponseResponses, unknown, ThrowOnError> => options.client.get<FileResponseResponses, unknown, ThrowOnError>({ url: '/api/v{api-version}/file/{id}', ...options });
 
 export const complexTypes = <ThrowOnError extends boolean = false>(options: Options<ComplexTypesData, ThrowOnError>): RequestResult<ComplexTypesResponses, ComplexTypesErrors, ThrowOnError> => options.client.get<ComplexTypesResponses, ComplexTypesErrors, ThrowOnError>({
-    querySerializer: { parameters: { parameterObject: { object: { style: 'form' } } } },
-    url: '/api/v{api-version}/complex',
-    ...options
+  querySerializer: { parameters: { parameterObject: { object: { style: 'form' } } } },
+  url: '/api/v{api-version}/complex',
+  ...options
 });
 
 export const multipartResponse = <ThrowOnError extends boolean = false>(options: Options<MultipartResponseData, ThrowOnError>): RequestResult<MultipartResponseResponses, unknown, ThrowOnError> => options.client.get<MultipartResponseResponses, unknown, ThrowOnError>({ url: '/api/v{api-version}/multipart', ...options });
 
 export const multipartRequest = <ThrowOnError extends boolean = false>(options: Options<MultipartRequestData, ThrowOnError>): RequestResult<unknown, unknown, ThrowOnError> => options.client.post<unknown, unknown, ThrowOnError>({
-    ...formDataBodySerializer,
-    url: '/api/v{api-version}/multipart',
-    ...options,
-    headers: {
-        'Content-Type': null,
-        ...options.headers
-    }
+  ...formDataBodySerializer,
+  url: '/api/v{api-version}/multipart',
+  ...options,
+  headers: {
+    'Content-Type': null,
+    ...options.headers
+  }
 });
 
 export const complexParams = <ThrowOnError extends boolean = false>(options: Options<ComplexParamsData, ThrowOnError>): RequestResult<ComplexParamsResponses, unknown, ThrowOnError> => options.client.put<ComplexParamsResponses, unknown, ThrowOnError>({
-    url: '/api/v{api-version}/complex/{id}',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json-patch+json',
-        ...options.headers
-    }
+  url: '/api/v{api-version}/complex/{id}',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json-patch+json',
+    ...options.headers
+  }
 });
 
 export const callWithResultFromHeader = <ThrowOnError extends boolean = false>(options: Options<CallWithResultFromHeaderData, ThrowOnError>): RequestResult<CallWithResultFromHeaderResponses, CallWithResultFromHeaderErrors, ThrowOnError> => options.client.post<CallWithResultFromHeaderResponses, CallWithResultFromHeaderErrors, ThrowOnError>({ url: '/api/v{api-version}/header', ...options });
@@ -196,11 +196,11 @@ export const nonAsciiæøåÆøÅöôêÊ字符串 = <ThrowOnError extends boole
  * Login User
  */
 export const putWithFormUrlEncoded = <ThrowOnError extends boolean = false>(options: Options<PutWithFormUrlEncodedData, ThrowOnError>): RequestResult<unknown, unknown, ThrowOnError> => options.client.put<unknown, unknown, ThrowOnError>({
-    ...urlSearchParamsBodySerializer,
-    url: '/api/v{api-version}/non-ascii-æøåÆØÅöôêÊ字符串',
-    ...options,
-    headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        ...options.headers
-    }
+  ...urlSearchParamsBodySerializer,
+  url: '/api/v{api-version}/non-ascii-æøåÆØÅöôêÊ字符串',
+  ...options,
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded',
+    ...options.headers
+  }
 });

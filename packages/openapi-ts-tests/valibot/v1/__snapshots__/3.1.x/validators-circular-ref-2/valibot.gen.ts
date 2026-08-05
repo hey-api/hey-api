@@ -3,9 +3,9 @@
 import * as v from 'valibot';
 
 export const vBar: v.GenericSchema = v.strictObject({
-    bar: v.nullable(v.array(v.lazy(() => vBar)))
+  bar: v.nullable(v.array(v.lazy(() => vBar)))
 });
 
 export const vFoo = v.strictObject({
-    foo: vBar
+  foo: vBar
 });

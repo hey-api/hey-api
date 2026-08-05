@@ -3,32 +3,32 @@
 import { z } from 'zod/v3';
 
 export const zUserNotificationDeleteContentBase = z.object({
-    name: z.string()
+  name: z.string()
 });
 
 export const zUserNotificationDeleteContentError = zUserNotificationDeleteContentBase.and(z.object({
-    finishedAt: z.string().datetime(),
-    error: z.string()
+  finishedAt: z.string().datetime(),
+  error: z.string()
 }));
 
 export const zUserNotificationDeleteContentRunning = zUserNotificationDeleteContentBase.and(z.object({
-    startedAt: z.string().datetime()
+  startedAt: z.string().datetime()
 }));
 
 export const zUserNotificationDeleteContentSuccess = zUserNotificationDeleteContentBase.and(z.object({
-    finishedAt: z.string().datetime()
+  finishedAt: z.string().datetime()
 }));
 
 export const zUserNotificationDeleteContent = z.union([
-    z.object({
-        status: z.literal('running')
-    }).and(zUserNotificationDeleteContentRunning),
-    z.object({
-        status: z.literal('success')
-    }).and(zUserNotificationDeleteContentSuccess),
-    z.object({
-        status: z.literal('error')
-    }).and(zUserNotificationDeleteContentError)
+  z.object({
+    status: z.literal('running')
+  }).and(zUserNotificationDeleteContentRunning),
+  z.object({
+    status: z.literal('success')
+  }).and(zUserNotificationDeleteContentSuccess),
+  z.object({
+    status: z.literal('error')
+  }).and(zUserNotificationDeleteContentError)
 ]);
 
 /**

@@ -34,11 +34,17 @@ export async function generateOutput(context: Context): Promise<{ fileCount: num
     });
   }
 
+  const eventPlugins = context.logger.timeEvent('generator.plugins');
   for (const plugin of context.registerPlugins()) {
+    const eventPlugin = context.logger.timeEvent(`generator.plugins.${plugin.name}`);
     await plugin.run();
+    eventPlugin.timeEnd();
   }
+  eventPlugins.timeEnd();
 
+  const eventPlan = context.logger.timeEvent('generator.plan');
   context.gen.plan();
+  eventPlan.timeEnd();
 
   if (process.env.HEY_API_DUMP_REGISTRY) {
     const dumpPath = path.resolve(outputPath, 'registry-dump.json');
@@ -48,11 +54,14 @@ export async function generateOutput(context: Context): Promise<{ fileCount: num
     });
   }
 
+  const eventIntents = context.logger.timeEvent('generator.intents');
   const ctx = new IntentContext(context.spec);
   for (const intent of context.intents) {
     await intent.run(ctx);
   }
+  eventIntents.timeEnd();
 
+  const eventRender = context.logger.timeEvent('generator.render-and-write');
   let fileCount = 0;
   const writes: Promise<void>[] = [];
   for (const file of context.gen.render()) {
@@ -68,7 +77,9 @@ export async function generateOutput(context: Context): Promise<{ fileCount: num
     fileCount++;
   }
   await Promise.all(writes);
+  eventRender.timeEnd();
 
+  const eventSource = context.logger.timeEvent('generator.source');
   const { source } = context.config.output;
   if (source.enabled) {
     const sourcePath = source.path === null ? undefined : path.resolve(outputPath, source.path);
@@ -89,6 +100,7 @@ export async function generateOutput(context: Context): Promise<{ fileCount: num
       await source.callback(serialized);
     }
   }
+  eventSource.timeEnd();
 
   return { fileCount };
 }

@@ -1,0 +1,19 @@
+openapi: 3.1.0
+info:
+  title: Responses without schemas
+  version: '1'
+paths:
+  /foo:
+    get:
+      operationId: foo
+      responses:
+        '200':
+          description: No response content is declared
+  /bar:
+    get:
+      operationId: bar
+      responses:
+        '200':
+          description: A JSON response without a schema
+          content:
+            application/json: {}

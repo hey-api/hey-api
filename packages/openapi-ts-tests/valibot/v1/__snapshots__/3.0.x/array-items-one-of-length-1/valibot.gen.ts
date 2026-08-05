@@ -5,5 +5,5 @@ import * as v from 'valibot';
 export const vBar = v.string();
 
 export const vFoo = v.object({
-    foo: v.optional(v.pipe(v.array(vBar), v.minLength(1), v.maxLength(2147483647)))
+  foo: v.optional(v.pipe(v.array(vBar), v.minLength(1), v.maxLength(2147483647)))
 });

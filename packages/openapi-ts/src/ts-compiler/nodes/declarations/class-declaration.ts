@@ -1,6 +1,7 @@
 import type { TsNodeBase } from '../base';
 import type { TsIdentifier } from '../expressions/identifier';
 import { TsNodeKind } from '../kinds';
+import type { TsClassStaticBlockDeclaration } from './class-static-block-declaration';
 import type { TsConstructorDeclaration } from './constructor-declaration';
 import type { TsGetAccessorDeclaration } from './get-accessor-declaration';
 import type { TsHeritageClause } from './heritage-clause';
@@ -11,6 +12,7 @@ import type { TsSetAccessorDeclaration } from './set-accessor-declaration';
 import type { TsTypeParameterDeclaration } from './type-parameter-declaration';
 
 export type TsClassElement =
+  | TsClassStaticBlockDeclaration
   | TsConstructorDeclaration
   | TsGetAccessorDeclaration
   | TsMethodDeclaration

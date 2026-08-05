@@ -3,33 +3,33 @@
 import * as v from 'valibot';
 
 export const vContact = v.union([v.object({
-        email: v.string()
-    }), v.object({
-        phone: v.string()
-    })]);
+    email: v.string()
+  }), v.object({
+    phone: v.string()
+  })]);
 
 export const vUser = v.intersect([vContact, v.object({
-        username: v.string()
-    })]);
+    username: v.string()
+  })]);
 
 export const vDogDetails = v.object({
-    breed: v.string(),
-    barkVolume: v.pipe(v.number(), v.integer(), v.minValue(1), v.maxValue(10))
+  breed: v.string(),
+  barkVolume: v.pipe(v.number(), v.integer(), v.minValue(1), v.maxValue(10))
 });
 
 export const vCatDetails = v.object({
-    furLength: v.picklist([
-        'short',
-        'medium',
-        'long'
-    ]),
-    purrs: v.boolean()
+  furLength: v.picklist([
+    'short',
+    'medium',
+    'long'
+  ]),
+  purrs: v.boolean()
 });
 
 export const vPetStore = v.object({
-    animals: v.array(v.object({
-        name: v.string(),
-        type: v.optional(v.picklist(['dog', 'cat']), 'dog'),
-        details: v.union([vDogDetails, vCatDetails])
-    }))
+  animals: v.array(v.object({
+    name: v.string(),
+    type: v.optional(v.picklist(['dog', 'cat']), 'dog'),
+    details: v.union([vDogDetails, vCatDetails])
+  }))
 });

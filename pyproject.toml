@@ -2,7 +2,7 @@
 name = "hey-api-dev"
 version = "0.0.0"
 requires-python = ">=3.9"
-dependencies = ["hatchling>=1.27.0", "twine>=6.2.0"]
+dependencies = ["hatchling>=1.27.0", "wheel>=0.47.0"]
 
 [dependency-groups]
 dev = ["httpx>=0.27", "mypy>=1.15", "pydantic>=2.0", "ruff>=0.11"]
@@ -15,7 +15,7 @@ warn_unused_configs = true
 
 [tool.ruff]
 line-length = 120
-target-version = "py310"
+target-version = "py39"
 
 [tool.ruff.format]
 exclude = ["**/__snapshots__/**"]
