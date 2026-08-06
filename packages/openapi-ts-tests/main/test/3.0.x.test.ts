@@ -553,6 +553,29 @@ describe(`OpenAPI ${version}`, () => {
     },
     {
       config: createConfig({
+        input: 'multiple-media-types.yaml',
+        output: 'multiple-media-types',
+        plugins: ['@hey-api/client-fetch', '@hey-api/typescript', '@hey-api/sdk'],
+      }),
+      description: 'handles multiple media types with default selection',
+    },
+    {
+      config: createConfig({
+        input: 'multiple-media-types.yaml',
+        output: 'multiple-media-types-preferred-form-data',
+        parser: {
+          content: {
+            preferred: {
+              requests: ['multipart/form-data'],
+            },
+          },
+        },
+        plugins: ['@hey-api/client-fetch', '@hey-api/typescript', '@hey-api/sdk'],
+      }),
+      description: 'prefers form-data request bodies via content.preferred',
+    },
+    {
+      config: createConfig({
         input: 'operation-204.json',
         output: 'operation-204',
       }),

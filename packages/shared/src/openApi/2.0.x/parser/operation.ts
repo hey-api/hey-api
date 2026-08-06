@@ -3,6 +3,7 @@ import type { OpenAPIV2 } from '@hey-api/spec-types';
 import type { Context } from '../../../ir/context';
 import type { IR } from '../../../ir/types';
 import type { State } from '../../../openApi/shared/types/state';
+import { selectContent } from '../../../openApi/shared/utils/content';
 import { operationToId } from '../../../openApi/shared/utils/operation';
 import { contentToSchema, mediaTypeObjects } from './mediaType';
 import { paginationField } from './pagination';
@@ -148,8 +149,10 @@ function operationToIrOperation({
       mimeTypes,
       response: { schema },
     });
-    // TODO: add support for multiple content types, for now prefer JSON
-    const content = contents.find((content) => content.type === 'json') || contents[0];
+    const content = selectContent({
+      contents,
+      preferred: context.config.parser.content.preferred.requests,
+    });
 
     if (content) {
       const pagination = paginationField({
@@ -245,8 +248,10 @@ function operationToIrOperation({
       mimeTypes: operation.produces ? operation.produces : ['application/json'],
       response: responseObject,
     });
-    // TODO: add support for multiple content types, for now prefer JSON
-    const content = contents.find((content) => content.type === 'json') || contents[0];
+    const content = selectContent({
+      contents,
+      preferred: context.config.parser.content.preferred.responses,
+    });
 
     if (content) {
       irOperation.responses[name] = {
