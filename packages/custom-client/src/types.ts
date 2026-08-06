@@ -125,4 +125,5 @@ export type Options<
   TData extends TDataShape = TDataShape,
   ThrowOnError extends boolean = boolean,
   _TResponse = unknown,
-> = OmitKeys<RequestOptions<ThrowOnError>, 'body' | 'path' | 'query' | 'url'> & Omit<TData, 'url'>;
+> = OmitKeys<RequestOptions<ThrowOnError>, 'body' | 'path' | 'query' | 'url'> &
+  Omit<TData, 'url' | 'method'>;

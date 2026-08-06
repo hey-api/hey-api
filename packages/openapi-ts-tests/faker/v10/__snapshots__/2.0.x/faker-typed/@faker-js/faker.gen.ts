@@ -340,7 +340,7 @@ export const fakeDocument = (options?: Options): Document => {
   };
 };
 
-export const fakeListPetsRequest = (options?: Options): Omit<ListPetsData, 'url'> => {
+export const fakeListPetsRequest = (options?: Options): Omit<ListPetsData, 'url' | 'method'> => {
   const f = options?.faker ?? faker;
   return {
     query: {
@@ -354,7 +354,7 @@ export const fakeListPetsResponse = (options?: Options): ListPetsResponse => {
   return f.helpers.multiple(() => fakePet(options));
 };
 
-export const fakeCreatePetRequest = (options?: Options): Omit<CreatePetData, 'url'> => {
+export const fakeCreatePetRequest = (options?: Options): Omit<CreatePetData, 'url' | 'method'> => {
   const f = options?.faker ?? faker;
   return {
     body: {
@@ -368,7 +368,7 @@ export const fakeCreatePetResponse201 = (options?: Options): CreatePetResponses[
 
 export const fakeCreatePetResponse204 = (): CreatePetResponses[204] => undefined;
 
-export const fakeDeletePetRequest = (options?: Options): Omit<DeletePetData, 'url'> => {
+export const fakeDeletePetRequest = (options?: Options): Omit<DeletePetData, 'url' | 'method'> => {
   const f = options?.faker ?? faker;
   return {
     path: {
@@ -381,7 +381,7 @@ export const fakeDeletePetResponse204 = (): DeletePetResponses[204] => undefined
 
 export const fakeDeletePetResponse404 = (options?: Options): DeletePetErrors[404] => fakeError(options);
 
-export const fakeGetPetRequest = (options?: Options): Omit<GetPetData, 'url'> => {
+export const fakeGetPetRequest = (options?: Options): Omit<GetPetData, 'url' | 'method'> => {
   const f = options?.faker ?? faker;
   return {
     path: {
@@ -394,7 +394,7 @@ export const fakeGetPetResponse200 = (options?: Options): GetPetResponses[200] =
 
 export const fakeGetPetResponse404 = (options?: Options): GetPetErrors[404] => fakeError(options);
 
-export const fakeUpdatePetRequest = (options?: Options): Omit<UpdatePetData, 'url'> => {
+export const fakeUpdatePetRequest = (options?: Options): Omit<UpdatePetData, 'url' | 'method'> => {
   const f = options?.faker ?? faker;
   return {
     body: {

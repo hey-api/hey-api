@@ -155,7 +155,12 @@ export function irOperationRequestToAst({
     .arrow()
     .$if(usesFaker, (f) => f.param('options', (p) => p.optional().type('Options')))
     .$if(typeSymbol, (f) =>
-      f.returns($.type.expr('Omit').generic($.type(typeSymbol!)).generic($.type.literal('url'))),
+      f.returns(
+        $.type
+          .expr('Omit')
+          .generic($.type(typeSymbol!))
+          .generic($.type.or($.type.literal('url'), $.type.literal('method'))),
+      ),
     )
     .$if(
       usesAccessor,

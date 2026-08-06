@@ -653,6 +653,38 @@ describe(`OpenAPI ${version}`, () => {
     },
     {
       config: createConfig({
+        input: 'operation-method.yaml',
+        output: 'operation-method',
+        plugins: [
+          {
+            name: '@hey-api/typescript',
+            requests: {
+              method: true,
+            },
+          },
+        ],
+      }),
+      description: 'includes method literal in request types',
+    },
+    {
+      config: createConfig({
+        input: 'operation-method.yaml',
+        output: 'operation-method-sdk',
+        plugins: [
+          '@hey-api/client-fetch',
+          {
+            name: '@hey-api/typescript',
+            requests: {
+              method: true,
+            },
+          },
+          '@hey-api/sdk',
+        ],
+      }),
+      description: 'method literal in request types works with sdk options',
+    },
+    {
+      config: createConfig({
         input: 'parameter-explode-false.json',
         output: 'parameter-explode-false',
         plugins: ['@hey-api/client-fetch', '@hey-api/sdk'],

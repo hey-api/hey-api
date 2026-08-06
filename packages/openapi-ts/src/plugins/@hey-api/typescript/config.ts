@@ -38,6 +38,7 @@ export const defaultConfig: HeyApiTypeScriptPlugin['Config'] = {
       $coerceAny: ({ type, value }) => ({
         ...(type === 'string' || type === 'function' ? { name: value } : {}),
       }),
+      method: false,
       name: '{{name}}Data',
     },
     responses: {
