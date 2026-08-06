@@ -2,7 +2,7 @@
 
 import { faker, type Faker } from '@faker-js/faker';
 
-import type { Active, Address, Animal, Anything, BoundedFloat, BoundedInt, Cat, Circle, Company, Config, CreateJobErrors, CreateJobResponses, CreatePetData, CreatePetResponse, DateOnly, DateTime, DefaultBool, DefaultInt, DefaultOverridesConstraints, DefaultString, DeletePetData, DeletePetErrors, DictionaryObject, Document, Dog, Email, EmailWithLength, Error, ExclusiveFloat, ExclusiveFloatNarrow, ExclusiveInt, GetPetData, GetPetErrors, GetPetResponses, HealthCheckResponse, IPv4Address, IPv6Address, ListPetsData, ListPetsResponse, MaxOnlyArray, MaxOnlyInt, MaxOnlyString, MinOnlyArray, MinOnlyNumber, MinOnlyString, NeverArray, Nothing, NullableInt, NullablePetOrTag, NullableString, NumericEnum, ObjectWithDefaultProp, ObjectWithOptionalNever, Person, PersonList, PersonProfile, PersonWithConstraints, Pet, PetList, PetOrTag, PetWithOwner, Price, Quantity, Shape, ShortName, Square, StatusWithNull, StringOrNumber, Tag, TagList, Tags, Team, UniqueId, UpdatePetData, UpdatePetResponse, User, UserProfile, Website, ZipCode } from '../types.gen';
+import type { Active, Address, Animal, Anything, BoundedFloat, BoundedInt, Cat, Circle, Company, Config, CreateJobErrors, CreateJobResponses, CreatePetData, CreatePetResponse, DateOnly, DateTime, DefaultBool, DefaultInt, DefaultOverridesConstraints, DefaultString, DeletePetData, DeletePetErrors, Document, Dog, Email, EmailWithLength, Error, ExclusiveFloat, ExclusiveFloatNarrow, ExclusiveInt, GetPetData, GetPetErrors, GetPetResponses, HealthCheckResponse, IPv4Address, IPv6Address, ListPetsData, ListPetsResponse, MaxOnlyArray, MaxOnlyInt, MaxOnlyString, MinOnlyArray, MinOnlyNumber, MinOnlyString, NeverArray, NullableInt, NullablePetOrTag, NullableString, NumericEnum, ObjectWithDefaultProp, ObjectWithOptionalNever, Person, PersonList, PersonProfile, PersonWithConstraints, Pet, PetList, PetOrTag, PetWithOwner, Price, Quantity, Shape, ShortName, Square, StatusWithNull, StringOrNumber, Tag, TagList, Tags, Team, UniqueId, UpdatePetData, UpdatePetResponse, User, UserProfile, Website, ZipCode } from '../types.gen';
 
 export type Options = {
   faker?: Faker;
@@ -36,8 +36,6 @@ export const fakeActive = (options?: Options): Active => {
   const f = options?.faker ?? faker;
   return f.datatype.boolean();
 };
-
-export const fakeNothing = (): Nothing => null;
 
 export const fakeAnything = (): Anything => undefined;
 
@@ -212,13 +210,6 @@ export const fakeObjectWithDefaultProp = (options?: Options): ObjectWithDefaultP
   };
 };
 
-export const fakeDictionaryObject = (options?: Options): DictionaryObject => {
-  const f = options?.faker ?? faker;
-  return !resolveCondition(options?.includeOptional ?? true, f) ? {} as {} : {
-    additionalProp: f.string.sample()
-  };
-};
-
 export const fakeUserProfile = (options?: Options): UserProfile => {
   const f = options?.faker ?? faker;
   return {
@@ -362,7 +353,6 @@ export const fakePersonProfile = (options?: Options): PersonProfile => {
     last_name: f.person.lastName(),
     email: f.internet.email(),
     phone: f.phone.number(),
-    homePhone: f.phone.number(),
     age: f.number.int({ max: 120, min: 1 }),
     city: f.location.city(),
     postalCode: f.location.zipCode(),
@@ -422,7 +412,7 @@ export const fakeDocument = (options?: Options): Document => {
   };
 };
 
-export const fakeListPetsRequest = (options?: Options): Omit<ListPetsData, 'url'> => {
+export const fakeListPetsRequest = (options?: Options): Omit<ListPetsData, 'url' | 'method'> => {
   const f = options?.faker ?? faker;
   return {
     query: {
@@ -436,7 +426,7 @@ export const fakeListPetsResponse = (options?: Options): ListPetsResponse => {
   return f.helpers.multiple(() => fakePet(options));
 };
 
-export const fakeCreatePetRequest = (options?: Options): Omit<CreatePetData, 'url'> => {
+export const fakeCreatePetRequest = (options?: Options): Omit<CreatePetData, 'url' | 'method'> => {
   const f = options?.faker ?? faker;
   return {
     body: {
@@ -448,7 +438,7 @@ export const fakeCreatePetRequest = (options?: Options): Omit<CreatePetData, 'ur
 
 export const fakeCreatePetResponse = (options?: Options): CreatePetResponse => fakePet(options);
 
-export const fakeDeletePetRequest = (options?: Options): Omit<DeletePetData, 'url'> => {
+export const fakeDeletePetRequest = (options?: Options): Omit<DeletePetData, 'url' | 'method'> => {
   const f = options?.faker ?? faker;
   return {
     path: {
@@ -459,7 +449,7 @@ export const fakeDeletePetRequest = (options?: Options): Omit<DeletePetData, 'ur
 
 export const fakeDeletePetResponse404 = (options?: Options): DeletePetErrors[404] => fakeError(options);
 
-export const fakeGetPetRequest = (options?: Options): Omit<GetPetData, 'url'> => {
+export const fakeGetPetRequest = (options?: Options): Omit<GetPetData, 'url' | 'method'> => {
   const f = options?.faker ?? faker;
   return {
     path: {
@@ -472,7 +462,7 @@ export const fakeGetPetResponse200 = (options?: Options): GetPetResponses[200] =
 
 export const fakeGetPetResponse404 = (options?: Options): GetPetErrors[404] => fakeError(options);
 
-export const fakeUpdatePetRequest = (options?: Options): Omit<UpdatePetData, 'url'> => {
+export const fakeUpdatePetRequest = (options?: Options): Omit<UpdatePetData, 'url' | 'method'> => {
   const f = options?.faker ?? faker;
   return {
     body: {

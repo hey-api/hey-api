@@ -1155,7 +1155,7 @@ export const fakeSimpleFormData = (options?: Options): SimpleFormData => fakeMod
 
 export const fakePatchApiVbyApiVersionNoTagResponse = () => undefined;
 
-export const fakeImportRequest = (options?: Options): Omit<ImportData, 'url' | 'method'> => {
+export const fakeImportRequest = (options?: Options): Omit<ImportData, 'url'> => {
   const f = options?.faker ?? faker;
   return {
     body: f.helpers.arrayElement([fakeModelWithReadOnlyAndWriteOnlyWritable(options), fakeModelWithArrayReadOnlyAndWriteOnlyWritable(options)]) as any
@@ -1170,7 +1170,7 @@ export const fakeFooWowResponse = () => undefined;
 
 export const fakeApiVVersionODataControllerCountResponse = (options?: Options): ApiVVersionODataControllerCountResponse => fakeModelFromZendesk(options);
 
-export const fakeGetApiVbyApiVersionSimpleOperationRequest = (options?: Options): Omit<GetApiVbyApiVersionSimpleOperationData, 'url' | 'method'> => {
+export const fakeGetApiVbyApiVersionSimpleOperationRequest = (options?: Options): Omit<GetApiVbyApiVersionSimpleOperationData, 'url'> => {
   const f = options?.faker ?? faker;
   return {
     path: {
@@ -1186,7 +1186,7 @@ export const fakeGetApiVbyApiVersionSimpleOperationResponse200 = (options?: Opti
 
 export const fakeGetApiVbyApiVersionSimpleOperationResponsedefault = (options?: Options): GetApiVbyApiVersionSimpleOperationErrors['default'] => fakeModelWithBoolean(options);
 
-export const fakeDeleteFooRequest = (options?: Options): Omit<DeleteFooData3, 'url' | 'method'> => {
+export const fakeDeleteFooRequest = (options?: Options): Omit<DeleteFooData3, 'url'> => {
   const f = options?.faker ?? faker;
   return {
     headers: {
@@ -1199,7 +1199,7 @@ export const fakeDeleteFooRequest = (options?: Options): Omit<DeleteFooData3, 'u
   };
 };
 
-export const fakeCallWithDescriptionsRequest = (options?: Options): Omit<CallWithDescriptionsData, 'url' | 'method'> => {
+export const fakeCallWithDescriptionsRequest = (options?: Options): Omit<CallWithDescriptionsData, 'url'> => {
   const f = options?.faker ?? faker;
   return {
     query: {
@@ -1213,7 +1213,7 @@ export const fakeCallWithDescriptionsRequest = (options?: Options): Omit<CallWit
   };
 };
 
-export const fakeDeprecatedCallRequest = (options?: Options): Omit<DeprecatedCallData, 'url' | 'method'> => {
+export const fakeDeprecatedCallRequest = (options?: Options): Omit<DeprecatedCallData, 'url'> => {
   const f = options?.faker ?? faker;
   return {
     headers: {
@@ -1222,7 +1222,7 @@ export const fakeDeprecatedCallRequest = (options?: Options): Omit<DeprecatedCal
   };
 };
 
-export const fakeCallWithParametersRequest = (options?: Options): Omit<CallWithParametersData, 'url' | 'method'> => {
+export const fakeCallWithParametersRequest = (options?: Options): Omit<CallWithParametersData, 'url'> => {
   const f = options?.faker ?? faker;
   return {
     body: f.datatype.boolean() ? {} : null,
@@ -1241,7 +1241,7 @@ export const fakeCallWithParametersRequest = (options?: Options): Omit<CallWithP
   };
 };
 
-export const fakeCallWithWeirdParameterNamesRequest = (options?: Options): Omit<CallWithWeirdParameterNamesData, 'url' | 'method'> => {
+export const fakeCallWithWeirdParameterNamesRequest = (options?: Options): Omit<CallWithWeirdParameterNamesData, 'url'> => {
   const f = options?.faker ?? faker;
   return {
     body: f.datatype.boolean() ? fakeModelWithString(options) : null,
@@ -1261,7 +1261,7 @@ export const fakeCallWithWeirdParameterNamesRequest = (options?: Options): Omit<
   };
 };
 
-export const fakeGetCallWithOptionalParamRequest = (options?: Options): Omit<GetCallWithOptionalParamData, 'url' | 'method'> => {
+export const fakeGetCallWithOptionalParamRequest = (options?: Options): Omit<GetCallWithOptionalParamData, 'url'> => {
   const f = options?.faker ?? faker;
   return {
     body: fakeModelWithOneOfEnum(options),
@@ -1271,7 +1271,7 @@ export const fakeGetCallWithOptionalParamRequest = (options?: Options): Omit<Get
   };
 };
 
-export const fakePostCallWithOptionalParamRequest = (options?: Options): Omit<PostCallWithOptionalParamData, 'url' | 'method'> => {
+export const fakePostCallWithOptionalParamRequest = (options?: Options): Omit<PostCallWithOptionalParamData, 'url'> => {
   const f = options?.faker ?? faker;
   return {
     body: {
@@ -1288,7 +1288,7 @@ export const fakePostCallWithOptionalParamResponse = (options?: Options): PostCa
   return f.number.float();
 };
 
-export const fakePostApiVbyApiVersionRequestBodyRequest = (options?: Options): Omit<PostApiVbyApiVersionRequestBodyData, 'url' | 'method'> => {
+export const fakePostApiVbyApiVersionRequestBodyRequest = (options?: Options): Omit<PostApiVbyApiVersionRequestBodyData, 'url'> => {
   const f = options?.faker ?? faker;
   return {
     body: fakeSimpleRequestBody(options),
@@ -1298,7 +1298,7 @@ export const fakePostApiVbyApiVersionRequestBodyRequest = (options?: Options): O
   };
 };
 
-export const fakePostApiVbyApiVersionFormDataRequest = (options?: Options): Omit<PostApiVbyApiVersionFormDataData, 'url' | 'method'> => {
+export const fakePostApiVbyApiVersionFormDataRequest = (options?: Options): Omit<PostApiVbyApiVersionFormDataData, 'url'> => {
   const f = options?.faker ?? faker;
   return {
     body: fakeSimpleFormData(options),
@@ -1308,7 +1308,7 @@ export const fakePostApiVbyApiVersionFormDataRequest = (options?: Options): Omit
   };
 };
 
-export const fakeCallWithDefaultParametersRequest = (options?: Options): Omit<CallWithDefaultParametersData, 'url' | 'method'> => {
+export const fakeCallWithDefaultParametersRequest = (options?: Options): Omit<CallWithDefaultParametersData, 'url'> => {
   const f = options?.faker ?? faker;
   return {
     query: {
@@ -1325,7 +1325,7 @@ export const fakeCallWithDefaultParametersRequest = (options?: Options): Omit<Ca
   };
 };
 
-export const fakeCallWithDefaultOptionalParametersRequest = (options?: Options): Omit<CallWithDefaultOptionalParametersData, 'url' | 'method'> => {
+export const fakeCallWithDefaultOptionalParametersRequest = (options?: Options): Omit<CallWithDefaultOptionalParametersData, 'url'> => {
   const f = options?.faker ?? faker;
   return {
     query: {
@@ -1342,7 +1342,7 @@ export const fakeCallWithDefaultOptionalParametersRequest = (options?: Options):
   };
 };
 
-export const fakeCallToTestOrderOfParamsRequest = (options?: Options): Omit<CallToTestOrderOfParamsData, 'url' | 'method'> => {
+export const fakeCallToTestOrderOfParamsRequest = (options?: Options): Omit<CallToTestOrderOfParamsData, 'url'> => {
   const f = options?.faker ?? faker;
   return {
     query: {
@@ -1404,7 +1404,7 @@ export const fakeCallWithResponsesResponse502 = (options?: Options): CallWithRes
 
 export const fakeCallWithResponsesResponsedefault = (options?: Options): CallWithResponsesErrors['default'] => fakeModelWithStringError(options);
 
-export const fakeCollectionFormatRequest = (options?: Options): Omit<CollectionFormatData, 'url' | 'method'> => {
+export const fakeCollectionFormatRequest = (options?: Options): Omit<CollectionFormatData, 'url'> => {
   const f = options?.faker ?? faker;
   return {
     query: {
@@ -1417,7 +1417,7 @@ export const fakeCollectionFormatRequest = (options?: Options): Omit<CollectionF
   };
 };
 
-export const fakeTypesRequest = (options?: Options): Omit<TypesData, 'url' | 'method'> => {
+export const fakeTypesRequest = (options?: Options): Omit<TypesData, 'url'> => {
   const f = options?.faker ?? faker;
   return {
     path: {
@@ -1457,7 +1457,7 @@ export const fakeTypesResponse202 = (options?: Options): TypesResponses[202] => 
 
 export const fakeTypesResponse203 = (): TypesResponses[203] => ({});
 
-export const fakeUploadFileRequest = (options?: Options): Omit<UploadFileData, 'url' | 'method'> => {
+export const fakeUploadFileRequest = (options?: Options): Omit<UploadFileData, 'url'> => {
   const f = options?.faker ?? faker;
   return {
     body: new Blob([f.image.dataUri()]),
@@ -1472,7 +1472,7 @@ export const fakeUploadFileResponse = (options?: Options): UploadFileResponse =>
   return f.datatype.boolean();
 };
 
-export const fakeFileResponseRequest = (options?: Options): Omit<FileResponseData, 'url' | 'method'> => {
+export const fakeFileResponseRequest = (options?: Options): Omit<FileResponseData, 'url'> => {
   const f = options?.faker ?? faker;
   return {
     path: {
@@ -1487,7 +1487,7 @@ export const fakeFileResponseResponse = (options?: Options): FileResponseRespons
   return new Blob([f.image.dataUri()]);
 };
 
-export const fakeComplexTypesRequest = (options?: Options): Omit<ComplexTypesData, 'url' | 'method'> => {
+export const fakeComplexTypesRequest = (options?: Options): Omit<ComplexTypesData, 'url'> => {
   const f = options?.faker ?? faker;
   return {
     query: {
@@ -1523,7 +1523,7 @@ export const fakeMultipartResponseResponse = (options?: Options): MultipartRespo
   };
 };
 
-export const fakeMultipartRequestRequest = (options?: Options): Omit<MultipartRequestData, 'url' | 'method'> => {
+export const fakeMultipartRequestRequest = (options?: Options): Omit<MultipartRequestData, 'url'> => {
   const f = options?.faker ?? faker;
   return {
     body: {
@@ -1533,7 +1533,7 @@ export const fakeMultipartRequestRequest = (options?: Options): Omit<MultipartRe
   };
 };
 
-export const fakeComplexParamsRequest = (options?: Options): Omit<ComplexParamsData, 'url' | 'method'> => {
+export const fakeComplexParamsRequest = (options?: Options): Omit<ComplexParamsData, 'url'> => {
   const f = options?.faker ?? faker;
   return {
     body: {
@@ -1573,7 +1573,7 @@ export const fakeCallWithResultFromHeaderResponse400 = (): CallWithResultFromHea
 
 export const fakeCallWithResultFromHeaderResponse500 = (): CallWithResultFromHeaderErrors[500] => undefined;
 
-export const fakeTestErrorCodeRequest = (options?: Options): Omit<TestErrorCodeData, 'url' | 'method'> => {
+export const fakeTestErrorCodeRequest = (options?: Options): Omit<TestErrorCodeData, 'url'> => {
   const f = options?.faker ?? faker;
   return {
     query: {
@@ -1592,7 +1592,7 @@ export const fakeTestErrorCodeResponse502 = (): TestErrorCodeErrors[502] => unde
 
 export const fakeTestErrorCodeResponse503 = (): TestErrorCodeErrors[503] => undefined;
 
-export const fakeNonAsciiæøåÆøÅöôêÊ字符串Request = (options?: Options): Omit<NonAsciiæøåÆøÅöôêÊ字符串Data, 'url' | 'method'> => {
+export const fakeNonAsciiæøåÆøÅöôêÊ字符串Request = (options?: Options): Omit<NonAsciiæøåÆøÅöôêÊ字符串Data, 'url'> => {
   const f = options?.faker ?? faker;
   return {
     query: {
@@ -1606,6 +1606,6 @@ export const fakeNonAsciiæøåÆøÅöôêÊ字符串Response = (options?: Opti
   return f.helpers.multiple(() => fakeNonAsciiStringæøåÆøÅöôêÊ字符串(options));
 };
 
-export const fakePutWithFormUrlEncodedRequest = (options?: Options): Omit<PutWithFormUrlEncodedData, 'url' | 'method'> => ({
+export const fakePutWithFormUrlEncodedRequest = (options?: Options): Omit<PutWithFormUrlEncodedData, 'url'> => ({
   body: fakeArrayWithStrings(options)
 });

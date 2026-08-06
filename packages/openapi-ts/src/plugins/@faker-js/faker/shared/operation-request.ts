@@ -159,7 +159,13 @@ export function irOperationRequestToAst({
         $.type
           .expr('Omit')
           .generic($.type(typeSymbol!))
-          .generic($.type.or($.type.literal('url'), $.type.literal('method'))),
+          .generic(
+            // mocks never contain a method value, so omit the field when the
+            // typescript plugin emits it in request types
+            plugin.getPlugin('@hey-api/typescript')?.config.requests.method
+              ? $.type.or($.type.literal('url'), $.type.literal('method'))
+              : $.type.literal('url'),
+          ),
       ),
     )
     .$if(
