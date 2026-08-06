@@ -98,7 +98,7 @@ export type Operations = {
 };
 ```
 
-The `errors` and `responses` members are present only when the operation defines them. You can rename the type by passing a string, e.g. `operations: 'MyOperations'`.
+The `errors` and `responses` members are present only when the operation defines them. If your specification defines a schema named `Operations`, the index type is renamed automatically. You can also pick the name yourself by passing a string, e.g. `operations: 'MyOperations'`.
 
 ## Definitions
 
