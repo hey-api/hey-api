@@ -18,7 +18,6 @@ export type Operations = {
 
 export type GetPingData = {
   body?: never;
-  method: 'get';
   path?: never;
   query?: never;
   url: '/ping';
@@ -48,7 +47,6 @@ export type GetPingResponse = GetPingResponses[keyof GetPingResponses];
 
 export type PostPingData = {
   body: string;
-  method: 'post';
   path?: never;
   query?: never;
   url: '/ping';

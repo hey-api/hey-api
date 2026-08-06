@@ -666,7 +666,7 @@ describe(`OpenAPI ${version}`, () => {
     },
     {
       config: createConfig({
-        input: 'operation-method.yaml',
+        input: 'operations-index.yaml',
         output: 'operations-index-renamed',
         plugins: [
           {
