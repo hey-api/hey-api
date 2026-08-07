@@ -9,7 +9,10 @@ export {
 } from '../core/bodySerializer.gen.ts';
 export { buildClientParams } from '../core/params.gen.ts';
 export { serializeQueryKeyValue } from '../core/queryKeySerializer.gen.ts';
-export type { ServerSentEventsResult } from '../core/serverSentEvents.gen.ts';
+export type {
+  ServerSentEventsResult,
+  SseErrorContext,
+} from '../core/serverSentEvents.gen.ts';
 export type { ClientMeta } from '../core/types.gen.ts';
 export { createClient } from './client.gen.ts';
 export type {
