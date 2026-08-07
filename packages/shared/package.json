@@ -44,13 +44,12 @@
     "@hey-api/json-schema-ref-parser": "workspace:*",
     "@hey-api/spec-types": "workspace:*",
     "@hey-api/types": "workspace:*",
-    "cross-spawn": "7.0.6",
     "open": "11.0.0",
+    "tinyexec": "1.2.4",
     "verkit": "0.3.0"
   },
   "devDependencies": {
     "@types/bun": "1.3.14",
-    "@types/cross-spawn": "6.0.6",
     "@types/js-yaml": "4.0.9",
     "js-yaml": "5.2.0",
     "typescript": "6.0.3"

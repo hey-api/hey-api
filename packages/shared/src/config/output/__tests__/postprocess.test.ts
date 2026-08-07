@@ -1,14 +1,14 @@
 import fs from 'node:fs';
 
-import { sync } from 'cross-spawn';
+import { xSync } from 'tinyexec';
 
 import { ConfigError } from '../../../error';
 import { postprocessOutput } from '../postprocess';
 
-vi.mock('cross-spawn');
+vi.mock('tinyexec');
 vi.mock('node:fs');
 
-const mockSync = vi.mocked(sync);
+const mockXSync = vi.mocked(xSync);
 const mockExistsSync = vi.mocked(fs.existsSync);
 const mockReaddirSync = vi.mocked(fs.readdirSync);
 
@@ -26,12 +26,12 @@ describe('postprocessOutput', () => {
     mockReaddirSync.mockReturnValue(['index.ts'] as any);
   });
 
-  it('should not call sync when postProcess is empty', () => {
+  it('should not call xSync when postProcess is empty', () => {
     postprocessOutput(baseConfig, noopPostProcessors, '');
-    expect(mockSync).not.toHaveBeenCalled();
+    expect(mockXSync).not.toHaveBeenCalled();
   });
 
-  it('should not call sync when output directory does not exist', () => {
+  it('should not call xSync when output directory does not exist', () => {
     mockExistsSync.mockReturnValue(false);
 
     postprocessOutput(
@@ -40,10 +40,10 @@ describe('postprocessOutput', () => {
       '',
     );
 
-    expect(mockSync).not.toHaveBeenCalled();
+    expect(mockXSync).not.toHaveBeenCalled();
   });
 
-  it('should not call sync when output directory is empty', () => {
+  it('should not call xSync when output directory is empty', () => {
     mockReaddirSync.mockReturnValue([] as any);
 
     postprocessOutput(
@@ -52,11 +52,11 @@ describe('postprocessOutput', () => {
       '',
     );
 
-    expect(mockSync).not.toHaveBeenCalled();
+    expect(mockXSync).not.toHaveBeenCalled();
   });
 
-  it('should call sync with command and resolved args', () => {
-    mockSync.mockReturnValue({ error: undefined, status: 0 } as any);
+  it('should call xSync with command and resolved args', () => {
+    mockXSync.mockReturnValue({ exitCode: 0 } as any);
 
     postprocessOutput(
       { ...baseConfig, postProcess: [{ args: ['fmt', '{{path}}'], command: 'dprint' }] },
@@ -64,11 +64,11 @@ describe('postprocessOutput', () => {
       '',
     );
 
-    expect(mockSync).toHaveBeenCalledWith('dprint', ['fmt', '/output']);
+    expect(mockXSync).toHaveBeenCalledWith('dprint', ['fmt', '/output']);
   });
 
   it('should replace {{path}} placeholder in args', () => {
-    mockSync.mockReturnValue({ error: undefined, status: 0 } as any);
+    mockXSync.mockReturnValue({ exitCode: 0 } as any);
 
     postprocessOutput(
       { path: '/my/output', postProcess: [{ args: ['{{path}}', '--write'], command: 'prettier' }] },
@@ -76,12 +76,14 @@ describe('postprocessOutput', () => {
       '',
     );
 
-    expect(mockSync).toHaveBeenCalledWith('prettier', ['/my/output', '--write']);
+    expect(mockXSync).toHaveBeenCalledWith('prettier', ['/my/output', '--write']);
   });
 
   it('should throw ConfigError when the process fails to spawn (e.g., ENOENT)', () => {
     const spawnError = new Error('spawnSync oxfmt ENOENT');
-    mockSync.mockReturnValue({ error: spawnError, status: null } as any);
+    mockXSync.mockImplementation(() => {
+      throw spawnError;
+    });
 
     expect(() =>
       postprocessOutput(
@@ -94,7 +96,9 @@ describe('postprocessOutput', () => {
 
   it('should include the error message when the process fails to spawn', () => {
     const spawnError = new Error('spawnSync oxfmt ENOENT');
-    mockSync.mockReturnValue({ error: spawnError, status: null } as any);
+    mockXSync.mockImplementation(() => {
+      throw spawnError;
+    });
 
     expect(() =>
       postprocessOutput(
@@ -107,7 +111,9 @@ describe('postprocessOutput', () => {
 
   it('should throw with a custom name when the process fails to spawn', () => {
     const spawnError = new Error('spawnSync my-formatter ENOENT');
-    mockSync.mockReturnValue({ error: spawnError, status: null } as any);
+    mockXSync.mockImplementation(() => {
+      throw spawnError;
+    });
 
     expect(() =>
       postprocessOutput(
@@ -121,8 +127,8 @@ describe('postprocessOutput', () => {
     ).toThrow('Post-processor "My Formatter" failed to run: spawnSync my-formatter ENOENT');
   });
 
-  it('should throw ConfigError when the process exits with a non-zero status code', () => {
-    mockSync.mockReturnValue({ error: undefined, status: 1, stderr: Buffer.from('') } as any);
+  it('should throw ConfigError when the process exits with a non-zero exit code', () => {
+    mockXSync.mockReturnValue({ exitCode: 1, stderr: '' } as any);
 
     expect(() =>
       postprocessOutput(
@@ -134,7 +140,7 @@ describe('postprocessOutput', () => {
   });
 
   it('should include exit code in error message', () => {
-    mockSync.mockReturnValue({ error: undefined, status: 1, stderr: Buffer.from('') } as any);
+    mockXSync.mockReturnValue({ exitCode: 1, stderr: '' } as any);
 
     expect(() =>
       postprocessOutput(
@@ -146,10 +152,9 @@ describe('postprocessOutput', () => {
   });
 
   it('should include stderr output in error message when process fails', () => {
-    mockSync.mockReturnValue({
-      error: undefined,
-      status: 2,
-      stderr: Buffer.from('error: file not found'),
+    mockXSync.mockReturnValue({
+      exitCode: 2,
+      stderr: 'error: file not found',
     } as any);
 
     expect(() =>
@@ -161,8 +166,8 @@ describe('postprocessOutput', () => {
     ).toThrow('Post-processor "biome" exited with code 2:\nerror: file not found');
   });
 
-  it('should not throw when the process is killed by a signal (null status)', () => {
-    mockSync.mockReturnValue({ error: undefined, signal: 'SIGTERM', status: null } as any);
+  it('should not throw when the process is killed by a signal (undefined exit code)', () => {
+    mockXSync.mockReturnValue({ exitCode: undefined, killed: true } as any);
 
     expect(() =>
       postprocessOutput(
@@ -175,11 +180,11 @@ describe('postprocessOutput', () => {
 
   it('should skip unknown string preset processors', () => {
     postprocessOutput({ ...baseConfig, postProcess: ['unknown-preset'] }, noopPostProcessors, '');
-    expect(mockSync).not.toHaveBeenCalled();
+    expect(mockXSync).not.toHaveBeenCalled();
   });
 
   it('should resolve and run string preset processors', () => {
-    mockSync.mockReturnValue({ error: undefined, status: 0 } as any);
+    mockXSync.mockReturnValue({ exitCode: 0 } as any);
 
     const processors = {
       prettier: { args: ['--write', '{{path}}'], command: 'prettier', name: 'Prettier' },
@@ -187,12 +192,14 @@ describe('postprocessOutput', () => {
 
     postprocessOutput({ ...baseConfig, postProcess: ['prettier'] }, processors, '');
 
-    expect(mockSync).toHaveBeenCalledWith('prettier', ['--write', '/output']);
+    expect(mockXSync).toHaveBeenCalledWith('prettier', ['--write', '/output']);
   });
 
   it('should stop processing and throw on first failure', () => {
     const spawnError = new Error('ENOENT');
-    mockSync.mockReturnValue({ error: spawnError, status: null } as any);
+    mockXSync.mockImplementation(() => {
+      throw spawnError;
+    });
 
     expect(() =>
       postprocessOutput(
@@ -208,6 +215,6 @@ describe('postprocessOutput', () => {
       ),
     ).toThrow('Post-processor "first" failed to run: ENOENT');
 
-    expect(mockSync).toHaveBeenCalledTimes(1);
+    expect(mockXSync).toHaveBeenCalledTimes(1);
   });
 });
