@@ -1,5 +1,5 @@
 import type { HttpClient } from '@angular/common/http';
-import { HttpContext, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpContext, HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 
 import { createClient } from '../bundle/client';
@@ -56,6 +56,40 @@ describe('AbortSignal', () => {
     controller.abort(reason);
 
     await expect(result).rejects.toBe(reason);
+    expect(teardown).toHaveBeenCalledOnce();
+  });
+
+  it('preserves a regular HTTP error when the signal is not aborted', async () => {
+    const controller = new AbortController();
+    const error = { message: 'Request failed', type: 'http' };
+    const response = new HttpErrorResponse({ error, status: 500 });
+    const teardown = vi.fn();
+    const request = vi.fn(
+      () =>
+        new Observable((subscriber) => {
+          subscriber.error(response);
+          return teardown;
+        }),
+    );
+    const errorInterceptor = vi.fn(() => ({ message: 'Transformed request error', type: 'http' }));
+    const client = createClient({ baseUrl: 'https://example.com' });
+    client.interceptors.error.use(errorInterceptor);
+
+    const result = client.get({
+      httpClient: { request } as unknown as HttpClient,
+      signal: controller.signal,
+      throwOnError: true,
+      url: '/test',
+    });
+
+    await expect(result).rejects.toEqual({ message: 'Transformed request error', type: 'http' });
+    expect(controller.signal.aborted).toBe(false);
+    expect(errorInterceptor).toHaveBeenCalledWith(
+      error,
+      response,
+      expect.anything(),
+      expect.objectContaining({ url: '/test' }),
+    );
     expect(teardown).toHaveBeenCalledOnce();
   });
 
