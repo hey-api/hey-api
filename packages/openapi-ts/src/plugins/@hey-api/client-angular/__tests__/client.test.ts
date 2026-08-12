@@ -1,5 +1,6 @@
 import type { HttpClient } from '@angular/common/http';
-import { HttpContext, HttpHeaders } from '@angular/common/http';
+import { HttpContext, HttpEventType, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { of } from 'rxjs';
 
 import { createClient } from '../bundle/client';
 
@@ -124,6 +125,54 @@ describe('context', () => {
     });
 
     expect(request.context).toBe(context);
+  });
+});
+
+describe('progress', () => {
+  const client = createClient({ baseUrl: 'https://example.com' });
+
+  it('does not enable reportProgress by default', () => {
+    const request = client.requestOptions({
+      httpClient: vi.fn() as Partial<HttpClient> as HttpClient,
+      url: '/test',
+    });
+
+    expect(request.reportProgress).toBe(false);
+  });
+
+  it('enables reportProgress when onUploadProgress or onDownloadProgress is provided', () => {
+    const request = client.requestOptions({
+      httpClient: vi.fn() as Partial<HttpClient> as HttpClient,
+      onUploadProgress: () => {},
+      url: '/test',
+    });
+
+    expect(request.reportProgress).toBe(true);
+  });
+
+  it('forwards upload and download progress events to their callbacks', async () => {
+    const onUploadProgress = vi.fn();
+    const onDownloadProgress = vi.fn();
+
+    const uploadEvent = { loaded: 50, total: 100, type: HttpEventType.UploadProgress };
+    const downloadEvent = { loaded: 75, total: 100, type: HttpEventType.DownloadProgress };
+    const responseEvent = new HttpResponse({ body: { ok: true }, status: 200 });
+
+    const httpClient = {
+      request: vi.fn(() => of(uploadEvent, downloadEvent, responseEvent)),
+    } as unknown as HttpClient;
+
+    const result = await client.request({
+      httpClient,
+      method: 'GET',
+      onDownloadProgress,
+      onUploadProgress,
+      url: '/test',
+    });
+
+    expect(onUploadProgress).toHaveBeenCalledWith(uploadEvent);
+    expect(onDownloadProgress).toHaveBeenCalledWith(downloadEvent);
+    expect(result.response).toBe(responseEvent);
   });
 });
 
