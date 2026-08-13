@@ -3,15 +3,15 @@
 import * as v from 'valibot';
 
 export const vHTTPRequest = v.object({
-    id: v.string()
+  id: v.string()
 });
 
 export const vHTTPError = v.object({
-    message: v.string()
+  message: v.string()
 });
 
 export const vRequestOperations_describeHTTPRequestPath = v.object({
-    id: v.string()
+  id: v.string()
 });
 
 /**

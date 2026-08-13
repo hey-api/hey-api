@@ -3,15 +3,15 @@
 import { z } from 'zod';
 
 export const zHTTPRequest = z.object({
-    id: z.string()
+  id: z.string()
 });
 
 export const zHTTPError = z.object({
-    message: z.string()
+  message: z.string()
 });
 
 export const zRequestOperations_describeHTTPRequestPath = z.object({
-    id: z.string()
+  id: z.string()
 });
 
 /**
