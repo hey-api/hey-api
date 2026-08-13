@@ -10,3 +10,5 @@
 **plugin(valibot)**: preserve acronym casing from `operationId` in operation schema names under `case: 'preserve'`
 
 Consumer-visible output change: under `case: 'preserve'`, operation-derived names (request/response/error types, zod/valibot schemas) that previously lowercased acronym segments (e.g. `describeHTTPRequest` → `describeHttpRequest`) now retain the original casing (`describeHTTPRequest`). Downstream code importing these names directly will need to update.
+
+**@hey-api/shared**: `OperationPath.id()` now returns the operation's base name — the raw `operationId` when available — instead of the pre-cased `operation.id`. Custom structure strategies that use `OperationPath.id()` without applying naming/casing downstream will now receive the raw `operationId` value.

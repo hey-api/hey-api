@@ -195,10 +195,16 @@ export const OperationPath = {
     },
 
   /**
-   * Uses operation.id as a single path segment.
+   * Uses the operation's base name as a single path segment: the raw
+   * `operationId` when available, falling back to `operation.id` when
+   * there is no `operationId` or when `operation.id` was disambiguated.
    *
    * @example
-   * // operation.id: 'getUserById'
+   * // operation.operationId: 'getUserByID'
+   * // Result: ['getUserByID']
+   *
+   * @example
+   * // no operationId, operation.id: 'getUserById'
    * // Result: ['getUserById']
    */
   id: (): OperationPathStrategy => (operation) => [operationBaseName(operation)],
