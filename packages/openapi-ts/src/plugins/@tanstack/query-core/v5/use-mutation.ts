@@ -2,7 +2,7 @@ import type { IR } from '@hey-api/shared';
 import { applyNaming } from '@hey-api/shared';
 
 import { $ } from '../../../../ts-dsl';
-import { createOperationComment } from '../../../shared/utils/operation';
+import { createOperationComment, hasOperationSse } from '../../../shared/utils/operation';
 import { useTypeData, useTypeError, useTypeResponse } from '../shared/use-type';
 import type { PluginInstance } from '../types';
 
@@ -15,6 +15,8 @@ export function createUseMutation({
   operation: IR.OperationObject;
   plugin: PluginInstance;
 }): void {
+  if (hasOperationSse({ operation })) return;
+
   if (!('useMutation' in plugin.config)) return;
 
   const symbolUseMutationFn = plugin.symbol(applyNaming(operation.id, plugin.config.useMutation));
