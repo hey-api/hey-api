@@ -1,6 +1,6 @@
 ---
-title: Mocks
-description: Learn about mocking HTTP servers with @hey-api/openapi-ts.
+title: Testing
+description: Learn about testing with @hey-api/openapi-ts.
 sidebar:
   label: Overview
 ---
@@ -8,21 +8,22 @@ sidebar:
 import { Badge } from '@astrojs/starlight/components';
 import Examples from '@/components/Examples.astro';
 
-# Mocks
+# Testing
 
-Realistic mock data is an important component of every robust development process, testing strategy, and product presentation.
+Testing is an important component of every robust development process. Generate realistic mock data, intercept requests at the network layer, or drive assertions against a running server, all from your specification.
 
 ## Plugins
 
-Hey API natively supports the following mocking frameworks.
+Hey API natively supports the following testing libraries.
 
 - [Chance](/docs/openapi/typescript/plugins/chance) <Badge text="Vote" variant="tip" />
 - [Faker](/docs/openapi/typescript/plugins/faker) <Badge text="Vote" variant="tip" />
 - [Falso](/docs/openapi/typescript/plugins/falso) <Badge text="Vote" variant="tip" />
 - [MSW](/docs/openapi/typescript/plugins/msw) <Badge text="Vote" variant="tip" />
 - [Nock](/docs/openapi/typescript/plugins/nock) <Badge text="Vote" variant="tip" />
+- [Playwright](/docs/openapi/typescript/plugins/playwright) <Badge text="Vote" variant="tip" />
 - [Supertest](/docs/openapi/typescript/plugins/supertest) <Badge text="Vote" variant="tip" />
 
-Don't see your framework? Let us know by [opening an issue](https://github.com/hey-api/hey-api/issues).
+Don't see your library? Let us know by [opening an issue](https://github.com/hey-api/hey-api/issues).
 
 <Examples />

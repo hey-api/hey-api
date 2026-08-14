@@ -927,14 +927,14 @@ export const zAdditionalPropertiesIntegerIssue = z.object({
   value: z.int()
 });
 
-export const zGenericSchemaDuplicateIssue1SystemBoolean = z.object({
+export const zGenericSchemaDuplicateIssue1SystemBoolean = z.strictObject({
   item: z.optional(z.boolean()),
   error: z.nullish(z.string()),
   hasError: z.optional(z.readonly(z.boolean())),
   data: z.optional(z.record(z.string(), z.never()))
 });
 
-export const zGenericSchemaDuplicateIssue1SystemString = z.object({
+export const zGenericSchemaDuplicateIssue1SystemString = z.strictObject({
   item: z.nullish(z.string()),
   error: z.nullish(z.string()),
   hasError: z.optional(z.readonly(z.boolean()))
@@ -1024,13 +1024,13 @@ export const zAdditionalPropertiesUnknownIssueWritable = z.record(z.string(), z.
   z.number()
 ]));
 
-export const zGenericSchemaDuplicateIssue1SystemBooleanWritable = z.object({
+export const zGenericSchemaDuplicateIssue1SystemBooleanWritable = z.strictObject({
   item: z.optional(z.boolean()),
   error: z.nullish(z.string()),
   data: z.optional(z.record(z.string(), z.never()))
 });
 
-export const zGenericSchemaDuplicateIssue1SystemStringWritable = z.object({
+export const zGenericSchemaDuplicateIssue1SystemStringWritable = z.strictObject({
   item: z.nullish(z.string()),
   error: z.nullish(z.string())
 });
@@ -1049,10 +1049,10 @@ export const zOneOfAllOfIssueWritable = z.union([
 export const zSimpleParameter = z.string();
 
 export const zCompositionWithOneOfAndProperties = z.intersection(z.union([
-  z.object({
+  z.strictObject({
     foo: zSimpleParameter
   }),
-  z.object({
+  z.strictObject({
     bar: zNonAsciiStringæøåÆøÅöôêÊ字符串
   })
 ]), z.object({

@@ -333,11 +333,13 @@ export interface ObjectResolverContext
     BaseContext,
     Plugin.ResolverNodes<{
       /**
-       * Returns the additional properties expression, if any.
+       * Returns the additional properties expression, if any, or null when
+       * additional properties are forbidden.
        */
       additionalProperties: (ctx: ObjectResolverContext) => Chain | null | undefined;
       /**
-       * Returns the base object expression (z.object({...}) or z.record(...)).
+       * Returns the base object expression (z.object({...}), z.strictObject({...}),
+       * or z.record(...)).
        */
       base: (ctx: ObjectResolverContext) => Chain;
       /**

@@ -1,0 +1,4822 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Val Town API",
+    "description": "Val Town’s public API\n\nOpenAPI JSON endpoint:\n\nhttps://api.val.town/openapi.json",
+    "termsOfService": "https://www.val.town/termsofuse",
+    "version": "1"
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Endpoints that support authorization expect Bearer authentication, using an API token provided from Val Town."
+      }
+    },
+    "schemas": {
+      "User": {
+        "type": "object",
+        "required": ["id", "type", "bio", "username", "profileImageUrl", "url", "links"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The ID of this user"
+          },
+          "type": {
+            "enum": ["user", "org"],
+            "description": "Whether this is a user or an organization"
+          },
+          "bio": {
+            "anyOf": [
+              {
+                "type": "string",
+                "description": "The user’s biography, if they have provided one"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "username": {
+            "anyOf": [
+              {
+                "type": "string",
+                "description": "The user’s handle that they chose for themselves. Does not include the @ symbol"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "profileImageUrl": {
+            "anyOf": [
+              {
+                "type": "string",
+                "description": "URL that points to the user’s profile image, if one exists",
+                "format": "uri"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL of this user’s profile on Val Town’s website"
+          },
+          "links": {
+            "type": "object",
+            "required": ["self"],
+            "properties": {
+              "self": {
+                "type": "string",
+                "format": "uri",
+                "description": "URL of this user on this API"
+              }
+            }
+          }
+        },
+        "description": "User object",
+        "example": {
+          "id": "00000000-0000-0000-0000-000000000000",
+          "bio": "Hello world",
+          "username": "tmcw",
+          "url": "https://val.town/u/tmcw",
+          "profileImageUrl": null
+        }
+      },
+      "ResultSet": {
+        "type": "object",
+        "required": ["columns", "columnTypes", "rows", "rowsAffected"],
+        "properties": {
+          "columns": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Names of columns.\n\nNames of columns can be defined using the `AS` keyword in SQL:\n\n```sql\nSELECT author AS author, COUNT(*) AS count FROM books GROUP BY author\n```"
+          },
+          "columnTypes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Types of columns.\n\nThe types are currently shown for types declared in a SQL table. For column types of function calls, for example, an empty string is returned."
+          },
+          "rows": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": {
+                "description": "Columns can be accessed like an object by column names."
+              },
+              "title": "TursoRow"
+            },
+            "description": "Rows produced by the statement."
+          },
+          "rowsAffected": {
+            "type": "number",
+            "description": "Number of rows that were affected by an UPDATE, INSERT or DELETE operation.\n\nThis value is not specified for other SQL statements."
+          },
+          "lastInsertRowid": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "ROWID of the last inserted row.\n\nThis value is not specified if the SQL statement was not an INSERT or if the table was not a ROWID table."
+          }
+        },
+        "title": "ResultSet",
+        "description": "Result of executing an SQL statement."
+      },
+      "ExtendedLegacyVal": {
+        "type": "object",
+        "required": [
+          "name",
+          "id",
+          "version",
+          "code",
+          "public",
+          "createdAt",
+          "updatedAt",
+          "privacy",
+          "type",
+          "url",
+          "links",
+          "author",
+          "likeCount",
+          "referenceCount",
+          "readme"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of this val"
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "This val's id"
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "The version of this val, starting at zero"
+          },
+          "code": {
+            "anyOf": [
+              {
+                "type": "string",
+                "description": "TypeScript code associated with this val"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "public": {
+            "type": "boolean",
+            "description": "Whether this val is available publicly on Val Town"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "privacy": {
+            "enum": ["public", "unlisted", "private"],
+            "description": "This resource's privacy setting. Unlisted resources do not appear on profile pages or elsewhere, but you can link to them."
+          },
+          "type": {
+            "enum": ["interval", "http", "express", "email", "script", "rpc", "httpnext"],
+            "description": "The type of a val. HTTP can receive web requests, Email can receive emails, Cron runs periodically, and Script can be used for libraries or one-off calculations"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "The URL of this resource on the Val Town website"
+          },
+          "links": {
+            "type": "object",
+            "required": ["self", "versions", "module"],
+            "properties": {
+              "self": {
+                "type": "string",
+                "format": "uri",
+                "description": "The URL of this val on this API"
+              },
+              "versions": {
+                "type": "string",
+                "format": "uri",
+                "description": "The endpoint to retrieve this val's versions"
+              },
+              "module": {
+                "type": "string",
+                "format": "uri",
+                "description": "The URL of this Val's source code as a module"
+              },
+              "endpoint": {
+                "type": "string",
+                "format": "uri",
+                "description": "This val's web endpoint, where it serves a website or API"
+              }
+            }
+          },
+          "author": {
+            "anyOf": [
+              {
+                "type": "object",
+                "required": ["id", "username"],
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "username": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                },
+                "description": "The user who created this val"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "versionCreatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "likeCount": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "How many likes this val has received"
+          },
+          "referenceCount": {
+            "type": "integer",
+            "minimum": 0,
+            "descriptions": "How many other public vals have imported this one"
+          },
+          "readme": {
+            "anyOf": [
+              {
+                "type": "string",
+                "description": "This val's readme, as Markdown"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "description": "A Legacy Val"
+      },
+      "BasicLegacyVal": {
+        "type": "object",
+        "required": [
+          "name",
+          "id",
+          "version",
+          "code",
+          "public",
+          "createdAt",
+          "updatedAt",
+          "privacy",
+          "type",
+          "url",
+          "links",
+          "author"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of this val"
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "This val's id"
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "The version of this val, starting at zero"
+          },
+          "code": {
+            "anyOf": [
+              {
+                "type": "string",
+                "description": "TypeScript code associated with this val"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "public": {
+            "type": "boolean",
+            "description": "Whether this val is available publicly on Val Town"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "privacy": {
+            "enum": ["public", "unlisted", "private"],
+            "description": "This resource's privacy setting. Unlisted resources do not appear on profile pages or elsewhere, but you can link to them."
+          },
+          "type": {
+            "enum": ["interval", "http", "express", "email", "script", "rpc", "httpnext"],
+            "description": "The type of a val. HTTP can receive web requests, Email can receive emails, Cron runs periodically, and Script can be used for libraries or one-off calculations"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "The URL of this resource on the Val Town website"
+          },
+          "links": {
+            "type": "object",
+            "required": ["self", "versions", "module"],
+            "properties": {
+              "self": {
+                "type": "string",
+                "format": "uri",
+                "description": "The URL of this val on this API"
+              },
+              "versions": {
+                "type": "string",
+                "format": "uri",
+                "description": "The endpoint to retrieve this val's versions"
+              },
+              "module": {
+                "type": "string",
+                "format": "uri",
+                "description": "The URL of this Val's source code as a module"
+              },
+              "endpoint": {
+                "type": "string",
+                "format": "uri",
+                "description": "This val's web endpoint, where it serves a website or API"
+              }
+            }
+          },
+          "author": {
+            "anyOf": [
+              {
+                "type": "object",
+                "required": ["id", "username"],
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "username": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                },
+                "description": "The user who created this val"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "description": "A Val",
+        "example": {
+          "version": 0,
+          "name": "counter",
+          "code": "export const count = 1;",
+          "createdAt": "2024-06-11T22:05:12.585Z",
+          "public": true,
+          "id": "00000000-0000-0000-0000-000000000000",
+          "privacy": "public",
+          "type": "script",
+          "url": "https://val.town/v/tmcw/counter",
+          "author": {
+            "id": "00000000-0000-0000-0000-000000000000",
+            "username": "tmcw"
+          }
+        }
+      },
+      "PaginationLinks": {
+        "type": "object",
+        "required": ["self"],
+        "properties": {
+          "self": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL of this page"
+          },
+          "prev": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL of the previous page, if any"
+          },
+          "next": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL of the next page, if any"
+          }
+        },
+        "description": "Links to use for pagination"
+      },
+      "Project": {
+        "type": "object",
+        "required": [
+          "name",
+          "id",
+          "createdAt",
+          "privacy",
+          "author",
+          "description",
+          "imageUrl",
+          "links"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The id of the project"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "privacy": {
+            "enum": ["public", "unlisted", "private"],
+            "description": "This resource's privacy setting. Unlisted resources do not appear on profile pages or elsewhere, but you can link to them."
+          },
+          "author": {
+            "type": "object",
+            "required": ["type", "id", "username"],
+            "properties": {
+              "type": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "enum": ["user"]
+                  },
+                  {
+                    "type": "string",
+                    "enum": ["org"]
+                  }
+                ]
+              },
+              "id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "username": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            }
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "imageUrl": {
+            "anyOf": [
+              {
+                "type": "string",
+                "description": "The URL of this project's image"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "links": {
+            "type": "object",
+            "required": ["self", "html"],
+            "properties": {
+              "self": {
+                "type": "string",
+                "format": "uri",
+                "description": "The URL of this resource on this API"
+              },
+              "html": {
+                "type": "string",
+                "format": "uri",
+                "description": "The URL of this resource on Val Town"
+              }
+            }
+          }
+        },
+        "description": "A Project"
+      },
+      "Org": {
+        "type": "object",
+        "required": ["username", "id"],
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The id of the org"
+          }
+        },
+        "description": "An Org"
+      },
+      "Membership": {
+        "type": "object",
+        "required": ["id", "role", "user"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The id of the membership"
+          },
+          "role": {
+            "anyOf": [
+              {
+                "enum": ["owner", "member"],
+                "description": "The role of the member"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "user": {
+            "type": "object",
+            "required": ["id", "username"],
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The id of the user"
+              },
+              "username": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "description": "The username of the user"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "description": "A Membership"
+      },
+      "Val": {
+        "type": "object",
+        "required": [
+          "name",
+          "id",
+          "createdAt",
+          "privacy",
+          "author",
+          "imageUrl",
+          "description",
+          "links"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The id of the val"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "privacy": {
+            "enum": ["public", "unlisted", "private"],
+            "description": "This resource's privacy setting. Unlisted resources do not appear on profile pages or elsewhere, but you can link to them."
+          },
+          "author": {
+            "type": "object",
+            "required": ["type", "id", "username"],
+            "properties": {
+              "type": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "enum": ["user"]
+                  },
+                  {
+                    "type": "string",
+                    "enum": ["org"]
+                  }
+                ]
+              },
+              "id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "username": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            }
+          },
+          "imageUrl": {
+            "anyOf": [
+              {
+                "type": "string",
+                "description": "The URL of this val's image"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "links": {
+            "type": "object",
+            "required": ["self", "html"],
+            "properties": {
+              "self": {
+                "type": "string",
+                "format": "uri",
+                "description": "The URL of this resource on this API"
+              },
+              "html": {
+                "type": "string",
+                "format": "uri",
+                "description": "The URL of this resource on Val Town"
+              }
+            }
+          }
+        },
+        "description": "A Val"
+      },
+      "Branch": {
+        "type": "object",
+        "required": ["name", "id", "version", "createdAt", "updatedAt", "forkedBranchId", "links"],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The id of the branch"
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "forkedBranchId": {
+            "anyOf": [
+              {
+                "type": "string",
+                "description": "The id of the branch this branch was forked from"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "links": {
+            "type": "object",
+            "required": ["self", "html"],
+            "properties": {
+              "self": {
+                "type": "string",
+                "format": "uri",
+                "description": "The URL of this resource on this API"
+              },
+              "html": {
+                "type": "string",
+                "format": "uri",
+                "description": "The URL of this resource on Val Town"
+              }
+            }
+          }
+        },
+        "description": "A Branch"
+      },
+      "FileRevisionMetadataV1": {
+        "type": "object",
+        "required": ["name", "id", "parentId", "path", "version", "updatedAt", "type", "links"],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The id of the resource"
+          },
+          "parentId": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid",
+                "description": "The id of the parent resource"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "path": {
+            "type": "string"
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "type": {
+            "enum": ["directory", "file", "interval", "http", "email", "script"]
+          },
+          "links": {
+            "type": "object",
+            "required": ["self", "html", "module"],
+            "properties": {
+              "self": {
+                "type": "string",
+                "format": "uri",
+                "description": "The URL of this resource on this API"
+              },
+              "html": {
+                "type": "string",
+                "format": "uri",
+                "description": "The URL of this resource on Val Town"
+              },
+              "module": {
+                "type": "string",
+                "format": "uri",
+                "description": "The URL of this resource's source code as a module"
+              },
+              "endpoint": {
+                "type": "string",
+                "format": "uri",
+                "description": "This resource's web endpoint, where it serves a website or API"
+              },
+              "email": {
+                "type": "string",
+                "format": "email",
+                "description": "This resource's email address for receiving emails (for email-type vals)"
+              }
+            }
+          }
+        },
+        "description": "A File or Directory's Metadata"
+      },
+      "FileRevisionMetadataV2": {
+        "type": "object",
+        "required": ["name", "id", "path", "version", "updatedAt", "type", "links"],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The id of the resource"
+          },
+          "path": {
+            "type": "string"
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "type": {
+            "enum": ["directory", "file", "interval", "http", "email", "script"]
+          },
+          "links": {
+            "type": "object",
+            "required": ["self", "html", "module"],
+            "properties": {
+              "self": {
+                "type": "string",
+                "format": "uri",
+                "description": "The URL of this resource on this API"
+              },
+              "html": {
+                "type": "string",
+                "format": "uri",
+                "description": "The URL of this resource on Val Town"
+              },
+              "module": {
+                "type": "string",
+                "format": "uri",
+                "description": "The URL of this resource's source code as a module"
+              },
+              "endpoint": {
+                "type": "string",
+                "format": "uri",
+                "description": "This resource's web endpoint, where it serves a website or API"
+              },
+              "email": {
+                "type": "string",
+                "format": "email",
+                "description": "This resource's email address for receiving emails (for email-type vals)"
+              }
+            }
+          }
+        },
+        "description": "A File or Directory's Metadata"
+      },
+      "TEnvironmentVariable": {
+        "type": "object",
+        "required": ["key", "description", "updatedAt", "createdAt"],
+        "properties": {
+          "key": {
+            "type": "string",
+            "maxLength": 8192,
+            "pattern": "^[A-Za-z_][A-Z0-9a-z_]*$",
+            "description": "Name or key of the environment variable, accessible via Deno.env or process.env"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 1024,
+                "description": "Optional description of the environment variable"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "updatedAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "description": "An environment variable"
+      }
+    }
+  },
+  "paths": {
+    "/v1/alias/{username}": {
+      "get": {
+        "operationId": "aliasUsername",
+        "tags": ["alias"],
+        "description": "Get basic details about a user, given their username",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "username",
+            "required": true,
+            "description": "Username of the user who you are looking for"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User object",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/me": {
+      "get": {
+        "operationId": "meGet",
+        "tags": ["me"],
+        "description": "Get profile information for the current user",
+        "responses": {
+          "200": {
+            "description": "Your user information, with tier and email included",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/User"
+                    },
+                    {
+                      "type": "object",
+                      "required": ["tier", "email"],
+                      "properties": {
+                        "tier": {
+                          "anyOf": [
+                            {
+                              "enum": ["free", "pro", "business"],
+                              "description": "Your account tier"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "email": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "description": "Your email address"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "description": "Your user information, with tier and email included"
+                },
+                "example": {
+                  "id": "00000000-0000-0000-0000-000000000000",
+                  "bio": "Hello world",
+                  "username": "tmcw",
+                  "email": "example@example.com",
+                  "profileImageUrl": null,
+                  "tier": "pro"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/blob": {
+      "get": {
+        "operationId": "v1blobsList",
+        "tags": ["blobs"],
+        "description": "List blobs in your account",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "prefix",
+            "required": false,
+            "description": "If specified, only include blobs that start with this string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of blobs that you’ve stored",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": ["key"],
+                    "properties": {
+                      "key": {
+                        "type": "string"
+                      },
+                      "size": {
+                        "type": "integer",
+                        "description": "Size in bytes of the object"
+                      },
+                      "lastModified": {
+                        "type": "string",
+                        "description": "Creation date of the object",
+                        "format": "date-time"
+                      }
+                    },
+                    "title": "BlobListingItem"
+                  },
+                  "description": "List of blobs that you’ve stored"
+                },
+                "example": [
+                  {
+                    "key": "hello_world",
+                    "size": 20,
+                    "lastModified": "2024-06-24T20:00:59.702Z"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/blob/{key}": {
+      "get": {
+        "operationId": "v1blobsGet",
+        "tags": ["blobs"],
+        "description": "Get a blob’s contents.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 512
+            },
+            "in": "path",
+            "name": "key",
+            "required": true,
+            "description": "Key that uniquely identifies this blob"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Binary contents of the returned file",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "v1blobsStore",
+        "tags": ["blobs"],
+        "description": "Store data in blob storage",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string",
+                "format": "binary",
+                "description": "Binary input data"
+              }
+            }
+          },
+          "description": "Binary input data"
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 512
+            },
+            "in": "path",
+            "name": "key",
+            "required": true,
+            "description": "Key that uniquely identifies this blob"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "enum": ["ok"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["error"],
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "v1blobsDelete",
+        "tags": ["blobs"],
+        "description": "Delete a blob",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 512
+            },
+            "in": "path",
+            "name": "key",
+            "required": true,
+            "description": "Key that uniquely identifies this blob"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Blob successfully deleted"
+          }
+        }
+      }
+    },
+    "/v1/users/{user_id}": {
+      "get": {
+        "operationId": "usersGet",
+        "tags": ["users"],
+        "description": "Get basic information about a user",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "description": "User Id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User object",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/sqlite/execute": {
+      "post": {
+        "operationId": "sqliteExecute",
+        "tags": ["sqlite"],
+        "description": "Execute a single SQLite statement and return results",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["statement"],
+                "properties": {
+                  "statement": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "description": "Simple SQL statement to run in SQLite",
+                        "maxLength": 100000
+                      },
+                      {
+                        "type": "object",
+                        "required": ["sql", "args"],
+                        "properties": {
+                          "sql": {
+                            "type": "string",
+                            "description": "SQL statement, with ? placeholders for arguments",
+                            "maxLength": 100000
+                          },
+                          "args": {
+                            "anyOf": [
+                              {
+                                "type": "array",
+                                "items": {
+                                  "title": "TursoValue",
+                                  "description": "A value to be used as a parameter"
+                                },
+                                "maxItems": 500
+                              },
+                              {
+                                "type": "object",
+                                "maxProperties": 500,
+                                "additionalProperties": {
+                                  "title": "TursoValue",
+                                  "description": "A value to be used as a parameter"
+                                }
+                              }
+                            ],
+                            "title": "StatementArg",
+                            "description": "List of arguments to be used in the given statement"
+                          }
+                        },
+                        "title": "ParameterizedQuery",
+                        "description": "A parameterized SQL query. See https://docs.turso.tech/sdk/ts/reference#batch-transactions for reference"
+                      }
+                    ]
+                  }
+                },
+                "description": "A single statement to run"
+              },
+              "examples": {
+                "example1": {
+                  "value": {
+                    "statement": "SELECT 1;"
+                  }
+                },
+                "example2": {
+                  "value": {
+                    "statement": {
+                      "sql": "SELECT * FROM table WHERE column = ?;",
+                      "args": [1]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "description": "A single statement to run"
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Result of executing an SQL statement.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultSet"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/sqlite/batch": {
+      "post": {
+        "operationId": "sqliteBatch",
+        "tags": ["sqlite"],
+        "description": "Execute a batch of SQLite statements and return results for all of them",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["statements"],
+                "properties": {
+                  "statements": {
+                    "type": "array",
+                    "items": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "description": "Simple SQL statement to run in SQLite",
+                          "maxLength": 100000
+                        },
+                        {
+                          "type": "object",
+                          "required": ["sql", "args"],
+                          "properties": {
+                            "sql": {
+                              "type": "string",
+                              "description": "SQL statement, with ? placeholders for arguments",
+                              "maxLength": 100000
+                            },
+                            "args": {
+                              "anyOf": [
+                                {
+                                  "type": "array",
+                                  "items": {
+                                    "title": "TursoValue",
+                                    "description": "A value to be used as a parameter"
+                                  },
+                                  "maxItems": 500
+                                },
+                                {
+                                  "type": "object",
+                                  "maxProperties": 500,
+                                  "additionalProperties": {
+                                    "title": "TursoValue",
+                                    "description": "A value to be used as a parameter"
+                                  }
+                                }
+                              ],
+                              "title": "StatementArg",
+                              "description": "List of arguments to be used in the given statement"
+                            }
+                          },
+                          "title": "ParameterizedQuery",
+                          "description": "A parameterized SQL query. See https://docs.turso.tech/sdk/ts/reference#batch-transactions for reference"
+                        }
+                      ]
+                    },
+                    "maxItems": 500
+                  },
+                  "mode": {
+                    "enum": ["write", "read", "deferred"]
+                  }
+                },
+                "description": "A set of statements to be run in a single batch"
+              },
+              "example": {
+                "statements": ["SELECT 1;"],
+                "mode": "read"
+              }
+            }
+          },
+          "description": "A set of statements to be run in a single batch"
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Array of results from the statements executed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ResultSet"
+                  },
+                  "description": "Array of results from the statements executed"
+                },
+                "example": [
+                  {
+                    "columns": ["id"],
+                    "columnTypes": ["number"],
+                    "rows": [[1]],
+                    "rowsAffected": 0,
+                    "lastInsertRowid": null
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/email": {
+      "post": {
+        "operationId": "emailsSend",
+        "tags": ["emails"],
+        "description": "Send emails",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "subject": {
+                    "type": "string",
+                    "description": "The subject line of the email"
+                  },
+                  "from": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "maxLength": 320
+                      },
+                      {
+                        "type": "object",
+                        "required": ["email"],
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "maxLength": 256
+                          },
+                          "email": {
+                            "type": "string",
+                            "maxLength": 320
+                          }
+                        },
+                        "title": "EmailNameAndAddress",
+                        "description": "An email address and name"
+                      }
+                    ],
+                    "title": "EmailData"
+                  },
+                  "headers": {
+                    "type": "object",
+                    "description": "A set of headers to include the email that you send",
+                    "maxProperties": 50,
+                    "additionalProperties": {
+                      "type": "string"
+                    }
+                  },
+                  "to": {
+                    "anyOf": [
+                      {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "maxLength": 320
+                          },
+                          {
+                            "type": "object",
+                            "required": ["email"],
+                            "properties": {
+                              "name": {
+                                "type": "string",
+                                "maxLength": 256
+                              },
+                              "email": {
+                                "type": "string",
+                                "maxLength": 320
+                              }
+                            },
+                            "title": "EmailNameAndAddress",
+                            "description": "An email address and name"
+                          }
+                        ],
+                        "title": "EmailData"
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "maxLength": 320
+                            },
+                            {
+                              "type": "object",
+                              "required": ["email"],
+                              "properties": {
+                                "name": {
+                                  "type": "string",
+                                  "maxLength": 256
+                                },
+                                "email": {
+                                  "type": "string",
+                                  "maxLength": 320
+                                }
+                              },
+                              "title": "EmailNameAndAddress",
+                              "description": "An email address and name"
+                            }
+                          ],
+                          "title": "EmailData"
+                        },
+                        "title": "EmailDataList",
+                        "maxItems": 50
+                      }
+                    ],
+                    "title": "EmailDataInput",
+                    "description": "A single email or list of emails for one of the address fields"
+                  },
+                  "cc": {
+                    "anyOf": [
+                      {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "maxLength": 320
+                          },
+                          {
+                            "type": "object",
+                            "required": ["email"],
+                            "properties": {
+                              "name": {
+                                "type": "string",
+                                "maxLength": 256
+                              },
+                              "email": {
+                                "type": "string",
+                                "maxLength": 320
+                              }
+                            },
+                            "title": "EmailNameAndAddress",
+                            "description": "An email address and name"
+                          }
+                        ],
+                        "title": "EmailData"
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "maxLength": 320
+                            },
+                            {
+                              "type": "object",
+                              "required": ["email"],
+                              "properties": {
+                                "name": {
+                                  "type": "string",
+                                  "maxLength": 256
+                                },
+                                "email": {
+                                  "type": "string",
+                                  "maxLength": 320
+                                }
+                              },
+                              "title": "EmailNameAndAddress",
+                              "description": "An email address and name"
+                            }
+                          ],
+                          "title": "EmailData"
+                        },
+                        "title": "EmailDataList",
+                        "maxItems": 50
+                      }
+                    ],
+                    "title": "EmailDataInput",
+                    "description": "A single email or list of emails for one of the address fields"
+                  },
+                  "bcc": {
+                    "anyOf": [
+                      {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "maxLength": 320
+                          },
+                          {
+                            "type": "object",
+                            "required": ["email"],
+                            "properties": {
+                              "name": {
+                                "type": "string",
+                                "maxLength": 256
+                              },
+                              "email": {
+                                "type": "string",
+                                "maxLength": 320
+                              }
+                            },
+                            "title": "EmailNameAndAddress",
+                            "description": "An email address and name"
+                          }
+                        ],
+                        "title": "EmailData"
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "maxLength": 320
+                            },
+                            {
+                              "type": "object",
+                              "required": ["email"],
+                              "properties": {
+                                "name": {
+                                  "type": "string",
+                                  "maxLength": 256
+                                },
+                                "email": {
+                                  "type": "string",
+                                  "maxLength": 320
+                                }
+                              },
+                              "title": "EmailNameAndAddress",
+                              "description": "An email address and name"
+                            }
+                          ],
+                          "title": "EmailData"
+                        },
+                        "title": "EmailDataList",
+                        "maxItems": 50
+                      }
+                    ],
+                    "title": "EmailDataInput",
+                    "description": "A single email or list of emails for one of the address fields"
+                  },
+                  "text": {
+                    "type": "string",
+                    "description": "Text content of the email, for email clients that may not support HTML"
+                  },
+                  "html": {
+                    "type": "string",
+                    "description": "HTML content of the email. Can be specified alongside text",
+                    "minLength": 1
+                  },
+                  "attachments": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": ["content", "filename"],
+                      "properties": {
+                        "content": {
+                          "type": "string"
+                        },
+                        "filename": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string"
+                        },
+                        "disposition": {
+                          "type": "string"
+                        },
+                        "contentId": {
+                          "type": "string"
+                        }
+                      },
+                      "title": "AttachmentObject"
+                    },
+                    "description": "A list of attachments to add to the email",
+                    "maxItems": 5
+                  },
+                  "replyToList": {
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "required": ["email"],
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "maxLength": 256
+                          },
+                          "email": {
+                            "type": "string",
+                            "maxLength": 320
+                          }
+                        },
+                        "title": "EmailNameAndAddress",
+                        "description": "An email address and name"
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "required": ["email"],
+                          "properties": {
+                            "name": {
+                              "type": "string",
+                              "maxLength": 256
+                            },
+                            "email": {
+                              "type": "string",
+                              "maxLength": 320
+                            }
+                          },
+                          "title": "EmailNameAndAddress",
+                          "description": "An email address and name"
+                        },
+                        "title": "EmailList",
+                        "maxItems": 10
+                      }
+                    ],
+                    "title": "ReplyToList",
+                    "description": "A reply-to list of email addresses"
+                  }
+                },
+                "description": "Fields for an email to be sent"
+              },
+              "example": {
+                "subject": "An important message",
+                "text": "Hello world",
+                "html": "Hello <strong>world</strong>"
+              }
+            }
+          },
+          "description": "Fields for an email to be sent"
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Email accepted to be sent",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["message"],
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "description": "Email accepted to be sent"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["error"],
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/telemetry/traces": {
+      "get": {
+        "operationId": "traceList",
+        "tags": ["telemetry"],
+        "description": "Get OpenTelemetry traces within a specified time window with flexible pagination options: Pass in only the end time to paginate backwards from there. Pass in a start time to paginate backwards from now until the start time. Pass in both to get resources within the time window. Choose to return in end_time order instead to view traces that completed in a window or since a time. Filter additionally by branch_ids or file_id.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "in": "query",
+            "name": "file_id",
+            "required": false,
+            "description": "Include only resources from a given file identified by its ID"
+          },
+          {
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "maxItems": 20
+            },
+            "in": "query",
+            "name": "branch_ids",
+            "required": false,
+            "description": "Branch IDs to filter by"
+          },
+          {
+            "schema": {
+              "enum": ["asc", "desc"],
+              "default": "desc"
+            },
+            "in": "query",
+            "name": "direction",
+            "required": true,
+            "description": "Sort direction for the traces. Defaults to descending order of timestamp."
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "description": "Start date of the time window (earliest time)"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "in": "query",
+            "name": "end",
+            "required": false,
+            "description": "End date of the time window (latest time)"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            },
+            "in": "query",
+            "name": "limit",
+            "required": true,
+            "description": "Maximum items to return in each paginated response"
+          },
+          {
+            "schema": {
+              "enum": ["start_time", "end_time"],
+              "default": "start_time"
+            },
+            "in": "query",
+            "name": "order_by",
+            "required": false,
+            "description": "When set to end_time, traces are sorted by their end time, and pending traces are omitted. When set to start_time, all traces are included, with pending traces given \"0\" for their end time."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A paginated result set",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["data", "links"],
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "traceId",
+                          "name",
+                          "startTimeUnixNano",
+                          "endTimeUnixNano",
+                          "attributes",
+                          "status"
+                        ],
+                        "properties": {
+                          "traceId": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "startTimeUnixNano": {
+                            "type": "string"
+                          },
+                          "endTimeUnixNano": {
+                            "type": "string",
+                            "description": "0 if trace is unfinished"
+                          },
+                          "attributes": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "required": ["key", "value"],
+                              "properties": {
+                                "key": {
+                                  "type": "string"
+                                },
+                                "value": {
+                                  "type": "object",
+                                  "properties": {
+                                    "stringValue": {
+                                      "type": "string"
+                                    },
+                                    "intValue": {
+                                      "type": "string"
+                                    },
+                                    "doubleValue": {
+                                      "type": "number"
+                                    },
+                                    "boolValue": {
+                                      "type": "boolean"
+                                    },
+                                    "arrayValue": {},
+                                    "kvlistValue": {},
+                                    "bytesValue": {
+                                      "type": "string"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "status": {
+                            "type": "object",
+                            "required": ["message", "code"],
+                            "properties": {
+                              "message": {
+                                "type": "string"
+                              },
+                              "code": {
+                                "type": "number"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/PaginationLinks"
+                    }
+                  },
+                  "description": "A paginated result set"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/telemetry/logs": {
+      "get": {
+        "operationId": "logList",
+        "tags": ["telemetry"],
+        "description": "Get OpenTelemetry logs within a specified time window with flexible pagination options: Pass in only the end time to paginate backwards from there. Pass in a start time to paginate backwards from now until the start time. Pass in both to get resources within the time window. Filter additionally by branch_ids or file_id.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "description": "Include only logs from a given trace ID",
+                "maxLength": 32,
+                "minLength": 32
+              },
+              "maxItems": 100
+            },
+            "in": "query",
+            "name": "trace_ids",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "in": "query",
+            "name": "file_id",
+            "required": false,
+            "description": "Include only resources from a given file identified by its ID"
+          },
+          {
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "maxItems": 20
+            },
+            "in": "query",
+            "name": "branch_ids",
+            "required": false,
+            "description": "Branch IDs to filter by"
+          },
+          {
+            "schema": {
+              "enum": ["asc", "desc"],
+              "default": "desc"
+            },
+            "in": "query",
+            "name": "direction",
+            "required": true,
+            "description": "Sort direction for the traces. Defaults to descending order of timestamp."
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "in": "query",
+            "name": "start",
+            "required": false,
+            "description": "Start date of the time window (earliest time)"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "in": "query",
+            "name": "end",
+            "required": false,
+            "description": "End date of the time window (latest time)"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            },
+            "in": "query",
+            "name": "limit",
+            "required": true,
+            "description": "Maximum items to return in each paginated response"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A paginated result set",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["data", "links"],
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "timeUnixNano",
+                          "body",
+                          "traceId",
+                          "attributes",
+                          "severityText"
+                        ],
+                        "properties": {
+                          "timeUnixNano": {
+                            "type": "string"
+                          },
+                          "body": {
+                            "type": "object",
+                            "properties": {
+                              "stringValue": {
+                                "type": "string"
+                              },
+                              "intValue": {
+                                "type": "string"
+                              },
+                              "doubleValue": {
+                                "type": "number"
+                              },
+                              "boolValue": {
+                                "type": "boolean"
+                              },
+                              "arrayValue": {},
+                              "kvlistValue": {},
+                              "bytesValue": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "traceId": {
+                            "type": "string"
+                          },
+                          "attributes": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "required": ["key", "value"],
+                              "properties": {
+                                "key": {
+                                  "type": "string"
+                                },
+                                "value": {
+                                  "type": "object",
+                                  "properties": {
+                                    "stringValue": {
+                                      "type": "string"
+                                    },
+                                    "intValue": {
+                                      "type": "string"
+                                    },
+                                    "doubleValue": {
+                                      "type": "number"
+                                    },
+                                    "boolValue": {
+                                      "type": "boolean"
+                                    },
+                                    "arrayValue": {},
+                                    "kvlistValue": {},
+                                    "bytesValue": {
+                                      "type": "string"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "severityText": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/PaginationLinks"
+                    }
+                  },
+                  "description": "A paginated result set"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/vals/{val_id}/environment_variables/": {
+      "get": {
+        "operationId": "valEnvironmentVariablesList",
+        "tags": ["vals"],
+        "description": "List environment variables defined in this project. This only includes names, not values.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0
+            },
+            "in": "query",
+            "name": "offset",
+            "required": true,
+            "description": "Number of items to skip in order to deliver paginated results"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            },
+            "in": "query",
+            "name": "limit",
+            "required": true,
+            "description": "Maximum items to return in each paginated response"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "in": "path",
+            "name": "val_id",
+            "required": true,
+            "description": "Id of a val"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A paginated result set",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["data", "links"],
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/TEnvironmentVariable"
+                      }
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/PaginationLinks"
+                    }
+                  },
+                  "description": "A paginated result set"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "valEnvironmentVariablesCreate",
+        "tags": ["vals"],
+        "description": "Create a new environment variable scoped to this project.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["value", "key"],
+                "properties": {
+                  "value": {
+                    "type": "string",
+                    "description": "Value of the environment variable.",
+                    "maxLength": 8192
+                  },
+                  "description": {
+                    "anyOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "maxLength": 1024,
+                        "description": "Optional description of the environment variable. Send null to clear an existing description; omit it to leave the description unchanged."
+                      }
+                    ]
+                  },
+                  "key": {
+                    "type": "string",
+                    "maxLength": 8192,
+                    "pattern": "^[A-Za-z_][A-Z0-9a-z_]*$",
+                    "description": "Name or key of the environment variable, accessible via Deno.env or process.env"
+                  }
+                },
+                "description": "Inputs for an environment variable"
+              }
+            }
+          },
+          "description": "Inputs for an environment variable"
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "in": "path",
+            "name": "val_id",
+            "required": true,
+            "description": "Id of a val"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "An environment variable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TEnvironmentVariable"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Key already exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Key already exists"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/vals/{val_id}/environment_variables/{key}": {
+      "put": {
+        "operationId": "valEnvironmentVariablesUpdate",
+        "tags": ["vals"],
+        "description": "Update a environment variable scoped to this project.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["value"],
+                "properties": {
+                  "value": {
+                    "type": "string",
+                    "description": "Value of the environment variable.",
+                    "maxLength": 8192
+                  },
+                  "description": {
+                    "anyOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "maxLength": 1024,
+                        "description": "Optional description of the environment variable. Send null to clear an existing description; omit it to leave the description unchanged."
+                      }
+                    ]
+                  }
+                },
+                "description": "Inputs to update a environment variable"
+              }
+            }
+          },
+          "description": "Inputs to update a environment variable"
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "in": "path",
+            "name": "val_id",
+            "required": true,
+            "description": "Id of a val"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "maxLength": 8192,
+              "pattern": "^[A-Za-z_][A-Z0-9a-z_]*$"
+            },
+            "in": "path",
+            "name": "key",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "An environment variable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TEnvironmentVariable"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "valEnvironmentVariablesDelete",
+        "tags": ["vals"],
+        "description": "Delete a environment variable scoped to this project.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "in": "path",
+            "name": "val_id",
+            "required": true,
+            "description": "Id of a val"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "key",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Default Response"
+          },
+          "404": {
+            "description": "Environment variable or project not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Environment variable or project not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/vals/{val_id}/environment_variable_groups/": {
+      "get": {
+        "operationId": "valEnvironmentVariableGroupsList",
+        "tags": ["vals"],
+        "description": "List the environment variable groups attached to this val. This only includes the groups, not the variables in them.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0
+            },
+            "in": "query",
+            "name": "offset",
+            "required": true,
+            "description": "Number of items to skip in order to deliver paginated results"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            },
+            "in": "query",
+            "name": "limit",
+            "required": true,
+            "description": "Maximum items to return in each paginated response"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "in": "path",
+            "name": "val_id",
+            "required": true,
+            "description": "Id of a val"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A paginated result set",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["data", "links"],
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": ["name", "id", "orgId", "count", "updatedAt", "createdAt"],
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "maxLength": 256,
+                            "description": "Name of the environment variable group"
+                          },
+                          "id": {
+                            "type": "string",
+                            "format": "uuid",
+                            "description": "The id of the group"
+                          },
+                          "orgId": {
+                            "type": "string",
+                            "format": "uuid",
+                            "description": "The id of the group"
+                          },
+                          "count": {
+                            "type": "integer",
+                            "minimum": 0
+                          },
+                          "updatedAt": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "format": "date-time"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "format": "date-time"
+                          }
+                        },
+                        "description": "An environment variable group"
+                      }
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/PaginationLinks"
+                    }
+                  },
+                  "description": "A paginated result set"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/vals/{val_id}/environment_variable_groups/{group_id}": {
+      "put": {
+        "operationId": "valEnvironmentVariableGroupsAttach",
+        "tags": ["vals"],
+        "description": "Attach an environment variable group to this val. Every variable in the group is injected into the val's environment. Variables defined on the val itself take precedence over variables with the same key in a group. Attaching a group that is already attached succeeds without doing anything.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "in": "path",
+            "name": "val_id",
+            "required": true,
+            "description": "Id of a val"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "in": "path",
+            "name": "group_id",
+            "required": true,
+            "description": "Id of an environment variable group"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The group is attached to the val"
+          },
+          "404": {
+            "description": "Val or environment variable group not found in your organization",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Val or environment variable group not found in your organization"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "valEnvironmentVariableGroupsDetach",
+        "tags": ["vals"],
+        "description": "Detach an environment variable group from this val. The group itself, and the variables in it, are left alone.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "in": "path",
+            "name": "val_id",
+            "required": true,
+            "description": "Id of a val"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "in": "path",
+            "name": "group_id",
+            "required": true,
+            "description": "Id of an environment variable group"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The group is no longer attached to the val"
+          },
+          "404": {
+            "description": "Val or environment variable group not found in your organization, or the group was not attached to this val",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Val or environment variable group not found in your organization, or the group was not attached to this val"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/vals/{val_id}": {
+      "get": {
+        "operationId": "valsGet2",
+        "tags": ["vals"],
+        "description": "Get a val by id",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "in": "path",
+            "name": "val_id",
+            "required": true,
+            "description": "Id of a val"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A Val",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Val"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "projectsDelete2",
+        "tags": ["vals"],
+        "description": "Delete a project",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "in": "path",
+            "name": "val_id",
+            "required": true,
+            "description": "Id of a val"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Default Response"
+          },
+          "404": {
+            "description": "Project not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Project not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/vals": {
+      "get": {
+        "operationId": "valsList2",
+        "tags": ["vals"],
+        "description": "Lists all vals including all public vals and your unlisted and private vals",
+        "parameters": [
+          {
+            "schema": {
+              "enum": ["public", "unlisted", "private"]
+            },
+            "in": "query",
+            "name": "privacy",
+            "required": false,
+            "description": "This resource's privacy setting. Unlisted resources do not appear on profile pages or elsewhere, but you can link to them."
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "in": "query",
+            "name": "user_id",
+            "required": false,
+            "description": "User ID to filter by"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "description": "Cursor to start the pagination from"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            },
+            "in": "query",
+            "name": "limit",
+            "required": true,
+            "description": "Maximum items to return in each paginated response"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A paginated result set",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["data", "links"],
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Val"
+                      }
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/PaginationLinks"
+                    }
+                  },
+                  "description": "A paginated result set"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "valsCreate2",
+        "tags": ["vals"],
+        "description": "Create a new val",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["name", "privacy"],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 48,
+                    "pattern": "^(\\.config|[a-zA-Z][a-zA-Z0-9\\-_]*)$"
+                  },
+                  "description": {
+                    "type": "string",
+                    "maxLength": 64
+                  },
+                  "privacy": {
+                    "enum": ["public", "unlisted", "private"]
+                  },
+                  "orgId": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "ID of the org to create the val in"
+                  }
+                },
+                "description": "Val information provided to create a new val"
+              },
+              "example": {
+                "name": "myVal",
+                "description": "My val",
+                "privacy": "public"
+              }
+            }
+          },
+          "description": "Val information provided to create a new val"
+        },
+        "responses": {
+          "201": {
+            "description": "A Val",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Val"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict: Project name already exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Conflict: Project name already exists"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/vals/{val_id}/branches/{branch_id}": {
+      "get": {
+        "operationId": "branchesGet2",
+        "tags": ["vals"],
+        "description": "Get a branch by id",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "in": "path",
+            "name": "val_id",
+            "required": true,
+            "description": "Id of a val"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "in": "path",
+            "name": "branch_id",
+            "required": true,
+            "description": "Id of a branch"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A Branch",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Branch"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "branchesDelete2",
+        "tags": ["vals"],
+        "description": "Delete a branch",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "in": "path",
+            "name": "val_id",
+            "required": true,
+            "description": "Id of a val"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "in": "path",
+            "name": "branch_id",
+            "required": true,
+            "description": "Id of a branch"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Deleted"
+          },
+          "404": {
+            "description": "Branch not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Branch not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/vals/{val_id}/branches": {
+      "get": {
+        "operationId": "branchesList2",
+        "tags": ["vals"],
+        "description": "List all branches for a val",
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0
+            },
+            "in": "query",
+            "name": "offset",
+            "required": true,
+            "description": "Number of items to skip in order to deliver paginated results"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            },
+            "in": "query",
+            "name": "limit",
+            "required": true,
+            "description": "Maximum items to return in each paginated response"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "in": "path",
+            "name": "val_id",
+            "required": true,
+            "description": "Id of a val"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A paginated result set",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["data", "links"],
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Branch"
+                      }
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/PaginationLinks"
+                    }
+                  },
+                  "description": "A paginated result set"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "branchesCreate2",
+        "tags": ["vals"],
+        "description": "Create a new branch",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["name"],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 48,
+                    "pattern": "^[a-zA-Z0-9\\$\\[\\]\\(\\)\\-_.]+$"
+                  },
+                  "branchId": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "The branch ID to fork from. If this is not specified, the new branch will be forked from main."
+                  }
+                },
+                "description": "Branch information provided to create a new project"
+              },
+              "example": {
+                "name": "my-branch",
+                "branchId": "00000000-0000-0000-0000-000000000000"
+              }
+            }
+          },
+          "description": "Branch information provided to create a new project"
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "in": "path",
+            "name": "val_id",
+            "required": true,
+            "description": "Id of a val"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "A Branch",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Branch"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict: Branch name already exists in this project",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Conflict: Branch name already exists in this project"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/vals/{val_id}/files": {
+      "get": {
+        "operationId": "valFilesGet2",
+        "tags": ["vals"],
+        "description": "Get metadata for files and directories in a val. If path is an empty string, returns files at the root directory.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "in": "query",
+            "name": "version",
+            "required": false,
+            "description": "Specific branch version to query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "in": "query",
+            "name": "branch_id",
+            "required": false,
+            "description": "Id to query"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "path",
+            "required": true,
+            "description": "Path to a file or directory (e.g. 'dir/subdir/file.ts'). Pass in an empty string to represent the root directory."
+          },
+          {
+            "schema": {
+              "type": "boolean",
+              "default": false
+            },
+            "in": "query",
+            "name": "recursive",
+            "required": true,
+            "description": "Whether to recursively act on all files in the project"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0
+            },
+            "in": "query",
+            "name": "offset",
+            "required": true,
+            "description": "Number of items to skip in order to deliver paginated results"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            },
+            "in": "query",
+            "name": "limit",
+            "required": true,
+            "description": "Maximum items to return in each paginated response"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "in": "path",
+            "name": "val_id",
+            "required": true,
+            "description": "Id of a val"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A paginated result set",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["data", "links"],
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/FileRevisionMetadataV2"
+                      }
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/PaginationLinks"
+                    }
+                  },
+                  "description": "A paginated result set"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "filesCreate2",
+        "tags": ["vals"],
+        "description": "Create a new file, project val or directory",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "required": ["type"],
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "enum": ["directory"]
+                      },
+                      "content": {
+                        "type": "null"
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "required": ["content", "type"],
+                    "properties": {
+                      "content": {
+                        "type": "string",
+                        "minLength": 0,
+                        "maxLength": 80000,
+                        "description": "File and val content. An empty string will create an empty file. When creating a directory, the content should be null or undefined."
+                      },
+                      "type": {
+                        "enum": ["file", "interval", "http", "email", "script"]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "in": "query",
+            "name": "branch_id",
+            "required": false,
+            "description": "The specified branch of the resource. Defaults to main if not provided."
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "path",
+            "required": true,
+            "description": "Path to a file or directory (e.g. 'dir/subdir/file.ts'). Pass in an empty string to represent the root directory."
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "in": "path",
+            "name": "val_id",
+            "required": true,
+            "description": "Id of a val"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "A File or Directory's Metadata",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileRevisionMetadataV2"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["message"],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "File or directory already exists at this path"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "filesDelete2",
+        "tags": ["vals"],
+        "description": "Deletes a file or a directory. To delete a directory and all of its children, use the recursive flag. To delete all files, pass in an empty path and the recursive flag.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "in": "query",
+            "name": "branch_id",
+            "required": false,
+            "description": "The specified branch of the resource. Defaults to main if not provided."
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "path",
+            "required": true,
+            "description": "Path to a file or directory (e.g. 'dir/subdir/file.ts'). Pass in an empty string to represent the root directory."
+          },
+          {
+            "schema": {
+              "type": "boolean",
+              "default": false
+            },
+            "in": "query",
+            "name": "recursive",
+            "required": true,
+            "description": "Whether to recursively act on all files in the project"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "in": "path",
+            "name": "val_id",
+            "required": true,
+            "description": "Id of a val"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Default Response"
+          },
+          "404": {
+            "description": "File not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "File not found"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "fileContentUpdate2",
+        "tags": ["vals"],
+        "description": "Update a file's content",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "content": {
+                        "type": "string",
+                        "minLength": 0,
+                        "maxLength": 80000,
+                        "description": "File and val content. An empty string will create an empty file. When creating a directory, the content should be null or undefined."
+                      },
+                      "type": {
+                        "enum": ["file", "interval", "http", "email", "script"]
+                      },
+                      "parent_path": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "description": "Path to the directory you'd like to move this file to (e.g. 'folder1/folder2')"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "name": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 48,
+                        "pattern": "^[a-zA-Z0-9\\$\\[\\]\\(\\)\\-_.]+$"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "in": "query",
+            "name": "branch_id",
+            "required": false,
+            "description": "The specified branch of the resource. Defaults to main if not provided."
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "path",
+            "required": true,
+            "description": "Path to a file or directory (e.g. 'dir/subdir/file.ts'). Pass in an empty string to represent the root directory."
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "in": "path",
+            "name": "val_id",
+            "required": true,
+            "description": "Id of a val"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A File or Directory's Metadata",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileRevisionMetadataV2"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "A File or Directory's Metadata",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileRevisionMetadataV2"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/vals/{val_id}/files/content": {
+      "get": {
+        "operationId": "filesContentGet2",
+        "tags": ["vals"],
+        "description": "Download file content",
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "in": "query",
+            "name": "version",
+            "required": false,
+            "description": "Specific branch version to query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "in": "query",
+            "name": "branch_id",
+            "required": false,
+            "description": "Id to query"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "path",
+            "required": true,
+            "description": "Path to a file or directory (e.g. 'dir/subdir/file.ts'). Pass in an empty string to represent the root directory."
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "in": "path",
+            "name": "val_id",
+            "required": true,
+            "description": "Id of a val"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "If-Match",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "If-Unmodified-Since",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "If-None-Match",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "If-Modified-Since",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "Cache-Control",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Contents of the file",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "string"
+                }
+              }
+            }
+          },
+          "304": {
+            "description": "Cached version of the file is the same as the one requested",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Cached version of the file is the same as the one requested"
+                }
+              }
+            }
+          },
+          "412": {
+            "description": "Precondition failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Precondition failed",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/files/{file_id}": {
+      "get": {
+        "operationId": "queryValFileById",
+        "tags": ["files"],
+        "description": "Get file metadata by file ID",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "in": "path",
+            "name": "file_id",
+            "required": true,
+            "description": "ID of a file in a val"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A File or Directory's Metadata",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileRevisionMetadataV2"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/alias/vals/{username}/{val_name}": {
+      "get": {
+        "operationId": "aliasVal2",
+        "tags": ["alias"],
+        "description": "Get a val",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "username",
+            "required": true,
+            "description": "Username of the user whose val you are looking for"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "val_name",
+            "required": true,
+            "description": "Name of the val you're looking for"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A Val",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Val"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/me/vals": {
+      "get": {
+        "operationId": "meVals2",
+        "tags": ["me"],
+        "description": "[BETA] List all of a user's vals for authenticated users",
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0
+            },
+            "in": "query",
+            "name": "offset",
+            "required": true,
+            "description": "Number of items to skip in order to deliver paginated results"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            },
+            "in": "query",
+            "name": "limit",
+            "required": true,
+            "description": "Maximum items to return in each paginated response"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A paginated result set",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["data", "links"],
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Val"
+                      }
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/PaginationLinks"
+                    }
+                  },
+                  "description": "A paginated result set"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/orgs": {
+      "get": {
+        "operationId": "orgsList",
+        "tags": ["orgs"],
+        "description": "Get all orgs you are a member of",
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0
+            },
+            "in": "query",
+            "name": "offset",
+            "required": true,
+            "description": "Number of items to skip in order to deliver paginated results"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            },
+            "in": "query",
+            "name": "limit",
+            "required": true,
+            "description": "Maximum items to return in each paginated response"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A paginated result set",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["data", "links"],
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Org"
+                      }
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/PaginationLinks"
+                    }
+                  },
+                  "description": "A paginated result set"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/orgs/{org_id}/memberships": {
+      "get": {
+        "operationId": "orgsMembershipsList",
+        "tags": ["orgs"],
+        "description": "List all memberships of an org",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "description": "Id of an org"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Membership"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/blob": {
+      "get": {
+        "operationId": "v2blobsList",
+        "tags": ["blobs"],
+        "description": "List blobs in your account",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "prefix",
+            "required": false,
+            "description": "If specified, only include blobs that start with this string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of blobs that you’ve stored",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": ["key"],
+                    "properties": {
+                      "key": {
+                        "type": "string"
+                      },
+                      "size": {
+                        "type": "integer",
+                        "description": "Size in bytes of the object"
+                      },
+                      "lastModified": {
+                        "type": "string",
+                        "description": "Creation date of the object",
+                        "format": "date-time"
+                      }
+                    },
+                    "title": "BlobListingItem"
+                  },
+                  "description": "List of blobs that you’ve stored"
+                },
+                "example": [
+                  {
+                    "key": "hello_world",
+                    "size": 20,
+                    "lastModified": "2024-06-24T20:00:59.702Z"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/blob/{key}": {
+      "get": {
+        "operationId": "v2blobsGet",
+        "tags": ["blobs"],
+        "description": "Get a blob’s contents.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 512
+            },
+            "in": "path",
+            "name": "key",
+            "required": true,
+            "description": "Key that uniquely identifies this blob"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Binary contents of the returned file",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "v2blobsStore",
+        "tags": ["blobs"],
+        "description": "Store data in blob storage",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string",
+                "format": "binary",
+                "description": "Binary input data"
+              }
+            }
+          },
+          "description": "Binary input data"
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 512
+            },
+            "in": "path",
+            "name": "key",
+            "required": true,
+            "description": "Key that uniquely identifies this blob"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "enum": ["ok"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["error"],
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "v2blobsDelete",
+        "tags": ["blobs"],
+        "description": "Delete a blob",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 512
+            },
+            "in": "path",
+            "name": "key",
+            "required": true,
+            "description": "Key that uniquely identifies this blob"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Blob successfully deleted"
+          }
+        }
+      }
+    },
+    "/v3/connections/slack/token": {
+      "post": {
+        "tags": ["connections"],
+        "description": "Get a valid Slack access token for a connected workspace. Automatically refreshes the token if expired.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["team_id"],
+                "properties": {
+                  "team_id": {
+                    "type": "string",
+                    "description": "The Slack team/workspace ID (e.g., 'T9TK3CUKW')",
+                    "maxLength": 32
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["access_token"],
+                  "properties": {
+                    "access_token": {
+                      "type": "string",
+                      "description": "A valid Slack access token"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["error"],
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["error"],
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/connections/google-docs/token": {
+      "post": {
+        "tags": ["connections"],
+        "description": "Get a valid Google access token for a connected Google account. Automatically refreshes the token if expired.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email"],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "description": "The Google account email",
+                    "maxLength": 320
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["access_token"],
+                  "properties": {
+                    "access_token": {
+                      "type": "string",
+                      "description": "A valid Google access token"
+                    },
+                    "granted_scopes": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "The scopes granted by the user during OAuth (may be a subset of requested scopes)"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["error"],
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["error"],
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/val/viewer": {
+      "get": {
+        "tags": ["val"],
+        "description": "Look up the identity of the viewer of an app-authenticated (intranet) val, given the X-Val-Town-User header value that Fastify forwarded to the val. Authenticated with the val's own API token (bearer auth). The projectId inside the signed header must match the caller's own project.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "x-val-town-user",
+            "required": true,
+            "description": "The signed X-Val-Town-User header value Fastify forwarded to the val."
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Public identity of the viewer derived from a verified X-Val-Town-User header. Only safe, public profile fields are returned — no email or tier.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["id", "type", "username", "bio", "profileImageUrl", "url", "links"],
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uuid",
+                      "description": "The viewer's user id"
+                    },
+                    "type": {
+                      "anyOf": [
+                        {
+                          "enum": ["user", "org"],
+                          "description": "Whether the viewer is a user or an organization"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "username": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "description": "The viewer's handle, without the @ symbol"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "bio": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "description": "The viewer's bio, if any"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "profileImageUrl": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "format": "uri",
+                          "description": "URL to the viewer's profile image, if any"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "type": "string",
+                      "format": "uri",
+                      "description": "The viewer's profile URL on val.town"
+                    },
+                    "links": {
+                      "type": "object",
+                      "required": ["self"],
+                      "properties": {
+                        "self": {
+                          "type": "string",
+                          "format": "uri",
+                          "description": "URL of this viewer on this API"
+                        }
+                      }
+                    }
+                  },
+                  "description": "Public identity of the viewer derived from a verified X-Val-Town-User header. Only safe, public profile fields are returned — no email or tier."
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["error"],
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["error"],
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["error"],
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["error"],
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/environment-variable-groups/": {
+      "get": {
+        "operationId": "environmentVariableGroupsList",
+        "tags": ["envVarGroups"],
+        "description": "List environment variable groups",
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0
+            },
+            "in": "query",
+            "name": "offset",
+            "required": true,
+            "description": "Number of items to skip in order to deliver paginated results"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            },
+            "in": "query",
+            "name": "limit",
+            "required": true,
+            "description": "Maximum items to return in each paginated response"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "in": "query",
+            "name": "orgId",
+            "required": false,
+            "description": "Organization to act in. Defaults to the organization that owns the API token. List the organizations you belong to with GET /v2/orgs."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A paginated result set",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["data", "links"],
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": ["name", "id", "orgId", "count", "updatedAt", "createdAt"],
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "maxLength": 256,
+                            "description": "Name of the environment variable group"
+                          },
+                          "id": {
+                            "type": "string",
+                            "format": "uuid",
+                            "description": "The id of the group"
+                          },
+                          "orgId": {
+                            "type": "string",
+                            "format": "uuid",
+                            "description": "The id of the group"
+                          },
+                          "count": {
+                            "type": "integer",
+                            "minimum": 0
+                          },
+                          "updatedAt": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "format": "date-time"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "format": "date-time"
+                          }
+                        },
+                        "description": "An environment variable group"
+                      }
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/PaginationLinks"
+                    }
+                  },
+                  "description": "A paginated result set"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "environmentVariableGroupsCreate",
+        "tags": ["envVarGroups"],
+        "description": "Create a new environment variable group",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["name"],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 256
+                  },
+                  "orgId": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "Organization to act in. Defaults to the organization that owns the API token. List the organizations you belong to with GET /v2/orgs."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "An environment variable group",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["name", "id", "orgId", "count", "updatedAt", "createdAt"],
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "maxLength": 256,
+                      "description": "Name of the environment variable group"
+                    },
+                    "id": {
+                      "type": "string",
+                      "format": "uuid",
+                      "description": "The id of the group"
+                    },
+                    "orgId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "description": "The id of the group"
+                    },
+                    "count": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "updatedAt": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  },
+                  "description": "An environment variable group"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Name conflict with another environment variable group in that organization",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Name conflict with another environment variable group in that organization"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/environment-variable-groups/{id}": {
+      "delete": {
+        "operationId": "environmentVariableGroupsDelete",
+        "tags": ["envVarGroups"],
+        "description": "Delete an environment variable group",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Environment variable group ID"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Default Response"
+          }
+        }
+      },
+      "put": {
+        "operationId": "environmentVariableGroupsRename",
+        "tags": ["envVarGroups"],
+        "description": "Rename an environment variable group",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["name"],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 256,
+                    "description": "New name for group"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Environment variable group ID"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Rename accepted"
+          },
+          "409": {
+            "description": "Name conflict with another environment variable group in your organization",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Name conflict with another environment variable group in your organization"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/environment-variable-groups/{id}/environment-variables": {
+      "get": {
+        "operationId": "environmentVariableGroupsGet",
+        "tags": ["envVarGroups"],
+        "description": "List variables in an environment variable group",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Environment variable group ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TEnvironmentVariable"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "environmentVariableGroupsCreateVariable",
+        "tags": ["envVarGroups"],
+        "description": "Create an environment variable in a group",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["value", "key"],
+                "properties": {
+                  "value": {
+                    "type": "string",
+                    "description": "Value of the environment variable.",
+                    "maxLength": 8192
+                  },
+                  "description": {
+                    "anyOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "maxLength": 1024,
+                        "description": "Optional description of the environment variable. Send null to clear an existing description; omit it to leave the description unchanged."
+                      }
+                    ]
+                  },
+                  "key": {
+                    "type": "string",
+                    "maxLength": 8192,
+                    "pattern": "^[A-Za-z_][A-Z0-9a-z_]*$",
+                    "description": "Name or key of the environment variable, accessible via Deno.env or process.env"
+                  }
+                },
+                "description": "Inputs for an environment variable"
+              }
+            }
+          },
+          "description": "Inputs for an environment variable"
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Environment variable group ID"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "An environment variable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TEnvironmentVariable"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Name conflict with another environment variable in this group",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Name conflict with another environment variable in this group"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/environment-variable-groups/{id}/environment-variables/{key}": {
+      "post": {
+        "operationId": "environmentVariableGroupsUpsertVariable",
+        "tags": ["envVarGroups"],
+        "description": "Create or update an environment variable in a group",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["value"],
+                "properties": {
+                  "value": {
+                    "type": "string",
+                    "description": "Value of the environment variable.",
+                    "maxLength": 8192
+                  },
+                  "description": {
+                    "anyOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "string",
+                        "maxLength": 1024,
+                        "description": "Optional description of the environment variable. Send null to clear an existing description; omit it to leave the description unchanged."
+                      }
+                    ]
+                  }
+                },
+                "description": "Inputs to update a environment variable"
+              }
+            }
+          },
+          "description": "Inputs to update a environment variable"
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Environment variable group ID"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "maxLength": 8192,
+              "pattern": "^[A-Za-z_][A-Z0-9a-z_]*$"
+            },
+            "in": "path",
+            "name": "key",
+            "required": true,
+            "description": "Environment variable key"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "An environment variable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TEnvironmentVariable"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "environmentVariableGroupsVariableDelete",
+        "tags": ["envVarGroups"],
+        "description": "Delete an environment variable in a group",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "Environment variable group ID"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "key",
+            "required": true,
+            "description": "Environment variable key"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Default Response"
+          }
+        }
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "https://api.val.town",
+      "description": "Production"
+    }
+  ],
+  "tags": [
+    {
+      "name": "vals",
+      "description": "These endpoints\nlet you get, create, and run vals."
+    },
+    {
+      "name": "alias",
+      "description": "Many API endpoints\naccept IDs instead of user-facing names. The alias\nendpoints let you convert between the user-facing name of a\nval or another object into an ID that can be used with other\nAPI endpoints"
+    },
+    {
+      "name": "me",
+      "description": "These endpoints\ngive access to details and data from the requesting user."
+    },
+    {
+      "name": "users",
+      "description": "Users"
+    },
+    {
+      "name": "sqlite",
+      "description": "SQLite"
+    },
+    {
+      "name": "blobs",
+      "description": "Blobs"
+    },
+    {
+      "name": "search",
+      "description": "Search"
+    },
+    {
+      "name": "emails",
+      "description": "Emails"
+    }
+  ],
+  "externalDocs": {
+    "url": "https://api.val.town/documentation",
+    "description": "Find more info here"
+  }
+}
