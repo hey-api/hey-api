@@ -346,7 +346,8 @@ export const unwrapRefs = <T>(value: T): UnwrapRefs<T> => {
     value instanceof Blob ||
     value instanceof FormData ||
     value instanceof ReadableStream ||
-    value instanceof AbortSignal
+    value instanceof AbortSignal ||
+    value instanceof Date
   ) {
     return value as UnwrapRefs<T>;
   }
