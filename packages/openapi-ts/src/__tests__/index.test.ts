@@ -380,7 +380,7 @@ describe('createClient', () => {
 
     const queryFile = context?.gen
       .render()
-      .find((file) => file.path.endsWith('@tanstack/react-query.gen.ts'));
+      .find((file) => file.path.replaceAll('\\', '/').endsWith('@tanstack/react-query.gen.ts'));
 
     expect(queryFile).toBeDefined();
     expect(queryFile!.content).not.toContain('useSubscribeToEventStreamMutation');
