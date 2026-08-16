@@ -1,6 +1,6 @@
 import type { Config } from './types';
 
-export interface SseErrorContext {
+interface SseErrorContext {
   /** One-based connection attempt that failed. */
   attempt: number;
   /** Whether the client currently intends to retry. */
