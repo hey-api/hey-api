@@ -22,3 +22,19 @@ definitions:
             type: boolean
           optionD:
             type: boolean
+      recordOptions:
+        type: object
+        minProperties: 1
+        maxProperties: 2
+        additionalProperties:
+          type: boolean
+      strictOptions:
+        type: object
+        minProperties: 1
+        maxProperties: 2
+        additionalProperties: false
+        properties:
+          optionA:
+            type: boolean
+          optionB:
+            type: boolean

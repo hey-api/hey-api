@@ -8,5 +8,10 @@ export const zExampleRequest = z.object({
     optionB: z.optional(z.boolean()),
     optionC: z.optional(z.boolean()),
     optionD: z.optional(z.boolean())
-  }), z.pipe(z.unknown().check(z.refine(value => typeof value === 'object' && value !== null && Object.keys(value).length >= 1, 'Expected at least 1 property')).check(z.refine(value => typeof value === 'object' && value !== null && Object.keys(value).length <= 3, 'Expected at most 3 properties')), z.transform(() => ({}))))
+  }), z.pipe(z.unknown().check(z.refine(value => typeof value === 'object' && value !== null && Object.keys(value).length >= 1, 'Expected at least 1 property')).check(z.refine(value => typeof value === 'object' && value !== null && Object.keys(value).length <= 3, 'Expected at most 3 properties')), z.transform(() => ({})))),
+  recordOptions: z.optional(z.intersection(z.record(z.string(), z.boolean()), z.pipe(z.unknown().check(z.refine(value => typeof value === 'object' && value !== null && Object.keys(value).length >= 1, 'Expected at least 1 property')).check(z.refine(value => typeof value === 'object' && value !== null && Object.keys(value).length <= 2, 'Expected at most 2 properties')), z.transform(() => ({}))))),
+  strictOptions: z.optional(z.intersection(z.strictObject({
+    optionA: z.optional(z.boolean()),
+    optionB: z.optional(z.boolean())
+  }), z.pipe(z.unknown().check(z.refine(value => typeof value === 'object' && value !== null && Object.keys(value).length >= 1, 'Expected at least 1 property')).check(z.refine(value => typeof value === 'object' && value !== null && Object.keys(value).length <= 2, 'Expected at most 2 properties')), z.transform(() => ({})))))
 });

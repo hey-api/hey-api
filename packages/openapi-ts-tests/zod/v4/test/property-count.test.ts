@@ -111,6 +111,30 @@ for (const version of versions) {
           expect(result.error.issues[0]?.message).toBe(message);
         }
       });
+
+      it('validates property counts for record-based objects', () => {
+        const base = { options: { optionA: true } };
+        expect(schema.safeParse({ ...base, recordOptions: {} }).success).toBe(false);
+        expect(schema.safeParse({ ...base, recordOptions: { optionA: true } }).success).toBe(true);
+        expect(
+          schema.safeParse({
+            ...base,
+            recordOptions: { optionA: true, optionB: false, optionC: true },
+          }).success,
+        ).toBe(false);
+      });
+
+      it('validates property counts for strict objects', () => {
+        const base = { options: { optionA: true } };
+        expect(schema.safeParse({ ...base, strictOptions: {} }).success).toBe(false);
+        expect(schema.safeParse({ ...base, strictOptions: { optionA: true } }).success).toBe(true);
+        expect(
+          schema.safeParse({
+            ...base,
+            strictOptions: { optionA: true, optionB: false, unknown: true },
+          }).success,
+        ).toBe(false);
+      });
     });
   }
 }

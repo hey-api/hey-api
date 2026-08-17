@@ -8,5 +8,10 @@ export const zExampleRequest = z.object({
     optionB: z.boolean().optional(),
     optionC: z.boolean().optional(),
     optionD: z.boolean().optional()
-  }), z.unknown().refine(value => typeof value === 'object' && value !== null && Object.keys(value).length >= 1, 'Expected at least 1 property').refine(value => typeof value === 'object' && value !== null && Object.keys(value).length <= 3, 'Expected at most 3 properties').transform(() => ({})))
+  }), z.unknown().refine(value => typeof value === 'object' && value !== null && Object.keys(value).length >= 1, 'Expected at least 1 property').refine(value => typeof value === 'object' && value !== null && Object.keys(value).length <= 3, 'Expected at most 3 properties').transform(() => ({}))),
+  recordOptions: z.intersection(z.record(z.boolean()), z.unknown().refine(value => typeof value === 'object' && value !== null && Object.keys(value).length >= 1, 'Expected at least 1 property').refine(value => typeof value === 'object' && value !== null && Object.keys(value).length <= 2, 'Expected at most 2 properties').transform(() => ({}))).optional(),
+  strictOptions: z.intersection(z.strictObject({
+    optionA: z.boolean().optional(),
+    optionB: z.boolean().optional()
+  }), z.unknown().refine(value => typeof value === 'object' && value !== null && Object.keys(value).length >= 1, 'Expected at least 1 property').refine(value => typeof value === 'object' && value !== null && Object.keys(value).length <= 2, 'Expected at most 2 properties').transform(() => ({}))).optional()
 });
