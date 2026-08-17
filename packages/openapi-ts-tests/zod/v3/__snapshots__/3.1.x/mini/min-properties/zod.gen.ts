@@ -6,5 +6,5 @@ export const zExampleRequest = z.object({
   options: z.object({
     optionA: z.optional(z.boolean()),
     optionB: z.optional(z.boolean())
-  }).check(z.refine(value => Object.keys(value).length >= 1))
+  }).check(z.refine(value => Object.keys(value).length >= 1)).check(z.refine(value => Object.keys(value).length <= 1))
 });

@@ -25,7 +25,7 @@ for (const zodVersion of zodVersions) {
           input: 'min-properties.yaml',
           output: 'min-properties',
         }),
-        description: 'preserves minProperties on object schemas',
+        description: 'preserves minProperties and maxProperties on object schemas',
       },
       {
         config: createConfig({
