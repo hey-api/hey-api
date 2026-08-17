@@ -84,7 +84,7 @@ for (const version of versions) {
         const folder = compatibilityVersion === 'mini' ? 'mini' : 'v4';
         const outputDir = path.join(tmpDir, 'runtime', version, folder);
         await createClient({
-          input: path.join(getSpecsPath(), version, 'min-properties.yaml'),
+          input: path.join(getSpecsPath(), version, 'property-count.yaml'),
           logs: { level: 'silent' },
           output: outputDir,
           plugins: [{ compatibilityVersion, name: 'zod' }],

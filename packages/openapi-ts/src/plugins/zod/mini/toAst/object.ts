@@ -64,9 +64,12 @@ function baseNode(ctx: ExtendedContext): Chain {
 function objectResolver(ctx: ExtendedContext): Chain {
   const hasPropertyCountConstraints =
     ctx.schema.minProperties !== undefined || ctx.schema.maxProperties !== undefined;
-  ctx.chain.current = hasPropertyCountConstraints
-    ? $(ctx.plugin.imports.z).attr(identifiers.any).call()
-    : ctx.nodes.base(ctx);
+  const base = ctx.nodes.base(ctx);
+  ctx.chain.current = base;
+
+  if (!hasPropertyCountConstraints) return ctx.chain.current;
+
+  ctx.chain.current = $(ctx.plugin.imports.z).attr(identifiers.unknown).call();
 
   const minPropertiesResult = ctx.nodes.minProperties(ctx);
   if (minPropertiesResult) {
@@ -78,11 +81,17 @@ function objectResolver(ctx: ExtendedContext): Chain {
     ctx.chain.current = maxPropertiesResult;
   }
 
-  if (hasPropertyCountConstraints) {
-    ctx.chain.current = $(ctx.plugin.imports.z)
-      .attr(identifiers.pipe)
-      .call(ctx.chain.current, ctx.nodes.base(ctx));
-  }
+  const propertyCount = $(ctx.plugin.imports.z)
+    .attr(identifiers.pipe)
+    .call(
+      ctx.chain.current,
+      $(ctx.plugin.imports.z)
+        .attr(identifiers.transform)
+        .call($.func().arrow().do($.return($.object()))),
+    );
+  ctx.chain.current = $(ctx.plugin.imports.z)
+    .attr(identifiers.intersection)
+    .call(base, propertyCount);
 
   return ctx.chain.current;
 }

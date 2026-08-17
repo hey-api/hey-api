@@ -80,7 +80,7 @@ for (const version of versions) {
     beforeAll(async () => {
       const outputDir = path.join(tmpDir, 'runtime', version);
       await createClient({
-        input: path.join(getSpecsPath(), version, 'min-properties.yaml'),
+        input: path.join(getSpecsPath(), version, 'property-count.yaml'),
         logs: { level: 'silent' },
         output: outputDir,
         plugins: [{ compatibilityVersion: 3, name: 'zod' }],
