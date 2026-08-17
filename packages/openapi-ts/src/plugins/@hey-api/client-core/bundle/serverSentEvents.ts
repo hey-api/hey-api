@@ -1,12 +1,5 @@
 import type { Config } from './types';
 
-interface SseErrorContext {
-  /** One-based connection attempt that failed. */
-  attempt: number;
-  /** Whether the client currently intends to retry. */
-  willRetry: boolean;
-}
-
 export type ServerSentEventsOptions<TData = unknown> = Omit<RequestInit, 'method'> &
   Pick<Config, 'method' | 'responseTransformer' | 'responseValidator'> & {
     /**
@@ -28,7 +21,7 @@ export type ServerSentEventsOptions<TData = unknown> = Omit<RequestInit, 'method
      * @param error The error that occurred.
      * @param context Retry information for the failed connection attempt.
      */
-    onSseError?: (error: unknown, context: SseErrorContext) => void;
+    onSseError?: (error: unknown, context: { attempt: number; willRetry: boolean }) => void;
     /**
      * Callback invoked when an event is streamed from the server.
      *
