@@ -103,12 +103,19 @@ function propertyCountPredicate(operator: 'gte' | 'lte', count: number) {
     );
 }
 
+function propertyCountMessage(operator: 'gte' | 'lte', count: number) {
+  return `Expected ${operator === 'gte' ? 'at least' : 'at most'} ${count} propert${count === 1 ? 'y' : 'ies'}`;
+}
+
 function minPropertiesNode(ctx: ExtendedContext): Chain | undefined {
   const { schema } = ctx;
   if (schema.minProperties === undefined) return;
   return ctx.chain.current
     .attr(identifiers.refine)
-    .call(propertyCountPredicate('gte', schema.minProperties));
+    .call(
+      propertyCountPredicate('gte', schema.minProperties),
+      $.literal(propertyCountMessage('gte', schema.minProperties)),
+    );
 }
 
 function maxPropertiesNode(ctx: ExtendedContext): Chain | undefined {
@@ -116,7 +123,10 @@ function maxPropertiesNode(ctx: ExtendedContext): Chain | undefined {
   if (schema.maxProperties === undefined) return;
   return ctx.chain.current
     .attr(identifiers.refine)
-    .call(propertyCountPredicate('lte', schema.maxProperties));
+    .call(
+      propertyCountPredicate('lte', schema.maxProperties),
+      $.literal(propertyCountMessage('lte', schema.maxProperties)),
+    );
 }
 
 function shapeNode(ctx: ExtendedContext): ReturnType<typeof $.object> {

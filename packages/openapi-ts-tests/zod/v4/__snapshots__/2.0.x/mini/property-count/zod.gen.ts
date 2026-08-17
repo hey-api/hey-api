@@ -8,5 +8,5 @@ export const zExampleRequest = z.object({
     optionB: z.optional(z.boolean()),
     optionC: z.optional(z.boolean()),
     optionD: z.optional(z.boolean())
-  }), z.pipe(z.unknown().check(z.refine(value => typeof value === 'object' && value !== null && Object.keys(value).length >= 1)).check(z.refine(value => typeof value === 'object' && value !== null && Object.keys(value).length <= 3)), z.transform(() => ({}))))
+  }), z.pipe(z.unknown().check(z.refine(value => typeof value === 'object' && value !== null && Object.keys(value).length >= 1, 'Expected at least 1 property')).check(z.refine(value => typeof value === 'object' && value !== null && Object.keys(value).length <= 3, 'Expected at most 3 properties')), z.transform(() => ({}))))
 });

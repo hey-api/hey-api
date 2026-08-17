@@ -9,7 +9,14 @@ import { tmpDir } from './constants';
 
 const versions = ['2.0.x', '3.0.x', '3.1.x'] as const;
 
-const cases = [
+type PropertyCountCase = {
+  description: string;
+  message?: string;
+  options: unknown;
+  success: boolean;
+};
+
+const cases: ReadonlyArray<PropertyCountCase> = [
   {
     description: 'rejects a non-object value',
     options: null,
@@ -17,6 +24,7 @@ const cases = [
   },
   {
     description: 'rejects an object below minProperties',
+    message: 'Expected at least 1 property',
     options: {},
     success: false,
   },
@@ -37,6 +45,7 @@ const cases = [
   },
   {
     description: 'rejects an object above maxProperties',
+    message: 'Expected at most 3 properties',
     options: { optionA: true, optionB: false, optionC: true, optionD: false },
     success: false,
   },
@@ -50,7 +59,7 @@ const cases = [
     options: { optionA: true, optionB: false, optionC: true, unknown: false },
     success: false,
   },
-] as const;
+];
 
 type Schema = Pick<z.ZodType, 'safeParse'>;
 
@@ -88,9 +97,12 @@ for (const version of versions) {
       schema = loadSchema(path.join(outputDir, 'zod.gen.ts'));
     });
 
-    it.each(cases)('$description', ({ options, success }) => {
+    it.each(cases)('$description', ({ message, options, success }) => {
       const result = schema.safeParse({ options });
       expect(result.success).toBe(success);
+      if (!result.success && message) {
+        expect(result.error.issues[0]?.message).toBe(message);
+      }
     });
   });
 }
