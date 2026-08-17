@@ -1,6 +1,6 @@
 openapi: 3.1.0
 info:
-  title: minProperties reproduction
+  title: Object property count constraints
   version: 1.0.0
 paths: {}
 components:

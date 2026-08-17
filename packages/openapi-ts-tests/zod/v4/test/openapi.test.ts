@@ -23,6 +23,13 @@ for (const version of versions) {
       const scenarios = [
         {
           config: createConfig({
+            input: 'property-count.yaml',
+            output: 'property-count',
+          }),
+          description: 'preserves minProperties and maxProperties on object schemas',
+        },
+        {
+          config: createConfig({
             input: 'array-items-all-of.yaml',
             output: 'array-items-all-of',
           }),

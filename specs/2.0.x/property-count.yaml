@@ -1,0 +1,24 @@
+swagger: '2.0'
+info:
+  title: Object property count constraints
+  version: 1.0.0
+paths: {}
+definitions:
+  ExampleRequest:
+    type: object
+    required:
+      - options
+    properties:
+      options:
+        type: object
+        minProperties: 1
+        maxProperties: 3
+        properties:
+          optionA:
+            type: boolean
+          optionB:
+            type: boolean
+          optionC:
+            type: boolean
+          optionD:
+            type: boolean

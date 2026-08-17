@@ -22,13 +22,6 @@ for (const zodVersion of zodVersions) {
     const scenarios = [
       {
         config: createConfig({
-          input: 'property-count.yaml',
-          output: 'property-count',
-        }),
-        description: 'preserves minProperties and maxProperties on object schemas',
-      },
-      {
-        config: createConfig({
           input: 'array-items-one-of-length-1.yaml',
           output: 'array-items-one-of-length-1',
         }),

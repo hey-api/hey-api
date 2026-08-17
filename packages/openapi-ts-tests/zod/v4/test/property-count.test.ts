@@ -8,7 +8,7 @@ import * as zMini from 'zod/mini';
 import { getSpecsPath } from '../../../utils';
 import { tmpDir } from './constants';
 
-const versions = ['3.0.x', '3.1.x'] as const;
+const versions = ['2.0.x', '3.0.x', '3.1.x'] as const;
 const compatibilityVersions = [4, 'mini'] as const;
 
 const cases = [

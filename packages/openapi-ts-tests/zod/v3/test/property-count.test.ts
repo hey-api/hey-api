@@ -7,7 +7,7 @@ import * as z from 'zod';
 import { getSpecsPath } from '../../../utils';
 import { tmpDir } from './constants';
 
-const versions = ['3.0.x', '3.1.x'] as const;
+const versions = ['2.0.x', '3.0.x', '3.1.x'] as const;
 
 const cases = [
   {
