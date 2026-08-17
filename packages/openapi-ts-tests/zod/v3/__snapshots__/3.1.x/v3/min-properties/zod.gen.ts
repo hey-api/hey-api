@@ -5,6 +5,8 @@ import { z } from 'zod';
 export const zExampleRequest = z.object({
   options: z.object({
     optionA: z.boolean().optional(),
-    optionB: z.boolean().optional()
-  }).refine(value => Object.keys(value).length >= 1).refine(value => Object.keys(value).length <= 1)
+    optionB: z.boolean().optional(),
+    optionC: z.boolean().optional(),
+    optionD: z.boolean().optional()
+  }).refine(value => Object.keys(value).length >= 1).refine(value => Object.keys(value).length <= 3)
 });
