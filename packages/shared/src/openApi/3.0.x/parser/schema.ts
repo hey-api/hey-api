@@ -214,12 +214,20 @@ function parseSchemaMeta({
     irSchema.maxLength = schema.maxLength;
   }
 
+  if (schema.maxProperties !== undefined) {
+    irSchema.maxProperties = schema.maxProperties;
+  }
+
   if (schema.minItems !== undefined) {
     irSchema.minItems = schema.minItems;
   }
 
   if (schema.minLength !== undefined) {
     irSchema.minLength = schema.minLength;
+  }
+
+  if (schema.minProperties !== undefined) {
+    irSchema.minProperties = schema.minProperties;
   }
 
   if (schema.pattern) {

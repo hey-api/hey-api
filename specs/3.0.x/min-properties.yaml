@@ -1,0 +1,20 @@
+openapi: 3.0.3
+info:
+  title: minProperties reproduction
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    ExampleRequest:
+      type: object
+      required:
+        - options
+      properties:
+        options:
+          type: object
+          minProperties: 1
+          properties:
+            optionA:
+              type: boolean
+            optionB:
+              type: boolean

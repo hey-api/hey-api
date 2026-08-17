@@ -62,7 +62,52 @@ function baseNode(ctx: ExtendedContext): Chain {
 }
 
 function objectResolver(ctx: ExtendedContext): Chain {
-  return ctx.nodes.base(ctx);
+  ctx.chain.current = ctx.nodes.base(ctx);
+
+  const minPropertiesResult = ctx.nodes.minProperties(ctx);
+  if (minPropertiesResult) {
+    ctx.chain.current = minPropertiesResult;
+  }
+
+  const maxPropertiesResult = ctx.nodes.maxProperties(ctx);
+  if (maxPropertiesResult) {
+    ctx.chain.current = maxPropertiesResult;
+  }
+
+  return ctx.chain.current;
+}
+
+function propertyCountPredicate(operator: 'gte' | 'lte', count: number) {
+  return $.func()
+    .arrow()
+    .param('value')
+    .do(
+      $.return($('Object').attr('keys').call('value').attr('length')[operator]($.fromValue(count))),
+    );
+}
+
+function minPropertiesNode(ctx: ExtendedContext): Chain | undefined {
+  const { plugin, schema } = ctx;
+  if (schema.minProperties === undefined) return;
+  return ctx.chain.current
+    .attr(identifiers.check)
+    .call(
+      $(plugin.imports.z)
+        .attr(identifiers.refine)
+        .call(propertyCountPredicate('gte', schema.minProperties)),
+    );
+}
+
+function maxPropertiesNode(ctx: ExtendedContext): Chain | undefined {
+  const { plugin, schema } = ctx;
+  if (schema.maxProperties === undefined) return;
+  return ctx.chain.current
+    .attr(identifiers.check)
+    .call(
+      $(plugin.imports.z)
+        .attr(identifiers.refine)
+        .call(propertyCountPredicate('lte', schema.maxProperties)),
+    );
 }
 
 function shapeNode(ctx: ExtendedContext): ReturnType<typeof $.object> {
@@ -100,6 +145,8 @@ export function objectToAst(options: ObjectToAstOptions): CompositeHandlerResult
     nodes: {
       additionalProperties: additionalPropertiesNode,
       base: baseNode,
+      maxProperties: maxPropertiesNode,
+      minProperties: minPropertiesNode,
       shape: shapeNode,
     },
     path,

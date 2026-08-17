@@ -54,6 +54,7 @@ export const identifiers = {
   parseAsync: 'parseAsync',
   readonly: 'readonly',
   record: 'record',
+  refine: 'refine',
   regex: 'regex',
   register: 'register',
   strictObject: 'strictObject',
