@@ -65,7 +65,7 @@ const cases: ReadonlyArray<PropertyCountCase> = [
 
 type Schema = Pick<z.ZodType, 'safeParse'>;
 
-function loadSchema(generatedPath: string, zodModule: object): Schema {
+function loadSchema(generatedPath: string, zodModule: object, schemaName?: string): Schema {
   const generatedCode = fs.readFileSync(generatedPath, 'utf-8');
   const exportMatches = generatedCode.match(/export const (\w+)/g);
   if (!exportMatches) {
@@ -76,18 +76,19 @@ function loadSchema(generatedPath: string, zodModule: object): Schema {
   const evalCode =
     generatedCode
       .replace(/^import .* from ['"]zod(?:\/mini)?['"];\r?\n?/gm, '')
-      .replace(/export const /g, 'exports.') + `\nreturn exports;`;
+      .replace(/export const (\w+) =/g, 'const $1 = exports.$1 =') + `\nreturn exports;`;
   const moduleExports: Record<string, unknown> = {};
   const schemaFunction = new Function('z', 'exports', evalCode);
   schemaFunction(zodModule, moduleExports);
 
-  return moduleExports[schemaNames[0]!] as Schema;
+  return moduleExports[schemaName ?? schemaNames[0]!] as Schema;
 }
 
 for (const version of versions) {
   for (const compatibilityVersion of compatibilityVersions) {
     describe(`OpenAPI ${version} minProperties and maxProperties (${compatibilityVersion})`, () => {
       let schema: Schema;
+      let discriminatorSchema: Schema | undefined;
 
       beforeAll(async () => {
         const folder = compatibilityVersion === 'mini' ? 'mini' : 'v4';
@@ -98,10 +99,12 @@ for (const version of versions) {
           output: outputDir,
           plugins: [{ compatibilityVersion, name: 'zod' }],
         });
-        schema = loadSchema(
-          path.join(outputDir, 'zod.gen.ts'),
-          compatibilityVersion === 'mini' ? zMini : z,
-        );
+        const generatedPath = path.join(outputDir, 'zod.gen.ts');
+        const zodModule = compatibilityVersion === 'mini' ? zMini : z;
+        schema = loadSchema(generatedPath, zodModule);
+        if (version === '3.1.x') {
+          discriminatorSchema = loadSchema(generatedPath, zodModule, 'zPropertyCountUnion');
+        }
       });
 
       it.each(cases)('$description', ({ message, options, success }) => {
@@ -135,6 +138,20 @@ for (const version of versions) {
           }).success,
         ).toBe(false);
       });
+
+      if (version === '3.1.x') {
+        it('supports constrained schemas as discriminator members', () => {
+          expect(discriminatorSchema?.safeParse({ type: 'one' }).success).toBe(true);
+          expect(discriminatorSchema?.safeParse({ id: 'one', type: 'one' }).success).toBe(true);
+          expect(discriminatorSchema?.safeParse({ id: 'two', type: 'two' }).success).toBe(true);
+          expect(
+            discriminatorSchema?.safeParse({ extra: 'too-many', id: 'one', type: 'one' }).success,
+          ).toBe(false);
+          expect(discriminatorSchema?.safeParse({ id: 'unknown', type: 'unknown' }).success).toBe(
+            false,
+          );
+        });
+      }
     });
   }
 }

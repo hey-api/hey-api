@@ -39,3 +39,26 @@ components:
               type: boolean
             optionB:
               type: boolean
+    PropertyCountUnion:
+      oneOf:
+        - $ref: '#/components/schemas/PropertyCountOne'
+        - $ref: '#/components/schemas/PropertyCountTwo'
+      discriminator:
+        propertyName: type
+        mapping:
+          one: '#/components/schemas/PropertyCountOne'
+          two: '#/components/schemas/PropertyCountTwo'
+    PropertyCountOne:
+      type: object
+      minProperties: 1
+      maxProperties: 2
+      properties:
+        id:
+          type: string
+    PropertyCountTwo:
+      type: object
+      minProperties: 1
+      maxProperties: 2
+      properties:
+        id:
+          type: string

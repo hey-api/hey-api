@@ -15,3 +15,20 @@ export const zExampleRequest = z.object({
     optionB: z.optional(z.boolean())
   }), z.pipe(z.unknown().check(z.refine(value => typeof value === 'object' && value !== null && Object.keys(value).length >= 1, 'Expected at least 1 property')).check(z.refine(value => typeof value === 'object' && value !== null && Object.keys(value).length <= 2, 'Expected at most 2 properties')), z.transform(() => ({})))))
 });
+
+export const zPropertyCountOne = z.intersection(z.object({
+  id: z.optional(z.string())
+}), z.pipe(z.unknown().check(z.refine(value => typeof value === 'object' && value !== null && Object.keys(value).length >= 1, 'Expected at least 1 property')).check(z.refine(value => typeof value === 'object' && value !== null && Object.keys(value).length <= 2, 'Expected at most 2 properties')), z.transform(() => ({}))));
+
+export const zPropertyCountTwo = z.intersection(z.object({
+  id: z.optional(z.string())
+}), z.pipe(z.unknown().check(z.refine(value => typeof value === 'object' && value !== null && Object.keys(value).length >= 1, 'Expected at least 1 property')).check(z.refine(value => typeof value === 'object' && value !== null && Object.keys(value).length <= 2, 'Expected at most 2 properties')), z.transform(() => ({}))));
+
+export const zPropertyCountUnion = z.union([
+  z.intersection(z.object({
+    type: z.literal('one')
+  }), zPropertyCountOne),
+  z.intersection(z.object({
+    type: z.literal('two')
+  }), zPropertyCountTwo)
+]);
