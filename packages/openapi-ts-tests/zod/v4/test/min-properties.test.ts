@@ -13,6 +13,11 @@ const compatibilityVersions = [4, 'mini'] as const;
 
 const cases = [
   {
+    description: 'rejects a non-object value',
+    options: null,
+    success: false,
+  },
+  {
     description: 'rejects an object below minProperties',
     options: {},
     success: false,
@@ -35,6 +40,16 @@ const cases = [
   {
     description: 'rejects an object above maxProperties',
     options: { optionA: true, optionB: false, optionC: true, optionD: false },
+    success: false,
+  },
+  {
+    description: 'counts an unknown property at the minProperties boundary',
+    options: { unknown: true },
+    success: true,
+  },
+  {
+    description: 'counts unknown properties above maxProperties',
+    options: { optionA: true, optionB: false, optionC: true, unknown: false },
     success: false,
   },
 ] as const;

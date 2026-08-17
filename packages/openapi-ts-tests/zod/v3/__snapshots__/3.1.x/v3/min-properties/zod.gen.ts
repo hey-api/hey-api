@@ -3,10 +3,10 @@
 import { z } from 'zod';
 
 export const zExampleRequest = z.object({
-  options: z.object({
+  options: z.any().refine(value => typeof value === 'object' && value !== null && Object.keys(value).length >= 1).refine(value => typeof value === 'object' && value !== null && Object.keys(value).length <= 3).pipe(z.object({
     optionA: z.boolean().optional(),
     optionB: z.boolean().optional(),
     optionC: z.boolean().optional(),
     optionD: z.boolean().optional()
-  }).refine(value => Object.keys(value).length >= 1).refine(value => Object.keys(value).length <= 3)
+  }))
 });

@@ -59,7 +59,11 @@ function baseNode(ctx: ExtendedContext): Chain {
 }
 
 function objectResolver(ctx: ExtendedContext): Chain {
-  ctx.chain.current = ctx.nodes.base(ctx);
+  const hasPropertyCountConstraints =
+    ctx.schema.minProperties !== undefined || ctx.schema.maxProperties !== undefined;
+  ctx.chain.current = hasPropertyCountConstraints
+    ? $(ctx.plugin.imports.z).attr(identifiers.any).call()
+    : ctx.nodes.base(ctx);
 
   const minPropertiesResult = ctx.nodes.minProperties(ctx);
   if (minPropertiesResult) {
@@ -71,6 +75,10 @@ function objectResolver(ctx: ExtendedContext): Chain {
     ctx.chain.current = maxPropertiesResult;
   }
 
+  if (hasPropertyCountConstraints) {
+    ctx.chain.current = ctx.chain.current.attr(identifiers.pipe).call(ctx.nodes.base(ctx));
+  }
+
   return ctx.chain.current;
 }
 
@@ -79,7 +87,13 @@ function propertyCountPredicate(operator: 'gte' | 'lte', count: number) {
     .arrow()
     .param('value')
     .do(
-      $.return($('Object').attr('keys').call('value').attr('length')[operator]($.fromValue(count))),
+      $.return(
+        $.binary($.typeofExpr('value').eq($.fromValue('object'))).and(
+          $.binary($('value').neq($.fromValue(null))).and(
+            $('Object').attr('keys').call('value').attr('length')[operator]($.fromValue(count)),
+          ),
+        ),
+      ),
     );
 }
 
