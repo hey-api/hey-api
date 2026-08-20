@@ -103,6 +103,7 @@ export {
   discriminatorValues,
 } from './openApi/shared/utils/discriminator';
 export { buildGraph } from './openApi/shared/utils/graph';
+export { httpMethods } from './openApi/shared/utils/operation';
 export { patchOpenApiSpec } from './openApi/shared/utils/patch';
 export type {
   OpenApi,

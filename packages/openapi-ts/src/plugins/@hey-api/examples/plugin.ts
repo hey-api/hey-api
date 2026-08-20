@@ -1,9 +1,7 @@
-import { toCase } from '@hey-api/shared';
+import { httpMethods, toCase } from '@hey-api/shared';
 
 import { $ } from '../../../ts-dsl';
 import type { HeyApiExamplesPlugin } from './types';
-
-const httpMethods = new Set(['delete', 'get', 'head', 'options', 'patch', 'post', 'put', 'trace']);
 
 export const handler: HeyApiExamplesPlugin['Handler'] = ({ plugin }) => {
   const spec = plugin.context.spec as {
@@ -70,7 +68,7 @@ export const handler: HeyApiExamplesPlugin['Handler'] = ({ plugin }) => {
       // path items contain non-operation members (`parameters`, `summary`,
       // `servers`, `x-` extensions, ...) whose values may be primitives —
       // only iterate HTTP methods so property checks below are safe
-      if (!httpMethods.has(key)) {
+      if (!httpMethods.includes(key as (typeof httpMethods)[number])) {
         continue;
       }
 
