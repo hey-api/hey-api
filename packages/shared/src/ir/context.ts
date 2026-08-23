@@ -89,6 +89,13 @@ export class Context<Spec extends Record<string, any> = any, Config extends AnyC
     const plugin = (this.config.plugins as unknown as Record<string, Plugin.Stored<Plugin.Types>>)[
       name
     ]!;
+    if (typeof plugin.handler !== 'function') {
+      throw new Error(
+        `Plugin "${name}" is missing a valid "handler" function. ` +
+          'Plugins must be registered as objects with a `handler`, e.g. ' +
+          `{ name: "${name}", handler: ({ plugin }) => { ... } }.`,
+      );
+    }
     const instance = new PluginInstance({
       api: plugin.api,
       config: plugin.config,
