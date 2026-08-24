@@ -1,5 +1,11 @@
 # @hey-api/spec-types
 
+## 0.2.1
+
+### Patch Changes
+
+- **openapi 3.0**: fix: links field typo ([#4233](https://github.com/hey-api/hey-api/pull/4233)) ([`d2bf099`](https://github.com/hey-api/hey-api/commit/d2bf09948f5dd5e7b7e2b79045695c38960e0809)) by [@mrlubos](https://github.com/mrlubos)
+
 ## 0.2.0
 
 ### Minor Changes

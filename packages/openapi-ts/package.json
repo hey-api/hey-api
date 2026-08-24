@@ -1,6 +1,6 @@
 {
   "name": "@hey-api/openapi-ts",
-  "version": "0.99.0",
+  "version": "0.100.0",
   "description": "🌀 OpenAPI to TypeScript code generator. Production-grade SDKs, Zod schemas, TanStack Query hooks, and 20+ plugins. Used by Vercel, OpenCode, and PayPal.",
   "keywords": [
     "angular",

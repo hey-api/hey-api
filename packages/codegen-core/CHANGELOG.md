@@ -1,5 +1,19 @@
 # @hey-api/codegen-core
 
+## 0.9.2
+
+### Patch Changes
+
+- **symbols**: add `.dump()` method to registry ([#4161](https://github.com/hey-api/hey-api/pull/4161)) ([`6eb002b`](https://github.com/hey-api/hey-api/commit/6eb002b33275481acb011ab51e488378717b6b31)) by [@mrlubos](https://github.com/mrlubos)
+
+- **perf**: speed up on large specs ([#4189](https://github.com/hey-api/hey-api/pull/4189)) ([`7d60829`](https://github.com/hey-api/hey-api/commit/7d608292d24284211f9221bf3e9a71dae4dfc8be)) by [@SukkaW](https://github.com/SukkaW)
+
+- **dependencies**: remove ansi-colors and color-support ([#4291](https://github.com/hey-api/hey-api/pull/4291)) ([`88c346f`](https://github.com/hey-api/hey-api/commit/88c346fc7de4a5f9b6d22481018c8082e6dc2fad)) by [@Norbiros](https://github.com/Norbiros)
+
+- **symbol**: support globals ([#4282](https://github.com/hey-api/hey-api/pull/4282)) ([`2a24c8d`](https://github.com/hey-api/hey-api/commit/2a24c8d3445fd861f93f0c168c4b35c856cea4df)) by [@mrlubos](https://github.com/mrlubos)
+
+- **planner**: fix: use canonical symbols for dependencies ([#4154](https://github.com/hey-api/hey-api/pull/4154)) ([`fa7b039`](https://github.com/hey-api/hey-api/commit/fa7b039388b811facee8abff9d447e074f7aa789)) by [@pullfrog](https://github.com/apps/pullfrog)
+
 ## 0.9.1
 
 ### Patch Changes

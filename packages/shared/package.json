@@ -1,6 +1,6 @@
 {
   "name": "@hey-api/shared",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Temporary home for cross-package utilities. Contents will migrate to proper packages as architecture stabilizes.",
   "homepage": "https://heyapi.dev/",
   "bugs": {

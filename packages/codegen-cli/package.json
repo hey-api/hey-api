@@ -1,6 +1,6 @@
 {
   "name": "@hey-api/codegen-cli",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "⚡ Shared CLI framework for Hey API code generators.",
   "keywords": [
     "cli",

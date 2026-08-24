@@ -1,5 +1,47 @@
 # @hey-api/openapi-ts
 
+## 0.100.0
+
+### Minor Changes
+
+- **BREAKING** **compiler**: custom compiler implementation ([#4163](https://github.com/hey-api/hey-api/pull/4163)) ([`03e9979`](https://github.com/hey-api/hey-api/commit/03e997919ef76e3bee2f460b1b6dd1edab982a44)) by [@ahmedrowaihi](https://github.com/ahmedrowaihi)
+
+- **BREAKING** **plugin(@hey-api/transformers)**: no longer accept TypeScript nodes directly for stricter types ([#4162](https://github.com/hey-api/hey-api/pull/4162)) ([`ad5fb33`](https://github.com/hey-api/hey-api/commit/ad5fb335a0a939ff2d79eaafe43ec9e3449113de)) by [@mrlubos](https://github.com/mrlubos)
+
+- **BREAKING** **plugin(zod)**: no longer accept TypeScript nodes directly for stricter types ([#4162](https://github.com/hey-api/hey-api/pull/4162)) ([`ad5fb33`](https://github.com/hey-api/hey-api/commit/ad5fb335a0a939ff2d79eaafe43ec9e3449113de)) by [@mrlubos](https://github.com/mrlubos)
+
+- **BREAKING** **plugin(valibot)**: no longer accept TypeScript nodes directly for stricter types ([#4162](https://github.com/hey-api/hey-api/pull/4162)) ([`ad5fb33`](https://github.com/hey-api/hey-api/commit/ad5fb335a0a939ff2d79eaafe43ec9e3449113de)) by [@mrlubos](https://github.com/mrlubos)
+
+- **BREAKING** **cli**: multiple values must be comma-separated ([#4148](https://github.com/hey-api/hey-api/pull/4148)) ([`55fca63`](https://github.com/hey-api/hey-api/commit/55fca632144872bcf864e837a9e851cf7a48cf16)) by [@mrlubos](https://github.com/mrlubos)
+
+### Patch Changes
+
+- **plugin(orpc)**: oRPC v2 support ([#4195](https://github.com/hey-api/hey-api/pull/4195)) ([`7fe892d`](https://github.com/hey-api/hey-api/commit/7fe892d524cf57dbf739bcdced249e2d0b080396)) by [@hyoban](https://github.com/hyoban)
+
+- **dependencies**: remove ansi-colors and color-support ([#4291](https://github.com/hey-api/hey-api/pull/4291)) ([`88c346f`](https://github.com/hey-api/hey-api/commit/88c346fc7de4a5f9b6d22481018c8082e6dc2fad)) by [@Norbiros](https://github.com/Norbiros)
+
+- **plugin(@hey-api/client-angular)**: fix: accept `context` field ([#4269](https://github.com/hey-api/hey-api/pull/4269)) ([`eab872c`](https://github.com/hey-api/hey-api/commit/eab872c4cd9de7e0a8f85abd409ff73d5519e1d5)) by [@joshkaplinsky](https://github.com/joshkaplinsky)
+
+- **plugin(@hey-api/transformers)**: support global Temporal API in `dates` ([#4282](https://github.com/hey-api/hey-api/pull/4282)) ([`2a24c8d`](https://github.com/hey-api/hey-api/commit/2a24c8d3445fd861f93f0c168c4b35c856cea4df)) by [@mrlubos](https://github.com/mrlubos)
+
+- **plugin(orpc)**: fix generation for responses without validator schemas ([#4298](https://github.com/hey-api/hey-api/pull/4298)) ([`6b5b4b4`](https://github.com/hey-api/hey-api/commit/6b5b4b452c6efc3447e0aca99c9f099e701fdbd1)) by [@avendiart](https://github.com/avendiart)
+
+- **dependencies**: remove `typescript` from peer dependencies ([#4163](https://github.com/hey-api/hey-api/pull/4163)) ([`b7a39cc`](https://github.com/hey-api/hey-api/commit/b7a39cce7e7757dd5877cfd288550b1945e8a570)) by [@ahmedrowaihi](https://github.com/ahmedrowaihi)
+
+- **config**: expose `output.printer` options ([#4192](https://github.com/hey-api/hey-api/pull/4192)) ([`cb7e283`](https://github.com/hey-api/hey-api/commit/cb7e283a1c87f32e16639e1d295ed4e7aa1df1a2)) by [@mrlubos](https://github.com/mrlubos)
+
+- **plugin(zod)**: honor `additionalProperties: false` for object schemas with properties ([#4308](https://github.com/hey-api/hey-api/pull/4308)) ([`c7d55ed`](https://github.com/hey-api/hey-api/commit/c7d55ed383e8387d97fbd45b73050a1afa1b7040)) by [@fuchengwarrenzhu](https://github.com/fuchengwarrenzhu)
+
+- **printer**: change default indent to 2 spaces ([#4193](https://github.com/hey-api/hey-api/pull/4193)) ([`1a27afa`](https://github.com/hey-api/hey-api/commit/1a27afa4076e124a636c9dd4051f21211945cd97)) by [@mrlubos](https://github.com/mrlubos)
+
+### Updated Dependencies:
+
+- @hey-api/codegen-cli@0.1.0
+- @hey-api/json-schema-ref-parser@1.4.5
+- @hey-api/codegen-core@0.9.2
+- @hey-api/shared@0.5.1
+- @hey-api/spec-types@0.2.1
+
 ## 0.99.0
 
 ### Minor Changes

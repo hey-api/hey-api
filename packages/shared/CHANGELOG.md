@@ -1,5 +1,25 @@
 # @hey-api/shared
 
+## 0.5.1
+
+### Patch Changes
+
+- **perf**: speed up on large specs ([#4189](https://github.com/hey-api/hey-api/pull/4189)) ([`7d60829`](https://github.com/hey-api/hey-api/commit/7d608292d24284211f9221bf3e9a71dae4dfc8be)) by [@SukkaW](https://github.com/SukkaW)
+
+- **dependencies**: remove ansi-colors ([#4291](https://github.com/hey-api/hey-api/pull/4291)) ([`88c346f`](https://github.com/hey-api/hey-api/commit/88c346fc7de4a5f9b6d22481018c8082e6dc2fad)) by [@Norbiros](https://github.com/Norbiros)
+
+- **symbol**: support globals ([#4282](https://github.com/hey-api/hey-api/pull/4282)) ([`2a24c8d`](https://github.com/hey-api/hey-api/commit/2a24c8d3445fd861f93f0c168c4b35c856cea4df)) by [@mrlubos](https://github.com/mrlubos)
+
+- **utils**: preserve whitespace in comment lines ([#4286](https://github.com/hey-api/hey-api/pull/4286)) ([`6af94a3`](https://github.com/hey-api/hey-api/commit/6af94a3bb6da43b6be1dfd4b88a2613913750abe)) by [@mrlubos](https://github.com/mrlubos)
+
+- **dependencies**: replace semver with verkit ([#4293](https://github.com/hey-api/hey-api/pull/4293)) ([`181eb78`](https://github.com/hey-api/hey-api/commit/181eb78241680163e44c46079ec57d5c51367ebd)) by [@Norbiros](https://github.com/Norbiros)
+
+### Updated Dependencies:
+
+- @hey-api/json-schema-ref-parser@1.4.5
+- @hey-api/codegen-core@0.9.2
+- @hey-api/spec-types@0.2.1
+
 ## 0.5.0
 
 ### Minor Changes
