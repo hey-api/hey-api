@@ -19,8 +19,9 @@ export type ServerSentEventsOptions<TData = unknown> = Omit<RequestInit, 'method
      * This option applies only if the endpoint returns a stream of events.
      *
      * @param error The error that occurred.
+     * @param context Retry information for the failed connection attempt.
      */
-    onSseError?: (error: unknown) => void;
+    onSseError?: (error: unknown, context: { attempt: number; willRetry: boolean }) => void;
     /**
      * Callback invoked when an event is streamed from the server.
      *
@@ -220,12 +221,12 @@ export function createSseClient<TData = unknown>({
 
         break; // exit loop on normal completion
       } catch (error) {
-        // connection failed or aborted; retry after delay
-        onSseError?.(error);
+        const willRetry =
+          !signal.aborted && (sseMaxRetryAttempts === undefined || attempt < sseMaxRetryAttempts);
 
-        if (sseMaxRetryAttempts !== undefined && attempt >= sseMaxRetryAttempts) {
-          break; // stop after firing error
-        }
+        onSseError?.(error, { attempt, willRetry });
+
+        if (!willRetry) break;
 
         // exponential backoff: double retry each attempt, cap at 30s
         const backoff = Math.min(retryDelay * 2 ** (attempt - 1), sseMaxRetryDelay ?? 30000);
