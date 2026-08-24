@@ -176,6 +176,12 @@ export const mergeConfigs = (a: Config, b: Config): Config => {
 };
 
 const headersEntries = (headers: Headers): Array<[string, string]> => {
+  // `forEach` is a Web IDL callback: Blink refuses to invoke it in a detached
+  // realm ("The provided callback is no longer runnable"). Iterate instead, and
+  // keep `forEach` for runtimes that don't expose `Headers.entries`.
+  if (typeof headers.entries === 'function') {
+    return Array.from(headers.entries());
+  }
   const entries: Array<[string, string]> = [];
   headers.forEach((value, key) => {
     entries.push([key, value]);
