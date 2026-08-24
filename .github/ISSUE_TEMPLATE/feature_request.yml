@@ -11,6 +11,16 @@ body:
       value: |
         Thanks for taking the time to request a new feature! Please ensure your feature request has enough information so maintainers can decide if it will be worked on.
 
+        Before you open this, search the [open issues](https://github.com/hey-api/hey-api/issues?q=is%3Aissue+is%3Aopen). If one already covers this, react with 👍 there instead. That count is how we see what matters most, and a duplicate splits it.
+
+  - type: checkboxes
+    id: searched
+    attributes:
+      label: Before you open this
+      options:
+        - label: I searched the [open issues](https://github.com/hey-api/hey-api/issues?q=is%3Aissue+is%3Aopen) and none of them covers this.
+          required: true
+
   - type: textarea
     id: description
     attributes:
@@ -19,3 +29,19 @@ body:
       placeholder: Feature description
     validations:
       required: true
+
+  - type: checkboxes
+    id: help
+    attributes:
+      label: How you can help
+      description: Neither is a commitment, and leaving both unticked is fine.
+      options:
+        - label: My team would fund this work.
+        - label: I intend to open a pull request for this.
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+
+        While votes indicate interest, funding pays for the work. If you ticked the funding box above, see [fund Hey API](https://heyapi.dev/sponsors) and we'll get in touch to work out scope and timing.
