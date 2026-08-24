@@ -59,7 +59,74 @@ function baseNode(ctx: ExtendedContext): Chain {
 }
 
 function objectResolver(ctx: ExtendedContext): Chain {
-  return ctx.nodes.base(ctx);
+  const hasPropertyCountConstraints =
+    ctx.schema.minProperties !== undefined || ctx.schema.maxProperties !== undefined;
+  const base = ctx.nodes.base(ctx);
+  ctx.chain.current = base;
+
+  if (!hasPropertyCountConstraints) return ctx.chain.current;
+
+  ctx.chain.current = $(ctx.plugin.imports.z).attr(identifiers.unknown).call();
+
+  const minPropertiesResult = ctx.nodes.minProperties(ctx);
+  if (minPropertiesResult) {
+    ctx.chain.current = minPropertiesResult;
+  }
+
+  const maxPropertiesResult = ctx.nodes.maxProperties(ctx);
+  if (maxPropertiesResult) {
+    ctx.chain.current = maxPropertiesResult;
+  }
+
+  const propertyCount = ctx.chain.current
+    .attr(identifiers.transform)
+    .call($.func().arrow().do($.return($.object())));
+  ctx.chain.current = $(ctx.plugin.imports.z)
+    .attr(identifiers.intersection)
+    .call(base, propertyCount);
+
+  return ctx.chain.current;
+}
+
+function propertyCountPredicate(operator: 'gte' | 'lte', count: number) {
+  return $.func()
+    .arrow()
+    .param('value')
+    .do(
+      $.return(
+        $.binary($.typeofExpr('value').eq($.fromValue('object'))).and(
+          $.binary($('value').neq($.fromValue(null))).and(
+            $('Object').attr('keys').call('value').attr('length')[operator]($.fromValue(count)),
+          ),
+        ),
+      ),
+    );
+}
+
+function propertyCountMessage(operator: 'gte' | 'lte', count: number) {
+  return `Expected ${operator === 'gte' ? 'at least' : 'at most'} ${count} propert${count === 1 ? 'y' : 'ies'}`;
+}
+
+function minPropertiesNode(ctx: ExtendedContext): Chain | undefined {
+  const { schema } = ctx;
+  if (schema.minProperties === undefined) return;
+  return ctx.chain.current
+    .attr(identifiers.refine)
+    .call(
+      propertyCountPredicate('gte', schema.minProperties),
+      $.literal(propertyCountMessage('gte', schema.minProperties)),
+    );
+}
+
+function maxPropertiesNode(ctx: ExtendedContext): Chain | undefined {
+  const { schema } = ctx;
+  if (schema.maxProperties === undefined) return;
+  return ctx.chain.current
+    .attr(identifiers.refine)
+    .call(
+      propertyCountPredicate('lte', schema.maxProperties),
+      $.literal(propertyCountMessage('lte', schema.maxProperties)),
+    );
 }
 
 function shapeNode(ctx: ExtendedContext): ReturnType<typeof $.object> {
@@ -97,6 +164,8 @@ export function objectToAst(options: ObjectToAstOptions): CompositeHandlerResult
     nodes: {
       additionalProperties: additionalPropertiesNode,
       base: baseNode,
+      maxProperties: maxPropertiesNode,
+      minProperties: minPropertiesNode,
       shape: shapeNode,
     },
     path,

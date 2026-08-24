@@ -343,6 +343,14 @@ export interface ObjectResolverContext
        */
       base: (ctx: ObjectResolverContext) => Chain;
       /**
+       * Returns a maxProperties constraint, if applicable.
+       */
+      maxProperties: (ctx: ObjectResolverContext) => ChainResult;
+      /**
+       * Returns a minProperties constraint, if applicable.
+       */
+      minProperties: (ctx: ObjectResolverContext) => ChainResult;
+      /**
        * Returns the object shape (property definitions).
        */
       shape: (ctx: ObjectResolverContext) => ReturnType<typeof $.object>;
