@@ -139,7 +139,9 @@ export function operationParameters({
       }
 
       result.parameters.push(
-        $.param('parameters', (p) => p.required(isParametersRequired).type(flatParams)),
+        $.param('parameters', (p) =>
+          p.required(isParametersRequired || isRequiredOptions).type(flatParams),
+        ),
       );
     }
   }
