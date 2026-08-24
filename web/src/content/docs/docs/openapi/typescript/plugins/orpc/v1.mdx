@@ -99,7 +99,7 @@ For a more granular approach, manually add a validator plugin and set `validator
 ```ts {15,16} title="orpc.gen.ts"
 import { oc } from '@orpc/contract';
 
-import { vAddPetBody, vAddPetResponse } from './valibot.gen';
+import { vAddPetBody, vAddPetResponse, vAddPet409Response } from './valibot.gen';
 
 const addPet = oc
   .route({
@@ -112,7 +112,8 @@ const addPet = oc
     tags: ['pet'],
   })
   .input(v.object({ body: vAddPetBody }))
-  .output(vAddPetResponse);
+  .output(vAddPetResponse)
+  .errors({ PET_ALREADY_EXISTS: { status: 409, message: 'Pet already exists', data: vAddPet409Response } });
 ```
   </TabItem>
   <TabItem label="config">

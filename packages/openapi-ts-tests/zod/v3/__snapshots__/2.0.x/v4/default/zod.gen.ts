@@ -546,6 +546,21 @@ export const zCallWithResponseResponse = zModelWithString;
  */
 export const zCallWithDuplicateResponsesResponse = zModelWithString;
 
+/**
+ * Message for 500 error
+ */
+export const zCallWithDuplicateResponses500Response = zModelWithStringError;
+
+/**
+ * Message for 501 error
+ */
+export const zCallWithDuplicateResponses501Response = zModelWithStringError;
+
+/**
+ * Message for 502 error
+ */
+export const zCallWithDuplicateResponses502Response = zModelWithStringError;
+
 export const zCallWithResponsesResponse = z.union([
   z.object({
     '@namespace.string': z.string().readonly().optional(),
@@ -555,6 +570,21 @@ export const zCallWithResponsesResponse = z.union([
   zModelThatExtends,
   zModelThatExtendsExtends
 ]);
+
+/**
+ * Message for 500 error
+ */
+export const zCallWithResponses500Response = zModelWithStringError;
+
+/**
+ * Message for 501 error
+ */
+export const zCallWithResponses501Response = zModelWithStringError;
+
+/**
+ * Message for 502 error
+ */
+export const zCallWithResponses502Response = zModelWithStringError;
 
 export const zCollectionFormatQuery = z.object({
   parameterArrayCSV: z.array(z.string()),
@@ -628,3 +658,13 @@ export const zPostApiVbyApiVersionBodyBody = zParameterActivityParams;
  * OK
  */
 export const zPostApiVbyApiVersionBodyResponse = zResponsePostActivityResponse;
+
+/**
+ * Bad Request
+ */
+export const zPostApiVbyApiVersionBody400Response = zFailureFailure;
+
+/**
+ * Internal Server Error
+ */
+export const zPostApiVbyApiVersionBody500Response = zFailureFailure;

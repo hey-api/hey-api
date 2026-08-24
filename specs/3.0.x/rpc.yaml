@@ -201,6 +201,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Post'
+        '404':
+          description: Post not found
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 components:
   schemas:
     User:
@@ -283,3 +291,16 @@ components:
             - draft
             - published
           default: draft
+    Error:
+      type: object
+      required:
+        - type
+        - title
+      properties:
+        type:
+          type: string
+          format: uri
+          example: https://example.net/INTERNAL_SERVER_ERROR
+        title:
+          type: string
+          example: 'Unexpected error occurred'

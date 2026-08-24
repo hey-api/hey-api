@@ -1284,6 +1284,26 @@ export const zCallWithDuplicateResponsesResponse = z.union([
   zModelWithString
 ]);
 
+/**
+ * Message for 500 error
+ */
+export const zCallWithDuplicateResponses500Response = zModelWithStringError;
+
+/**
+ * Message for 501 error
+ */
+export const zCallWithDuplicateResponses501Response = zModelWithStringError;
+
+/**
+ * Message for 502 error
+ */
+export const zCallWithDuplicateResponses502Response = zModelWithStringError;
+
+/**
+ * Message for 4XX errors
+ */
+export const zCallWithDuplicateResponses4XxResponse = zDictionaryWithArray;
+
 export const zCallWithResponsesResponse = z.union([
   z.object({
     '@namespace.string': z.string().readonly().optional(),
@@ -1293,6 +1313,21 @@ export const zCallWithResponsesResponse = z.union([
   zModelThatExtends,
   zModelThatExtendsExtends
 ]);
+
+/**
+ * Message for 500 error
+ */
+export const zCallWithResponses500Response = zModelWithStringError;
+
+/**
+ * Message for 501 error
+ */
+export const zCallWithResponses501Response = zModelWithStringError;
+
+/**
+ * Message for 502 error
+ */
+export const zCallWithResponses502Response = zModelWithStringError;
 
 export const zCollectionFormatQuery = z.object({
   parameterArrayCSV: z.array(z.string()).nullable(),
