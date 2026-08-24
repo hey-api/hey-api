@@ -219,6 +219,13 @@ describe(`OpenAPI ${version}`, () => {
     },
     {
       config: createConfig({
+        input: 'discriminator-any-of-object.json',
+        output: 'discriminator-any-of-object',
+      }),
+      description: 'handles anyOf discriminator mapping with object properties',
+    },
+    {
+      config: createConfig({
         input: 'discriminator-mapped-many.yaml',
         output: 'discriminator-mapped-many',
       }),
@@ -230,6 +237,13 @@ describe(`OpenAPI ${version}`, () => {
         output: 'discriminator-one-of',
       }),
       description: 'handles discriminator with and without mapping',
+    },
+    {
+      config: createConfig({
+        input: 'discriminator-one-of-object.json',
+        output: 'discriminator-one-of-object',
+      }),
+      description: 'handles oneOf discriminator mapping with object properties',
     },
     {
       config: createConfig({
