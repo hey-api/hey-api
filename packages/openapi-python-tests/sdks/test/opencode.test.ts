@@ -12,6 +12,7 @@ const outputDir = path.join(getTempSnapshotsPath(), namespace);
 const snapshotsDir = path.join(getSnapshotsPath(), namespace);
 
 const specPath = path.join(getSpecsPath(), '3.1.x', 'opencode.yaml');
+const parametersSpecPath = path.join(getSpecsPath(), '3.1.x', 'python-parameters.json');
 
 describe(`Python SDK: ${namespace}`, () => {
   const createConfig = createSdkConfig({
@@ -26,6 +27,14 @@ describe(`Python SDK: ${namespace}`, () => {
         plugins: ['@hey-api/python-sdk'],
       }),
       description: 'default',
+    },
+    {
+      config: createConfig({
+        input: parametersSpecPath,
+        output: 'flat',
+        plugins: ['pydantic', { name: '@hey-api/python-sdk', paramsStructure: 'flat' }],
+      }),
+      description: 'flat parameters',
     },
   ];
 
