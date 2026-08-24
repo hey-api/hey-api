@@ -5,6 +5,7 @@ import type {
   HttpContext,
   HttpErrorResponse,
   HttpHeaders,
+  HttpProgressEvent,
   HttpRequest,
   HttpResponse,
 } from '@angular/common/http';
@@ -94,8 +95,31 @@ export interface RequestOptions<
    * Optional custom injector for dependency resolution if you don't implicitly or explicitly provide one.
    */
   injector?: Injector;
+  /**
+   * Callback invoked with `HttpEventType.DownloadProgress` events. Setting
+   * this (or {@link onUploadProgress}) automatically enables `reportProgress`
+   * on the underlying `HttpRequest`.
+   *
+   * {@link https://angular.dev/api/common/http/HttpProgressEvent See more}
+   */
+  onDownloadProgress?: (event: HttpProgressEvent) => void;
+  /**
+   * Callback invoked with `HttpEventType.UploadProgress` events. Setting
+   * this (or {@link onDownloadProgress}) automatically enables
+   * `reportProgress` on the underlying `HttpRequest`.
+   *
+   * {@link https://angular.dev/api/common/http/HttpProgressEvent See more}
+   */
+  onUploadProgress?: (event: HttpProgressEvent) => void;
   path?: Record<string, unknown>;
   query?: Record<string, unknown>;
+  /**
+   * Whether the underlying `HttpRequest` should report progress events.
+   * Automatically enabled when {@link onUploadProgress} or
+   * {@link onDownloadProgress} is provided, but can be set explicitly to
+   * request progress events without a callback.
+   */
+  reportProgress?: boolean;
   /**
    * Security mechanism(s) to use for the request.
    */
