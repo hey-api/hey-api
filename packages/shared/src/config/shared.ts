@@ -54,6 +54,8 @@ export type IndexExportOption = {
   includeInEntry: boolean | ((symbol: Symbol) => boolean);
 };
 
+export type CommentsStyle = 'default' | 'compact';
+
 export type UserCommentsOption = {
   /**
    * Whether to add comments to the generated code.
@@ -61,12 +63,22 @@ export type UserCommentsOption = {
    * @default true
    */
   comments?: boolean;
+  /**
+   * The style of the comments.
+   *
+   * @default 'default'
+   */
+  commentsStyle?: CommentsStyle;
 };
 export type CommentsOption = {
   /**
    * Whether to add comments to the generated code.
    */
   comments: boolean;
+  /**
+   * The style of the comments.
+   */
+  commentsStyle: CommentsStyle;
 };
 
 export type NamingOptions = {

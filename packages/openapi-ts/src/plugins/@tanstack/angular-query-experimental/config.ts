@@ -11,6 +11,7 @@ export const defaultConfig: TanStackAngularQueryPlugin['Config'] = {
     $cascade: ['case'],
     case: 'camelCase',
     comments: true,
+    commentsStyle: 'default',
     getQueryData: {
       $coerceAny: ({ type, value }) => ({
         enabled: Boolean(value),

@@ -18,7 +18,9 @@ function shapeNode(ctx: ObjectResolverContext): ReturnType<typeof $.type.object>
     const isRequired = required.includes(name);
     shape.prop(name, (p) =>
       p
-        .$if(plugin.config.comments && createSchemaComment(property), (p, v) => p.doc(v))
+        .$if(plugin.config.comments && createSchemaComment(property), (p, v) =>
+          p.styledDoc(v, plugin.config.commentsStyle),
+        )
         .readonly(property.accessScope === 'read')
         .required(isRequired)
         .type(propertyResult.type),

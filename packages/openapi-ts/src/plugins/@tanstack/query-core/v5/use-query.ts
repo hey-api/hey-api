@@ -40,7 +40,9 @@ export function createUseQuery({
   });
   const statement = $.const(symbolUseQueryFn)
     .export()
-    .$if(plugin.config.comments && createOperationComment(operation), (c, v) => c.doc(v))
+    .$if(plugin.config.comments && createOperationComment(operation), (c, v) =>
+      c.styledDoc(v, plugin.config.commentsStyle),
+    )
     .assign(
       $.func()
         .param(optionsParamName, (p) => p.required(isRequiredOptions).type(typeData))

@@ -59,7 +59,9 @@ export function webhookToType({
     const payloadNode = $.type
       .alias(symbolWebhookPayload)
       .export()
-      .$if(plugin.config.comments && createSchemaComment(operation.body.schema), (t, v) => t.doc(v))
+      .$if(plugin.config.comments && createSchemaComment(operation.body.schema), (t, v) =>
+        t.styledDoc(v, plugin.config.commentsStyle),
+      )
       .type(payloadResult?.type ?? $.type('never'));
     plugin.node(payloadNode);
   }
