@@ -46,6 +46,9 @@ export const createClient = (config: Config = {}): Client => {
         ..._config.kyOptions,
         ...options.kyOptions,
       },
+      // per-request options are more specific than client-level ones, and
+      // within each level top-level `retry` wins over `kyOptions.retry`
+      retry: options.retry ?? options.kyOptions?.retry ?? _config.retry ?? _config.kyOptions?.retry,
       serializedBody: undefined as string | undefined,
     };
 
@@ -139,14 +142,15 @@ export const createClient = (config: Config = {}): Client => {
         ...(opts.keepalive !== undefined ? { keepalive: opts.keepalive } : {}),
         ...(opts.method !== undefined ? { method: opts.method } : {}),
         ...(opts.mode !== undefined ? { mode: opts.mode } : {}),
-        redirect: opts.redirect ?? 'follow',
+        ...(opts.redirect !== undefined ? { redirect: opts.redirect } : {}),
         ...(opts.referrer !== undefined ? { referrer: opts.referrer } : {}),
         ...(opts.referrerPolicy !== undefined ? { referrerPolicy: opts.referrerPolicy } : {}),
         ...(opts.signal !== undefined ? { signal: opts.signal } : {}),
         throwHttpErrors: opts.throwOnError ?? false,
         ...(opts.timeout !== undefined ? { timeout: opts.timeout } : {}),
         ...opts.kyOptions,
-        retry: opts.retry ?? opts.kyOptions?.retry ?? 2,
+        // omit `retry` entirely when unset so ky instance defaults survive
+        ...(opts.retry !== undefined ? { retry: opts.retry } : {}),
       };
 
       request = new Request(url, {
