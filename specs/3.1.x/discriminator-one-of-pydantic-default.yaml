@@ -1,0 +1,38 @@
+openapi: 3.1.0
+info:
+  title: OpenAPI 3.1.0 discriminator oneOf with Pydantic const+default
+  version: 1
+components:
+  schemas:
+    UserMessageData:
+      type: object
+      properties:
+        type:
+          type: string
+          const: user_message
+          default: user_message
+        content:
+          type: string
+    AgentMessageData:
+      type: object
+      properties:
+        type:
+          type: string
+          const: agent_message
+          default: agent_message
+        content:
+          type: string
+    ConversationEvent:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          oneOf:
+            - $ref: '#/components/schemas/UserMessageData'
+            - $ref: '#/components/schemas/AgentMessageData'
+          discriminator:
+            propertyName: type
+            mapping:
+              user_message: '#/components/schemas/UserMessageData'
+              agent_message: '#/components/schemas/AgentMessageData'
