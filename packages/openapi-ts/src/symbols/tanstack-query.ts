@@ -27,6 +27,16 @@ export function TANSTACK_QUERY(plugin: PluginInstance) {
       external: plugin.name,
       kind: 'type',
     }),
+    // unlike MutationOptions, this needs no per-framework branching: the
+    // useQuery wrapper hook (query-core/v5/use-query.ts) only ever runs for
+    // react-query and preact-query, and both export this type under this name
+    UseQueryOptions: plugin.symbol('UseQueryOptions', {
+      external: plugin.name,
+      kind: 'type',
+      meta: {
+        resource: `${plugin.name}.UseQueryOptions`,
+      },
+    }),
     infiniteQueryOptions: plugin.symbol('infiniteQueryOptions', {
       external: plugin.name,
     }),
