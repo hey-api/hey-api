@@ -1179,8 +1179,8 @@ export type ChatCompletionAllowedTools = {
    * For the Chat Completions API, the list of tool definitions might look like:
    * ```json
    * [
-   * { "type": "function", "function": { "name": "get_weather" } },
-   * { "type": "function", "function": { "name": "get_time" } }
+   *   { "type": "function", "function": { "name": "get_weather" } },
+   *   { "type": "function", "function": { "name": "get_time" } }
    * ]
    * ```
    *
@@ -3695,12 +3695,12 @@ export type CreateEvalResponsesRunDataSource = {
      * The two categories of tools you can provide the model are:
      *
      * - **Built-in tools**: Tools that are provided by OpenAI that extend the
-     * model's capabilities, like [web search](https://platform.openai.com/docs/guides/tools-web-search)
-     * or [file search](https://platform.openai.com/docs/guides/tools-file-search). Learn more about
-     * [built-in tools](https://platform.openai.com/docs/guides/tools).
+     *   model's capabilities, like [web search](https://platform.openai.com/docs/guides/tools-web-search)
+     *   or [file search](https://platform.openai.com/docs/guides/tools-file-search). Learn more about
+     *   [built-in tools](https://platform.openai.com/docs/guides/tools).
      * - **Function calls (custom tools)**: Functions that are defined by you,
-     * enabling the model to call your own code. Learn more about
-     * [function calling](https://platform.openai.com/docs/guides/function-calling).
+     *   enabling the model to call your own code. Learn more about
+     *   [function calling](https://platform.openai.com/docs/guides/function-calling).
      *
      */
     tools?: Array<Tool>;
@@ -4371,17 +4371,17 @@ export type CreateResponse = CreateModelResponseProperties &
      * Specify additional output data to include in the model response. Currently
      * supported values are:
      * - `code_interpreter_call.outputs`: Includes the outputs of python code execution
-     * in code interpreter tool call items.
+     *   in code interpreter tool call items.
      * - `computer_call_output.output.image_url`: Include image urls from the computer call output.
      * - `file_search_call.results`: Include the search results of
-     * the file search tool call.
+     *   the file search tool call.
      * - `message.input_image.image_url`: Include image urls from the input message.
      * - `message.output_text.logprobs`: Include logprobs with assistant messages.
      * - `reasoning.encrypted_content`: Includes an encrypted version of reasoning
-     * tokens in reasoning item outputs. This enables reasoning items to be used in
-     * multi-turn conversations when using the Responses API statelessly (like
-     * when the `store` parameter is set to `false`, or when an organization is
-     * enrolled in the zero data retention program).
+     *   tokens in reasoning item outputs. This enables reasoning items to be used in
+     *   multi-turn conversations when using the Responses API statelessly (like
+     *   when the `store` parameter is set to `false`, or when an organization is
+     *   enrolled in the zero data retention program).
      *
      */
     include?: Array<Includable>;
@@ -5231,8 +5231,8 @@ export type Drag = {
    * of objects, eg
    * ```
    * [
-   * { x: 100, y: 200 },
-   * { x: 200, y: 300 }
+   *   { x: 100, y: 200 },
+   *   { x: 200, y: 300 }
    * ]
    * ```
    *
@@ -5315,9 +5315,9 @@ export type ErrorResponse = {
  * An Eval object with a data source config and testing criteria.
  * An Eval represents a task to be done for your LLM integration.
  * Like:
- * - Improve the quality of my chatbot
- * - See how well my chatbot handles customer support
- * - Check if o4-mini is better at my usecase than gpt-4o
+ *  - Improve the quality of my chatbot
+ *  - See how well my chatbot handles customer support
+ *  - Check if o4-mini is better at my usecase than gpt-4o
  *
  */
 export type Eval = {
@@ -7320,17 +7320,17 @@ export type ImagesUsage = {
  * Specify additional output data to include in the model response. Currently
  * supported values are:
  * - `code_interpreter_call.outputs`: Includes the outputs of python code execution
- * in code interpreter tool call items.
+ *   in code interpreter tool call items.
  * - `computer_call_output.output.image_url`: Include image urls from the computer call output.
  * - `file_search_call.results`: Include the search results of
- * the file search tool call.
+ *   the file search tool call.
  * - `message.input_image.image_url`: Include image urls from the input message.
  * - `message.output_text.logprobs`: Include logprobs with assistant messages.
  * - `reasoning.encrypted_content`: Includes an encrypted version of reasoning
- * tokens in reasoning item outputs. This enables reasoning items to be used in
- * multi-turn conversations when using the Responses API statelessly (like
- * when the `store` parameter is set to `false`, or when an organization is
- * enrolled in the zero data retention program).
+ *   tokens in reasoning item outputs. This enables reasoning items to be used in
+ *   multi-turn conversations when using the Responses API statelessly (like
+ *   when the `store` parameter is set to `false`, or when an organization is
+ *   enrolled in the zero data retention program).
  *
  */
 export const Includable = {
@@ -7346,17 +7346,17 @@ export const Includable = {
  * Specify additional output data to include in the model response. Currently
  * supported values are:
  * - `code_interpreter_call.outputs`: Includes the outputs of python code execution
- * in code interpreter tool call items.
+ *   in code interpreter tool call items.
  * - `computer_call_output.output.image_url`: Include image urls from the computer call output.
  * - `file_search_call.results`: Include the search results of
- * the file search tool call.
+ *   the file search tool call.
  * - `message.input_image.image_url`: Include image urls from the input message.
  * - `message.output_text.logprobs`: Include logprobs with assistant messages.
  * - `reasoning.encrypted_content`: Includes an encrypted version of reasoning
- * tokens in reasoning item outputs. This enables reasoning items to be used in
- * multi-turn conversations when using the Responses API statelessly (like
- * when the `store` parameter is set to `false`, or when an organization is
- * enrolled in the zero data retention program).
+ *   tokens in reasoning item outputs. This enables reasoning items to be used in
+ *   multi-turn conversations when using the Responses API statelessly (like
+ *   when the `store` parameter is set to `false`, or when an organization is
+ *   enrolled in the zero data retention program).
  *
  */
 export type Includable = (typeof Includable)[keyof typeof Includable];
@@ -9798,7 +9798,7 @@ export type RealtimeConversationItem = {
    * The content of the message, applicable for `message` items.
    * - Message items of role `system` support only `input_text` content
    * - Message items of role `user` support `input_text` and `input_audio`
-   * content
+   *   content
    * - Message items of role `assistant` support `text` content.
    *
    */
@@ -9869,7 +9869,7 @@ export type RealtimeConversationItemWithReference = {
    * The content of the message, applicable for `message` items.
    * - Message items of role `system` support only `input_text` content
    * - Message items of role `user` support `input_text` and `input_audio`
-   * content
+   *   content
    * - Message items of role `assistant` support `text` content.
    *
    */
@@ -10328,14 +10328,14 @@ export type RealtimeServerEventConversationCreated = {
 
 /**
  * Returned when a conversation item is created. There are several scenarios that produce this event:
- * - The server is generating a Response, which if successful will produce
- * either one or two Items, which will be of type `message`
- * (role `assistant`) or type `function_call`.
- * - The input audio buffer has been committed, either by the client or the
- * server (in `server_vad` mode). The server will take the content of the
- * input audio buffer and add it to a new user message Item.
- * - The client has sent a `conversation.item.create` event to add a new Item
- * to the Conversation.
+ *   - The server is generating a Response, which if successful will produce
+ *     either one or two Items, which will be of type `message`
+ *     (role `assistant`) or type `function_call`.
+ *   - The input audio buffer has been committed, either by the client or the
+ *     server (in `server_vad` mode). The server will take the content of the
+ *     input audio buffer and add it to a new user message Item.
+ *   - The client has sent a `conversation.item.create` event to add a new Item
+ *     to the Conversation.
  *
  */
 export type RealtimeServerEventConversationItemCreated = {
@@ -12419,11 +12419,11 @@ export type Response = ModelResponseProperties &
      * An array of content items generated by the model.
      *
      * - The length and order of items in the `output` array is dependent
-     * on the model's response.
+     *   on the model's response.
      * - Rather than accessing the first item in the `output` array and
-     * assuming it's an `assistant` message with the content generated by
-     * the model, you might consider using the `output_text` property where
-     * supported in SDKs.
+     *   assuming it's an `assistant` message with the content generated by
+     *   the model, you might consider using the `output_text` property where
+     *   supported in SDKs.
      *
      */
     output: Array<OutputItem>;
@@ -13735,14 +13735,14 @@ export type ResponseProperties = {
    * The two categories of tools you can provide the model are:
    *
    * - **Built-in tools**: Tools that are provided by OpenAI that extend the
-   * model's capabilities, like [web search](https://platform.openai.com/docs/guides/tools-web-search)
-   * or [file search](https://platform.openai.com/docs/guides/tools-file-search). Learn more about
-   * [built-in tools](https://platform.openai.com/docs/guides/tools).
+   *   model's capabilities, like [web search](https://platform.openai.com/docs/guides/tools-web-search)
+   *   or [file search](https://platform.openai.com/docs/guides/tools-file-search). Learn more about
+   *   [built-in tools](https://platform.openai.com/docs/guides/tools).
    * - **Function calls (custom tools)**: Functions that are defined by you,
-   * enabling the model to call your own code with strongly typed arguments
-   * and outputs. Learn more about
-   * [function calling](https://platform.openai.com/docs/guides/function-calling). You can also use
-   * custom tools to call your own code.
+   *   enabling the model to call your own code with strongly typed arguments
+   *   and outputs. Learn more about
+   *   [function calling](https://platform.openai.com/docs/guides/function-calling). You can also use
+   *   custom tools to call your own code.
    *
    */
   tools?: Array<Tool>;
@@ -13763,11 +13763,11 @@ export type ResponseProperties = {
   /**
    * The truncation strategy to use for the model response.
    * - `auto`: If the context of this response and previous ones exceeds
-   * the model's context window size, the model will truncate the
-   * response to fit the context window by dropping input items in the
-   * middle of the conversation.
+   *   the model's context window size, the model will truncate the
+   *   response to fit the context window by dropping input items in the
+   *   middle of the conversation.
    * - `disabled` (default): If a model response will exceed the context window
-   * size for a model, the request will fail with a 400 error.
+   *   size for a model, the request will fail with a 400 error.
    *
    */
   truncation?: 'auto' | 'disabled';
@@ -15332,12 +15332,12 @@ export type Scroll = {
 
 /**
  * Specifies the processing type used for serving the request.
- * - If set to 'auto', then the request will be processed with the service tier configured in the Project settings. Unless otherwise configured, the Project will use 'default'.
- * - If set to 'default', then the request will be processed with the standard pricing and performance for the selected model.
- * - If set to '[flex](https://platform.openai.com/docs/guides/flex-processing)' or '[priority](https://openai.com/api-priority-processing/)', then the request will be processed with the corresponding service tier.
- * - When not set, the default behavior is 'auto'.
+ *   - If set to 'auto', then the request will be processed with the service tier configured in the Project settings. Unless otherwise configured, the Project will use 'default'.
+ *   - If set to 'default', then the request will be processed with the standard pricing and performance for the selected model.
+ *   - If set to '[flex](https://platform.openai.com/docs/guides/flex-processing)' or '[priority](https://openai.com/api-priority-processing/)', then the request will be processed with the corresponding service tier.
+ *   - When not set, the default behavior is 'auto'.
  *
- * When the `service_tier` parameter is set, the response body will include the `service_tier` value based on the processing mode actually used to serve the request. This response value may be different from the value set in the parameter.
+ *   When the `service_tier` parameter is set, the response body will include the `service_tier` value based on the processing mode actually used to serve the request. This response value may be different from the value set in the parameter.
  *
  */
 export const ServiceTier = {
@@ -15350,12 +15350,12 @@ export const ServiceTier = {
 
 /**
  * Specifies the processing type used for serving the request.
- * - If set to 'auto', then the request will be processed with the service tier configured in the Project settings. Unless otherwise configured, the Project will use 'default'.
- * - If set to 'default', then the request will be processed with the standard pricing and performance for the selected model.
- * - If set to '[flex](https://platform.openai.com/docs/guides/flex-processing)' or '[priority](https://openai.com/api-priority-processing/)', then the request will be processed with the corresponding service tier.
- * - When not set, the default behavior is 'auto'.
+ *   - If set to 'auto', then the request will be processed with the service tier configured in the Project settings. Unless otherwise configured, the Project will use 'default'.
+ *   - If set to 'default', then the request will be processed with the standard pricing and performance for the selected model.
+ *   - If set to '[flex](https://platform.openai.com/docs/guides/flex-processing)' or '[priority](https://openai.com/api-priority-processing/)', then the request will be processed with the corresponding service tier.
+ *   - When not set, the default behavior is 'auto'.
  *
- * When the `service_tier` parameter is set, the response body will include the `service_tier` value based on the processing mode actually used to serve the request. This response value may be different from the value set in the parameter.
+ *   When the `service_tier` parameter is set, the response body will include the `service_tier` value based on the processing mode actually used to serve the request. This response value may be different from the value set in the parameter.
  *
  */
 export type ServiceTier = (typeof ServiceTier)[keyof typeof ServiceTier];
@@ -15653,9 +15653,9 @@ export type ToolChoiceAllowed = {
    * For the Responses API, the list of tool definitions might look like:
    * ```json
    * [
-   * { "type": "function", "name": "get_weather" },
-   * { "type": "mcp", "server_label": "deepwiki" },
-   * { "type": "image_generation" }
+   *   { "type": "function", "name": "get_weather" },
+   *   { "type": "mcp", "server_label": "deepwiki" },
+   *   { "type": "image_generation" }
    * ]
    * ```
    *

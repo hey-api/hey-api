@@ -9,7 +9,7 @@
   <a href="https://www.devtrends.dev/trends?c=v1.kZIAzQaO&v=change"><img src="https://api.devtrends.dev/badge/npm/%40hey-api%2Fvite-plugin?period=year&style=flat&view=change" alt="DevTrends badge for @hey-api/vite-plugin" /></a>
   <a href="https://github.com/hey-api/hey-api/actions?query=branch%3Amain"><img src="https://github.com/hey-api/hey-api/actions/workflows/ci.yml/badge.svg?event=push&branch=main" alt="CI status" /></a>
   <a href="https://github.com/hey-api/hey-api"><img src="https://img.shields.io/github/stars/hey-api/hey-api?style=flat&logo=github&label=GitHub&color=54C82D" alt="GitHub stars" /></a>
-  <a href="https://github.com/hey-api/hey-api/blob/main/LICENSE.md"><img src="https://img.shields.io/github/license/hey-api/hey-api" alt="MIT License"></a>
+  <a href="https://github.com/hey-api/hey-api/blob/main/LICENSE"><img src="https://img.shields.io/github/license/hey-api/hey-api" alt="MIT License"></a>
 </p>
 
 <p align="center">
@@ -49,7 +49,7 @@ Start with our [Contributing](https://heyapi.dev/docs/openapi/typescript/communi
 
 ## Sponsors
 
-Partners behind the future of API tooling. [Become a sponsor](https://github.com/sponsors/hey-api).
+Partners behind the future of API tooling. [Become a sponsor](https://heyapi.dev/sponsors).
 
 <h3 align="center">Gold</h3>
 
@@ -82,18 +82,6 @@ Partners behind the future of API tooling. [Become a sponsor](https://github.com
 <table align="center">
   <tbody>
     <tr>
-      <td align="center" width="33.333%">
-        <a href="https://kutt.to/skQUVd" target="_blank">
-          <picture height="40px">
-            <source media="(prefers-color-scheme: dark)" srcset="https://heyapi.dev/assets/scalar/logo-light.svg">
-            <img alt="Scalar logo" height="40px" src="https://heyapi.dev/assets/scalar/logo-dark.svg">
-          </picture>
-        </a>
-        <br/>
-        <a href="https://kutt.to/skQUVd" style="text-decoration:none;" target="_blank">
-          scalar.com
-        </a>
-      </td>
       <td align="center" width="33.333%">
         <a href="https://kutt.to/Dr9GuW" target="_blank">
           <picture height="40px">
@@ -132,14 +120,6 @@ Partners behind the future of API tooling. [Become a sponsor](https://github.com
           <picture height="34px">
             <source media="(prefers-color-scheme: dark)" srcset="https://heyapi.dev/assets/.gen/kinde-logo-wordmark-dark-480w.webp">
             <img alt="Kinde logo" height="34px" src="https://heyapi.dev/assets/.gen/kinde-logo-wordmark-480w.jpeg">
-          </picture>
-        </a>
-      </td>
-      <td align="center" width="33.333%">
-        <a href="https://kutt.to/KkqSaw" target="_blank">
-          <picture height="34px">
-            <source media="(prefers-color-scheme: dark)" srcset="https://heyapi.dev/assets/cella/logo-light.svg">
-            <img alt="Cella logo" height="34px" src="https://heyapi.dev/assets/cella/logo-dark.svg">
           </picture>
         </a>
       </td>
@@ -219,6 +199,6 @@ export default defineConfig({
 
 ## License
 
-Released under the [MIT License](https://github.com/hey-api/hey-api/blob/main/LICENSE.md).
+Released under the [MIT License](https://github.com/hey-api/hey-api/blob/main/LICENSE).
 
 <!-- template-license-end -->

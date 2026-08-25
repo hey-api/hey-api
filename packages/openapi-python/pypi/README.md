@@ -43,4 +43,4 @@ hey-api --help
 - [Manual](https://heyapi.dev/docs/openapi/python/get-started)
 - [GitHub](https://github.com/hey-api/hey-api)
 - [npm](https://npmjs.com/package/@hey-api/openapi-python)
-- [Sponsor](https://github.com/sponsors/hey-api)
+- [Sponsor](https://heyapi.dev/sponsors)

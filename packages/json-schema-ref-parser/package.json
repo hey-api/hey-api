@@ -27,7 +27,10 @@
     "url": "git+https://github.com/hey-api/hey-api.git",
     "directory": "packages/json-schema-ref-parser"
   },
-  "funding": "https://github.com/sponsors/hey-api",
+  "funding": [
+    "https://heyapi.dev/sponsors",
+    "https://github.com/sponsors/hey-api"
+  ],
   "files": [
     "src",
     "dist"

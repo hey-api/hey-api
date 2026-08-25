@@ -23,7 +23,7 @@ function getSponsorsBlock(): string | undefined {
       '',
       sponsorsTable,
       '',
-      '[Become a sponsor →](https://github.com/sponsors/hey-api)',
+      '[Become a sponsor →](https://heyapi.dev/sponsors)',
       '',
     ].join('\n');
   } catch {

@@ -2,7 +2,6 @@ import type { IR } from '@hey-api/shared';
 import type { DefinePlugin, Plugin } from '@hey-api/shared';
 
 import type { $, DollarTsDsl, MaybeTsDsl } from '../../../ts-dsl';
-import type { TransformersImports } from './imports';
 
 interface BaseTransformer extends DollarTsDsl {
   plugin: HeyApiTransformersPlugin['Instance'];
@@ -42,11 +41,29 @@ export type UserConfig = Plugin.Name<'@hey-api/transformers'> &
      * - `'temporal'`: use the [Temporal API](https://tc39.es/proposal-temporal/docs/),
      *   imported from `temporal-polyfill`. `date-time` formats become
      *   `Temporal.Instant` and `date` formats become `Temporal.PlainDate`.
+     * - object form: choose the API and, for `'temporal'`, whether to import the
+     *   `temporal-polyfill` (`polyfill: true`, default) or reference the global
+     *   `Temporal` without emitting an import (`polyfill: false`).
      * - `false`: do not transform date strings.
      *
      * @default true
      */
-    dates?: boolean | 'date' | 'temporal';
+    dates?:
+      | boolean
+      | 'date'
+      | 'temporal'
+      | {
+          /**
+           * For `'temporal'`, import the `temporal-polyfill` (`true`, default)
+           * or reference the ambient global `Temporal` without an import
+           * (`false`). Ignored for `'date'`.
+           *
+           * @default true
+           */
+          polyfill?: boolean;
+          /** Which date API to target. */
+          type: 'date' | 'temporal';
+        };
     /**
      * Custom transforms to apply to the generated code.
      */
@@ -74,11 +91,29 @@ export type Config = Plugin.Name<'@hey-api/transformers'> &
      * - `'temporal'`: use the [Temporal API](https://tc39.es/proposal-temporal/docs/),
      *   imported from `temporal-polyfill`. `date-time` formats become
      *   `Temporal.Instant` and `date` formats become `Temporal.PlainDate`.
+     * - object form: choose the API and, for `'temporal'`, whether to import the
+     *   `temporal-polyfill` (`polyfill: true`, default) or reference the global
+     *   `Temporal` without emitting an import (`polyfill: false`).
      * - `false`: do not transform date strings.
      *
      * @default true
      */
-    dates: boolean | 'date' | 'temporal';
+    dates:
+      | boolean
+      | 'date'
+      | 'temporal'
+      | {
+          /**
+           * For `'temporal'`, import the `temporal-polyfill` (`true`, default)
+           * or reference the ambient global `Temporal` without an import
+           * (`false`). Ignored for `'date'`.
+           *
+           * @default true
+           */
+          polyfill?: boolean;
+          /** Which date API to target. */
+          type: 'date' | 'temporal';
+        };
     /**
      * Custom transforms to apply to the generated code.
      */
@@ -89,4 +124,4 @@ export type Config = Plugin.Name<'@hey-api/transformers'> &
     typeTransformers: ReadonlyArray<TypeTransformer>;
   };
 
-export type HeyApiTransformersPlugin = DefinePlugin<UserConfig, Config, never, TransformersImports>;
+export type HeyApiTransformersPlugin = DefinePlugin<UserConfig, Config>;

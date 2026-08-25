@@ -1,6 +1,7 @@
+import { styleText } from 'node:util';
+
 import { detectInteractiveSession } from '@hey-api/codegen-core';
 import { ConfigError, getInput, getLogs, getParser, resolvePlugins } from '@hey-api/shared';
-import colors from 'ansi-colors';
 
 import { defaultPluginConfigs, defaultPlugins } from '../plugins/config';
 import { getOutput } from './output/config';
@@ -55,8 +56,8 @@ export function resolveConfig(
   };
 
   if (logs.level === 'debug') {
-    const jobPrefix = colors.gray(`[Job ${validated.job.index}] `);
-    console.warn(`${jobPrefix}${colors.cyan('config:')}`, config);
+    const jobPrefix = styleText('gray', `[Job ${validated.job.index}] `);
+    console.warn(`${jobPrefix}${styleText('cyan', 'config:')}`, config);
   }
 
   return {

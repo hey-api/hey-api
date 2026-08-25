@@ -262,10 +262,14 @@ export default defineConfig({
                 },
                 {
                   badge: { text: 'Vote', variant: 'tip' },
+                  slug: 'docs/openapi/typescript/plugins/playwright',
+                },
+                {
+                  badge: { text: 'Vote', variant: 'tip' },
                   slug: 'docs/openapi/typescript/plugins/supertest',
                 },
               ],
-              label: 'Mocks',
+              label: 'Testing',
             },
             {
               collapsed: true,

@@ -842,26 +842,26 @@ export type ModelWithBackticksInDescription = {
    * <br/><p>There is one placeholder currently supported:<ul>     <li><b>${x}</b> - refers to the n-th column in the CSV file, e.g. ${1}, ${2}, ...)</li></ul><p>Example of a correct JSON template:</p>
    * <pre>
    * [
-   * {
-   * "resourceType": "Asset",
-   * "identifier": {
-   * "name": "${1}",
-   * "domain": {
-   * "name": "${2}",
-   * "community": {
-   * "name": "Some Community"
-   * }
-   * }
-   * },
-   * "attributes" : {
-   * "00000000-0000-0000-0000-000000003115" : [ {
-   * "value" : "${3}"
-   * } ],
-   * "00000000-0000-0000-0000-000000000222" : [ {
-   * "value" : "${4}"
-   * } ]
-   * }
-   * }
+   *   {
+   *     "resourceType": "Asset",
+   *     "identifier": {
+   *       "name": "${1}",
+   *       "domain": {
+   *         "name": "${2}",
+   *         "community": {
+   *           "name": "Some Community"
+   *         }
+   *       }
+   *     },
+   *     "attributes" : {
+   *       "00000000-0000-0000-0000-000000003115" : [ {
+   *         "value" : "${3}"
+   *       } ],
+   *       "00000000-0000-0000-0000-000000000222" : [ {
+   *         "value" : "${4}"
+   *       } ]
+   *     }
+   *   }
    * ]
    * </pre>
    */
