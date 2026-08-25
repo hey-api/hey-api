@@ -1,0 +1,40 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "OpenAPI 2.0 x-nullable $ref sibling example",
+    "version": "1"
+  },
+  "paths": {},
+  "definitions": {
+    "Bar": {
+      "type": "object",
+      "required": ["id"],
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      }
+    },
+    "Foo": {
+      "type": "object",
+      "required": ["sibling", "wrapped"],
+      "properties": {
+        "sibling": {
+          "$ref": "#/definitions/Bar",
+          "x-nullable": true
+        },
+        "wrapped": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/Bar"
+            }
+          ],
+          "x-nullable": true
+        },
+        "plain": {
+          "$ref": "#/definitions/Bar"
+        }
+      }
+    }
+  }
+}

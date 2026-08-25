@@ -1,0 +1,42 @@
+{
+  "openapi": "3.0.4",
+  "info": {
+    "title": "OpenAPI 3.0.4 nullable $ref sibling example",
+    "version": "1"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "Bar": {
+        "type": "object",
+        "required": ["id"],
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        }
+      },
+      "Foo": {
+        "type": "object",
+        "required": ["sibling", "wrapped"],
+        "properties": {
+          "sibling": {
+            "$ref": "#/components/schemas/Bar",
+            "nullable": true
+          },
+          "wrapped": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Bar"
+              }
+            ],
+            "nullable": true
+          },
+          "plain": {
+            "$ref": "#/components/schemas/Bar"
+          }
+        }
+      }
+    }
+  }
+}
