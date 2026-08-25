@@ -1,16 +1,16 @@
-import { ref } from '@hey-api/codegen-core';
+import { childContext } from '@hey-api/shared';
 
 import { $ } from '../../../../../ts-dsl';
 import type { TupleResolverContext } from '../../resolvers';
 import type { Type } from '../../shared/types';
 
 function baseNode(ctx: TupleResolverContext): Type {
-  const { plugin, schema, walk } = ctx;
+  const { path, plugin, schema, walk } = ctx;
   const itemTypes: Array<Type> = [];
 
   if (schema.items) {
-    schema.items.forEach((item) => {
-      const result = walk(item, { path: ref([]), plugin });
+    schema.items.forEach((item, index) => {
+      const result = walk(item, childContext({ path, plugin }, 'items', index));
       itemTypes.push(result.type);
     });
   }

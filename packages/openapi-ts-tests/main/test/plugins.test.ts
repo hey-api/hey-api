@@ -89,6 +89,43 @@ for (const version of versions) {
       },
       {
         config: createConfig({
+          output: 'resolvers-ctx-path',
+          plugins: [
+            {
+              $resolvers: (() => {
+                const pathResolver = (ctx: {
+                  $: any;
+                  path: { '~ref': ReadonlyArray<string | number> };
+                  plugin: any;
+                }): undefined =>
+                  ctx
+                    .$(ctx.$.typeofExpr(ctx.plugin.symbol('globalThis')))
+                    .attr(`${ctx.path['~ref'].join('_')}`);
+                return {
+                  array: pathResolver,
+                  boolean: pathResolver,
+                  enum: pathResolver,
+                  intersection: pathResolver,
+                  never: pathResolver,
+                  null: pathResolver,
+                  number: pathResolver,
+                  object: pathResolver,
+                  string: pathResolver,
+                  tuple: pathResolver,
+                  undefined: pathResolver,
+                  union: pathResolver,
+                  unknown: pathResolver,
+                  void: pathResolver,
+                };
+              })(),
+              name: '@hey-api/typescript',
+            },
+          ],
+        }),
+        description: 'generate types according to resolver ctx paths',
+      },
+      {
+        config: createConfig({
           input: 'transforms-read-write.yaml',
           output: 'transforms-read-write-ignore',
           parser: {
