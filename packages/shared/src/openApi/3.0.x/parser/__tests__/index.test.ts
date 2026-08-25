@@ -17,6 +17,7 @@ function createContext(spec: OpenAPIV3.Document) {
       },
       // @ts-expect-error - partial config for testing
       parser: {
+        content: { preferred: {} },
         pagination: { keywords: [] },
         transforms: {
           enums: { case: 'PascalCase', enabled: false, mode: 'root', name: '{{name}}Enum' },

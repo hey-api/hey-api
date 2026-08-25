@@ -12,6 +12,15 @@ export const defaultPaginationKeywords = [
 ] as const;
 
 export const parserConfig = defineConfig<UserParser, Parser>({
+  content: {
+    preferred: coerce((value): Parser['content']['preferred'] => {
+      if (Array.isArray(value)) {
+        const preference = value as Parser['content']['preferred']['requests'];
+        return { parameters: preference, requests: preference, responses: preference };
+      }
+      return (value as Parser['content']['preferred'] | undefined) ?? {};
+    }),
+  },
   hooks: {},
   pagination: {
     keywords: defaultPaginationKeywords,
