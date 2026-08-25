@@ -71,6 +71,35 @@ export type AddPetResponse = AddPetResponses[keyof AddPetResponses];
 
 You can customize the naming and casing pattern for `responses` types using the `.name` and `.case` options.
 
+## Operations
+
+If you consume the generated types with your own HTTP client, you may want a single index of every operation instead of hand-enumerating the per-operation types. Set `operations` to `true` to export a type keyed by operation ID.
+
+```js {8} title="openapi-ts.config.ts"
+export default {
+  input: 'hey-api/backend', // sign up at app.heyapi.dev
+  output: 'src/client',
+  plugins: [
+    // ...other plugins
+    {
+      name: '@hey-api/typescript',
+      operations: true,
+    },
+  ],
+};
+```
+
+```ts title="types.gen.ts"
+export type Operations = {
+  addPet: {
+    data: AddPetData;
+    responses: AddPetResponses;
+  };
+};
+```
+
+The `errors` and `responses` members are present only when the operation defines them. If your specification defines a schema named `Operations`, the index type is renamed automatically. You can also pick the name yourself by passing a string, e.g. `operations: 'MyOperations'`.
+
 ## Definitions
 
 A type is generated for every reusable definition from your input.

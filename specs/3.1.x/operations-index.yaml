@@ -1,0 +1,45 @@
+openapi: 3.1.0
+info:
+  title: OpenAPI 3.1.0 operations index example
+  version: '1'
+paths:
+  /ping:
+    get:
+      operationId: getPing
+      responses:
+        '200':
+          content:
+            'application/json':
+              schema:
+                properties:
+                  pong:
+                    type: string
+                type: object
+          description: OK
+        '4XX':
+          content:
+            'application/json':
+              schema:
+                properties:
+                  message:
+                    type: string
+                type: object
+          description: Error
+    post:
+      operationId: postPing
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              type: string
+        required: true
+      responses:
+        '200':
+          content:
+            'application/json':
+              schema:
+                properties:
+                  pong:
+                    type: string
+                type: object
+          description: OK

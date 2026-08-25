@@ -653,6 +653,45 @@ describe(`OpenAPI ${version}`, () => {
     },
     {
       config: createConfig({
+        input: 'operations-index.yaml',
+        output: 'operations-index',
+        plugins: [
+          {
+            name: '@hey-api/typescript',
+            operations: true,
+          },
+        ],
+      }),
+      description: 'generates operations index type',
+    },
+    {
+      config: createConfig({
+        input: 'operations-index.yaml',
+        output: 'operations-index-renamed',
+        plugins: [
+          {
+            name: '@hey-api/typescript',
+            operations: 'MyOperations',
+          },
+        ],
+      }),
+      description: 'renames operations index type via string shorthand',
+    },
+    {
+      config: createConfig({
+        input: 'operations-index-collision.yaml',
+        output: 'operations-index-collision',
+        plugins: [
+          {
+            name: '@hey-api/typescript',
+            operations: true,
+          },
+        ],
+      }),
+      description: 'resolves operations index name collision with schema',
+    },
+    {
+      config: createConfig({
         input: 'parameter-explode-false.json',
         output: 'parameter-explode-false',
         plugins: ['@hey-api/client-fetch', '@hey-api/sdk'],

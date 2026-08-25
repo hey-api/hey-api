@@ -1,9 +1,16 @@
+import type { Symbol } from '@hey-api/codegen-core';
 import type { IR } from '@hey-api/shared';
 import { buildSymbolIn, deduplicateSchema, operationResponsesMap } from '@hey-api/shared';
 
 import { $ } from '../../../../ts-dsl';
 import type { HeyApiTypeScriptPlugin } from '../types';
 import type { ProcessorResult } from './processor';
+
+export type OperationSymbols = {
+  data: Symbol;
+  errors?: Symbol;
+  responses?: Symbol;
+};
 
 const irParametersToIrSchema = ({
   parameters,
@@ -53,7 +60,7 @@ export const operationToType = ({
   plugin: HeyApiTypeScriptPlugin['Instance'];
   processor: ProcessorResult;
   tags?: ReadonlyArray<string>;
-}): void => {
+}): OperationSymbols => {
   const data: IR.SchemaObject = {
     properties: {
       body: operation.body?.schema ?? { type: 'never' },
@@ -140,6 +147,9 @@ export const operationToType = ({
 
   const { error, errors, response, responses } = operationResponsesMap(operation);
 
+  let errorsSymbol: Symbol | undefined;
+  let responsesSymbol: Symbol | undefined;
+
   if (errors) {
     const errorsResult = processor.process({
       export: false,
@@ -153,7 +163,7 @@ export const operationToType = ({
       schema: errors,
     });
 
-    const errorsSymbol = plugin.symbol(
+    errorsSymbol = plugin.symbol(
       buildSymbolIn({
         meta: {
           category: 'type',
@@ -218,7 +228,7 @@ export const operationToType = ({
       schema: responses,
     });
 
-    const responsesSymbol = plugin.symbol(
+    responsesSymbol = plugin.symbol(
       buildSymbolIn({
         meta: {
           category: 'type',
@@ -269,4 +279,10 @@ export const operationToType = ({
       plugin.node(responseNode);
     }
   }
+
+  return {
+    data: dataSymbol,
+    errors: errorsSymbol,
+    responses: responsesSymbol,
+  };
 };
