@@ -11,6 +11,12 @@ import {
   mutationKeyStatement,
 } from '../mutation-key';
 import { handleMeta } from '../shared/meta';
+import {
+  ensureFieldsResponseTypes,
+  fieldsResultStatements,
+  fieldsStyleParamName,
+  fieldsStyleUnion,
+} from '../shared/response-types';
 import { useTypeData, useTypeError, useTypeResponse } from '../shared/use-type';
 import type { PluginInstance } from '../types';
 
@@ -39,12 +45,33 @@ export function createMutationOptions({
   const symbolMutationOptionsType = plugin.imports.MutationOptions;
 
   const typeData = useTypeData({ operation, plugin });
+  const typeResponse = useTypeResponse({ operation, plugin });
+  const typeError = useTypeError({ operation, plugin });
+
+  const isFields = plugin.config.responseStyle === 'fields';
+
+  const fieldsTypes = isFields ? ensureFieldsResponseTypes(plugin) : undefined;
+  const wrappedResponse = fieldsTypes
+    ? $.type(fieldsTypes.symbolResponseResult).generic(typeResponse).generic(fieldsStyleParamName)
+    : typeResponse;
+  const wrappedError = fieldsTypes
+    ? $.type(fieldsTypes.symbolErrorResult).generic(typeError).generic(fieldsStyleParamName)
+    : typeError;
+
   const mutationType = $.type(symbolMutationOptionsType)
-    .generic(useTypeResponse({ operation, plugin }))
-    .generic(useTypeError({ operation, plugin }))
+    .generic(wrappedResponse)
+    .generic(wrappedError)
     .generic(typeData);
 
   const fnOptions = 'fnOptions';
+
+  const sdkCallObject = isFields
+    ? $.object()
+        .spread('options')
+        .spread(fnOptions)
+        .prop('responseStyle', $.literal('fields'))
+        .prop('throwOnError', $.literal(false))
+    : $.object().spread('options').spread(fnOptions).prop('throwOnError', $.literal(true));
 
   const awaitSdkFn = $.lazy((ctx) =>
     ctx
@@ -56,12 +83,22 @@ export function createMutationOptions({
           resourceId: operation.id,
         }),
       )
-      .call($.object().spread('options').spread(fnOptions).prop('throwOnError', $.literal(true)))
+      .call(sdkCallObject)
       .await(),
   );
 
   const statements: Array<TsDsl<any>> = [];
-  if (plugin.getPluginOrThrow('@hey-api/sdk').config.responseStyle === 'data') {
+  if (fieldsTypes) {
+    statements.push(
+      ...fieldsResultStatements({
+        awaitSdkFn,
+        fieldsTypes,
+        optionsName: 'options',
+        wrappedError,
+        wrappedResponse,
+      }),
+    );
+  } else if (plugin.getPluginOrThrow('@hey-api/sdk').config.responseStyle === 'data') {
     statements.push($.return(awaitSdkFn));
   } else {
     statements.push($.const().object('data').assign(awaitSdkFn), $.return('data'));
@@ -95,7 +132,23 @@ export function createMutationOptions({
     .$if(plugin.config.comments && createOperationComment(operation), (c, v) => c.doc(v))
     .assign(
       $.func()
-        .param('options', (p) => p.optional().type($.type('Partial').generic(typeData)))
+        .$if(isFields, (f) =>
+          f.generic(fieldsStyleParamName, (g) =>
+            g.extends(fieldsStyleUnion()).default($.type.literal('fields')),
+          ),
+        )
+        .param('options', (p) => {
+          const partialOptions = $.type('Partial').generic(typeData);
+          const optionsType = isFields
+            ? $.type.and(
+                partialOptions,
+                $.type
+                  .object()
+                  .prop('responseStyle', (op) => op.type(fieldsStyleParamName).optional()),
+              )
+            : partialOptions;
+          return p.optional().type(optionsType);
+        })
         .returns(mutationType)
         .do(
           $.const(mutationOptionsFn)
