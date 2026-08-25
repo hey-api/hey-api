@@ -108,6 +108,45 @@ export const getUrl = ({
   return url;
 };
 
+const STANDARD_REQUEST_INIT_KEYS = [
+  'body',
+  'cache',
+  'credentials',
+  'duplex',
+  'headers',
+  'integrity',
+  'keepalive',
+  'method',
+  'mode',
+  'priority',
+  'redirect',
+  'referrer',
+  'referrerPolicy',
+  'signal',
+  'window',
+] as const;
+
+/**
+ * Returns a `RequestInit` containing only standard fields, dropping any
+ * non-standard keys (e.g. internal client options such as `client`, `fetch`,
+ * `baseUrl`, serializers and validators) that are otherwise spread into the
+ * init.
+ *
+ * Node, undici and browsers ignore unknown `RequestInit` keys, but Deno and
+ * Bun validate the init strictly and throw (e.g. Deno treats `client` as a
+ * `Deno.HttpClient`). Sanitizing here keeps the generated client portable
+ * across runtimes; it is a no-op on Node and in the browser.
+ */
+export const toRequestInit = (init: Record<PropertyKey, unknown>): RequestInit => {
+  const result: Record<string, unknown> = {};
+  for (const key of STANDARD_REQUEST_INIT_KEYS) {
+    if (init[key] !== undefined) {
+      result[key] = init[key];
+    }
+  }
+  return result as RequestInit;
+};
+
 export function getValidRequestBody(options: {
   body?: unknown;
   bodySerializer?: BodySerializer | null;

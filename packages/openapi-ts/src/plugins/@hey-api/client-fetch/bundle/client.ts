@@ -1,6 +1,6 @@
 import { createSseClient } from '../../client-core/bundle/serverSentEvents';
 import type { HttpMethod } from '../../client-core/bundle/types';
-import { getValidRequestBody } from '../../client-core/bundle/utils';
+import { getValidRequestBody, toRequestInit } from '../../client-core/bundle/utils';
 import type { Client, Config, RequestOptions, ResolvedRequestOptions } from './types';
 import {
   buildUrl,
@@ -84,7 +84,7 @@ export const createClient = (config: Config = {}): Client => {
         body: getValidRequestBody(opts),
       };
 
-      request = new Request(url, requestInit);
+      request = new Request(url, toRequestInit(requestInit as Record<PropertyKey, unknown>));
 
       for (const fn of interceptors.request.fns) {
         if (fn) {
