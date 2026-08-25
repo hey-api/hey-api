@@ -147,6 +147,13 @@ export type UserConfig = Plugin.Name<'@hey-api/typescript'> &
            */
           case?: Casing;
           /**
+           * Whether to include the HTTP method as a literal type in each
+           * request type, e.g. `method: 'post'`.
+           *
+           * @default false
+           */
+          method?: boolean;
+          /**
            * Naming pattern for generated names.
            *
            * @default '{{name}}Data'
@@ -302,7 +309,15 @@ export type Config = Plugin.Name<'@hey-api/typescript'> &
      * Controls generation of types for request bodies, query parameters, path
      * parameters, and headers.
      */
-    requests: NamingOptions;
+    requests: NamingOptions & {
+      /**
+       * Whether to include the HTTP method as a literal type in each
+       * request type, e.g. `method: 'post'`.
+       *
+       * @default false
+       */
+      method: boolean;
+    };
     /**
      * Configuration for response-specific types.
      *

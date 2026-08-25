@@ -40,6 +40,22 @@ describe.each(versions)('OpenAPI %s', (version) => {
     },
     {
       config: createConfig({
+        input: 'faker.yaml',
+        output: 'faker-typed-method',
+        plugins: [
+          {
+            name: '@hey-api/typescript',
+            requests: {
+              method: true,
+            },
+          },
+          '@faker-js/faker',
+        ],
+      }),
+      description: 'omits method from typed faker factories when request types include it',
+    },
+    {
+      config: createConfig({
         input: 'circular.yaml',
         output: 'faker-circular',
         plugins: ['@hey-api/typescript', '@faker-js/faker'],

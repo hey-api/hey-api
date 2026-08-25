@@ -64,6 +64,14 @@ export const operationToType = ({
             }),
           }
         : {}),
+      ...(plugin.config.requests.method
+        ? {
+            method: {
+              const: operation.method,
+              type: 'string',
+            },
+          }
+        : {}),
       path: operation.parameters?.path
         ? irParametersToIrSchema({ parameters: operation.parameters.path })
         : { type: 'never' },
@@ -87,6 +95,10 @@ export const operationToType = ({
   // do not set headers to never so we can always pass arbitrary values
   if (data.properties!.headers?.required) {
     dataRequired.push('headers');
+  }
+
+  if (plugin.config.requests.method) {
+    dataRequired.push('method');
   }
 
   if (data.properties!.path!.required) {
