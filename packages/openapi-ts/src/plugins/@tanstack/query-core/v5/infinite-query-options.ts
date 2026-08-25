@@ -9,6 +9,7 @@ import {
 } from '../../../shared/utils/operation';
 import { createQueryKeyFunction, createQueryKeyType, queryKeyStatement } from '../query-key';
 import { handleMeta } from '../shared/meta';
+import { createUnwrapSkipTokenFunction } from '../shared/unwrap-skip-token';
 import { useTypeData, useTypeError, useTypeResponse } from '../shared/use-type';
 import type { PluginInstance } from '../types';
 
@@ -134,8 +135,29 @@ export function createInfiniteQueryOptions({
     createInfiniteParamsFunction({ plugin });
   }
 
+  if (
+    // TODO: contract (self)
+    !plugin.querySymbol({
+      artifact: plugin.name,
+      category: 'utility',
+      resource: 'unwrapSkipToken',
+    })
+  ) {
+    createUnwrapSkipTokenFunction({ plugin });
+  }
+
   const typeData = useTypeData({ operation, plugin });
   const typeResponse = useTypeResponse({ operation, plugin });
+
+  const symbolSkipToken = $(plugin.imports.skipToken);
+  const symbolUnwrapSkipToken = plugin.referenceSymbol({
+    artifact: plugin.name,
+    category: 'utility',
+    resource: 'unwrapSkipToken',
+  });
+  const unwrappedName = 'unwrapped';
+  const unwrappedRef = $(unwrappedName);
+  const unwrappedCall = $(symbolUnwrapSkipToken).call('options');
   // TODO: contract (self)
   const symbolQueryKeyType = plugin.referenceSymbol({
     artifact: plugin.name,
@@ -179,7 +201,7 @@ export function createInfiniteQueryOptions({
       )
       .call(
         $.object()
-          .spread('options')
+          .spread(unwrappedRef)
           .spread('params')
           .prop('signal', $('signal'))
           .prop('throwOnError', $.literal(true)),
@@ -215,6 +237,13 @@ export function createInfiniteQueryOptions({
     statements.push($.const().object('data').assign(awaitSdkFn), $.return('data'));
   }
 
+  const asyncQueryFn = $.func()
+    .async()
+    .param((p) => p.object('pageParam', 'queryKey', 'signal'))
+    .do(...statements);
+
+  const paramType = $.type.or(typeData, $.type.query(symbolSkipToken));
+
   const symbolInfiniteQueryOptionsFn = plugin.symbol(
     applyNaming(operation.id, plugin.config.infiniteQueryOptions),
   );
@@ -223,8 +252,9 @@ export function createInfiniteQueryOptions({
     .$if(plugin.config.comments && createOperationComment(operation), (c, v) => c.doc(v))
     .assign(
       $.func()
-        .param('options', (p) => p.required(isRequiredOptions).type(typeData))
+        .param('options', (p) => p.required(isRequiredOptions).type(paramType))
         .do(
+          $.const(unwrappedName).assign(unwrappedCall),
           $.const('opts').assign(
             $(plugin.imports.infiniteQueryOptions)
               .call(
@@ -233,10 +263,9 @@ export function createInfiniteQueryOptions({
                   .hint('@ts-ignore')
                   .prop(
                     'queryFn',
-                    $.func()
-                      .async()
-                      .param((p) => p.object('pageParam', 'queryKey', 'signal'))
-                      .do(...statements),
+                    $.ternary($('options').eq(symbolSkipToken))
+                      .do(symbolSkipToken)
+                      .otherwise(asyncQueryFn),
                   )
                   .prop('queryKey', $(symbolInfiniteQueryKey).call('options'))
                   .$if(handleMeta(plugin, operation, 'infiniteQueryOptions'), (o, v) =>

@@ -3,6 +3,7 @@ import type { IR } from '@hey-api/shared';
 import { applyNaming, hasOperationDataRequired } from '@hey-api/shared';
 
 import { getTypedConfig } from '../../../config/utils';
+import type { TsDsl } from '../../../ts-dsl';
 import { $ } from '../../../ts-dsl';
 import { getClientBaseUrlKey } from '../../@hey-api/client-core/utils';
 import { useTypeData } from './shared/use-type';
@@ -99,11 +100,13 @@ function createQueryKeyLiteral({
   id,
   isInfinite,
   operation,
+  optionsExpr,
   plugin,
 }: {
   id: string;
   isInfinite?: boolean;
   operation: IR.OperationObject;
+  optionsExpr: TsDsl<any>;
   plugin: PluginInstance;
 }): ReturnType<typeof $.call> {
   const config = isInfinite ? plugin.config.infiniteQueryKeys : plugin.config.queryKeys;
@@ -119,7 +122,7 @@ function createQueryKeyLiteral({
   });
   const createQueryKeyCallExpression = $(symbolCreateQueryKey).call(
     $.literal(id),
-    'options',
+    optionsExpr,
     isInfinite || tagsArray ? $.literal(Boolean(isInfinite)) : undefined,
     tagsArray,
   );
@@ -174,17 +177,25 @@ export function queryKeyStatement({
   typeQueryKey?: ReturnType<typeof $.type>;
 }): ReturnType<typeof $.const> {
   const typeData = useTypeData({ operation, plugin });
+  const symbolSkipToken = $(plugin.imports.skipToken);
+  const symbolUnwrapSkipToken = plugin.referenceSymbol({
+    artifact: plugin.name,
+    category: 'utility',
+    resource: 'unwrapSkipToken',
+  });
+  const paramType = $.type.or(typeData, $.type.query(symbolSkipToken));
   const statement = $.const(symbol)
     .export()
     .assign(
       $.func()
-        .param('options', (p) => p.required(hasOperationDataRequired(operation)).type(typeData))
+        .param('options', (p) => p.required(hasOperationDataRequired(operation)).type(paramType))
         .$if(isInfinite && typeQueryKey, (f, v) => f.returns(v))
         .do(
           createQueryKeyLiteral({
             id: operation.id,
             isInfinite,
             operation,
+            optionsExpr: $(symbolUnwrapSkipToken).call('options'),
             plugin,
           }).return(),
         ),
