@@ -325,4 +325,64 @@ describe('createClient', () => {
 
     expect(results.length).toBeGreaterThanOrEqual(1);
   });
+
+  it('excludes SSE POST operations from TanStack Query mutations', async () => {
+    const [context] = await createClient({
+      dryRun: true,
+      input: {
+        info: { title: 'sse-post-test', version: '1.0.0' },
+        openapi: '3.1.0',
+        paths: {
+          '/events': {
+            get: {
+              operationId: 'listEvents',
+              responses: {
+                200: {
+                  content: {
+                    'application/json': {
+                      schema: { items: { type: 'string' }, type: 'array' },
+                    },
+                  },
+                  description: 'Events',
+                },
+              },
+            },
+          },
+          '/events/subscribe': {
+            post: {
+              operationId: 'subscribeToEventStream',
+              responses: {
+                200: {
+                  content: {
+                    'text/event-stream': {
+                      schema: { type: 'object' },
+                    },
+                  },
+                  description: 'Event stream',
+                },
+              },
+            },
+          },
+        },
+      },
+      logs: { level: 'silent' },
+      output: 'output',
+      plugins: [
+        '@hey-api/typescript',
+        '@hey-api/sdk',
+        '@hey-api/client-fetch',
+        {
+          name: '@tanstack/react-query',
+          useMutation: true,
+        },
+      ],
+    });
+
+    const queryFile = context?.gen
+      .render()
+      .find((file) => file.path.replaceAll('\\', '/').endsWith('@tanstack/react-query.gen.ts'));
+
+    expect(queryFile).toBeDefined();
+    expect(queryFile!.content).not.toContain('useSubscribeToEventStreamMutation');
+  });
 });
