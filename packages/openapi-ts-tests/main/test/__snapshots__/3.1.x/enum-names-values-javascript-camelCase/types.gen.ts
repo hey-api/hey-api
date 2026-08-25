@@ -49,3 +49,11 @@ export type Arrays = typeof Arrays[keyof typeof Arrays];
 export type MyFooRef = {
   foo?: Array<MyFoo2>;
 };
+
+export const CrossCollision = {
+  etcGmt1: 'Etc/GMT+1',
+  etcGmt12: 'Etc/GMT+12',
+  etcGmt13: 'Etc/GMT-1'
+} as const;
+
+export type CrossCollision = typeof CrossCollision[keyof typeof CrossCollision];

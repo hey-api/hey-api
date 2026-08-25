@@ -41,3 +41,9 @@ export type Arrays = [
 export type MyFooRef = {
   foo?: Array<MyFoo2>;
 };
+
+export enum CrossCollision {
+  ETC_GMT_1 = 'Etc/GMT+1',
+  ETC_GMT_12 = 'Etc/GMT+12',
+  ETC_GMT_13 = 'Etc/GMT-1'
+}

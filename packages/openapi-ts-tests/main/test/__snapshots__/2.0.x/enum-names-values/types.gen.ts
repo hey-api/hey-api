@@ -21,3 +21,5 @@ export type Arrays = [
 ] | [
   'baz'
 ];
+
+export type CrossCollision = 'Etc/GMT+1' | 'Etc/GMT+12' | 'Etc/GMT-1';
