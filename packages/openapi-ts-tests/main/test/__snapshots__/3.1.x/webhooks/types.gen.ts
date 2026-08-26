@@ -14,8 +14,8 @@ export type Webhooks = SessionUserPhoneCalloutRingingWebhookRequest | SessionUse
  * ## Prerequisites
  *
  * * **Event Subscriptions** must be enabled for your app with the following configurations:
- * * A valid **Event Notification Endpoint URL**.
- * * The **Invited party's phone (call out) ringing** subscription enabled under the **Session** event.
+ *   * A valid **Event Notification Endpoint URL**.
+ *   * The **Invited party's phone (call out) ringing** subscription enabled under the **Session** event.
  *
  *
  *
@@ -208,8 +208,8 @@ export type SessionUserRoomSystemCalloutRingingWebhookRequest = {
  *
  * * Cloud Recording must be enabled on the Video SDK account.
  * * Event Subscriptions must be enabled for your app with the following configurations:
- * * A valid Event Notification Endpoint URL.
- * * **Session recording started** subscription enabled under the **Recording** event.
+ *   * A valid Event Notification Endpoint URL.
+ *   * **Session recording started** subscription enabled under the **Recording** event.
  *
  * The tabs below display the complete schema, payload with data types, and an example of the `session.recording_started` event notification:
  *
@@ -293,8 +293,8 @@ export type SessionRecordingStartedWebhookRequest = {
  *
  * * Cloud Recording must be enabled on the Video SDK account.
  * * Event Subscriptions must be enabled for your app with the following configurations:
- * * A valid Event Notification Endpoint URL.
- * * **Session recording resumed** subscription enabled under the **Recording** event.
+ *   * A valid Event Notification Endpoint URL.
+ *   * **Session recording resumed** subscription enabled under the **Recording** event.
  *
  * The tabs below display the complete schema, payload with data types, and an example of the `session.recording_resumed` event notification:
  *
@@ -474,8 +474,8 @@ export type SessionLiveStreamingStoppedWebhookRequest = {
  * ## Prerequisites
  *
  * * **Event Subscriptions** must be enabled for your app with the following configurations:
- * * A valid **Event Notification Endpoint URL**.
- * * The **Session stream ingestion stopped** subscription enabled under the **Video SDK** event.
+ *   * A valid **Event Notification Endpoint URL**.
+ *   * The **Session stream ingestion stopped** subscription enabled under the **Video SDK** event.
  *
  *
  * **Event type**: `session.stream_ingestion_stopped`
@@ -835,8 +835,8 @@ export type SessionSharingEndedWebhookRequest = {
  *
  * * Cloud Recording must be enabled on the Video SDK account.
  * * Event Subscriptions must be enabled for your app with the following configurations:
- * * A valid Event Notification Endpoint URL.
- * * "**Session recording paused**" subscription enabled under the **Recording** event.
+ *   * A valid Event Notification Endpoint URL.
+ *   * "**Session recording paused**" subscription enabled under the **Recording** event.
  *
  * The tabs below display the complete schema, payload with data types, and an example of the `session.recording_paused` event notification:
  *
@@ -1057,8 +1057,8 @@ export type SessionStartedWebhookRequest = {
  * ## Prerequisites
  *
  * * **Event Subscriptions** must be enabled for your app with the following configurations:
- * * A valid **Event Notification Endpoint URL**.
- * * The **Session stream ingestion unbind** subscription enabled under the **Video SDK** event.
+ *   * A valid **Event Notification Endpoint URL**.
+ *   * The **Session stream ingestion unbind** subscription enabled under the **Video SDK** event.
  *
  *
  * **Event type**: `session.stream_ingestion_unbind`
@@ -1338,8 +1338,8 @@ export type SessionUserRoomSystemCalloutMissedWebhookRequest = {
  * ## Prerequisites
  *
  * * **Event Subscriptions** must be enabled for your app with the following configurations:
- * * A valid **Event Notification Endpoint URL**.
- * * The **Invited party answered a session invitation through phone (call out)** subscription enabled under the **Session** event.
+ *   * A valid **Event Notification Endpoint URL**.
+ *   * The **Invited party answered a session invitation through phone (call out)** subscription enabled under the **Session** event.
  *
  *
  *
@@ -1636,8 +1636,8 @@ export type SessionSharingStartedWebhookRequest = {
  * ## Prerequisites
  *
  * * **Event Subscriptions** must be enabled for your app with the following configurations:
- * * A valid **Event Notification Endpoint URL**.
- * * The **Invited party's phone (call out) canceled** subscription enabled under the **Session** event.
+ *   * A valid **Event Notification Endpoint URL**.
+ *   * The **Invited party's phone (call out) canceled** subscription enabled under the **Session** event.
  *
  *
  * **Event type**: `session.user_phone_callout_canceled`
@@ -1721,8 +1721,8 @@ export type SessionUserPhoneCalloutCanceledWebhookRequest = {
  *
  * * Cloud Recording must be enabled on the Video SDK account.
  * * Event Subscriptions must be enabled for your app with the following configurations:
- * * A valid Event Notification Endpoint URL.
- * * Session recording transcript completed subscription enabled under the Recording event.
+ *   * A valid Event Notification Endpoint URL.
+ *   * Session recording transcript completed subscription enabled under the Recording event.
  *
  * The tabs below display the complete schema, payload with data types, and an example of the `session.recording_transcript_completed` event notification:
  *
@@ -1743,13 +1743,13 @@ export type SessionRecordingTranscriptCompletedWebhookPayload = {
   /**
    * A generated token used to download the recording. The download token only lasts for 24 hours after its creation and you can only download the file within 24 hours of receiving the event notification. You can either pass the download_token as a Bearer token in the Authorization header of your HTTP request (recommended) or include it as a query parameter. See the following for examples.
    *
-   * **Using an Authorization header (Recommended)**
+   *  **Using an Authorization header (Recommended)**
    *
    *
    * curl --request GET \
-   * --url {download_url} \
-   * --header 'authorization: Bearer {download_token} \
-   * --header 'content-type: application/json'
+   *   --url {download_url} \
+   *   --header 'authorization: Bearer {download_token} \
+   *   --header 'content-type: application/json'
    *
    *
    * **Using a query parameter**
@@ -1758,7 +1758,7 @@ export type SessionRecordingTranscriptCompletedWebhookPayload = {
    * {download_url}/?access_token={download_token}
    *
    *
-   * For example: https://zoom.us/recording/download/123456?access_token=abcdefgh
+   *  For example: https://zoom.us/recording/download/123456?access_token=abcdefgh
    */
   download_token: string;
   payload: {
@@ -1826,7 +1826,7 @@ export type SessionRecordingTranscriptCompletedWebhookPayload = {
          * <br>
          *
          * A recording file object with file type of either CC or TIMELINE **does not have** the following properties:<br>
-         * id, status, file_size, recording_type.
+         * 	id, status, file_size, recording_type.
          */
         file_type?: 'MP4' | 'M4A' | 'CHAT' | 'TRANSCRIPT' | 'CSV' | 'CC' | 'TB' | 'CHAT_MESSAGE' | 'TIMELINE';
         /**
@@ -1842,13 +1842,13 @@ export type SessionRecordingTranscriptCompletedWebhookPayload = {
          *
          * To access a private or password-protected cloud recording of a user in your account, use your [Video SDK API JWT](https://marketplace.zoom.us/docs/guides/build/video-sdk-app/#video-sdk-and-api-credentials). You can either pass the generated JWT as a Bearer token in the Authorization header of your HTTP request (recommended) or include it as a query parameter at the end of the URL. See the following for examples.
          *
-         * **Using an Authorization header (Recommended)**
+         *  **Using an Authorization header (Recommended)**
          *
          *
          * curl --request GET \
-         * --url {download_url} \
-         * --header 'authorization: Bearer {JWT} \
-         * --header 'content-type: application/json'
+         *   --url {download_url} \
+         *   --header 'authorization: Bearer {JWT} \
+         *   --header 'content-type: application/json'
          *
          *
          * **Using a query parameter**
@@ -1857,7 +1857,7 @@ export type SessionRecordingTranscriptCompletedWebhookPayload = {
          * {download_url}/?access_token={download_token}
          *
          *
-         * For example: https://{base-domain}/recording/download/{path-to-file-download}?access_token={JWT}.
+         *  For example: https://{base-domain}/recording/download/{path-to-file-download}?access_token={JWT}.
          */
         download_url?: string;
         /**
@@ -1899,8 +1899,8 @@ export type SessionRecordingTranscriptCompletedWebhookRequest = {
  *
  * * Cloud Recording must be enabled on the Video SDK account.
  * * Event Subscriptions must be enabled for your app with the following configurations:
- * * A valid Event Notification Endpoint URL.
- * * "**Session recording permanently deleted**" subscription enabled under the **Recording** event.
+ * 	* A valid Event Notification Endpoint URL.
+ * 	* "**Session recording permanently deleted**" subscription enabled under the **Recording** event.
  *
  * The tabs below display the complete schema, payload with data types, and an example of the `session.recording_deleted` event notification:
  *
@@ -2092,8 +2092,8 @@ export type SessionUserRoomSystemCalloutFailedWebhookRequest = {
  *
  * * Cloud Recording must be enabled on the Video SDK account.
  * * Event Subscriptions must be enabled for your app with the following configurations:
- * * A valid Event Notification Endpoint URL.
- * * Session recording completed subscription enabled under the Recording event.
+ *   * A valid Event Notification Endpoint URL.
+ *   * Session recording completed subscription enabled under the Recording event.
  *
  * The tabs below display the complete schema, payload with data types, and an example of the `session.recording_completed` event notification:
  *
@@ -2116,9 +2116,9 @@ export type SessionRecordingCompletedWebhookPayload = {
    *
    *
    * curl --request GET \
-   * --url {download_url} \
-   * --header 'authorization: Bearer {download_token} \
-   * --header 'content-type: application/json'
+   *   --url {download_url} \
+   *   --header 'authorization: Bearer {download_token} \
+   *   --header 'content-type: application/json'
    *
    */
   download_token: string;
@@ -2187,7 +2187,7 @@ export type SessionRecordingCompletedWebhookPayload = {
          * <br>
          *
          * A recording file object with file type of either CC or TIMELINE **does not have** the following properties:<br>
-         * id, status, file_size, recording_type.
+         * 	id, status, file_size, recording_type.
          */
         file_type?: 'MP4' | 'M4A' | 'CHAT' | 'TRANSCRIPT' | 'CSV' | 'CC' | 'TB' | 'CHAT_MESSAGE';
         /**
@@ -2205,9 +2205,9 @@ export type SessionRecordingCompletedWebhookPayload = {
          *
          *
          * curl --request GET \
-         * --url {download_url} \
-         * --header 'authorization: Bearer {JWT} \
-         * --header 'content-type: application/json'
+         *   --url {download_url} \
+         *   --header 'authorization: Bearer {JWT} \
+         *   --header 'content-type: application/json'
          *
          */
         download_url?: string;
@@ -2256,7 +2256,7 @@ export type SessionRecordingCompletedWebhookPayload = {
          * <br>
          *
          * A recording file object with file type of either CC or TIMELINE **does not have** the following properties:<br>
-         * id, status, file_size, recording_type.
+         * 	id, status, file_size, recording_type.
          */
         file_type?: 'MP4' | 'M4A' | 'CHAT' | 'TRANSCRIPT' | 'CSV' | 'CC' | 'TB' | 'CHAT_MESSAGE';
         /**
@@ -2274,9 +2274,9 @@ export type SessionRecordingCompletedWebhookPayload = {
          *
          *
          * curl --request GET \
-         * --url {download_url} \
-         * --header 'authorization: Bearer {JWT} \
-         * --header 'content-type: application/json'
+         *   --url {download_url} \
+         *   --header 'authorization: Bearer {JWT} \
+         *   --header 'content-type: application/json'
          *
          */
         download_url?: string;
@@ -2345,9 +2345,9 @@ export type SessionRecordingCompletedWebhookPayload = {
          *
          *
          * curl --request GET \
-         * --url {download_url} \
-         * --header 'authorization: Bearer {JWT} \
-         * --header 'content-type: application/json'
+         *   --url {download_url} \
+         *   --header 'authorization: Bearer {JWT} \
+         *   --header 'content-type: application/json'
          *
          */
         download_url?: string;
@@ -2395,8 +2395,8 @@ export type SessionRecordingCompletedWebhookRequest = {
  *
  * * Enable Cloud Recording on the Video SDK account.
  * * Enable Event Subscriptions for your app with the following configurations:
- * * A valid Event Notification Endpoint URL.
- * * Enable session recording transcript completed subscription under the Recording event.
+ *   * A valid Event Notification Endpoint URL.
+ *   * Enable session recording transcript completed subscription under the Recording event.
  *
  * The tabs below display the complete schema, payload with data types, and an example of the `session.recording_transcript_completed` event notification:
  *
@@ -2473,8 +2473,8 @@ export type SessionRecordingTranscriptFailedWebhookRequest = {
  *
  * * Cloud Recording must be enabled on the Video SDK account.
  * * Event Subscriptions must be enabled for your app with the following configurations:
- * * A valid Event Notification Endpoint URL.
- * * **Session recording deleted to trash** subscription enabled under the **Recording** event.
+ * 	* A valid Event Notification Endpoint URL.
+ * 	* **Session recording deleted to trash** subscription enabled under the **Recording** event.
  *
  * The tabs below display the complete schema, payload with data types, and an example of the `session.recording_trashed` event notification:
  *
@@ -2641,8 +2641,8 @@ export type SessionUserJoinedWebhookRequest = {
  * ## Prerequisites
  *
  * * **Event Subscriptions** must be enabled for your app with the following configurations:
- * * A valid **Event Notification Endpoint URL**.
- * * The **Session stream ingestion started** subscription enabled under the **Video SDK** event.
+ *   * A valid **Event Notification Endpoint URL**.
+ *   * The **Session stream ingestion started** subscription enabled under the **Video SDK** event.
  *
  *
  * **Event type**: `session.stream_ingestion_started`
@@ -2725,8 +2725,8 @@ export type SessionStreamIngestionStartedWebhookRequest = {
  * ## Prerequisites
  *
  * * **Event Subscriptions** must be enabled for your app with the following configurations:
- * * A valid **Event Notification Endpoint URL**.
- * * The **Session stream ingestion connected** subscription enabled under the **Video SDK** event.
+ *   * A valid **Event Notification Endpoint URL**.
+ *   * The **Session stream ingestion connected** subscription enabled under the **Video SDK** event.
  *
  *
  * **Event type**: `session.stream_ingestion_connected`
@@ -2809,8 +2809,8 @@ export type SessionStreamIngestionConnectedWebhookRequest = {
  * ## Prerequisites
  *
  * * **Event Subscriptions** must be enabled for your app with the following configurations:
- * * A valid **Event Notification Endpoint URL**.
- * * The **Session stream ingestion disconnected** subscription enabled under the **Video SDK** event.
+ *   * A valid **Event Notification Endpoint URL**.
+ *   * The **Session stream ingestion disconnected** subscription enabled under the **Video SDK** event.
  *
  *
  * **Event type**: `session.stream_ingestion_disconnected`
@@ -2905,8 +2905,8 @@ export type SessionStreamIngestionDisconnectedWebhookRequest = {
  *
  * * Cloud Recording must be enabled on the Video SDK account.
  * * Event Subscriptions must be enabled for your app with the following configurations:
- * * A valid Event Notification Endpoint URL.
- * * "**Session recording recovered**" subscription enabled under the **Recording** event.
+ * 	* A valid Event Notification Endpoint URL.
+ * 	* "**Session recording recovered**" subscription enabled under the **Recording** event.
  *
  * The tabs below display the complete schema, payload with data types, and an example of the `session.recording_recovered` event notification:
  *
@@ -2980,8 +2980,8 @@ export type SessionRecordingRecoveredWebhookRequest = {
  * ## Prerequisites
  *
  * * **Event Subscriptions** must be enabled for your app with the following configurations:
- * * A valid **Event Notification Endpoint URL**.
- * * The **Invited party missed a session invitation through phone (call out)** subscription enabled under the **Session** event.
+ *   * A valid **Event Notification Endpoint URL**.
+ *   * The **Invited party missed a session invitation through phone (call out)** subscription enabled under the **Session** event.
  *
  *
  *
@@ -3075,8 +3075,8 @@ export type SessionUserPhoneCalloutMissedWebhookRequest = {
  * ## Prerequisites
  *
  * * **Event Subscriptions** must be enabled for your app with the following configurations:
- * * A valid **Event Notification Endpoint URL**.
- * * The **Invited party rejected a session invitation through phone (call out)** subscription enabled under the **Session** event.
+ *   * A valid **Event Notification Endpoint URL**.
+ *   * The **Invited party rejected a session invitation through phone (call out)** subscription enabled under the **Session** event.
  *
  *
  *
@@ -3269,8 +3269,8 @@ export type SessionUserRoomSystemCalloutAcceptedWebhookRequest = {
  *
  * * Cloud Recording must be enabled on the Video SDK account.
  * * Event Subscriptions must be enabled for your app with the following configurations:
- * * A valid Event Notification Endpoint URL.
- * * **Session recording stopped** subscription enabled under the **Recording** event.
+ *   * A valid Event Notification Endpoint URL.
+ *   * **Session recording stopped** subscription enabled under the **Recording** event.
  *
  * The tabs below display the complete schema, payload with data types, and an example of the `session.recording_stopped` event notification:
  *

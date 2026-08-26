@@ -17,6 +17,20 @@ describe.each(versions)('OpenAPI %s', (version) => {
   const scenarios = [
     {
       config: createConfig({
+        input: 'response-no-schema.yaml',
+        output: 'response-no-schema',
+        plugins: [
+          plugins.zod(),
+          plugins.orpc({
+            compatibilityVersion: '2',
+            validator: { input: 'zod', output: 'zod' },
+          }),
+        ],
+      }),
+      description: 'generate oRPC v2 contracts for responses without schemas',
+    },
+    {
+      config: createConfig({
         input: 'rpc-query-styles.yaml',
         output: 'default',
         plugins: [plugins.zod(), plugins.orpc({ compatibilityVersion: '2' })],
@@ -36,6 +50,14 @@ describe.each(versions)('OpenAPI %s', (version) => {
         ],
       }),
       description: 'generate oRPC v2 contracts without query styles',
+    },
+    {
+      config: createConfig({
+        input: 'rpc-query-styles.yaml',
+        output: 'validator-responses-disabled',
+        plugins: [plugins.zod({ responses: false }), plugins.orpc({ compatibilityVersion: '2' })],
+      }),
+      description: 'generate oRPC v2 contracts when validator responses are disabled',
     },
   ];
 

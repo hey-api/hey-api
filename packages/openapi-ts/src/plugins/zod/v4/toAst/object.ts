@@ -20,6 +20,14 @@ function additionalPropertiesNode(ctx: ExtendedContext): Chain | null | undefine
   const { _childResults, applyModifiers, path, plugin, schema, walk } = ctx;
 
   if (
+    (schema.additionalProperties === false || schema.additionalProperties?.type === 'never') &&
+    schema.properties &&
+    Object.keys(schema.properties).length
+  ) {
+    return null;
+  }
+
+  if (
     !schema.additionalProperties ||
     (schema.properties && Object.keys(schema.properties).length)
   ) {
@@ -47,6 +55,10 @@ function baseNode(ctx: ExtendedContext): Chain {
 
   const additional = nodes.additionalProperties(ctx);
   const shape = nodes.shape(ctx);
+
+  if (additional === null) {
+    return $(z).attr(identifiers.strictObject).call(shape);
+  }
 
   if (additional) {
     return $(z).attr(identifiers.record).call($(z).attr(identifiers.string).call(), additional);

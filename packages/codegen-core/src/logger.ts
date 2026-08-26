@@ -1,5 +1,6 @@
-import colors from 'ansi-colors';
+import { styleText } from 'node:util';
 
+type Format = Parameters<typeof styleText>[0];
 type PerformanceMarkResult = ReturnType<typeof performance.mark>;
 type PerformanceMeasureResult = ReturnType<typeof performance.measure>;
 
@@ -12,7 +13,7 @@ interface LoggerEvent {
 }
 
 interface Severity {
-  color: colors.StyleFunction;
+  color: Format;
   type: 'duration' | 'percentage';
 }
 
@@ -29,25 +30,25 @@ const idStart = (id: string) => `${id}-start`;
 const getSeverity = (duration: number, percentage: number): Severity | undefined => {
   if (duration > 200) {
     return {
-      color: colors.red,
+      color: 'red',
       type: 'duration',
     };
   }
   if (percentage > 30) {
     return {
-      color: colors.red,
+      color: 'red',
       type: 'percentage',
     };
   }
   if (duration > 50) {
     return {
-      color: colors.yellow,
+      color: 'yellow',
       type: 'duration',
     };
   }
   if (percentage > 10) {
     return {
-      color: colors.yellow,
+      color: 'yellow',
       type: 'percentage',
     };
   }
@@ -129,7 +130,7 @@ export class Logger {
     indent: number;
     measure: PerformanceMeasureResult;
   }): void {
-    const color = !indent ? colors.cyan : colors.gray;
+    const format: Format = !indent ? 'cyan' : 'gray';
     const lastIndex = parent.events.length - 1;
 
     parent.events.forEach((event, index) => {
@@ -142,7 +143,7 @@ export class Logger {
 
         let durationLabel = `${duration.toFixed(2).padStart(8)}ms`;
         if (severity?.type === 'duration') {
-          durationLabel = severity.color(durationLabel);
+          durationLabel = styleText(severity.color, durationLabel);
         }
 
         const branch = index === lastIndex ? '└─ ' : '├─ ';
@@ -153,11 +154,12 @@ export class Logger {
         const percentagePrefix = indent ? ' '.repeat(indent - 1) + percentageBranch : '';
         let percentageLabel = `${percentagePrefix}${percentage.toFixed(2)}%`;
         if (severity?.type === 'percentage') {
-          percentageLabel = severity.color(percentageLabel);
+          percentageLabel = styleText(severity.color, percentageLabel);
         }
-        const jobPrefix = colors.gray('[root] ');
+        const jobPrefix = styleText('gray', '[root] ');
         console.log(
-          `${jobPrefix}${colors.gray(prefix)}${color(
+          `${jobPrefix}${styleText('gray', prefix)}${styleText(
+            format,
             `${event.name.padEnd(maxLength)} ${durationLabel} (${percentageLabel})`,
           )}`,
         );

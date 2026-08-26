@@ -1,4 +1,4 @@
-import colors from 'ansi-colors';
+import { styleText } from 'node:util';
 
 import type { IR } from '../ir/types';
 import { httpMethods } from '../openApi/shared/utils/operation';
@@ -43,7 +43,7 @@ const print = (ir: IR.Model, options: PrintOptions = {}) => {
       if (kind === 'responses') {
         const count = Object.keys(obj).length;
         const noun = count === 1 ? 'code' : 'codes';
-        log(`responses: ${colors.yellow(`${count} ${noun}`)}`, level);
+        log(`responses: ${styleText('yellow', `${count} ${noun}`)}`, level);
       } else if (kind === 'requestBody') {
         log(`requestBody: ${Object.keys(obj).join(', ')}`, level);
       } else if (kind === 'schema') {
@@ -62,7 +62,7 @@ const print = (ir: IR.Model, options: PrintOptions = {}) => {
     base: number = 1,
   ) => {
     if ('$ref' in item) {
-      log(`${colors.cyan(key)} is a $ref → ${colors.yellow(item.$ref)}`, base);
+      log(`${styleText('cyan', key)} is a $ref → ${styleText('yellow', item.$ref)}`, base);
       return;
     }
 
@@ -71,7 +71,7 @@ const print = (ir: IR.Model, options: PrintOptions = {}) => {
 
       const operation = item[method]!;
       log(
-        `${colors.green(method.toUpperCase())} ${colors.cyan(key)} (${colors.magenta(operation.operationId ?? '')})`,
+        `${styleText('green', method.toUpperCase())} ${styleText('cyan', key)} (${styleText('magenta', operation.operationId ?? '')})`,
         base,
       );
 

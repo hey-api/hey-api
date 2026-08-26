@@ -40,7 +40,7 @@ Please visit our [website](https://heyapi.dev) for documentation, guides, migrat
 
 ## Sponsors
 
-Partners behind the future of API tooling. [Become a sponsor](https://github.com/sponsors/hey-api).
+Partners behind the future of API tooling. [Become a sponsor](https://heyapi.dev/sponsors).
 
 <h3 align="center">Gold</h3>
 
@@ -73,18 +73,6 @@ Partners behind the future of API tooling. [Become a sponsor](https://github.com
 <table align="center">
   <tbody>
     <tr>
-      <td align="center" width="33.333%">
-        <a href="https://kutt.to/skQUVd" target="_blank">
-          <picture height="40px">
-            <source media="(prefers-color-scheme: dark)" srcset="https://heyapi.dev/assets/scalar/logo-light.svg">
-            <img alt="Scalar logo" height="40px" src="https://heyapi.dev/assets/scalar/logo-dark.svg">
-          </picture>
-        </a>
-        <br/>
-        <a href="https://kutt.to/skQUVd" style="text-decoration:none;" target="_blank">
-          scalar.com
-        </a>
-      </td>
       <td align="center" width="33.333%">
         <a href="https://kutt.to/Dr9GuW" target="_blank">
           <picture height="40px">

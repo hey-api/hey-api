@@ -1,5 +1,5 @@
-import type { RangeOptions, SemVer } from 'semver';
-import * as semver from 'semver';
+import type { RangeInput, RangeOptions, SemVer } from 'verkit';
+import { coerce, findMinimumForRange, satisfies, tryParse } from 'verkit';
 
 export type Dependency = {
   /**
@@ -20,39 +20,37 @@ export type Dependency = {
    * @param range The semver range to check against.
    * @returns True if the version satisfies the range, false otherwise.
    */
-  satisfies: (
-    nameOrVersion: string | SemVer,
-    range: string,
-    optionsOrLoose?: boolean | RangeOptions,
-  ) => boolean;
+  satisfies: (nameOrVersion: string | SemVer, range: RangeInput, options?: RangeOptions) => boolean;
 };
 
-export const satisfies: typeof semver.satisfies = (...args) => semver.satisfies(...args);
+export { normalizeFull, satisfies } from 'verkit';
 
 export function dependencyFactory(dependencies: Record<string, string>): Dependency {
   return {
     getVersion: (name) => {
       const version = dependencies[name];
       if (!version) return;
+
+      let parsed = tryParse(version);
+      if (parsed) return parsed;
+
       try {
-        let parsed = semver.parse(version);
-        if (parsed) return parsed;
-
-        const min = semver.minVersion(version);
-        if (min) return min;
-
-        parsed = semver.coerce(version);
-        if (parsed) return parsed;
+        const min = findMinimumForRange(version);
+        if (min) return tryParse(min) ?? undefined;
       } catch {
         // noop
       }
+
+      const coerced = coerce(version);
+      parsed = coerced ? tryParse(coerced) : null;
+      if (parsed) return parsed;
       return;
     },
     isInstalled: (name) => Boolean(dependencies[name]),
-    satisfies: (nameOrVersion, range, optionsOrLoose) => {
+    satisfies: (nameOrVersion, range, options) => {
       const version =
         typeof nameOrVersion === 'string' ? dependencies[nameOrVersion] : nameOrVersion;
-      return version ? satisfies(version, range, optionsOrLoose) : false;
+      return version ? satisfies(version, range, options) : false;
     },
   };
 }

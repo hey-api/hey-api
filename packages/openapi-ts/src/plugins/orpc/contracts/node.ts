@@ -10,7 +10,7 @@ import { applyNaming } from '@hey-api/shared';
 
 import { $ } from '../../../ts-dsl';
 import { createOperationComment } from '../../shared/utils/operation';
-import { getSuccessResponse, getTags, hasInput } from '../shared/operation';
+import { getSuccessStatusCode, getTags, hasInput } from '../shared/operation';
 import type { OrpcPlugin } from '../types';
 
 export interface ContractItem {
@@ -138,7 +138,7 @@ function createRouteMetadataObject(
   plugin: OrpcPlugin['Instance'],
   operation: IR.OperationObject,
 ): ReturnType<typeof $.object> {
-  const successResponse = getSuccessResponse(operation);
+  const successStatusCode = getSuccessStatusCode(operation);
   const tags = getTags(operation, plugin.config.contracts.strategyDefaultTag);
   const metadata = $.object()
     .$if(operation.deprecated, (o, v) => o.prop('deprecated', $.literal(v)))
@@ -151,7 +151,7 @@ function createRouteMetadataObject(
       const queryStyles = createQueryStylesObject(plugin, operation);
       return queryStyles ? o.prop('queryStyles', queryStyles) : o;
     })
-    .$if(successResponse.statusCode !== 200 && successResponse.statusCode, (o, v) =>
+    .$if(successStatusCode !== 200 && successStatusCode, (o, v) =>
       o.prop('successStatus', $.literal(v)),
     )
     .$if(operation.summary, (o, v) => o.prop('summary', $.literal(v)))
@@ -164,7 +164,6 @@ function createContractExpression(
   plugin: OrpcPlugin['Instance'],
   operation: IR.OperationObject,
 ): ReturnType<typeof $.call> {
-  const successResponse = getSuccessResponse(operation);
   const routeMetadata = createRouteMetadataObject(plugin, operation);
 
   let expression =
@@ -195,17 +194,19 @@ function createContractExpression(
     }
   }
 
-  if (successResponse.hasOutput && plugin.config.validator.output) {
-    expression = expression.attr('output').call(
-      // TODO: contract (cross)
-      plugin.referenceSymbol({
-        artifact: plugin.config.validator.output,
-        category: 'schema',
-        resource: 'operation',
-        resourceId: operation.id,
-        role: 'responses',
-      }),
-    );
+  if (plugin.config.validator.output) {
+    const validator = plugin.getPluginOrThrow(plugin.config.validator.output);
+    // TODO: contract (cross)
+    const outputSchema = validator.querySymbol({
+      artifact: plugin.config.validator.output,
+      category: 'schema',
+      resource: 'operation',
+      resourceId: operation.id,
+      role: 'responses',
+    });
+    if (outputSchema) {
+      expression = expression.attr('output').call(outputSchema);
+    }
   }
 
   return expression;

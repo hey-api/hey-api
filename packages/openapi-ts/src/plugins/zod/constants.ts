@@ -56,6 +56,7 @@ export const identifiers = {
   record: 'record',
   regex: 'regex',
   register: 'register',
+  strictObject: 'strictObject',
   string: 'string',
   time: 'time',
   tuple: 'tuple',
