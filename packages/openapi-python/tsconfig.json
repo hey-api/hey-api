@@ -2,11 +2,17 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "composite": true,
-    "rootDir": "src",
     "outDir": "dist",
     "types": ["vitest/globals", "node"]
   },
-  "include": ["src"],
+  "include": [
+    "src",
+    "tsdown.config.ts",
+    "tsdown.exe.config.ts",
+    "tsdown-utils.ts",
+    "vitest.setup.ts",
+    "package.json"
+  ],
   "references": [
     { "path": "../codegen-cli" },
     { "path": "../codegen-core" },

@@ -3,10 +3,9 @@
   "compilerOptions": {
     "composite": true,
     "outDir": "dist",
-    "rootDir": "src",
     "types": ["bun", "vitest/globals"]
   },
-  "include": ["src"],
+  "include": ["src", "tsdown.config.ts"],
   "references": [
     { "path": "../types" },
     { "path": "../codegen-core" },

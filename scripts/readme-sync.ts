@@ -22,7 +22,7 @@ function getMarkerEvents(content: string): Array<MarkerEvent> {
     events.push({
       index,
       length: match[0].length,
-      name: match[1],
+      name: match[1]!,
       type: match[2] as MarkerEvent['type'],
     });
   }
@@ -231,7 +231,7 @@ function findFirstMarkerPair(
     }
 
     const lastOpenEvent = openStack[openStack.length - 1];
-    if (lastOpenEvent.name !== event.name) {
+    if (lastOpenEvent?.name !== event.name) {
       continue;
     }
 

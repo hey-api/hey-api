@@ -1,5 +1,9 @@
 {
-  "files": [],
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true
+  },
+  "include": ["scripts", "vitest.config.ts"],
   "references": [
     { "path": "./packages/codegen-cli" },
     { "path": "./packages/codegen-core" },

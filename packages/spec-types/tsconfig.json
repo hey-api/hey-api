@@ -3,9 +3,8 @@
   "compilerOptions": {
     "composite": true,
     "emitDeclarationOnly": true,
-    "outDir": "dist",
-    "rootDir": "src"
+    "outDir": "dist"
   },
-  "include": ["src"],
+  "include": ["src", "tsdown.config.ts"],
   "references": [{ "path": "../types" }]
 }
