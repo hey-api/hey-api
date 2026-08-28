@@ -8,7 +8,7 @@ export function getAllTags(): Array<string> {
 }
 
 export async function generateReleaseTag(): Promise<string> {
-  const today = new Date().toISOString().split('T')[0];
+  const today = new Date().toISOString().split('T')[0]!;
 
   const tags = getAllTags();
 
@@ -21,7 +21,7 @@ export async function generateReleaseTag(): Promise<string> {
       return Math.max(max, 1);
     }
 
-    const sequence = Number.parseInt(tag.split('.')[1], 10);
+    const sequence = Number.parseInt(tag.split('.')[1]!, 10);
     if (Number.isNaN(sequence)) {
       return max;
     }

@@ -3,11 +3,17 @@
   "compilerOptions": {
     "composite": true,
     "lib": ["ES2022", "DOM"],
-    "rootDir": "src",
     "outDir": "dist",
     "types": ["vitest/globals", "node"]
   },
-  "include": ["src"],
+  "include": [
+    "src",
+    "tsdown.config.ts",
+    "tsdown.exe.config.ts",
+    "tsdown-utils.ts",
+    "vitest.setup.ts",
+    "package.json"
+  ],
   "exclude": ["src/ts-compiler/__snapshots__"],
   "references": [
     { "path": "../codegen-cli" },

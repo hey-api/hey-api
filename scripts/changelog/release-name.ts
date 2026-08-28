@@ -13,9 +13,9 @@ function getOrdinalSuffix(day: number): string {
 
 function formatReleaseName(tag: string): string {
   const [datePart, sequence] = tag.split('.');
-  const [year, month, day] = datePart.split('-').map(Number);
-  const monthName = MONTHS[month - 1]!;
-  const suffix = getOrdinalSuffix(day);
+  const [year, month, day] = datePart!.split('-').map(Number);
+  const monthName = MONTHS[month! - 1]!;
+  const suffix = getOrdinalSuffix(day!);
   const name = `${monthName} ${day}${suffix}, ${year}`;
   return sequence ? `${name} (${sequence})` : name;
 }

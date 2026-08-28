@@ -51,7 +51,7 @@ function extractReleaseBlock(content: string): ReleaseBlock | undefined {
   return {
     content: contentWithoutUpdatedDependencies,
     hasUserFacingChanges: meaningfulLines.length > 0,
-    version: versionMatch[1],
+    version: versionMatch[1]!,
     versionHeading,
   };
 }

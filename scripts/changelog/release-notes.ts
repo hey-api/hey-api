@@ -92,7 +92,7 @@ export async function generateReleaseNotes(): Promise<string> {
     return 'No releases found.';
   }
 
-  const latest = releases[0];
+  const latest = releases[0]!;
 
   const pullRequests = getPullRequestsFromRelease(latest);
   const contributors = await getContributorsFromPullRequests(pullRequests);
