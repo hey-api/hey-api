@@ -199,6 +199,13 @@ const scenarios: ReadonlyArray<{
     snake_case: 'z3e_num_1_период',
     value: 'z3e-num_1Период',
   },
+  {
+    PascalCase: 'ShowTheDogSTail',
+    SCREAMING_SNAKE_CASE: 'SHOW_THE_DOG_S_TAIL',
+    camelCase: 'showTheDogSTail',
+    snake_case: 'show_the_dog_s_tail',
+    value: "show the dog's tail",
+  },
 ];
 
 describe('toCase', () => {
