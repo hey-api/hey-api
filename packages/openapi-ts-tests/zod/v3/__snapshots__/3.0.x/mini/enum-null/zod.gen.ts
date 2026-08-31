@@ -6,4 +6,8 @@ export const zFoo = z.nullable(z.enum(['foo', 'bar']));
 
 export const zBar = z.enum(['foo', 'bar']);
 
-export const zBaz = z.enum(['foo', 'bar']);
+export const zBaz = z.nullable(z.enum(['foo', 'bar']));
+
+export const zQux = z.object({
+  value: z.nullish(z.enum(['foo', 'bar']))
+});

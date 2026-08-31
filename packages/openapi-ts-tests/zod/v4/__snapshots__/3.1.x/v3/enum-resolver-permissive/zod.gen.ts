@@ -6,4 +6,8 @@ export const zFoo = z.union([z.enum(['foo', 'bar']), z.string()]).nullable();
 
 export const zBar = z.union([z.enum(['foo', 'bar']), z.string()]);
 
-export const zBaz = z.union([z.enum(['foo', 'bar']), z.string()]);
+export const zBaz = z.union([z.enum(['foo', 'bar']), z.string()]).nullable();
+
+export const zQux = z.object({
+  value: z.union([z.enum(['foo', 'bar']), z.string()]).nullish()
+});

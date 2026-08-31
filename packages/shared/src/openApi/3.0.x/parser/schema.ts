@@ -898,6 +898,16 @@ function parseEnum({
     schemaItems.push(irTypeSchema);
   }
 
+  // `nullable` can be `true` without `enum` containing a literal `null`
+  // value (e.g. `{ nullable: true, enum: ['foo', 'bar'] }`). In that case,
+  // no `null` item is added by the loop above, so we add one here to
+  // preserve nullability. `const: null` is set (not just `type: 'null'`)
+  // to match the shape produced when `enum` does contain a literal `null`
+  // value.
+  if (schema.nullable && !schemaItems.some((item) => item.type === 'null')) {
+    schemaItems.push({ const: null, type: 'null' });
+  }
+
   irSchema = addItemsToSchema({
     items: schemaItems,
     schema: irSchema,
