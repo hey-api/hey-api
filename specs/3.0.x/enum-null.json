@@ -19,6 +19,16 @@
         "enum": ["foo", "bar"],
         "nullable": true,
         "type": "string"
+      },
+      "Qux": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "enum": ["foo", "bar"],
+            "nullable": true,
+            "type": "string"
+          }
+        }
       }
     }
   }

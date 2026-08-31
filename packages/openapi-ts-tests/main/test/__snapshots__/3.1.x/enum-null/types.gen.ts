@@ -8,4 +8,8 @@ export type Foo = 'foo' | 'bar' | null;
 
 export type Bar = 'foo' | 'bar';
 
-export type Baz = 'foo' | 'bar';
+export type Baz = 'foo' | 'bar' | null;
+
+export type Qux = {
+  value?: 'foo' | 'bar' | null;
+};

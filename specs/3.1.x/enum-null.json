@@ -17,6 +17,15 @@
       "Baz": {
         "enum": ["foo", "bar"],
         "type": ["string", "null"]
+      },
+      "Qux": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "enum": ["foo", "bar"],
+            "type": ["string", "null"]
+          }
+        }
       }
     }
   }
