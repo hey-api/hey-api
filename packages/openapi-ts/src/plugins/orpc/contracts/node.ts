@@ -32,6 +32,34 @@ type QueryStyle =
   | 'space-delimited-array'
   | 'space-delimited-object';
 
+const errorCodes: Record<number, string> = {
+  400: 'BAD_REQUEST',
+  401: 'UNAUTHORIZED',
+  403: 'FORBIDDEN',
+  404: 'NOT_FOUND',
+  405: 'METHOD_NOT_SUPPORTED',
+  406: 'NOT_ACCEPTABLE',
+  408: 'TIMEOUT',
+  409: 'CONFLICT',
+  412: 'PRECONDITION_FAILED',
+  413: 'PAYLOAD_TOO_LARGE',
+  415: 'UNSUPPORTED_MEDIA_TYPE',
+  422: 'UNPROCESSABLE_CONTENT',
+  429: 'TOO_MANY_REQUESTS',
+  499: 'CLIENT_CLOSED_REQUEST',
+  500: 'INTERNAL_SERVER_ERROR',
+  501: 'NOT_IMPLEMENTED',
+  502: 'BAD_GATEWAY',
+  503: 'SERVICE_UNAVAILABLE',
+  504: 'GATEWAY_TIMEOUT',
+};
+
+const errorCodesV2: Record<number, string> = {
+  402: 'PAYMENT_REQUIRED',
+  410: 'GONE',
+  428: 'PRECONDITION_REQUIRED',
+};
+
 function createShellMeta(node: StructureNode): SymbolMeta {
   return {
     category: 'contract',
@@ -160,6 +188,40 @@ function createRouteMetadataObject(
   return metadata;
 }
 
+function createErrorsObject(
+  plugin: OrpcPlugin['Instance'],
+  operation: IR.OperationObject,
+): ReturnType<typeof $.object> | undefined {
+  const errors = $.object();
+
+  for (const [statusCode, response] of Object.entries(operation.responses ?? {})) {
+    if (!response) continue;
+    const status = Number.parseInt(statusCode, 10);
+    const code =
+      errorCodes[status] ??
+      (plugin.config.compatibilityVersion === '2' ? errorCodesV2[status] : undefined);
+    if (!code) continue;
+
+    const error = $.object();
+    if (plugin.config.validator.output && response.schema.$ref) {
+      const validator = plugin.getPluginOrThrow(plugin.config.validator.output);
+      const schema = validator.querySymbol({
+        artifact: plugin.config.validator.output,
+        category: 'schema',
+        resource: 'definition',
+        resourceId: response.schema.$ref,
+      });
+      if (schema) error.prop('data', schema);
+    }
+    if (response.schema.description) {
+      error.prop('message', $.literal(response.schema.description));
+    }
+    errors.prop(code, error);
+  }
+
+  return errors.hasProps() ? errors : undefined;
+}
+
 function createContractExpression(
   plugin: OrpcPlugin['Instance'],
   operation: IR.OperationObject,
@@ -172,6 +234,9 @@ function createContractExpression(
           .attr('meta')
           .call($(plugin.imports.contract.openapi).call(routeMetadata))
       : $(plugin.imports.contract.oc).attr('route').call(routeMetadata);
+
+  const errors = createErrorsObject(plugin, operation);
+  if (errors) expression = expression.attr('errors').call(errors);
 
   if (hasInput(operation) && plugin.config.validator.input) {
     const validator = plugin.getPluginOrThrow(plugin.config.validator.input);

@@ -17,6 +17,14 @@ describe.each(versions)('OpenAPI %s', (version) => {
   const scenarios = [
     {
       config: createConfig({
+        input: 'response-errors.yaml',
+        output: 'response-errors',
+        plugins: [plugins.zod(), plugins.orpc({ compatibilityVersion: '2' })],
+      }),
+      description: 'generate oRPC v2 contracts for error responses',
+    },
+    {
+      config: createConfig({
         input: 'response-no-schema.yaml',
         output: 'response-no-schema',
         plugins: [

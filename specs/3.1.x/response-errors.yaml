@@ -1,0 +1,54 @@
+openapi: 3.1.0
+info:
+  title: Error responses
+  version: '1'
+paths:
+  /items/{itemId}:
+    get:
+      operationId: getItem
+      parameters:
+        - in: path
+          name: itemId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Item found
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - id
+                properties:
+                  id:
+                    type: string
+        '400':
+          description: Invalid item ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidItemId'
+        '404':
+          description: Item not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemNotFound'
+components:
+  schemas:
+    InvalidItemId:
+      type: object
+      required:
+        - reason
+      properties:
+        reason:
+          type: string
+    ItemNotFound:
+      type: object
+      required:
+        - itemId
+      properties:
+        itemId:
+          type: string
