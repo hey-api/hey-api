@@ -39,6 +39,14 @@ const input = {
             },
             description: 'Payment required',
           },
+          500: {
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/InvalidRequest' },
+              },
+            },
+            description: 'Server error',
+          },
           default: { description: 'Unexpected error' },
         },
       },
@@ -67,6 +75,9 @@ describe('oRPC error responses', () => {
 
       expect(output).toContain(
         "BAD_REQUEST: { data: zInvalidRequest, message: 'Invalid request' }",
+      );
+      expect(output).toContain(
+        "INTERNAL_SERVER_ERROR: { data: zInvalidRequest, message: 'Server error' }",
       );
       expect(output.includes('PAYMENT_REQUIRED')).toBe(hasPaymentRequired);
       expect(output).not.toContain('Unexpected error');
