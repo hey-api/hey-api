@@ -98,12 +98,30 @@ export function discriminatorValues(
   return values;
 }
 
+function discriminatorNeedsExtend(
+  effective: IR.SchemaObject,
+  discriminatorKey: string,
+  discriminatorProp: IR.SchemaObject | undefined,
+): boolean {
+  if (discriminatorProp?.const === undefined) {
+    return true;
+  }
+  if (discriminatorProp.default !== undefined) {
+    return true;
+  }
+  if (!effective.required?.includes(discriminatorKey)) {
+    return true;
+  }
+  return false;
+}
+
 export interface DiscriminatedUnionMember {
   /** The discriminator value for this member. */
   discriminatedValue: unknown;
   /**
    * True when the referenced schema does not already define the discriminator
-   * property as a const/literal. The plugin must inject it explicitly.
+   * property as a required const/literal. The plugin must inject it explicitly
+   * when the property is missing, optional, or has a default (e.g. Pydantic).
    */
   needsExtend: boolean;
   /** The resolved $ref string for this member. */
@@ -155,7 +173,7 @@ export function buildDiscriminatedUnion({
     }
 
     const discriminatorProp = effective.properties?.[discriminatorKey];
-    const needsExtend = discriminatorProp?.const === undefined;
+    const needsExtend = discriminatorNeedsExtend(effective, discriminatorKey, discriminatorProp);
     const isObjectLike = effective.type === 'object' || effective.logicalOperator === 'and';
     if (needsExtend && !isObjectLike) return null;
 
