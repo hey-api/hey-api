@@ -17,7 +17,10 @@
     "type": "git",
     "url": "git+https://github.com/hey-api/hey-api.git"
   },
-  "funding": "https://github.com/sponsors/hey-api",
+  "funding": [
+    "https://heyapi.dev/sponsors",
+    "https://github.com/sponsors/hey-api"
+  ],
   "files": [
     "dist",
     "LICENSE",

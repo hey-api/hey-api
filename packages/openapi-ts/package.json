@@ -52,7 +52,10 @@
     "url": "git+https://github.com/hey-api/hey-api.git",
     "directory": "packages/openapi-ts"
   },
-  "funding": "https://github.com/sponsors/hey-api",
+  "funding": [
+    "https://heyapi.dev/sponsors",
+    "https://github.com/sponsors/hey-api"
+  ],
   "bin": {
     "openapi-ts": "./bin/run.js"
   },

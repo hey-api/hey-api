@@ -1,0 +1,12 @@
+blank_issues_enabled: true
+
+contact_links:
+  - name: Fund a feature 💰
+    url: https://heyapi.dev/sponsors
+    about: Votes indicate interest, funding pays for the work. Funding gets your priorities scheduled and a direct line to the maintainer.
+  - name: Vote on open issues 📩
+    url: https://github.com/hey-api/hey-api/issues?q=is%3Aissue+is%3Aopen+label%3A%22vote+%F0%9F%93%A9%22
+    about: React with 👍 on an open issue instead of opening a duplicate. That count is how we see what matters most.
+  - name: Ask a question 💬
+    url: https://github.com/hey-api/hey-api/discussions
+    about: Usage questions, configuration help, and anything that isn't a bug or a feature request.

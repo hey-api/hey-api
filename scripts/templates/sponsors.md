@@ -1,6 +1,6 @@
 ## Sponsors
 
-Partners behind the future of API tooling. [Become a sponsor](https://github.com/sponsors/hey-api).
+Partners behind the future of API tooling. [Become a sponsor](https://heyapi.dev/sponsors).
 
 <h3 align="center">Gold</h3>
 
