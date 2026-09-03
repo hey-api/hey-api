@@ -1,9 +1,93 @@
 import type { Symbol } from '@hey-api/codegen-core';
 import type { IR } from '@hey-api/shared';
+import { mediaTypeToIrMediaType, operationResponsesMap, statusCodeToGroup } from '@hey-api/shared';
 
 import { $ } from '../../../../py-dsl';
 import type { HeyApiSdkPlugin } from '../types';
 import { getSignatureParameters } from './signature';
+
+type ResponseParseAs = 'content' | 'json' | 'text';
+
+export type OperationResponse =
+  | { kind: 'model'; parseAs: ResponseParseAs; symbol: Symbol }
+  | { kind: 'none' }
+  | { kind: 'raw' };
+
+function mediaTypeToParseAs(mediaType: string): ResponseParseAs {
+  const irMediaType = mediaTypeToIrMediaType({ mediaType });
+  if (irMediaType === 'json') return 'json';
+  if (irMediaType === 'text') return 'text';
+  return 'content';
+}
+
+// The pydantic plugin's resolvers leave these shapes as a `TypeAlias`, which
+// has no `model_validate`. See `intersectionToType` and `numberToType`.
+function isUnparsableTopLevelSchema(schema: IR.SchemaObject): boolean {
+  if (schema.logicalOperator === 'and' && (schema.items?.length ?? 0) > 1) {
+    return true;
+  }
+
+  return (
+    !schema.$ref &&
+    (schema.type === 'enum' || schema.type === 'integer' || schema.type === 'number')
+  );
+}
+
+export function operationResponse({
+  operation,
+  plugin,
+}: {
+  operation: IR.OperationObject;
+  plugin: HeyApiSdkPlugin['Instance'];
+}): OperationResponse {
+  if (!operation.responses) {
+    return { kind: 'raw' };
+  }
+
+  const successResponses = Object.keys(operation.responses)
+    .filter((statusCode) => statusCodeToGroup({ statusCode }) === '2XX')
+    .map((statusCode) => operation.responses![statusCode]!);
+
+  if (!successResponses.length) {
+    return { kind: 'raw' };
+  }
+
+  // An `unknown` schema with a media type is a declared body, not a no-body
+  // response.
+  const bodyResponses = successResponses.filter(
+    (response) => response.schema.type !== 'void' && response.mediaType,
+  );
+
+  if (!bodyResponses.length) {
+    return { kind: 'none' };
+  }
+
+  const mediaTypes = new Set(bodyResponses.map((response) => response.mediaType));
+
+  // Different media types cannot share one way of reading the body.
+  if (mediaTypes.size !== 1) {
+    return { kind: 'raw' };
+  }
+
+  const { response } = operationResponsesMap(operation);
+
+  if (!response || isUnparsableTopLevelSchema(response)) {
+    return { kind: 'raw' };
+  }
+
+  const symbol = plugin.querySymbol({
+    category: 'schema',
+    resource: 'operation',
+    resourceId: operation.id,
+    role: 'responses',
+  });
+
+  if (!symbol) {
+    return { kind: 'raw' };
+  }
+
+  return { kind: 'model', parseAs: mediaTypeToParseAs(bodyResponses[0]!.mediaType!), symbol };
+}
 
 type OperationParameters = {
   bodyRef?: string;

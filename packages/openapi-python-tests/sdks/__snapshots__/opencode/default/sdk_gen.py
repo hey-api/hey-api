@@ -3,102 +3,114 @@
 from functools import cached_property
 
 from .client import Client
+from .pydantic_gen import AppAgentsResponse, AppLogResponse, AppSkillsResponse, AuthRemoveResponse, AuthSetResponse, CommandListResponse, ConfigGetResponse, ConfigProvidersResponse, ConfigUpdateResponse, EventSubscribeResponse, ExperimentalConsoleGetResponse, ExperimentalConsoleListOrgsResponse, ExperimentalConsoleSwitchOrgResponse, ExperimentalResourceListResponse, ExperimentalSessionListResponse, ExperimentalWorkspaceAdapterListResponse, ExperimentalWorkspaceCreateResponse, ExperimentalWorkspaceListResponse, ExperimentalWorkspaceRemoveResponse, ExperimentalWorkspaceStatusResponse, FileListResponse, FileReadResponse, FileStatusResponse, FindFilesResponse, FindSymbolsResponse, FindTextResponse, FormatterStatusResponse, GlobalConfigGetResponse, GlobalConfigUpdateResponse, GlobalDisposeResponse, GlobalEventResponse, GlobalHealthResponse, GlobalUpgradeResponse, InstanceDisposeResponse, LspStatusResponse, McpAddResponse, McpAuthAuthenticateResponse, McpAuthCallbackResponse, McpAuthRemoveResponse, McpAuthStartResponse, McpConnectResponse, McpDisconnectResponse, McpStatusResponse, PartDeleteResponse, PartUpdateResponse, PathGetResponse, PermissionListResponse, PermissionReplyResponse, PermissionRespondResponse, ProjectCurrentResponse, ProjectInitGitResponse, ProjectListResponse, ProjectUpdateResponse, ProviderAuthResponse, ProviderListResponse, ProviderOauthAuthorizeResponse, ProviderOauthCallbackResponse, PtyConnectResponse, PtyConnectTokenResponse, PtyCreateResponse, PtyGetResponse, PtyListResponse, PtyRemoveResponse, PtyShellsResponse, PtyUpdateResponse, QuestionListResponse, QuestionRejectResponse, QuestionReplyResponse, SessionAbortResponse, SessionChildrenResponse, SessionCommandResponse, SessionCreateResponse, SessionDeleteMessageResponse, SessionDeleteResponse, SessionDiffResponse, SessionForkResponse, SessionGetResponse, SessionInitResponse, SessionListResponse, SessionMessageResponse, SessionMessagesResponse, SessionPromptResponse, SessionRevertResponse, SessionShareResponse, SessionShellResponse, SessionStatusResponse, SessionSummarizeResponse, SessionTodoResponse, SessionUnrevertResponse, SessionUnshareResponse, SessionUpdateResponse, SyncHistoryListResponse, SyncReplayResponse, SyncStartResponse, SyncStealResponse, ToolIdsResponse, ToolListResponse, TuiAppendPromptResponse, TuiClearPromptResponse, TuiControlNextResponse, TuiControlResponseResponse, TuiExecuteCommandResponse, TuiOpenHelpResponse, TuiOpenModelsResponse, TuiOpenSessionsResponse, TuiOpenThemesResponse, TuiPublishResponse, TuiSelectSessionResponse, TuiShowToastResponse, TuiSubmitPromptResponse, V2ModelListResponse, V2ProviderGetResponse, V2ProviderListResponse, V2SessionContextResponse, V2SessionListResponse, V2SessionMessagesResponse_, V2SessionPromptResponse, VcsApplyResponse, VcsDiffRawResponse, VcsDiffResponse, VcsGetResponse, VcsStatusResponse, WorktreeCreateResponse, WorktreeListResponse, WorktreeRemoveResponse, WorktreeResetResponse
 
 
 class Auth(Client):
-    def remove(self):
+    def remove(self) -> AuthRemoveResponse:
         """Remove auth credentials
 
         Remove authentication credentials
         """
 
-        return self.client.delete("/auth/{providerID}")
+        response = self.client.delete("/auth/{providerID}")
+        return AuthRemoveResponse.model_validate(response.json())
 
-    def set(self):
+    def set(self) -> AuthSetResponse:
         """Set auth credentials
 
         Set authentication credentials
         """
 
-        return self.client.put("/auth/{providerID}")
+        response = self.client.put("/auth/{providerID}")
+        return AuthSetResponse.model_validate(response.json())
 
 
 class App(Client):
-    def log(self):
+    def log(self) -> AppLogResponse:
         """Write log
 
         Write a log entry to the server logs with specified level and metadata.
         """
 
-        return self.client.post("/log")
+        response = self.client.post("/log")
+        return AppLogResponse.model_validate(response.json())
 
-    def agents(self):
+    def agents(self) -> AppAgentsResponse:
         """List agents
 
         Get a list of all available AI agents in the OpenCode system.
         """
 
-        return self.client.get("/agent")
+        response = self.client.get("/agent")
+        return AppAgentsResponse.model_validate(response.json())
 
-    def skills(self):
+    def skills(self) -> AppSkillsResponse:
         """List skills
 
         Get a list of all available skills in the OpenCode system.
         """
 
-        return self.client.get("/skill")
+        response = self.client.get("/skill")
+        return AppSkillsResponse.model_validate(response.json())
 
 
 class Config(Client):
-    def get(self):
+    def get(self) -> GlobalConfigGetResponse:
         """Get global configuration
 
         Retrieve the current global OpenCode configuration settings and preferences.
         """
 
-        return self.client.get("/global/config")
+        response = self.client.get("/global/config")
+        return GlobalConfigGetResponse.model_validate(response.json())
 
-    def update(self):
+    def update(self) -> GlobalConfigUpdateResponse:
         """Update global configuration
 
         Update global OpenCode configuration settings and preferences.
         """
 
-        return self.client.patch("/global/config")
+        response = self.client.patch("/global/config")
+        return GlobalConfigUpdateResponse.model_validate(response.json())
 
 
 class Global(Client):
-    def health(self):
+    def health(self) -> GlobalHealthResponse:
         """Get health
 
         Get health information about the OpenCode server.
         """
 
-        return self.client.get("/global/health")
+        response = self.client.get("/global/health")
+        return GlobalHealthResponse.model_validate(response.json())
 
-    def event(self):
+    def event(self) -> GlobalEventResponse:
         """Get global events
 
         Subscribe to global events from the OpenCode system using server-sent events.
         """
 
-        return self.client.get("/global/event")
+        response = self.client.get("/global/event")
+        return GlobalEventResponse.model_validate(response.text)
 
-    def dispose(self):
+    def dispose(self) -> GlobalDisposeResponse:
         """Dispose instance
 
         Clean up and dispose all OpenCode instances, releasing all resources.
         """
 
-        return self.client.post("/global/dispose")
+        response = self.client.post("/global/dispose")
+        return GlobalDisposeResponse.model_validate(response.json())
 
-    def upgrade(self):
+    def upgrade(self) -> GlobalUpgradeResponse:
         """Upgrade opencode
 
         Upgrade opencode to the specified version or latest if not specified.
         """
 
-        return self.client.post("/global/upgrade")
+        response = self.client.post("/global/upgrade")
+        return GlobalUpgradeResponse.model_validate(response.json())
 
     @cached_property
     def config(self) -> Config:
@@ -106,145 +118,161 @@ class Global(Client):
 
 
 class Event(Client):
-    def subscribe(self):
+    def subscribe(self) -> EventSubscribeResponse:
         """Subscribe to events
 
         Get events
         """
 
-        return self.client.get("/event")
+        response = self.client.get("/event")
+        return EventSubscribeResponse.model_validate(response.text)
 
 
 class Config_(Client):
-    def get(self):
+    def get(self) -> ConfigGetResponse:
         """Get configuration
 
         Retrieve the current OpenCode configuration settings and preferences.
         """
 
-        return self.client.get("/config")
+        response = self.client.get("/config")
+        return ConfigGetResponse.model_validate(response.json())
 
-    def update(self):
+    def update(self) -> ConfigUpdateResponse:
         """Update configuration
 
         Update OpenCode configuration settings and preferences.
         """
 
-        return self.client.patch("/config")
+        response = self.client.patch("/config")
+        return ConfigUpdateResponse.model_validate(response.json())
 
-    def providers(self):
+    def providers(self) -> ConfigProvidersResponse:
         """List config providers
 
         Get a list of all configured AI providers and their default models.
         """
 
-        return self.client.get("/config/providers")
+        response = self.client.get("/config/providers")
+        return ConfigProvidersResponse.model_validate(response.json())
 
 
 class Console(Client):
-    def get(self):
+    def get(self) -> ExperimentalConsoleGetResponse:
         """Get active Console provider metadata
 
         Get the active Console org name and the set of provider IDs managed by that Console org.
         """
 
-        return self.client.get("/experimental/console")
+        response = self.client.get("/experimental/console")
+        return ExperimentalConsoleGetResponse.model_validate(response.json())
 
-    def list_orgs(self):
+    def list_orgs(self) -> ExperimentalConsoleListOrgsResponse:
         """List switchable Console orgs
 
         Get the available Console orgs across logged-in accounts, including the current active org.
         """
 
-        return self.client.get("/experimental/console/orgs")
+        response = self.client.get("/experimental/console/orgs")
+        return ExperimentalConsoleListOrgsResponse.model_validate(response.json())
 
-    def switch_org(self):
+    def switch_org(self) -> ExperimentalConsoleSwitchOrgResponse:
         """Switch active Console org
 
         Persist a new active Console account/org selection for the current local OpenCode state.
         """
 
-        return self.client.post("/experimental/console/switch")
+        response = self.client.post("/experimental/console/switch")
+        return ExperimentalConsoleSwitchOrgResponse.model_validate(response.json())
 
 
 class Session(Client):
-    def list(self):
+    def list(self) -> ExperimentalSessionListResponse:
         """List sessions
 
         Get a list of all OpenCode sessions across projects, sorted by most recently updated. Archived sessions are excluded by default.
         """
 
-        return self.client.get("/experimental/session")
+        response = self.client.get("/experimental/session")
+        return ExperimentalSessionListResponse.model_validate(response.json())
 
 
 class Resource(Client):
-    def list(self):
+    def list(self) -> ExperimentalResourceListResponse:
         """Get MCP resources
 
         Get all available MCP resources from connected servers. Optionally filter by name.
         """
 
-        return self.client.get("/experimental/resource")
+        response = self.client.get("/experimental/resource")
+        return ExperimentalResourceListResponse.model_validate(response.json())
 
 
 class Adapter(Client):
-    def list(self):
+    def list(self) -> ExperimentalWorkspaceAdapterListResponse:
         """List workspace adapters
 
         List all available workspace adapters for the current project.
         """
 
-        return self.client.get("/experimental/workspace/adapter")
+        response = self.client.get("/experimental/workspace/adapter")
+        return ExperimentalWorkspaceAdapterListResponse.model_validate(response.json())
 
 
 class Workspace(Client):
-    def list(self):
+    def list(self) -> ExperimentalWorkspaceListResponse:
         """List workspaces
 
         List all workspaces.
         """
 
-        return self.client.get("/experimental/workspace")
+        response = self.client.get("/experimental/workspace")
+        return ExperimentalWorkspaceListResponse.model_validate(response.json())
 
-    def create(self):
+    def create(self) -> ExperimentalWorkspaceCreateResponse:
         """Create workspace
 
         Create a workspace for the current project.
         """
 
-        return self.client.post("/experimental/workspace")
+        response = self.client.post("/experimental/workspace")
+        return ExperimentalWorkspaceCreateResponse.model_validate(response.json())
 
-    def sync_list(self):
+    def sync_list(self) -> None:
         """Sync workspace list
 
         Register missing workspaces returned by workspace adapters.
         """
 
-        return self.client.post("/experimental/workspace/sync-list")
+        self.client.post("/experimental/workspace/sync-list")
+        return None
 
-    def status(self):
+    def status(self) -> ExperimentalWorkspaceStatusResponse:
         """Workspace status
 
         Get connection status for workspaces in the current project.
         """
 
-        return self.client.get("/experimental/workspace/status")
+        response = self.client.get("/experimental/workspace/status")
+        return ExperimentalWorkspaceStatusResponse.model_validate(response.json())
 
-    def remove(self):
+    def remove(self) -> ExperimentalWorkspaceRemoveResponse:
         """Remove workspace
 
         Remove an existing workspace.
         """
 
-        return self.client.delete("/experimental/workspace/{id}")
+        response = self.client.delete("/experimental/workspace/{id}")
+        return ExperimentalWorkspaceRemoveResponse.model_validate(response.json())
 
-    def warp(self):
+    def warp(self) -> None:
         """Warp session into workspace
 
         Move a session's sync history into the target workspace, or detach it to the local project.
         """
 
-        return self.client.post("/experimental/workspace/warp")
+        self.client.post("/experimental/workspace/warp")
+        return None
 
     @cached_property
     def adapter(self) -> Adapter:
@@ -270,171 +298,190 @@ class Experimental(Client):
 
 
 class Tool(Client):
-    def list(self):
+    def list(self) -> ToolListResponse:
         """List tools
 
         Get a list of available tools with their JSON schema parameters for a specific provider and model combination.
         """
 
-        return self.client.get("/experimental/tool")
+        response = self.client.get("/experimental/tool")
+        return ToolListResponse.model_validate(response.json())
 
-    def ids(self):
+    def ids(self) -> ToolIdsResponse:
         """List tool IDs
 
         Get a list of all available tool IDs, including both built-in tools and dynamically registered tools.
         """
 
-        return self.client.get("/experimental/tool/ids")
+        response = self.client.get("/experimental/tool/ids")
+        return ToolIdsResponse.model_validate(response.json())
 
 
 class Worktree(Client):
-    def remove(self):
+    def remove(self) -> WorktreeRemoveResponse:
         """Remove worktree
 
         Remove a git worktree and delete its branch.
         """
 
-        return self.client.delete("/experimental/worktree")
+        response = self.client.delete("/experimental/worktree")
+        return WorktreeRemoveResponse.model_validate(response.json())
 
-    def list(self):
+    def list(self) -> WorktreeListResponse:
         """List worktrees
 
         List all sandbox worktrees for the current project.
         """
 
-        return self.client.get("/experimental/worktree")
+        response = self.client.get("/experimental/worktree")
+        return WorktreeListResponse.model_validate(response.json())
 
-    def create(self):
+    def create(self) -> WorktreeCreateResponse:
         """Create worktree
 
         Create a new git worktree for the current project and run any configured startup scripts.
         """
 
-        return self.client.post("/experimental/worktree")
+        response = self.client.post("/experimental/worktree")
+        return WorktreeCreateResponse.model_validate(response.json())
 
-    def reset(self):
+    def reset(self) -> WorktreeResetResponse:
         """Reset worktree
 
         Reset a worktree branch to the primary default branch.
         """
 
-        return self.client.post("/experimental/worktree/reset")
+        response = self.client.post("/experimental/worktree/reset")
+        return WorktreeResetResponse.model_validate(response.json())
 
 
 class Find(Client):
-    def text(self):
+    def text(self) -> FindTextResponse:
         """Find text
 
         Search for text patterns across files in the project using ripgrep.
         """
 
-        return self.client.get("/find")
+        response = self.client.get("/find")
+        return FindTextResponse.model_validate(response.json())
 
-    def files(self):
+    def files(self) -> FindFilesResponse:
         """Find files
 
         Search for files or directories by name or pattern in the project directory.
         """
 
-        return self.client.get("/find/file")
+        response = self.client.get("/find/file")
+        return FindFilesResponse.model_validate(response.json())
 
-    def symbols(self):
+    def symbols(self) -> FindSymbolsResponse:
         """Find symbols
 
         Search for workspace symbols like functions, classes, and variables using LSP.
         """
 
-        return self.client.get("/find/symbol")
+        response = self.client.get("/find/symbol")
+        return FindSymbolsResponse.model_validate(response.json())
 
 
 class File(Client):
-    def list(self):
+    def list(self) -> FileListResponse:
         """List files
 
         List files and directories in a specified path.
         """
 
-        return self.client.get("/file")
+        response = self.client.get("/file")
+        return FileListResponse.model_validate(response.json())
 
-    def read(self):
+    def read(self) -> FileReadResponse:
         """Read file
 
         Read the content of a specified file.
         """
 
-        return self.client.get("/file/content")
+        response = self.client.get("/file/content")
+        return FileReadResponse.model_validate(response.json())
 
-    def status(self):
+    def status(self) -> FileStatusResponse:
         """Get file status
 
         Get the git status of all files in the project.
         """
 
-        return self.client.get("/file/status")
+        response = self.client.get("/file/status")
+        return FileStatusResponse.model_validate(response.json())
 
 
 class Instance(Client):
-    def dispose(self):
+    def dispose(self) -> InstanceDisposeResponse:
         """Dispose instance
 
         Clean up and dispose the current OpenCode instance, releasing all resources.
         """
 
-        return self.client.post("/instance/dispose")
+        response = self.client.post("/instance/dispose")
+        return InstanceDisposeResponse.model_validate(response.json())
 
 
 class Path(Client):
-    def get(self):
+    def get(self) -> PathGetResponse:
         """Get paths
 
         Retrieve the current working directory and related path information for the OpenCode instance.
         """
 
-        return self.client.get("/path")
+        response = self.client.get("/path")
+        return PathGetResponse.model_validate(response.json())
 
 
 class Diff(Client):
-    def raw(self):
+    def raw(self) -> VcsDiffRawResponse:
         """Get raw VCS diff
 
         Retrieve a raw patch for current uncommitted changes.
         """
 
-        return self.client.get("/vcs/diff/raw")
+        response = self.client.get("/vcs/diff/raw")
+        return VcsDiffRawResponse.model_validate(response.text)
 
 
 class Vcs(Client):
-    def get(self):
+    def get(self) -> VcsGetResponse:
         """Get VCS info
 
         Retrieve version control system (VCS) information for the current project, such as git branch.
         """
 
-        return self.client.get("/vcs")
+        response = self.client.get("/vcs")
+        return VcsGetResponse.model_validate(response.json())
 
-    def status(self):
+    def status(self) -> VcsStatusResponse:
         """Get VCS status
 
         Retrieve changed files in the current working tree without patches.
         """
 
-        return self.client.get("/vcs/status")
+        response = self.client.get("/vcs/status")
+        return VcsStatusResponse.model_validate(response.json())
 
-    def diff(self):
+    def diff(self) -> VcsDiffResponse:
         """Get VCS diff
 
         Retrieve the current git diff for the working tree or against the default branch.
         """
 
-        return self.client.get("/vcs/diff")
+        response = self.client.get("/vcs/diff")
+        return VcsDiffResponse.model_validate(response.json())
 
-    def apply(self):
+    def apply(self) -> VcsApplyResponse:
         """Apply VCS patch
 
         Apply a raw patch to the current working tree.
         """
 
-        return self.client.post("/vcs/apply")
+        response = self.client.post("/vcs/apply")
+        return VcsApplyResponse.model_validate(response.json())
 
     @cached_property
     def diff(self) -> Diff:
@@ -442,95 +489,106 @@ class Vcs(Client):
 
 
 class Command(Client):
-    def list(self):
+    def list(self) -> CommandListResponse:
         """List commands
 
         Get a list of all available commands in the OpenCode system.
         """
 
-        return self.client.get("/command")
+        response = self.client.get("/command")
+        return CommandListResponse.model_validate(response.json())
 
 
 class Lsp(Client):
-    def status(self):
+    def status(self) -> LspStatusResponse:
         """Get LSP status
 
         Get LSP server status
         """
 
-        return self.client.get("/lsp")
+        response = self.client.get("/lsp")
+        return LspStatusResponse.model_validate(response.json())
 
 
 class Formatter(Client):
-    def status(self):
+    def status(self) -> FormatterStatusResponse:
         """Get formatter status
 
         Get formatter status
         """
 
-        return self.client.get("/formatter")
+        response = self.client.get("/formatter")
+        return FormatterStatusResponse.model_validate(response.json())
 
 
 class Auth_(Client):
-    def remove(self):
+    def remove(self) -> McpAuthRemoveResponse:
         """Remove MCP OAuth
 
         Remove OAuth credentials for an MCP server.
         """
 
-        return self.client.delete("/mcp/{name}/auth")
+        response = self.client.delete("/mcp/{name}/auth")
+        return McpAuthRemoveResponse.model_validate(response.json())
 
-    def start(self):
+    def start(self) -> McpAuthStartResponse:
         """Start MCP OAuth
 
         Start OAuth authentication flow for a Model Context Protocol (MCP) server.
         """
 
-        return self.client.post("/mcp/{name}/auth")
+        response = self.client.post("/mcp/{name}/auth")
+        return McpAuthStartResponse.model_validate(response.json())
 
-    def callback(self):
+    def callback(self) -> McpAuthCallbackResponse:
         """Complete MCP OAuth
 
         Complete OAuth authentication for a Model Context Protocol (MCP) server using the authorization code.
         """
 
-        return self.client.post("/mcp/{name}/auth/callback")
+        response = self.client.post("/mcp/{name}/auth/callback")
+        return McpAuthCallbackResponse.model_validate(response.json())
 
-    def authenticate(self):
+    def authenticate(self) -> McpAuthAuthenticateResponse:
         """Authenticate MCP OAuth
 
         Start OAuth flow and wait for callback (opens browser).
         """
 
-        return self.client.post("/mcp/{name}/auth/authenticate")
+        response = self.client.post("/mcp/{name}/auth/authenticate")
+        return McpAuthAuthenticateResponse.model_validate(response.json())
 
 
 class Mcp(Client):
-    def status(self):
+    def status(self) -> McpStatusResponse:
         """Get MCP status
 
         Get the status of all Model Context Protocol (MCP) servers.
         """
 
-        return self.client.get("/mcp")
+        response = self.client.get("/mcp")
+        return McpStatusResponse.model_validate(response.json())
 
-    def add(self):
+    def add(self) -> McpAddResponse:
         """Add MCP server
 
         Dynamically add a new Model Context Protocol (MCP) server to the system.
         """
 
-        return self.client.post("/mcp")
+        response = self.client.post("/mcp")
+        return McpAddResponse.model_validate(response.json())
 
-    def connect(self):
+    def connect(self) -> McpConnectResponse:
         """Connect an MCP server."""
 
-        return self.client.post("/mcp/{name}/connect")
+        response = self.client.post("/mcp/{name}/connect")
+        return McpConnectResponse.model_validate(response.json())
 
-    def disconnect(self):
+    def disconnect(self) -> McpDisconnectResponse:
         """Disconnect an MCP server."""
 
-        return self.client.post("/mcp/{name}/disconnect")
+        response = self.client.post("/mcp/{name}/disconnect")
+        return McpDisconnectResponse.model_validate(response.json())
 
     @cached_property
     def auth(self) -> Auth_:
@@ -538,149 +596,166 @@ class Mcp(Client):
 
 
 class Project(Client):
-    def list(self):
+    def list(self) -> ProjectListResponse:
         """List all projects
 
         Get a list of projects that have been opened with OpenCode.
         """
 
-        return self.client.get("/project")
+        response = self.client.get("/project")
+        return ProjectListResponse.model_validate(response.json())
 
-    def current(self):
+    def current(self) -> ProjectCurrentResponse:
         """Get current project
 
         Retrieve the currently active project that OpenCode is working with.
         """
 
-        return self.client.get("/project/current")
+        response = self.client.get("/project/current")
+        return ProjectCurrentResponse.model_validate(response.json())
 
-    def init_git(self):
+    def init_git(self) -> ProjectInitGitResponse:
         """Initialize git repository
 
         Create a git repository for the current project and return the refreshed project info.
         """
 
-        return self.client.post("/project/git/init")
+        response = self.client.post("/project/git/init")
+        return ProjectInitGitResponse.model_validate(response.json())
 
-    def update(self):
+    def update(self) -> ProjectUpdateResponse:
         """Update project
 
         Update project properties such as name, icon, and commands.
         """
 
-        return self.client.patch("/project/{projectID}")
+        response = self.client.patch("/project/{projectID}")
+        return ProjectUpdateResponse.model_validate(response.json())
 
 
 class Pty(Client):
-    def shells(self):
+    def shells(self) -> PtyShellsResponse:
         """List available shells
 
         Get a list of available shells on the system.
         """
 
-        return self.client.get("/pty/shells")
+        response = self.client.get("/pty/shells")
+        return PtyShellsResponse.model_validate(response.json())
 
-    def list(self):
+    def list(self) -> PtyListResponse:
         """List PTY sessions
 
         Get a list of all active pseudo-terminal (PTY) sessions managed by OpenCode.
         """
 
-        return self.client.get("/pty")
+        response = self.client.get("/pty")
+        return PtyListResponse.model_validate(response.json())
 
-    def create(self):
+    def create(self) -> PtyCreateResponse:
         """Create PTY session
 
         Create a new pseudo-terminal (PTY) session for running shell commands and processes.
         """
 
-        return self.client.post("/pty")
+        response = self.client.post("/pty")
+        return PtyCreateResponse.model_validate(response.json())
 
-    def remove(self):
+    def remove(self) -> PtyRemoveResponse:
         """Remove PTY session
 
         Remove and terminate a specific pseudo-terminal (PTY) session.
         """
 
-        return self.client.delete("/pty/{ptyID}")
+        response = self.client.delete("/pty/{ptyID}")
+        return PtyRemoveResponse.model_validate(response.json())
 
-    def get(self):
+    def get(self) -> PtyGetResponse:
         """Get PTY session
 
         Retrieve detailed information about a specific pseudo-terminal (PTY) session.
         """
 
-        return self.client.get("/pty/{ptyID}")
+        response = self.client.get("/pty/{ptyID}")
+        return PtyGetResponse.model_validate(response.json())
 
-    def update(self):
+    def update(self) -> PtyUpdateResponse:
         """Update PTY session
 
         Update properties of an existing pseudo-terminal (PTY) session.
         """
 
-        return self.client.put("/pty/{ptyID}")
+        response = self.client.put("/pty/{ptyID}")
+        return PtyUpdateResponse.model_validate(response.json())
 
-    def connect_token(self):
+    def connect_token(self) -> PtyConnectTokenResponse:
         """Create PTY WebSocket token
 
         Create a short-lived ticket for opening a PTY WebSocket connection.
         """
 
-        return self.client.post("/pty/{ptyID}/connect-token")
+        response = self.client.post("/pty/{ptyID}/connect-token")
+        return PtyConnectTokenResponse.model_validate(response.json())
 
-    def connect(self):
+    def connect(self) -> PtyConnectResponse:
         """Connect to PTY session
 
         Establish a WebSocket connection to interact with a pseudo-terminal (PTY) session in real-time.
         """
 
-        return self.client.get("/pty/{ptyID}/connect")
+        response = self.client.get("/pty/{ptyID}/connect")
+        return PtyConnectResponse.model_validate(response.json())
 
 
 class Question(Client):
-    def list(self):
+    def list(self) -> QuestionListResponse:
         """List pending questions
 
         Get all pending question requests across all sessions.
         """
 
-        return self.client.get("/question")
+        response = self.client.get("/question")
+        return QuestionListResponse.model_validate(response.json())
 
-    def reply(self):
+    def reply(self) -> QuestionReplyResponse:
         """Reply to question request
 
         Provide answers to a question request from the AI assistant.
         """
 
-        return self.client.post("/question/{requestID}/reply")
+        response = self.client.post("/question/{requestID}/reply")
+        return QuestionReplyResponse.model_validate(response.json())
 
-    def reject(self):
+    def reject(self) -> QuestionRejectResponse:
         """Reject question request
 
         Reject a question request from the AI assistant.
         """
 
-        return self.client.post("/question/{requestID}/reject")
+        response = self.client.post("/question/{requestID}/reject")
+        return QuestionRejectResponse.model_validate(response.json())
 
 
 class Permission(Client):
-    def list(self):
+    def list(self) -> PermissionListResponse:
         """List pending permissions
 
         Get all pending permission requests across all sessions.
         """
 
-        return self.client.get("/permission")
+        response = self.client.get("/permission")
+        return PermissionListResponse.model_validate(response.json())
 
-    def reply(self):
+    def reply(self) -> PermissionReplyResponse:
         """Respond to permission request
 
         Approve or deny a permission request from the AI assistant.
         """
 
-        return self.client.post("/permission/{requestID}/reply")
+        response = self.client.post("/permission/{requestID}/reply")
+        return PermissionReplyResponse.model_validate(response.json())
 
-    def respond(self):
+    def respond(self) -> PermissionRespondResponse:
         """Respond to permission
 
         Approve or deny a permission request from the AI assistant.
@@ -688,43 +763,48 @@ class Permission(Client):
         Deprecated.
         """
 
-        return self.client.post("/session/{sessionID}/permissions/{permissionID}")
+        response = self.client.post("/session/{sessionID}/permissions/{permissionID}")
+        return PermissionRespondResponse.model_validate(response.json())
 
 
 class Oauth(Client):
-    def authorize(self):
+    def authorize(self) -> ProviderOauthAuthorizeResponse:
         """Start OAuth authorization
 
         Start the OAuth authorization flow for a provider.
         """
 
-        return self.client.post("/provider/{providerID}/oauth/authorize")
+        response = self.client.post("/provider/{providerID}/oauth/authorize")
+        return ProviderOauthAuthorizeResponse.model_validate(response.json())
 
-    def callback(self):
+    def callback(self) -> ProviderOauthCallbackResponse:
         """Handle OAuth callback
 
         Handle the OAuth callback from a provider after user authorization.
         """
 
-        return self.client.post("/provider/{providerID}/oauth/callback")
+        response = self.client.post("/provider/{providerID}/oauth/callback")
+        return ProviderOauthCallbackResponse.model_validate(response.json())
 
 
 class Provider(Client):
-    def list(self):
+    def list(self) -> ProviderListResponse:
         """List providers
 
         Get a list of all available AI providers, including both available and connected ones.
         """
 
-        return self.client.get("/provider")
+        response = self.client.get("/provider")
+        return ProviderListResponse.model_validate(response.json())
 
-    def auth(self):
+    def auth(self) -> ProviderAuthResponse:
         """Get provider auth methods
 
         Retrieve available authentication methods for all AI providers.
         """
 
-        return self.client.get("/provider/auth")
+        response = self.client.get("/provider/auth")
+        return ProviderAuthResponse.model_validate(response.json())
 
     @cached_property
     def oauth(self) -> Oauth:
@@ -732,245 +812,275 @@ class Provider(Client):
 
 
 class Session_(Client):
-    def list(self):
+    def list(self) -> SessionListResponse:
         """List sessions
 
         Get a list of all OpenCode sessions, sorted by most recently updated.
         """
 
-        return self.client.get("/session")
+        response = self.client.get("/session")
+        return SessionListResponse.model_validate(response.json())
 
-    def create(self):
+    def create(self) -> SessionCreateResponse:
         """Create session
 
         Create a new OpenCode session for interacting with AI assistants and managing conversations.
         """
 
-        return self.client.post("/session")
+        response = self.client.post("/session")
+        return SessionCreateResponse.model_validate(response.json())
 
-    def status(self):
+    def status(self) -> SessionStatusResponse:
         """Get session status
 
         Retrieve the current status of all sessions, including active, idle, and completed states.
         """
 
-        return self.client.get("/session/status")
+        response = self.client.get("/session/status")
+        return SessionStatusResponse.model_validate(response.json())
 
-    def delete(self):
+    def delete(self) -> SessionDeleteResponse:
         """Delete session
 
         Delete a session and permanently remove all associated data, including messages and history.
         """
 
-        return self.client.delete("/session/{sessionID}")
+        response = self.client.delete("/session/{sessionID}")
+        return SessionDeleteResponse.model_validate(response.json())
 
-    def get(self):
+    def get(self) -> SessionGetResponse:
         """Get session
 
         Retrieve detailed information about a specific OpenCode session.
         """
 
-        return self.client.get("/session/{sessionID}")
+        response = self.client.get("/session/{sessionID}")
+        return SessionGetResponse.model_validate(response.json())
 
-    def update(self):
+    def update(self) -> SessionUpdateResponse:
         """Update session
 
         Update properties of an existing session, such as title or other metadata.
         """
 
-        return self.client.patch("/session/{sessionID}")
+        response = self.client.patch("/session/{sessionID}")
+        return SessionUpdateResponse.model_validate(response.json())
 
-    def children(self):
+    def children(self) -> SessionChildrenResponse:
         """Get session children
 
         Retrieve all child sessions that were forked from the specified parent session.
         """
 
-        return self.client.get("/session/{sessionID}/children")
+        response = self.client.get("/session/{sessionID}/children")
+        return SessionChildrenResponse.model_validate(response.json())
 
-    def todo(self):
+    def todo(self) -> SessionTodoResponse:
         """Get session todos
 
         Retrieve the todo list associated with a specific session, showing tasks and action items.
         """
 
-        return self.client.get("/session/{sessionID}/todo")
+        response = self.client.get("/session/{sessionID}/todo")
+        return SessionTodoResponse.model_validate(response.json())
 
-    def diff(self):
+    def diff(self) -> SessionDiffResponse:
         """Get message diff
 
         Get the file changes (diff) that resulted from a specific user message in the session.
         """
 
-        return self.client.get("/session/{sessionID}/diff")
+        response = self.client.get("/session/{sessionID}/diff")
+        return SessionDiffResponse.model_validate(response.json())
 
-    def messages(self):
+    def messages(self) -> SessionMessagesResponse:
         """Get session messages
 
         Retrieve all messages in a session, including user prompts and AI responses.
         """
 
-        return self.client.get("/session/{sessionID}/message")
+        response = self.client.get("/session/{sessionID}/message")
+        return SessionMessagesResponse.model_validate(response.json())
 
-    def prompt(self):
+    def prompt(self) -> SessionPromptResponse:
         """Send message
 
         Create and send a new message to a session, streaming the AI response.
         """
 
-        return self.client.post("/session/{sessionID}/message")
+        response = self.client.post("/session/{sessionID}/message")
+        return SessionPromptResponse.model_validate(response.json())
 
-    def delete_message(self):
+    def delete_message(self) -> SessionDeleteMessageResponse:
         """Delete message
 
         Permanently delete a specific message and all of its parts from a session without reverting file changes.
         """
 
-        return self.client.delete("/session/{sessionID}/message/{messageID}")
+        response = self.client.delete("/session/{sessionID}/message/{messageID}")
+        return SessionDeleteMessageResponse.model_validate(response.json())
 
-    def message(self):
+    def message(self) -> SessionMessageResponse:
         """Get message
 
         Retrieve a specific message from a session by its message ID.
         """
 
-        return self.client.get("/session/{sessionID}/message/{messageID}")
+        response = self.client.get("/session/{sessionID}/message/{messageID}")
+        return SessionMessageResponse.model_validate(response.json())
 
-    def fork(self):
+    def fork(self) -> SessionForkResponse:
         """Fork session
 
         Create a new session by forking an existing session at a specific message point.
         """
 
-        return self.client.post("/session/{sessionID}/fork")
+        response = self.client.post("/session/{sessionID}/fork")
+        return SessionForkResponse.model_validate(response.json())
 
-    def abort(self):
+    def abort(self) -> SessionAbortResponse:
         """Abort session
 
         Abort an active session and stop any ongoing AI processing or command execution.
         """
 
-        return self.client.post("/session/{sessionID}/abort")
+        response = self.client.post("/session/{sessionID}/abort")
+        return SessionAbortResponse.model_validate(response.json())
 
-    def init(self):
+    def init(self) -> SessionInitResponse:
         """Initialize session
 
         Analyze the current application and create an AGENTS.md file with project-specific agent configurations.
         """
 
-        return self.client.post("/session/{sessionID}/init")
+        response = self.client.post("/session/{sessionID}/init")
+        return SessionInitResponse.model_validate(response.json())
 
-    def unshare(self):
+    def unshare(self) -> SessionUnshareResponse:
         """Unshare session
 
         Remove the shareable link for a session, making it private again.
         """
 
-        return self.client.delete("/session/{sessionID}/share")
+        response = self.client.delete("/session/{sessionID}/share")
+        return SessionUnshareResponse.model_validate(response.json())
 
-    def share(self):
+    def share(self) -> SessionShareResponse:
         """Share session
 
         Create a shareable link for a session, allowing others to view the conversation.
         """
 
-        return self.client.post("/session/{sessionID}/share")
+        response = self.client.post("/session/{sessionID}/share")
+        return SessionShareResponse.model_validate(response.json())
 
-    def summarize(self):
+    def summarize(self) -> SessionSummarizeResponse:
         """Summarize session
 
         Generate a concise summary of the session using AI compaction to preserve key information.
         """
 
-        return self.client.post("/session/{sessionID}/summarize")
+        response = self.client.post("/session/{sessionID}/summarize")
+        return SessionSummarizeResponse.model_validate(response.json())
 
-    def prompt_async(self):
+    def prompt_async(self) -> None:
         """Send async message
 
         Create and send a new message to a session asynchronously, starting the session if needed and returning immediately.
         """
 
-        return self.client.post("/session/{sessionID}/prompt_async")
+        self.client.post("/session/{sessionID}/prompt_async")
+        return None
 
-    def command(self):
+    def command(self) -> SessionCommandResponse:
         """Send command
 
         Send a new command to a session for execution by the AI assistant.
         """
 
-        return self.client.post("/session/{sessionID}/command")
+        response = self.client.post("/session/{sessionID}/command")
+        return SessionCommandResponse.model_validate(response.json())
 
-    def shell(self):
+    def shell(self) -> SessionShellResponse:
         """Run shell command
 
         Execute a shell command within the session context and return the AI's response.
         """
 
-        return self.client.post("/session/{sessionID}/shell")
+        response = self.client.post("/session/{sessionID}/shell")
+        return SessionShellResponse.model_validate(response.json())
 
-    def revert(self):
+    def revert(self) -> SessionRevertResponse:
         """Revert message
 
         Revert a specific message in a session, undoing its effects and restoring the previous state.
         """
 
-        return self.client.post("/session/{sessionID}/revert")
+        response = self.client.post("/session/{sessionID}/revert")
+        return SessionRevertResponse.model_validate(response.json())
 
-    def unrevert(self):
+    def unrevert(self) -> SessionUnrevertResponse:
         """Restore reverted messages
 
         Restore all previously reverted messages in a session.
         """
 
-        return self.client.post("/session/{sessionID}/unrevert")
+        response = self.client.post("/session/{sessionID}/unrevert")
+        return SessionUnrevertResponse.model_validate(response.json())
 
 
 class Part(Client):
-    def delete(self):
+    def delete(self) -> PartDeleteResponse:
         """Delete a part from a message."""
 
-        return self.client.delete("/session/{sessionID}/message/{messageID}/part/{partID}")
+        response = self.client.delete("/session/{sessionID}/message/{messageID}/part/{partID}")
+        return PartDeleteResponse.model_validate(response.json())
 
-    def update(self):
+    def update(self) -> PartUpdateResponse:
         """Update a part in a message."""
 
-        return self.client.patch("/session/{sessionID}/message/{messageID}/part/{partID}")
+        response = self.client.patch("/session/{sessionID}/message/{messageID}/part/{partID}")
+        return PartUpdateResponse.model_validate(response.json())
 
 
 class History(Client):
-    def list(self):
+    def list(self) -> SyncHistoryListResponse:
         """List sync events
 
         List sync events for all aggregates. Keys are aggregate IDs the client already knows about, values are the last known sequence ID. Events with seq > value are returned for those aggregates. Aggregates not listed in the input get their full history.
         """
 
-        return self.client.post("/sync/history")
+        response = self.client.post("/sync/history")
+        return SyncHistoryListResponse.model_validate(response.json())
 
 
 class Sync(Client):
-    def start(self):
+    def start(self) -> SyncStartResponse:
         """Start workspace sync
 
         Start sync loops for workspaces in the current project that have active sessions.
         """
 
-        return self.client.post("/sync/start")
+        response = self.client.post("/sync/start")
+        return SyncStartResponse.model_validate(response.json())
 
-    def replay(self):
+    def replay(self) -> SyncReplayResponse:
         """Replay sync events
 
         Validate and replay a complete sync event history.
         """
 
-        return self.client.post("/sync/replay")
+        response = self.client.post("/sync/replay")
+        return SyncReplayResponse.model_validate(response.json())
 
-    def steal(self):
+    def steal(self) -> SyncStealResponse:
         """Steal session into workspace
 
         Update a session to belong to the current workspace through the sync event system.
         """
 
-        return self.client.post("/sync/steal")
+        response = self.client.post("/sync/steal")
+        return SyncStealResponse.model_validate(response.json())
 
     @cached_property
     def history(self) -> History:
@@ -978,81 +1088,90 @@ class Sync(Client):
 
 
 class Session_2(Client):
-    def list(self):
+    def list(self) -> V2SessionListResponse:
         """List v2 sessions
 
         Retrieve sessions in the requested order. Items keep that order across pages; use cursor.next or cursor.previous to move through the ordered list.
         """
 
-        return self.client.get("/api/session")
+        response = self.client.get("/api/session")
+        return V2SessionListResponse.model_validate(response.json())
 
-    def prompt(self):
+    def prompt(self) -> V2SessionPromptResponse:
         """Send v2 message
 
         Create a v2 session message and queue it for the agent loop.
         """
 
-        return self.client.post("/api/session/{sessionID}/prompt")
+        response = self.client.post("/api/session/{sessionID}/prompt")
+        return V2SessionPromptResponse.model_validate(response.json())
 
-    def compact(self):
+    def compact(self) -> None:
         """Compact v2 session
 
         Compact a v2 session conversation.
         """
 
-        return self.client.post("/api/session/{sessionID}/compact")
+        self.client.post("/api/session/{sessionID}/compact")
+        return None
 
-    def wait(self):
+    def wait(self) -> None:
         """Wait for v2 session
 
         Wait for a v2 session agent loop to become idle.
         """
 
-        return self.client.post("/api/session/{sessionID}/wait")
+        self.client.post("/api/session/{sessionID}/wait")
+        return None
 
-    def context(self):
+    def context(self) -> V2SessionContextResponse:
         """Get v2 session context
 
         Retrieve the active context messages for a v2 session (all messages after the last compaction).
         """
 
-        return self.client.get("/api/session/{sessionID}/context")
+        response = self.client.get("/api/session/{sessionID}/context")
+        return V2SessionContextResponse.model_validate(response.json())
 
-    def messages(self):
+    def messages(self) -> V2SessionMessagesResponse_:
         """Get v2 session messages
 
         Retrieve projected v2 messages for a session. Items keep the requested order across pages; use cursor.next or cursor.previous to move through the ordered timeline.
         """
 
-        return self.client.get("/api/session/{sessionID}/message")
+        response = self.client.get("/api/session/{sessionID}/message")
+        return V2SessionMessagesResponse_.model_validate(response.json())
 
 
 class Model(Client):
-    def list(self):
+    def list(self) -> V2ModelListResponse:
         """List v2 models
 
         Retrieve available v2 models ordered by release date.
         """
 
-        return self.client.get("/api/model")
+        response = self.client.get("/api/model")
+        return V2ModelListResponse.model_validate(response.json())
 
 
 class Provider_(Client):
-    def list(self):
+    def list(self) -> V2ProviderListResponse:
         """List v2 providers
 
         Retrieve active v2 AI providers so clients can show provider availability and configuration.
         """
 
-        return self.client.get("/api/provider")
+        response = self.client.get("/api/provider")
+        return V2ProviderListResponse.model_validate(response.json())
 
-    def get(self):
+    def get(self) -> V2ProviderGetResponse:
         """Get v2 provider
 
         Retrieve a single v2 AI provider so clients can inspect its availability and endpoint settings.
         """
 
-        return self.client.get("/api/provider/{providerID}")
+        response = self.client.get("/api/provider/{providerID}")
+        return V2ProviderGetResponse.model_validate(response.json())
 
 
 class V2(Client):
@@ -1070,111 +1189,124 @@ class V2(Client):
 
 
 class Control(Client):
-    def next(self):
+    def next(self) -> TuiControlNextResponse:
         """Get next TUI request
 
         Retrieve the next TUI request from the queue for processing.
         """
 
-        return self.client.get("/tui/control/next")
+        response = self.client.get("/tui/control/next")
+        return TuiControlNextResponse.model_validate(response.json())
 
-    def response(self):
+    def response(self) -> TuiControlResponseResponse:
         """Submit TUI response
 
         Submit a response to the TUI request queue to complete a pending request.
         """
 
-        return self.client.post("/tui/control/response")
+        response = self.client.post("/tui/control/response")
+        return TuiControlResponseResponse.model_validate(response.json())
 
 
 class Tui(Client):
-    def append_prompt(self):
+    def append_prompt(self) -> TuiAppendPromptResponse:
         """Append TUI prompt
 
         Append prompt to the TUI.
         """
 
-        return self.client.post("/tui/append-prompt")
+        response = self.client.post("/tui/append-prompt")
+        return TuiAppendPromptResponse.model_validate(response.json())
 
-    def open_help(self):
+    def open_help(self) -> TuiOpenHelpResponse:
         """Open help dialog
 
         Open the help dialog in the TUI to display user assistance information.
         """
 
-        return self.client.post("/tui/open-help")
+        response = self.client.post("/tui/open-help")
+        return TuiOpenHelpResponse.model_validate(response.json())
 
-    def open_sessions(self):
+    def open_sessions(self) -> TuiOpenSessionsResponse:
         """Open sessions dialog
 
         Open the session dialog.
         """
 
-        return self.client.post("/tui/open-sessions")
+        response = self.client.post("/tui/open-sessions")
+        return TuiOpenSessionsResponse.model_validate(response.json())
 
-    def open_themes(self):
+    def open_themes(self) -> TuiOpenThemesResponse:
         """Open themes dialog
 
         Open the theme dialog.
         """
 
-        return self.client.post("/tui/open-themes")
+        response = self.client.post("/tui/open-themes")
+        return TuiOpenThemesResponse.model_validate(response.json())
 
-    def open_models(self):
+    def open_models(self) -> TuiOpenModelsResponse:
         """Open models dialog
 
         Open the model dialog.
         """
 
-        return self.client.post("/tui/open-models")
+        response = self.client.post("/tui/open-models")
+        return TuiOpenModelsResponse.model_validate(response.json())
 
-    def submit_prompt(self):
+    def submit_prompt(self) -> TuiSubmitPromptResponse:
         """Submit TUI prompt
 
         Submit the prompt.
         """
 
-        return self.client.post("/tui/submit-prompt")
+        response = self.client.post("/tui/submit-prompt")
+        return TuiSubmitPromptResponse.model_validate(response.json())
 
-    def clear_prompt(self):
+    def clear_prompt(self) -> TuiClearPromptResponse:
         """Clear TUI prompt
 
         Clear the prompt.
         """
 
-        return self.client.post("/tui/clear-prompt")
+        response = self.client.post("/tui/clear-prompt")
+        return TuiClearPromptResponse.model_validate(response.json())
 
-    def execute_command(self):
+    def execute_command(self) -> TuiExecuteCommandResponse:
         """Execute TUI command
 
         Execute a TUI command.
         """
 
-        return self.client.post("/tui/execute-command")
+        response = self.client.post("/tui/execute-command")
+        return TuiExecuteCommandResponse.model_validate(response.json())
 
-    def show_toast(self):
+    def show_toast(self) -> TuiShowToastResponse:
         """Show TUI toast
 
         Show a toast notification in the TUI.
         """
 
-        return self.client.post("/tui/show-toast")
+        response = self.client.post("/tui/show-toast")
+        return TuiShowToastResponse.model_validate(response.json())
 
-    def publish(self):
+    def publish(self) -> TuiPublishResponse:
         """Publish TUI event
 
         Publish a TUI event.
         """
 
-        return self.client.post("/tui/publish")
+        response = self.client.post("/tui/publish")
+        return TuiPublishResponse.model_validate(response.json())
 
-    def select_session(self):
+    def select_session(self) -> TuiSelectSessionResponse:
         """Select session
 
         Navigate the TUI to display the specified session.
         """
 
-        return self.client.post("/tui/select-session")
+        response = self.client.post("/tui/select-session")
+        return TuiSelectSessionResponse.model_validate(response.json())
 
     @cached_property
     def control(self) -> Control:
