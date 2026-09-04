@@ -40,3 +40,12 @@ body:
       label: System information (optional)
       description: Any additional relevant system information. This may include OS, browser, NPM version, Node.js version, etc.
       placeholder: System information
+
+  - type: checkboxes
+    id: help
+    attributes:
+      label: How you can help
+      description: Neither is a commitment, and leaving both unticked is fine.
+      options:
+        - label: My team would fund a fix for this.
+        - label: I intend to open a pull request fixing this.
