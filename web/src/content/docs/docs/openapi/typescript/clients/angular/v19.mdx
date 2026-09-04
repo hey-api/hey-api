@@ -199,6 +199,21 @@ This section is under construction. We appreciate your patience.
 This section is under construction. We appreciate your patience.
 :::
 
+## Progress Events
+
+If you need upload or download progress, pass `onUploadProgress` and/or `onDownloadProgress` callbacks to your request. This automatically enables `reportProgress` on the underlying `HttpRequest`, so you no longer need to clone the request yourself to opt into Angular's `reportProgress`/`observe: 'events'` behavior.
+
+```js title="src/index.ts"
+const response = await getFoo({
+  onDownloadProgress: (event) => {
+    console.log(event.loaded, event.total);
+  },
+  onUploadProgress: (event) => {
+    console.log(event.loaded, event.total);
+  },
+});
+```
+
 ## Build URL
 
 If you need to access the compiled URL, you can use the `buildUrl()` method. It's loosely typed by default to accept almost any value; in practice, you will want to pass a type hint.
