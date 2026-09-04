@@ -10,7 +10,8 @@ import { applyNaming, toCase } from '@hey-api/shared';
 
 import { $ } from '../../../../py-dsl';
 import { createOperationComment } from '../../../shared/utils/operation';
-import { operationParameters } from '../shared/operation';
+import type { OperationResponse } from '../shared/operation';
+import { operationParameters, operationResponse } from '../shared/operation';
 import type { HeyApiSdkPlugin } from '../types';
 
 export interface OperationItem {
@@ -107,6 +108,44 @@ export function createShell(plugin: HeyApiSdkPlugin['Instance']): StructureShell
   };
 }
 
+// A parameter can be called `response`, so the local gets a suffix instead.
+function localName(preferred: string, taken: ReadonlySet<string>): string {
+  let name = preferred;
+  while (taken.has(name)) {
+    name = `${name}_`;
+  }
+  return name;
+}
+
+function implementResponse<T extends ReturnType<typeof $.method>>(args: {
+  node: T;
+  paramNames: ReadonlySet<string>;
+  requestCall: ReturnType<typeof $.call>;
+  response: OperationResponse;
+}): T {
+  const { node, paramNames, requestCall, response } = args;
+
+  if (response.kind === 'model') {
+    const responseVar = localName('response', paramNames);
+    const body =
+      response.parseAs === 'json'
+        ? $(responseVar).attr('json').call()
+        : response.parseAs === 'text'
+          ? $(responseVar).attr('text')
+          : $(responseVar).attr('content');
+    return node
+      .returns(response.symbol)
+      .do($.var(responseVar).assign(requestCall))
+      .do($(response.symbol).attr('model_validate').call(body).return()) as T;
+  }
+
+  if (response.kind === 'none') {
+    return node.returns('None').do(requestCall).do($('None').return()) as T;
+  }
+
+  return node.do(requestCall.return()) as T;
+}
+
 function implementFn<T extends ReturnType<typeof $.method>>(args: {
   node: T;
   operation: IR.OperationObject;
@@ -115,6 +154,7 @@ function implementFn<T extends ReturnType<typeof $.method>>(args: {
   const { node, operation, plugin } = args;
   const method = operation.method.toLowerCase();
   const opParameters = operationParameters({ operation, plugin });
+  const response = operationResponse({ operation, plugin });
 
   if (plugin.config.paramsStructure === 'flat' && opParameters.fields.length) {
     const paramNames = opParameters.parameters.map((parameter) => parameter.name.toString());
@@ -130,31 +170,36 @@ function implementFn<T extends ReturnType<typeof $.method>>(args: {
       fieldsList.element(fieldDict);
     }
 
-    return (
-      node
-        .params(...opParameters.parameters)
-        // TODO: extract operation statements into a separate function
-        .do(
-          $.var('params').assign(
-            $(plugin.imports.buildClientParams).call(
-              fieldsList,
-              ...paramNames.map((name) => $.kwarg(name, name)),
-            ),
+    node
+      .params(...opParameters.parameters)
+      // TODO: extract operation statements into a separate function
+      .do(
+        $.var('params').assign(
+          $(plugin.imports.buildClientParams).call(
+            fieldsList,
+            ...paramNames.map((name) => $.kwarg(name, $(name))),
           ),
-        )
-        .do(
-          $('self')
-            .attr('client')
-            .attr(method)
-            .call($.literal(operation.path), $.kwarg('params', $('params') as never))
-            .return(),
-        ) as T
-    );
+        ),
+      );
+
+    return implementResponse({
+      node,
+      paramNames: new Set(paramNames),
+      requestCall: $('self')
+        .attr('request_options')
+        .call($.literal(method), $.literal(operation.path), $('params')),
+      response,
+    });
   }
 
-  return node
-    .params(...opParameters.parameters)
-    .do($('self').attr('client').attr(method).call($.literal(operation.path)).return()) as T;
+  node.params(...opParameters.parameters);
+
+  return implementResponse({
+    node,
+    paramNames: new Set(opParameters.parameters.map((parameter) => parameter.name.toString())),
+    requestCall: $('self').attr('client').attr(method).call($.literal(operation.path)),
+    response,
+  });
 }
 
 export function toNode(
