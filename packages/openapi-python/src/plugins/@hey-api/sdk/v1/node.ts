@@ -10,6 +10,7 @@ import { applyNaming, toCase } from '@hey-api/shared';
 
 import { $ } from '../../../../py-dsl';
 import { createOperationComment } from '../../../shared/utils/operation';
+import { operationAuth, type PySecurityScheme } from '../shared/auth';
 import { operationParameters } from '../shared/operation';
 import type { HeyApiSdkPlugin } from '../types';
 
@@ -77,7 +78,10 @@ function childToNode(
       .returns(refChild)
       .do(
         $(refChild)
-          .call($.kwarg('client', $('self').attr('client')))
+          .call(
+            $.kwarg('client', $('self').attr('client')),
+            $.kwarg('auth', $('self').attr('auth')),
+          )
           .return(),
       ),
   ];
@@ -107,6 +111,28 @@ export function createShell(plugin: HeyApiSdkPlugin['Instance']): StructureShell
   };
 }
 
+function securityListNode(auth: ReadonlyArray<PySecurityScheme>): ReturnType<typeof $.list> {
+  const securityList = $.list();
+  for (const scheme of auth) {
+    const schemeDict = $.dict();
+    schemeDict.entry($.literal('type'), $.literal(scheme.type));
+    if (scheme.scheme) {
+      schemeDict.entry($.literal('scheme'), $.literal(scheme.scheme));
+    }
+    if (scheme.in) {
+      schemeDict.entry($.literal('in'), $.literal(scheme.in));
+    }
+    if (scheme.name) {
+      schemeDict.entry($.literal('name'), $.literal(scheme.name));
+    }
+    if (scheme.key) {
+      schemeDict.entry($.literal('key'), $.literal(scheme.key));
+    }
+    securityList.element(schemeDict);
+  }
+  return securityList;
+}
+
 function implementFn<T extends ReturnType<typeof $.method>>(args: {
   node: T;
   operation: IR.OperationObject;
@@ -115,8 +141,11 @@ function implementFn<T extends ReturnType<typeof $.method>>(args: {
   const { node, operation, plugin } = args;
   const method = operation.method.toLowerCase();
   const opParameters = operationParameters({ operation, plugin });
+  const auth = operationAuth({ operation, plugin });
 
-  if (plugin.config.paramsStructure === 'flat' && opParameters.fields.length) {
+  const hasFlatFields = plugin.config.paramsStructure === 'flat' && opParameters.fields.length > 0;
+
+  if (hasFlatFields || auth.length) {
     const paramNames = opParameters.parameters.map((parameter) => parameter.name.toString());
 
     const fieldsList = $.list();
@@ -130,23 +159,23 @@ function implementFn<T extends ReturnType<typeof $.method>>(args: {
       fieldsList.element(fieldDict);
     }
 
+    const buildParamsArgs = [fieldsList, ...paramNames.map((name) => $.kwarg(name, $(name)))];
+    if (auth.length) {
+      buildParamsArgs.push(
+        $.kwarg('security', securityListNode(auth)),
+        $.kwarg('auth', $('self').attr('auth')),
+      );
+    }
+
     return (
       node
         .params(...opParameters.parameters)
         // TODO: extract operation statements into a separate function
-        .do(
-          $.var('params').assign(
-            $(plugin.imports.buildClientParams).call(
-              fieldsList,
-              ...paramNames.map((name) => $.kwarg(name, name)),
-            ),
-          ),
-        )
+        .do($.var('params').assign($(plugin.imports.buildClientParams).call(...buildParamsArgs)))
         .do(
           $('self')
-            .attr('client')
-            .attr(method)
-            .call($.literal(operation.path), $.kwarg('params', $('params') as never))
+            .attr('request_options')
+            .call($.literal(method), $.literal(operation.path), $('params'))
             .return(),
         ) as T
     );

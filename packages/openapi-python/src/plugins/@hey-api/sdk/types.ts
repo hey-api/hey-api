@@ -10,6 +10,14 @@ export type UserConfig = Plugin.Name<'@hey-api/python-sdk'> &
   Plugin.UserComments &
   Plugin.UserExports & {
     /**
+     * Should the generated methods contain auth mechanisms? You may want to
+     * disable this option if you're handling auth yourself or defining it
+     * differently.
+     *
+     * @default true
+     */
+    auth?: boolean;
+    /**
      * Use an internal client instance to send HTTP requests? This is useful if
      * you don't want to manually pass the client to each SDK function.
      *
@@ -61,6 +69,8 @@ export type Config = Plugin.Name<'@hey-api/python-sdk'> &
   Plugin.Hooks &
   Plugin.Comments &
   Plugin.Exports & {
+    /** Should the generated methods contain auth mechanisms? */
+    auth: boolean;
     /**
      * Use an internal client instance to send HTTP requests? This is useful if
      * you don't want to manually pass the client to each SDK function.

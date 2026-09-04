@@ -102,7 +102,7 @@ class Global(Client):
 
     @cached_property
     def config(self) -> Config:
-        return Config(client=self.client)
+        return Config(client=self.client, auth=self.auth)
 
 
 class Event(Client):
@@ -248,25 +248,25 @@ class Workspace(Client):
 
     @cached_property
     def adapter(self) -> Adapter:
-        return Adapter(client=self.client)
+        return Adapter(client=self.client, auth=self.auth)
 
 
 class Experimental(Client):
     @cached_property
     def console(self) -> Console:
-        return Console(client=self.client)
+        return Console(client=self.client, auth=self.auth)
 
     @cached_property
     def session(self) -> Session:
-        return Session(client=self.client)
+        return Session(client=self.client, auth=self.auth)
 
     @cached_property
     def resource(self) -> Resource:
-        return Resource(client=self.client)
+        return Resource(client=self.client, auth=self.auth)
 
     @cached_property
     def workspace(self) -> Workspace:
-        return Workspace(client=self.client)
+        return Workspace(client=self.client, auth=self.auth)
 
 
 class Tool(Client):
@@ -438,7 +438,7 @@ class Vcs(Client):
 
     @cached_property
     def diff(self) -> Diff:
-        return Diff(client=self.client)
+        return Diff(client=self.client, auth=self.auth)
 
 
 class Command(Client):
@@ -534,7 +534,7 @@ class Mcp(Client):
 
     @cached_property
     def auth(self) -> Auth_:
-        return Auth_(client=self.client)
+        return Auth_(client=self.client, auth=self.auth)
 
 
 class Project(Client):
@@ -728,7 +728,7 @@ class Provider(Client):
 
     @cached_property
     def oauth(self) -> Oauth:
-        return Oauth(client=self.client)
+        return Oauth(client=self.client, auth=self.auth)
 
 
 class Session_(Client):
@@ -974,7 +974,7 @@ class Sync(Client):
 
     @cached_property
     def history(self) -> History:
-        return History(client=self.client)
+        return History(client=self.client, auth=self.auth)
 
 
 class Session_2(Client):
@@ -1058,15 +1058,15 @@ class Provider_(Client):
 class V2(Client):
     @cached_property
     def session(self) -> Session_2:
-        return Session_2(client=self.client)
+        return Session_2(client=self.client, auth=self.auth)
 
     @cached_property
     def model(self) -> Model:
-        return Model(client=self.client)
+        return Model(client=self.client, auth=self.auth)
 
     @cached_property
     def provider(self) -> Provider_:
-        return Provider_(client=self.client)
+        return Provider_(client=self.client, auth=self.auth)
 
 
 class Control(Client):
@@ -1178,114 +1178,114 @@ class Tui(Client):
 
     @cached_property
     def control(self) -> Control:
-        return Control(client=self.client)
+        return Control(client=self.client, auth=self.auth)
 
 
 class Sdk(Client):
     @cached_property
     def auth(self) -> Auth:
-        return Auth(client=self.client)
+        return Auth(client=self.client, auth=self.auth)
 
     @cached_property
     def app(self) -> App:
-        return App(client=self.client)
+        return App(client=self.client, auth=self.auth)
 
     @cached_property
     def global_(self) -> Global:
-        return Global(client=self.client)
+        return Global(client=self.client, auth=self.auth)
 
     @cached_property
     def event(self) -> Event:
-        return Event(client=self.client)
+        return Event(client=self.client, auth=self.auth)
 
     @cached_property
     def config(self) -> Config_:
-        return Config_(client=self.client)
+        return Config_(client=self.client, auth=self.auth)
 
     @cached_property
     def experimental(self) -> Experimental:
-        return Experimental(client=self.client)
+        return Experimental(client=self.client, auth=self.auth)
 
     @cached_property
     def tool(self) -> Tool:
-        return Tool(client=self.client)
+        return Tool(client=self.client, auth=self.auth)
 
     @cached_property
     def worktree(self) -> Worktree:
-        return Worktree(client=self.client)
+        return Worktree(client=self.client, auth=self.auth)
 
     @cached_property
     def find(self) -> Find:
-        return Find(client=self.client)
+        return Find(client=self.client, auth=self.auth)
 
     @cached_property
     def file(self) -> File:
-        return File(client=self.client)
+        return File(client=self.client, auth=self.auth)
 
     @cached_property
     def instance(self) -> Instance:
-        return Instance(client=self.client)
+        return Instance(client=self.client, auth=self.auth)
 
     @cached_property
     def path(self) -> Path:
-        return Path(client=self.client)
+        return Path(client=self.client, auth=self.auth)
 
     @cached_property
     def vcs(self) -> Vcs:
-        return Vcs(client=self.client)
+        return Vcs(client=self.client, auth=self.auth)
 
     @cached_property
     def command(self) -> Command:
-        return Command(client=self.client)
+        return Command(client=self.client, auth=self.auth)
 
     @cached_property
     def lsp(self) -> Lsp:
-        return Lsp(client=self.client)
+        return Lsp(client=self.client, auth=self.auth)
 
     @cached_property
     def formatter(self) -> Formatter:
-        return Formatter(client=self.client)
+        return Formatter(client=self.client, auth=self.auth)
 
     @cached_property
     def mcp(self) -> Mcp:
-        return Mcp(client=self.client)
+        return Mcp(client=self.client, auth=self.auth)
 
     @cached_property
     def project(self) -> Project:
-        return Project(client=self.client)
+        return Project(client=self.client, auth=self.auth)
 
     @cached_property
     def pty(self) -> Pty:
-        return Pty(client=self.client)
+        return Pty(client=self.client, auth=self.auth)
 
     @cached_property
     def question(self) -> Question:
-        return Question(client=self.client)
+        return Question(client=self.client, auth=self.auth)
 
     @cached_property
     def permission(self) -> Permission:
-        return Permission(client=self.client)
+        return Permission(client=self.client, auth=self.auth)
 
     @cached_property
     def provider(self) -> Provider:
-        return Provider(client=self.client)
+        return Provider(client=self.client, auth=self.auth)
 
     @cached_property
     def session(self) -> Session_:
-        return Session_(client=self.client)
+        return Session_(client=self.client, auth=self.auth)
 
     @cached_property
     def part(self) -> Part:
-        return Part(client=self.client)
+        return Part(client=self.client, auth=self.auth)
 
     @cached_property
     def sync(self) -> Sync:
-        return Sync(client=self.client)
+        return Sync(client=self.client, auth=self.auth)
 
     @cached_property
     def v2(self) -> V2:
-        return V2(client=self.client)
+        return V2(client=self.client, auth=self.auth)
 
     @cached_property
     def tui(self) -> Tui:
-        return Tui(client=self.client)
+        return Tui(client=self.client, auth=self.auth)

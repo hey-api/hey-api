@@ -1,0 +1,83 @@
+openapi: 3.1.0
+info:
+  title: Auth
+  version: 1.0.0
+security:
+  - bearerAuth: []
+paths:
+  /widgets:
+    get:
+      operationId: listWidgets
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /widgets/basic:
+    get:
+      operationId: getWidgetBasic
+      security:
+        - basicAuth: []
+      responses:
+        '200':
+          description: OK
+  /widgets/header-key:
+    get:
+      operationId: getWidgetHeaderKey
+      security:
+        - headerApiKey: []
+      responses:
+        '200':
+          description: OK
+  /widgets/query-key:
+    get:
+      operationId: getWidgetQueryKey
+      security:
+        - queryApiKey: []
+      responses:
+        '200':
+          description: OK
+  /widgets/cookie-key:
+    get:
+      operationId: getWidgetCookieKey
+      security:
+        - cookieApiKey: []
+      responses:
+        '200':
+          description: OK
+  /widgets/public:
+    get:
+      operationId: getWidgetPublic
+      security: []
+      responses:
+        '200':
+          description: OK
+  /widgets/no-params:
+    post:
+      operationId: createWidget
+      responses:
+        '200':
+          description: OK
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+    basicAuth:
+      type: http
+      scheme: basic
+    headerApiKey:
+      type: apiKey
+      in: header
+      name: X-Api-Key
+    queryApiKey:
+      type: apiKey
+      in: query
+      name: api_key
+    cookieApiKey:
+      type: apiKey
+      in: cookie
+      name: session_id

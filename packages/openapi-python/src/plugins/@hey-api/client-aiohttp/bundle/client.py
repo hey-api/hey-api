@@ -1,6 +1,8 @@
-from typing import Any, Optional
-import httpx
+import base64
+from typing import Any, Callable, Optional, Union
+from urllib.parse import quote
 
+import httpx
 
 EXTRA_PREFIXES_MAP = {
     "$body_": "json",
@@ -9,12 +11,67 @@ EXTRA_PREFIXES_MAP = {
     "$query_": "params",
 }
 
+AUTH_SLOT_MAP = {
+    "cookie": "cookies",
+    "header": "headers",
+    "query": "params",
+}
 
-def build_client_params(fields: list[dict[str, Any]], **kwargs) -> dict[str, Any]:
+AuthToken = Optional[str]
+AuthValue = Union[AuthToken, Callable[[dict[str, Any]], AuthToken]]
+
+
+def get_auth_token(scheme: dict[str, Any], auth: Optional[AuthValue]) -> AuthToken:
+    """Resolve a token from a static value or callback, formatted for the scheme."""
+    token = auth(scheme) if callable(auth) else auth
+
+    if not token:
+        return None
+
+    http_scheme = scheme.get("scheme")
+    if http_scheme == "bearer":
+        return f"Bearer {token}"
+    if http_scheme == "basic":
+        return f"Basic {base64.b64encode(token.encode()).decode()}"
+
+    return token
+
+
+def apply_auth(
+    result: dict[str, Any],
+    security: Optional[list[dict[str, Any]]],
+    auth: Optional[AuthValue],
+) -> None:
+    """Resolve each security scheme's token into its header, query, or cookie slot."""
+    for scheme in security or []:
+        name = scheme.get("name") or "Authorization"
+        slot = AUTH_SLOT_MAP.get(scheme.get("in") or "header", "headers")
+
+        if name in result.get(slot, {}):
+            continue
+
+        token = get_auth_token(scheme, auth)
+        if not token:
+            continue
+
+        if slot not in result:
+            result[slot] = {}
+        result[slot][name] = token
+
+
+def build_client_params(
+    fields: list[dict[str, Any]],
+    /,
+    auth: Optional[AuthValue] = None,
+    security: Optional[list[dict[str, Any]]] = None,
+    **kwargs: Any,
+) -> dict[str, Any]:
     """Build client parameters from flat keyword arguments.
 
     Args:
         fields: List of field configurations with 'in', 'key', and optional 'map'.
+        auth: Static token or callback resolving a token for `security`.
+        security: Security schemes declared on the operation.
         **kwargs: Flat parameters passed to the SDK method.
 
     Returns:
@@ -40,9 +97,9 @@ def build_client_params(fields: list[dict[str, Any]], **kwargs) -> dict[str, Any
         if field:
             in_slot = field["in"]
             map_key = field["map"]
-            slot = "json" if in_slot == "body" else in_slot
+            slot = {"body": "json", "query": "params"}.get(in_slot, in_slot)
 
-            if in_slot == "body":
+            if in_slot == "body" and map_key == "body":
                 result[slot] = value
             else:
                 if slot not in result:
@@ -61,8 +118,10 @@ def build_client_params(fields: list[dict[str, Any]], **kwargs) -> dict[str, Any
                     result["params"] = {}
                 result["params"][key] = value
 
-    for slot in list(result.keys()):
-        if not result[slot]:
+    apply_auth(result, security, auth)
+
+    for slot in ("headers", "params", "path"):
+        if slot in result and not result[slot]:
             del result[slot]
 
     return result
@@ -71,7 +130,14 @@ def build_client_params(fields: list[dict[str, Any]], **kwargs) -> dict[str, Any
 class BaseClient:
     """Base HTTP client using httpx that SDK classes extend."""
 
-    def __init__(self, client: Optional[httpx.Client] = None, base_url: Optional[str] = None, **kwargs):
+    def __init__(
+        self,
+        client: Optional[httpx.Client] = None,
+        base_url: Optional[str] = None,
+        auth: Optional[AuthValue] = None,
+        **kwargs,
+    ):
+        self.auth = auth
         if client is not None:
             self._client = client
         else:
@@ -85,6 +151,25 @@ class BaseClient:
     def request(self, method: str, url: str, **kwargs) -> httpx.Response:
         """Make an HTTP request."""
         return self._client.request(method, url, **kwargs)
+
+    def request_options(
+        self,
+        method: str,
+        url: str,
+        options: Optional[dict[str, Any]] = None,
+        **kwargs,
+    ) -> httpx.Response:
+        """Make an HTTP request."""
+        request_options = dict(options or {})
+        path = request_options.pop("path", {})
+        for key, value in path.items():
+            url = url.replace(f"{{{key}}}", quote(str(value), safe=""))
+
+        body = request_options.get("json")
+        if hasattr(body, "model_dump"):
+            request_options["json"] = body.model_dump(mode="json", by_alias=True)
+
+        return self.request(method, url, **request_options, **kwargs)
 
     def get(self, url: str, **kwargs) -> httpx.Response:
         """Make a GET request."""

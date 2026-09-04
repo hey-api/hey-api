@@ -9,6 +9,7 @@ import type { HeyApiSdkPlugin } from './types';
 export const defaultConfig: HeyApiSdkPlugin['Config'] = {
   config: {
     $dependencies: ['client'],
+    auth: true,
     client: coerce((value, context) => {
       if (value === true || value === undefined) {
         return (context as PluginContext).resolveTag('client', {
