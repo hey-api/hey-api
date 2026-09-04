@@ -69,7 +69,10 @@ export class PydanticModelDsl extends Mixed {
       // plugin.querySymbol(BASE_MODEL_META)!
       .extends(plugin.imports.BaseModel, ...this._bases)
       .$if(this.$docs(), (c, v) => c.doc(v))
-      .$if(this._configKwargs.length, (c) =>
+      // Every kwarg, not only the explicitly configured ones. `populate_by_name`
+      // is derived from the fields, so gating on `_configKwargs` dropped it
+      // from any aliased model that had no other config.
+      .$if(mergedKwargs.length, (c) =>
         c.do(
           $.field(identifiers.model_config).assign(
             $(plugin.imports.ConfigDict).call(...mergedKwargs),

@@ -7421,6 +7421,7 @@ class BadRequestError(BaseModel):
 
 
 class AuthRemovePath(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     provider_id: str = Field(..., alias="providerID")
 
 
@@ -7435,6 +7436,7 @@ class AuthSetBody(RootModel[Auth]):
 
 
 class AuthSetPath(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     provider_id: str = Field(..., alias="providerID")
 
 
@@ -8212,6 +8214,7 @@ class ProjectUpdateBody(BaseModel):
 
 
 class ProjectUpdatePath(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     project_id: str = Field(..., alias="projectID")
 
 
@@ -8276,6 +8279,7 @@ class PtyCreateResponse(RootModel[Pty]):
 
 
 class PtyRemovePath(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     pty_id: Annotated[str, Field(pattern=r"^pty")] = Field(..., alias="ptyID")
 
 
@@ -8291,6 +8295,7 @@ class PtyRemoveResponse(RootModel[bool]):
 
 
 class PtyGetPath(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     pty_id: Annotated[str, Field(pattern=r"^pty")] = Field(..., alias="ptyID")
 
 
@@ -8318,6 +8323,7 @@ class PtyUpdateBody(BaseModel):
 
 
 class PtyUpdatePath(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     pty_id: Annotated[str, Field(pattern=r"^pty")] = Field(..., alias="ptyID")
 
 
@@ -8333,6 +8339,7 @@ class PtyUpdateResponse(RootModel[Pty]):
 
 
 class PtyConnectTokenPath(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     pty_id: Annotated[str, Field(pattern=r"^pty")] = Field(..., alias="ptyID")
 
 
@@ -8366,6 +8373,7 @@ class QuestionReplyBody(BaseModel):
 
 
 class QuestionReplyPath(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     request_id: Annotated[str, Field(pattern=r"^que")] = Field(..., alias="requestID")
 
 
@@ -8381,6 +8389,7 @@ class QuestionReplyResponse(RootModel[bool]):
 
 
 class QuestionRejectPath(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     request_id: Annotated[str, Field(pattern=r"^que")] = Field(..., alias="requestID")
 
 
@@ -8419,6 +8428,7 @@ class PermissionReplyBody(BaseModel):
 
 
 class PermissionReplyPath(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     request_id: Annotated[str, Field(pattern=r"^per")] = Field(..., alias="requestID")
 
 
@@ -8465,6 +8475,7 @@ class ProviderOauthAuthorizeBody(BaseModel):
 
 
 class ProviderOauthAuthorizePath(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     provider_id: str = Field(..., alias="providerID")
 
 
@@ -8486,6 +8497,7 @@ class ProviderOauthCallbackBody(BaseModel):
 
 
 class ProviderOauthCallbackPath(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     provider_id: str = Field(..., alias="providerID")
 
 
@@ -8567,6 +8579,7 @@ class SessionStatusResponse(RootModel[dict[str, SessionStatus]]):
 
 
 class SessionDeletePath(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     session_id: Annotated[str, Field(pattern=r"^ses")] = Field(..., alias="sessionID")
 
 
@@ -8582,6 +8595,7 @@ class SessionDeleteResponse(RootModel[bool]):
 
 
 class SessionGetPath(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     session_id: Annotated[str, Field(pattern=r"^ses")] = Field(..., alias="sessionID")
 
 
@@ -8610,6 +8624,7 @@ class SessionUpdateBody(BaseModel):
 
 
 class SessionUpdatePath(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     session_id: Annotated[str, Field(pattern=r"^ses")] = Field(..., alias="sessionID")
 
 
@@ -8625,6 +8640,7 @@ class SessionUpdateResponse(RootModel[Session]):
 
 
 class SessionChildrenPath(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     session_id: Annotated[str, Field(pattern=r"^ses")] = Field(..., alias="sessionID")
 
 
@@ -8640,6 +8656,7 @@ class SessionChildrenResponse(RootModel[list[Session]]):
 
 
 class SessionTodoPath(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     session_id: Annotated[str, Field(pattern=r"^ses")] = Field(..., alias="sessionID")
 
 
@@ -8655,10 +8672,12 @@ class SessionTodoResponse(RootModel[list[Todo]]):
 
 
 class SessionDiffPath(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     session_id: Annotated[str, Field(pattern=r"^ses")] = Field(..., alias="sessionID")
 
 
 class SessionDiffQuery(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     directory: Optional[str] = None
     workspace: Optional[str] = None
     message_id: Optional[Annotated[str, Field(pattern=r"^msg")]] = Field(default=None, alias="messageID")
@@ -8671,6 +8690,7 @@ class SessionDiffResponse(RootModel[list[SnapshotFileDiff]]):
 
 
 class SessionMessagesPath(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     session_id: Annotated[str, Field(pattern=r"^ses")] = Field(..., alias="sessionID")
 
 
@@ -8713,6 +8733,7 @@ class SessionPromptBody(BaseModel):
 
 
 class SessionPromptPath(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     session_id: Annotated[str, Field(pattern=r"^ses")] = Field(..., alias="sessionID")
 
 
@@ -8729,6 +8750,7 @@ class SessionPromptResponse(BaseModel):
 
 
 class SessionDeleteMessagePath(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     session_id: Annotated[str, Field(pattern=r"^ses")] = Field(..., alias="sessionID")
     message_id: Annotated[str, Field(pattern=r"^msg")] = Field(..., alias="messageID")
 
@@ -8745,6 +8767,7 @@ class SessionDeleteMessageResponse(RootModel[bool]):
 
 
 class SessionMessagePath(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     session_id: Annotated[str, Field(pattern=r"^ses")] = Field(..., alias="sessionID")
     message_id: Annotated[str, Field(pattern=r"^msg")] = Field(..., alias="messageID")
 
@@ -8768,6 +8791,7 @@ class SessionForkBody(BaseModel):
 
 
 class SessionForkPath(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     session_id: Annotated[str, Field(pattern=r"^ses")] = Field(..., alias="sessionID")
 
 
@@ -8783,6 +8807,7 @@ class SessionForkResponse(RootModel[Session]):
 
 
 class SessionAbortPath(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     session_id: Annotated[str, Field(pattern=r"^ses")] = Field(..., alias="sessionID")
 
 
@@ -8805,6 +8830,7 @@ class SessionInitBody(BaseModel):
 
 
 class SessionInitPath(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     session_id: Annotated[str, Field(pattern=r"^ses")] = Field(..., alias="sessionID")
 
 
@@ -8820,6 +8846,7 @@ class SessionInitResponse(RootModel[bool]):
 
 
 class SessionUnsharePath(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     session_id: Annotated[str, Field(pattern=r"^ses")] = Field(..., alias="sessionID")
 
 
@@ -8835,6 +8862,7 @@ class SessionUnshareResponse(RootModel[Session]):
 
 
 class SessionSharePath(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     session_id: Annotated[str, Field(pattern=r"^ses")] = Field(..., alias="sessionID")
 
 
@@ -8857,6 +8885,7 @@ class SessionSummarizeBody(BaseModel):
 
 
 class SessionSummarizePath(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     session_id: Annotated[str, Field(pattern=r"^ses")] = Field(..., alias="sessionID")
 
 
@@ -8891,6 +8920,7 @@ class SessionPromptAsyncBody(BaseModel):
 
 
 class SessionPromptAsyncPath(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     session_id: Annotated[str, Field(pattern=r"^ses")] = Field(..., alias="sessionID")
 
 
@@ -8931,6 +8961,7 @@ class SessionCommandBody(BaseModel):
 
 
 class SessionCommandPath(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     session_id: Annotated[str, Field(pattern=r"^ses")] = Field(..., alias="sessionID")
 
 
@@ -8961,6 +8992,7 @@ class SessionShellBody(BaseModel):
 
 
 class SessionShellPath(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     session_id: Annotated[str, Field(pattern=r"^ses")] = Field(..., alias="sessionID")
 
 
@@ -8984,6 +9016,7 @@ class SessionRevertBody(BaseModel):
 
 
 class SessionRevertPath(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     session_id: Annotated[str, Field(pattern=r"^ses")] = Field(..., alias="sessionID")
 
 
@@ -8999,6 +9032,7 @@ class SessionRevertResponse(RootModel[Session]):
 
 
 class SessionUnrevertPath(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     session_id: Annotated[str, Field(pattern=r"^ses")] = Field(..., alias="sessionID")
 
 
@@ -9025,6 +9059,7 @@ class PermissionRespondBody(BaseModel):
 
 
 class PermissionRespondPath(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     session_id: Annotated[str, Field(pattern=r"^ses")] = Field(..., alias="sessionID")
     permission_id: Annotated[str, Field(pattern=r"^per")] = Field(..., alias="permissionID")
 
@@ -9041,6 +9076,7 @@ class PermissionRespondResponse(RootModel[bool]):
 
 
 class PartDeletePath(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     session_id: Annotated[str, Field(pattern=r"^ses")] = Field(..., alias="sessionID")
     message_id: Annotated[str, Field(pattern=r"^msg")] = Field(..., alias="messageID")
     part_id: Annotated[str, Field(pattern=r"^prt")] = Field(..., alias="partID")
@@ -9062,6 +9098,7 @@ class PartUpdateBody(RootModel[Part]):
 
 
 class PartUpdatePath(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     session_id: Annotated[str, Field(pattern=r"^ses")] = Field(..., alias="sessionID")
     message_id: Annotated[str, Field(pattern=r"^msg")] = Field(..., alias="messageID")
     part_id: Annotated[str, Field(pattern=r"^prt")] = Field(..., alias="partID")
@@ -9192,6 +9229,7 @@ class V2SessionPromptBody(BaseModel):
 
 
 class V2SessionPromptPath(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     session_id: Annotated[str, Field(pattern=r"^ses")] = Field(..., alias="sessionID")
 
 
@@ -9207,6 +9245,7 @@ class V2SessionPromptResponse(RootModel[SessionMessage]):
 
 
 class V2SessionCompactPath(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     session_id: Annotated[str, Field(pattern=r"^ses")] = Field(..., alias="sessionID")
 
 
@@ -9222,6 +9261,7 @@ class V2SessionCompactResponse(RootModel[None]):
 
 
 class V2SessionWaitPath(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     session_id: Annotated[str, Field(pattern=r"^ses")] = Field(..., alias="sessionID")
 
 
@@ -9237,6 +9277,7 @@ class V2SessionWaitResponse(RootModel[None]):
 
 
 class V2SessionContextPath(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     session_id: Annotated[str, Field(pattern=r"^ses")] = Field(..., alias="sessionID")
 
 
@@ -9252,6 +9293,7 @@ class V2SessionContextResponse(RootModel[list[SessionMessage]]):
 
 
 class V2SessionMessagesPath(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     session_id: Annotated[str, Field(pattern=r"^ses")] = Field(..., alias="sessionID")
 
 
@@ -9307,6 +9349,7 @@ class V2ProviderListResponse(RootModel[list[ProviderV2Info]]):
 
 
 class V2ProviderGetPath(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     provider_id: str = Field(..., alias="providerID")
 
 
@@ -9626,6 +9669,7 @@ class ExperimentalWorkspaceWarpResponse(RootModel[None]):
 
 
 class PtyConnectPath(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     pty_id: Annotated[str, Field(pattern=r"^pty")] = Field(..., alias="ptyID")
 
 
