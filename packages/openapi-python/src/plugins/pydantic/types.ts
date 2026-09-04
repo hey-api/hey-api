@@ -67,6 +67,53 @@ export type UserConfig = Plugin.Name<'pydantic'> &
      */
     enums?: 'enum' | 'literal';
     /**
+     * Configuration for error-response-specific Pydantic models.
+     *
+     * Controls generation of Pydantic models for the operation's 4xx and 5xx
+     * responses, so a caller can validate an error body against a real model
+     * instead of a raw dict.
+     *
+     * Can be:
+     * - `boolean`: Shorthand for `{ enabled: boolean }`
+     * - `string` or `function`: Shorthand for `{ name: string | function }`
+     * - `object`: Full configuration object
+     *
+     * @default true
+     */
+    errors?:
+      | boolean
+      | NameTransformer
+      | {
+          /**
+           * Casing convention for generated names.
+           *
+           * @default 'PascalCase'
+           */
+          case?: Casing;
+          /**
+           * Whether this feature is enabled.
+           *
+           * Set to `false` to skip generating error models entirely.
+           *
+           * @default true
+           */
+          enabled?: boolean;
+          /**
+           * Naming pattern for the deduplicated union of an operation's
+           * error types.
+           *
+           * TypeScript also generates a status-code-keyed map (`{{name}}Errors`)
+           * alongside this union, but that shape has no Python runtime
+           * analogue: as a Pydantic model every status would be a required
+           * field, yet a real response only ever carries one status, so no
+           * real payload could validate against it. Only this deduplicated
+           * union is generated.
+           *
+           * @default '{{name}}Error'
+           */
+          error?: NameTransformer;
+        };
+    /**
      * How to render field constraints.
      *
      * - `'field'`: `foo: Optional[int] = Field(default=None, ge=0, le=100)`
@@ -350,6 +397,13 @@ export type Config = Plugin.Name<'pydantic'> &
     definitions: NamingOptions & FeatureToggle;
     /** How to generate enum types. */
     enums: 'enum' | 'literal';
+    /** Configuration for error-response-specific Pydantic models. */
+    errors: FeatureToggle & {
+      /** Casing convention for generated names. */
+      case: Casing;
+      /** Naming pattern for the deduplicated union of an operation's error types. */
+      error: NameTransformer;
+    };
     /** How to render field constraints. */
     fieldStyle: 'annotated' | 'field';
     /** Model type to generate. */

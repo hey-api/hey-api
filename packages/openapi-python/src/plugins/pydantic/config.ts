@@ -18,6 +18,14 @@ export const defaultConfig: PydanticPlugin['Config'] = {
       name: '{{name}}',
     },
     enums: 'enum',
+    errors: {
+      $coerceAny: ({ type, value }) => ({
+        enabled: Boolean(value),
+        ...(type === 'string' || type === 'function' ? { error: value } : {}),
+      }),
+      enabled: true,
+      error: '{{name}}Error',
+    },
     fieldStyle: 'field',
     includeInEntry: false,
     modelType: 'BaseModel',

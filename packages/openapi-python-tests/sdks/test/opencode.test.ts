@@ -12,6 +12,7 @@ const outputDir = path.join(getTempSnapshotsPath(), namespace);
 const snapshotsDir = path.join(getSnapshotsPath(), namespace);
 
 const specPath = path.join(getSpecsPath(), '3.1.x', 'opencode.yaml');
+const typedErrorsSpecPath = path.join(getSpecsPath(), '3.1.x', 'typed-errors.yaml');
 
 describe(`Python SDK: ${namespace}`, () => {
   const createConfig = createSdkConfig({
@@ -26,6 +27,14 @@ describe(`Python SDK: ${namespace}`, () => {
         plugins: ['@hey-api/python-sdk'],
       }),
       description: 'default',
+    },
+    {
+      config: createConfig({
+        input: typedErrorsSpecPath,
+        output: 'typed-errors',
+        plugins: ['@hey-api/python-sdk'],
+      }),
+      description: 'typed errors',
     },
   ];
 
