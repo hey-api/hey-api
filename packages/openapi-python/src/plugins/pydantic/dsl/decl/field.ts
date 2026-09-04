@@ -13,6 +13,16 @@ import { literalize } from '../utils/literal';
 
 const Mixed = OptionalMixin(PyDsl<py.Statement>);
 
+// Pydantic reserves a leading underscore for a private attribute and raises
+// `NameError` while the class body executes, which aborts the import of the
+// whole module. The identifier sanitizer prefixes an underscore when a name
+// cannot start with its first character, such as a wire name beginning with a
+// digit, so a field needs a prefix Pydantic accepts instead.
+function safeFieldName(name: string): string {
+  const safe = safeKeywordName(name);
+  return safe.startsWith('_') ? `field${safe}` : safe;
+}
+
 export class PydanticFieldDsl extends Mixed {
   readonly '~dsl' = 'PydanticFieldDsl';
 
@@ -39,7 +49,7 @@ export class PydanticFieldDsl extends Mixed {
     this.plugin = plugin;
 
     const snaked = applyNaming(this._wireName, { casing: 'snake_case' });
-    this._pythonName = safeKeywordName(snaked);
+    this._pythonName = safeFieldName(snaked);
     this.name.set(plugin.symbol(this._pythonName));
   }
 

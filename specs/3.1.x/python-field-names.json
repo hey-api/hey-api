@@ -1,0 +1,38 @@
+{
+  "openapi": "3.1.0",
+  "info": { "title": "Field names", "version": "1.0.0" },
+  "paths": {
+    "/things": {
+      "get": {
+        "operationId": "listThings",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Thing" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Thing": {
+        "type": "object",
+        "description": "A property name that cannot start a Python identifier, alongside the names that are already handled, so the two stay visible together.",
+        "properties": {
+          "2fa": { "type": "string" },
+          "3d": { "type": "string" },
+          "class": { "type": "string" },
+          "_internal": { "type": "string" },
+          "some-name": { "type": "string" },
+          "plain": { "type": "string" }
+        },
+        "required": ["plain"]
+      }
+    }
+  }
+}
