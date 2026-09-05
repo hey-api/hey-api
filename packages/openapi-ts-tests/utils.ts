@@ -11,7 +11,7 @@ export function getFilePaths(dirPath: string): Array<string> {
 
     if (stat.isDirectory()) {
       filePaths = filePaths.concat(getFilePaths(filePath));
-    } else {
+    } else if (path.basename(filePath) !== '.gitattributes') {
       filePaths.push(filePath);
     }
   }

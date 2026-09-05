@@ -1,0 +1,6 @@
+# OpenAPI spec and @hey-api/openapi-ts generated client
+.gitattributes -linguist-generated -diff
+**/*.gen.ts linguist-generated=true -diff
+**/*.gen.js linguist-generated=true -diff
+**/index.ts linguist-generated=true -diff
+**/index.js linguist-generated=true -diff
