@@ -2,7 +2,7 @@ import fsPromises from 'node:fs/promises';
 import path from 'node:path';
 
 import type { Context } from '@hey-api/shared';
-import { IntentContext } from '@hey-api/shared';
+import { IntentContext, writeOutputGitAttributes } from '@hey-api/shared';
 
 import { getTypedConfig } from '../config/utils';
 import { getClientPlugin } from '../plugins/@hey-api/client-core/utils';
@@ -92,6 +92,18 @@ export async function generateOutput(context: Context): Promise<{ fileCount: num
       await source.callback(serialized);
     }
   }
+
+  fileCount += await writeOutputGitAttributes({
+    dryRun: config.dryRun,
+    entryGlobs: ['**/__init__.py'],
+    fileExtension: '.py',
+    fileSuffix: context.config.output.fileName.suffix,
+    generator: '@hey-api/openapi-python',
+    gitAttributes: context.config.output.gitAttributes,
+    moduleExtension: context.config.output.module.extension ?? null,
+    outputPath,
+    source,
+  });
 
   return { fileCount };
 }
