@@ -144,6 +144,14 @@ export interface BaseUserOutput<TModuleExtension extends string = string> {
         suffix?: string | null;
       };
   /**
+   * Whether to generate a `.gitattributes` file in the output folder.
+   * Marks generated files with `linguist-generated` and `-diff` to keep
+   * pull requests readable when committing generated clients.
+   *
+   * @default true
+   */
+  gitAttributes?: boolean;
+  /**
    * Text to include at the top of every generated file.
    */
   header?: OutputHeader;
@@ -240,6 +248,8 @@ export interface BaseOutput<TModuleExtension extends string = string> {
      */
     suffix: string | null;
   };
+  /** Whether to generate a `.gitattributes` file in the output folder. */
+  gitAttributes: boolean;
   /** Text to include at the top of every generated file. */
   header: OutputHeader;
   /**
