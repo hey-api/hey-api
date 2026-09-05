@@ -1,6 +1,7 @@
 from typing import Any, Optional
-import httpx
+from urllib.parse import quote
 
+import httpx
 
 EXTRA_PREFIXES_MAP = {
     "$body_": "json",
@@ -10,7 +11,7 @@ EXTRA_PREFIXES_MAP = {
 }
 
 
-def build_client_params(fields: list[dict[str, Any]], **kwargs) -> dict[str, Any]:
+def build_client_params(fields: list[dict[str, Any]], /, **kwargs) -> dict[str, Any]:
     """Build client parameters from flat keyword arguments.
 
     Args:
@@ -40,9 +41,9 @@ def build_client_params(fields: list[dict[str, Any]], **kwargs) -> dict[str, Any
         if field:
             in_slot = field["in"]
             map_key = field["map"]
-            slot = "json" if in_slot == "body" else in_slot
+            slot = {"body": "json", "query": "params"}.get(in_slot, in_slot)
 
-            if in_slot == "body":
+            if in_slot == "body" and map_key == "body":
                 result[slot] = value
             else:
                 if slot not in result:
@@ -61,8 +62,8 @@ def build_client_params(fields: list[dict[str, Any]], **kwargs) -> dict[str, Any
                     result["params"] = {}
                 result["params"][key] = value
 
-    for slot in list(result.keys()):
-        if not result[slot]:
+    for slot in ("headers", "params", "path"):
+        if slot in result and not result[slot]:
             del result[slot]
 
     return result
@@ -85,6 +86,25 @@ class BaseClient:
     def request(self, method: str, url: str, **kwargs) -> httpx.Response:
         """Make an HTTP request."""
         return self._client.request(method, url, **kwargs)
+
+    def request_options(
+        self,
+        method: str,
+        url: str,
+        options: Optional[dict[str, Any]] = None,
+        **kwargs,
+    ) -> httpx.Response:
+        """Make an HTTP request."""
+        request_options = dict(options or {})
+        path = request_options.pop("path", {})
+        for key, value in path.items():
+            url = url.replace(f"{{{key}}}", quote(str(value), safe=""))
+
+        body = request_options.get("json")
+        if hasattr(body, "model_dump"):
+            request_options["json"] = body.model_dump(mode="json", by_alias=True)
+
+        return self.request(method, url, **request_options, **kwargs)
 
     def get(self, url: str, **kwargs) -> httpx.Response:
         """Make a GET request."""
@@ -126,3 +146,82 @@ class Client(BaseClient):
 def create_client(base_url: Optional[str] = None, **kwargs) -> Client:
     """Create a new HTTP client instance."""
     return Client(base_url=base_url, **kwargs)
+
+
+class AsyncBaseClient:
+    """Async HTTP client using httpx that SDK classes extend."""
+
+    def __init__(self, client: Optional[httpx.AsyncClient] = None, base_url: Optional[str] = None, **kwargs):
+        if client is not None:
+            self._client = client
+        else:
+            self._client = httpx.AsyncClient(base_url=base_url or "", **kwargs)
+
+    @property
+    def client(self) -> httpx.AsyncClient:
+        """Get the httpx async client instance."""
+        return self._client
+
+    async def request(self, method: str, url: str, **kwargs) -> httpx.Response:
+        """Make an HTTP request."""
+        return await self._client.request(method, url, **kwargs)
+
+    async def request_options(
+        self,
+        method: str,
+        url: str,
+        options: Optional[dict[str, Any]] = None,
+        **kwargs,
+    ) -> httpx.Response:
+        """Make an HTTP request."""
+        request_options = dict(options or {})
+        path = request_options.pop("path", {})
+        for key, value in path.items():
+            url = url.replace(f"{{{key}}}", quote(str(value), safe=""))
+
+        body = request_options.get("json")
+        if hasattr(body, "model_dump"):
+            request_options["json"] = body.model_dump(mode="json", by_alias=True)
+
+        return await self.request(method, url, **request_options, **kwargs)
+
+    async def get(self, url: str, **kwargs) -> httpx.Response:
+        """Make a GET request."""
+        return await self._client.get(url, **kwargs)
+
+    async def post(self, url: str, **kwargs) -> httpx.Response:
+        """Make a POST request."""
+        return await self._client.post(url, **kwargs)
+
+    async def put(self, url: str, **kwargs) -> httpx.Response:
+        """Make a PUT request."""
+        return await self._client.put(url, **kwargs)
+
+    async def patch(self, url: str, **kwargs) -> httpx.Response:
+        """Make a PATCH request."""
+        return await self._client.patch(url, **kwargs)
+
+    async def delete(self, url: str, **kwargs) -> httpx.Response:
+        """Make a DELETE request."""
+        return await self._client.delete(url, **kwargs)
+
+    async def close(self):
+        """Close the client."""
+        await self._client.aclose()
+
+    async def __aenter__(self):
+        return self
+
+    async def __aexit__(self, *args):
+        await self.close()
+
+
+class AsyncClient(AsyncBaseClient):
+    """Async HTTP client using httpx (alias for AsyncBaseClient)."""
+
+    pass
+
+
+def create_async_client(base_url: Optional[str] = None, **kwargs) -> AsyncClient:
+    """Create a new async HTTP client instance."""
+    return AsyncClient(base_url=base_url, **kwargs)

@@ -32,18 +32,25 @@ function attachComment<T extends ReturnType<typeof $.method>>(args: {
   ) as T;
 }
 
-function createShellMeta(node: StructureNode): SymbolMeta {
+/** Prefixes a resolved container/segment/method name with `Async`. */
+function asyncName(name: string): string {
+  return `Async${name}`;
+}
+
+function createShellMeta(node: StructureNode, isAsync: boolean): SymbolMeta {
   return {
     artifact: 'sdk',
     category: 'utility',
     resource: 'class',
     resourceId: node.getPath().join('.'),
+    ...(isAsync ? { variant: 'async' } : {}),
   };
 }
 
 function createFnSymbol(
   plugin: HeyApiSdkPlugin['Instance'],
   item: StructureItem & { data: OperationItem },
+  isAsync: boolean,
 ): Symbol {
   const { operation, path, tags } = item.data;
   const name = item.location[item.location.length - 1]!;
@@ -54,6 +61,7 @@ function createFnSymbol(
       resource: 'operation',
       resourceId: operation.id,
       tags,
+      ...(isAsync ? { variant: 'async' } : {}),
     },
   });
 }
@@ -61,13 +69,16 @@ function createFnSymbol(
 function childToNode(
   resource: StructureNode,
   plugin: HeyApiSdkPlugin['Instance'],
+  isAsync: boolean,
 ): ReadonlyArray<ReturnType<typeof $.method>> {
   // TODO: contract (self)
-  const refChild = plugin.referenceSymbol(createShellMeta(resource));
-  const memberNameStr = toCase(
-    refChild.name,
-    plugin.config.operations.methodName.casing ?? 'camelCase',
-  );
+  const refChild = plugin.referenceSymbol(createShellMeta(resource, isAsync));
+  // Derived from the un-prefixed segment name (not `refChild.name`, which
+  // carries the `Async` prefix in the async tree) so the accessor is named
+  // identically on both the sync and async trees, e.g. `self.widgets` on
+  // both `Sdk` and `AsyncSdk`.
+  const baseName = applyNaming(resource.name, plugin.config.operations.segmentName);
+  const memberNameStr = toCase(baseName, plugin.config.operations.methodName.casing ?? 'camelCase');
   const memberName = plugin.symbol(memberNameStr);
 
   return [
@@ -83,22 +94,27 @@ function childToNode(
   ];
 }
 
-export function createShell(plugin: HeyApiSdkPlugin['Instance']): StructureShell {
+/**
+ * Creates the shell used to build one SDK class tree. When `isAsync` is
+ * true, the shell's classes are named with an `Async` prefix and extend the
+ * async client instead of the sync one; every other aspect (naming
+ * strategy, method names, fields) is identical to the sync tree.
+ */
+export function createShell(plugin: HeyApiSdkPlugin['Instance'], isAsync = false): StructureShell {
   return {
     define: (node) => {
-      const symbol = plugin.symbol(
-        applyNaming(
-          node.name,
-          node.isRoot
-            ? plugin.config.operations.containerName
-            : plugin.config.operations.segmentName,
-        ),
-        {
-          meta: createShellMeta(node),
-        },
+      const baseName = applyNaming(
+        node.name,
+        node.isRoot ? plugin.config.operations.containerName : plugin.config.operations.segmentName,
       );
 
-      const c = $.class(symbol).export().extends(plugin.imports.Client);
+      const symbol = plugin.symbol(isAsync ? asyncName(baseName) : baseName, {
+        meta: createShellMeta(node, isAsync),
+      });
+
+      const c = $.class(symbol)
+        .export()
+        .extends(isAsync ? plugin.imports.AsyncClient : plugin.imports.Client);
 
       const dependencies: Array<ReturnType<typeof $.class>> = [];
 
@@ -108,13 +124,16 @@ export function createShell(plugin: HeyApiSdkPlugin['Instance']): StructureShell
 }
 
 function implementFn<T extends ReturnType<typeof $.method>>(args: {
+  isAsync: boolean;
   node: T;
   operation: IR.OperationObject;
   plugin: HeyApiSdkPlugin['Instance'];
 }): T {
-  const { node, operation, plugin } = args;
+  const { isAsync, node, operation, plugin } = args;
   const method = operation.method.toLowerCase();
   const opParameters = operationParameters({ operation, plugin });
+
+  node.async(isAsync);
 
   if (plugin.config.paramsStructure === 'flat' && opParameters.fields.length) {
     const paramNames = opParameters.parameters.map((parameter) => parameter.name.toString());
@@ -130,6 +149,10 @@ function implementFn<T extends ReturnType<typeof $.method>>(args: {
       fieldsList.element(fieldDict);
     }
 
+    const requestCall = $('self')
+      .attr('request_options')
+      .call($.literal(method), $.literal(operation.path), $('params'));
+
     return (
       node
         .params(...opParameters.parameters)
@@ -138,28 +161,25 @@ function implementFn<T extends ReturnType<typeof $.method>>(args: {
           $.var('params').assign(
             $(plugin.imports.buildClientParams).call(
               fieldsList,
-              ...paramNames.map((name) => $.kwarg(name, name)),
+              ...paramNames.map((name) => $.kwarg(name, $(name))),
             ),
           ),
         )
-        .do(
-          $('self')
-            .attr('client')
-            .attr(method)
-            .call($.literal(operation.path), $.kwarg('params', $('params') as never))
-            .return(),
-        ) as T
+        .do((isAsync ? $.await(requestCall) : requestCall).return()) as T
     );
   }
 
+  const clientCall = $('self').attr('client').attr(method).call($.literal(operation.path));
+
   return node
     .params(...opParameters.parameters)
-    .do($('self').attr('client').attr(method).call($.literal(operation.path)).return()) as T;
+    .do((isAsync ? $.await(clientCall) : clientCall).return()) as T;
 }
 
 export function toNode(
   model: StructureNode,
   plugin: HeyApiSdkPlugin['Instance'],
+  isAsync = false,
 ): {
   dependencies?: Array<ReturnType<typeof $.class | typeof $.func>>;
   nodes: ReadonlyArray<ReturnType<typeof $.class | typeof $.func>>;
@@ -171,7 +191,7 @@ export function toNode(
         String(item.location[item.location.length - 1]),
         plugin.config.operations.methodName,
       );
-      const node = $.func(fnName).export().do($('None').return());
+      const node = $.func(fnName).export().async(isAsync).do($('None').return());
       nodes.push(node);
     }
     return { nodes };
@@ -193,7 +213,8 @@ export function toNode(
     } else {
       if (index > 0 || node.hasBody) node.newline();
       const method = implementFn({
-        node: $.method(createFnSymbol(plugin, item), (m) =>
+        isAsync,
+        node: $.method(createFnSymbol(plugin, item, isAsync), (m) =>
           attachComment({
             node: m,
             operation,
@@ -214,7 +235,7 @@ export function toNode(
       // TODO: function?
     } else {
       if (node.hasBody) node.newline();
-      node.do(...childToNode(child, plugin));
+      node.do(...childToNode(child, plugin, isAsync));
     }
   }
 

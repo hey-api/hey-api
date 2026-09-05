@@ -16,7 +16,7 @@ import { ParamPyDsl } from './decl/param';
 // import { ArrayPyDsl } from './expr/array';
 // import { AsPyDsl } from './expr/as';
 import { AttrPyDsl } from './expr/attr';
-// import { AwaitPyDsl } from './expr/await';
+import { AwaitPyDsl } from './expr/await';
 import { BinaryPyDsl } from './expr/binary';
 import { CallPyDsl } from './expr/call';
 import { DictPyDsl } from './expr/dict';
@@ -82,8 +82,8 @@ const pyDsl = {
   /** Creates a property access expression (e.g., `obj.foo`). */
   attr: (...args: ConstructorParameters<typeof AttrPyDsl>) => new AttrPyDsl(...args),
 
-  /** Creates an await expression (e.g., `await promise`). */
-  // await: (...args: ConstructorParameters<typeof AwaitTsDsl>) => new AwaitTsDsl(...args),
+  /** Creates an await expression (e.g., `await coro()`). */
+  await: (...args: ConstructorParameters<typeof AwaitPyDsl>) => new AwaitPyDsl(...args),
 
   /** Creates a binary expression (e.g., `a + b`). */
   binary: (...args: ConstructorParameters<typeof BinaryPyDsl>) => new BinaryPyDsl(...args),
