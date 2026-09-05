@@ -123,6 +123,7 @@ export const outputConfig = defineConfig<UserOutput, Output>({
     name: '{{name}}',
     suffix: '.gen',
   },
+  gitAttributes: true,
   module: {},
   path: '',
   postProcess: coerce((value) => (Array.isArray(value) ? value.map(normalizePostProcessItem) : [])),
