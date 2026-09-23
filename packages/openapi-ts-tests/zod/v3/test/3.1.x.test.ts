@@ -191,6 +191,13 @@ for (const zodVersion of zodVersions) {
         }),
         description: 'generates permissive enums with enum resolver',
       },
+      {
+        config: createConfig({
+          input: 'composition-annotation-only.yaml',
+          output: 'composition-annotation-only',
+        }),
+        description: 'drops annotation-only allOf members',
+      },
     ];
 
     it.each(scenarios)('$description', async ({ config }) => {

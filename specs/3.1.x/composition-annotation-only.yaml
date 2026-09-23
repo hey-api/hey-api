@@ -1,0 +1,25 @@
+openapi: 3.1.0
+info:
+  title: composition-annotation-only
+  version: 1.0.0
+paths:
+  /things:
+    get:
+      operationId: getThings
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/things'
+                  - description: A collection of things.
+components:
+  schemas:
+    things:
+      type: object
+      properties:
+        totalCount:
+          type: integer
+          format: int64

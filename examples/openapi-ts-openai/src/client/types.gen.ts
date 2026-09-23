@@ -4470,8 +4470,8 @@ export type CreateRunRequest = {
    *
    */
   max_completion_tokens?: number;
-  truncation_strategy?: TruncationObject & unknown;
-  tool_choice?: AssistantsApiToolChoiceOption & unknown;
+  truncation_strategy?: TruncationObject;
+  tool_choice?: AssistantsApiToolChoiceOption;
   parallel_tool_calls?: ParallelToolCalls;
   response_format?: AssistantsApiResponseFormatOption;
 };
@@ -4621,8 +4621,8 @@ export type CreateThreadAndRunRequest = {
    *
    */
   max_completion_tokens?: number;
-  truncation_strategy?: TruncationObject & unknown;
-  tool_choice?: AssistantsApiToolChoiceOption & unknown;
+  truncation_strategy?: TruncationObject;
+  tool_choice?: AssistantsApiToolChoiceOption;
   parallel_tool_calls?: ParallelToolCalls;
   response_format?: AssistantsApiResponseFormatOption;
 };
@@ -14688,8 +14688,8 @@ export type RunObject = {
    *
    */
   max_completion_tokens: number;
-  truncation_strategy: TruncationObject & unknown;
-  tool_choice: AssistantsApiToolChoiceOption & unknown;
+  truncation_strategy: TruncationObject;
+  tool_choice: AssistantsApiToolChoiceOption;
   parallel_tool_calls: ParallelToolCalls;
   response_format: AssistantsApiResponseFormatOption;
 };
@@ -16025,7 +16025,7 @@ export type UpdateVectorStoreRequest = {
    * The name of the vector store.
    */
   name?: string;
-  expires_after?: VectorStoreExpirationAfter & unknown;
+  expires_after?: VectorStoreExpirationAfter;
   metadata?: Metadata;
 };
 
@@ -16068,7 +16068,7 @@ export type Upload = {
    * The object type, which is always "upload".
    */
   object: 'upload';
-  file?: OpenAiFile & unknown;
+  file?: OpenAiFile;
 };
 
 export type UploadCertificateRequest = {
@@ -18342,8 +18342,8 @@ export type CreateThreadAndRunRequestWithoutStream = {
    *
    */
   max_completion_tokens?: number;
-  truncation_strategy?: TruncationObject & unknown;
-  tool_choice?: AssistantsApiToolChoiceOption & unknown;
+  truncation_strategy?: TruncationObject;
+  tool_choice?: AssistantsApiToolChoiceOption;
   parallel_tool_calls?: ParallelToolCalls;
   response_format?: AssistantsApiResponseFormatOption;
 };
@@ -18397,8 +18397,8 @@ export type CreateRunRequestWithoutStream = {
    *
    */
   max_completion_tokens?: number;
-  truncation_strategy?: TruncationObject & unknown;
-  tool_choice?: AssistantsApiToolChoiceOption & unknown;
+  truncation_strategy?: TruncationObject;
+  tool_choice?: AssistantsApiToolChoiceOption;
   parallel_tool_calls?: ParallelToolCalls;
   response_format?: AssistantsApiResponseFormatOption;
 };
