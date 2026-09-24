@@ -97,6 +97,33 @@ describe('deduplicateSchema', () => {
       },
     },
     {
+      description: 'keeps `unknown` items of a tuple',
+      result: {
+        items: [
+          {
+            type: 'string',
+          },
+          {
+            type: 'unknown',
+          },
+        ],
+        logicalOperator: 'and',
+        type: 'tuple',
+      },
+      schema: {
+        items: [
+          {
+            type: 'string',
+          },
+          {
+            type: 'unknown',
+          },
+        ],
+        logicalOperator: 'and',
+        type: 'tuple',
+      },
+    },
+    {
       description: 'drops `unknown` members from an intersection',
       result: {
         $ref: '#/components/schemas/things',
