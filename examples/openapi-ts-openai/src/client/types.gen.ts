@@ -16068,6 +16068,9 @@ export type Upload = {
    * The object type, which is always "upload".
    */
   object: 'upload';
+  /**
+   * The ready File object after the Upload is completed.
+   */
   file?: OpenAiFile;
 };
 

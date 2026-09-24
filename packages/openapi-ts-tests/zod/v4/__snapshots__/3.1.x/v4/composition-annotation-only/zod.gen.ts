@@ -7,6 +7,16 @@ export const zThings = z.object({
 });
 
 /**
+ * Things described by an annotation-only member.
+ */
+export const zDescribed = zThings;
+
+/**
+ * Things described by the composition itself.
+ */
+export const zOverridden = zThings;
+
+/**
  * ok
  */
 export const zGetThingsResponse = zThings;

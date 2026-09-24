@@ -584,6 +584,14 @@ function parseAllOf({
     });
     state.inAllOf = originalInAllOf;
 
+    // an annotation-only member (e.g. `{ description }` next to a `$ref`)
+    // describes the composition, lift its annotations unless it has its own
+    if (!compositionSchema.$ref && irCompositionSchema.type === 'unknown') {
+      const annotations: IR.SchemaObject = {};
+      parseSchemaJsDoc({ irSchema: annotations, schema: compositionSchema });
+      Object.assign(irSchema, { ...annotations, ...irSchema });
+    }
+
     if (schema.required) {
       if (irCompositionSchema.required) {
         irCompositionSchema.required.push(...schema.required);

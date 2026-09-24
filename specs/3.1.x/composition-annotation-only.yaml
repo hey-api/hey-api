@@ -23,3 +23,12 @@ components:
         totalCount:
           type: integer
           format: int64
+    described:
+      allOf:
+        - $ref: '#/components/schemas/things'
+        - description: Things described by an annotation-only member.
+    overridden:
+      description: Things described by the composition itself.
+      allOf:
+        - $ref: '#/components/schemas/things'
+        - description: Ignored, the composition has its own description.
