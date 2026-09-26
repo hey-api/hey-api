@@ -669,6 +669,64 @@ describe('responseStyle configuration', () => {
   });
 });
 
+describe('kyOptions.headers merging', () => {
+  const client = createClient({ baseUrl: 'https://example.com' });
+
+  it('merges kyOptions.headers into headers instead of replacing them', async () => {
+    const mockResponse = new Response(JSON.stringify({ success: true }), {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      status: 200,
+    });
+
+    const mockKy = vi.fn().mockResolvedValue(mockResponse);
+
+    const result = await client.post({
+      body: { key: 'value' },
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      ky: mockKy as Partial<KyInstance> as KyInstance,
+      kyOptions: {
+        headers: {
+          Authorization: 'Bearer token-123',
+        },
+      },
+      url: '/test',
+    });
+
+    expect(result.request!.headers.get('Content-Type')).toBe('application/json');
+    expect(result.request!.headers.get('Authorization')).toBe('Bearer token-123');
+  });
+
+  it('lets kyOptions.headers override a matching header set via the headers option', async () => {
+    const mockResponse = new Response(JSON.stringify({ success: true }), {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      status: 200,
+    });
+
+    const mockKy = vi.fn().mockResolvedValue(mockResponse);
+
+    const result = await client.get({
+      headers: {
+        'X-Custom': 'from-headers',
+      },
+      ky: mockKy as Partial<KyInstance> as KyInstance,
+      kyOptions: {
+        headers: {
+          'X-Custom': 'from-kyOptions',
+        },
+      },
+      url: '/test',
+    });
+
+    expect(result.request!.headers.get('X-Custom')).toBe('from-kyOptions');
+  });
+});
+
 describe('issue #3805: custom ky instance defaults should not be overridden by undefined values', () => {
   it('custom ky instance option should not be overridden', async () => {
     // Here we create a custom ky with "credentials" and underlying "fetch" being mocked

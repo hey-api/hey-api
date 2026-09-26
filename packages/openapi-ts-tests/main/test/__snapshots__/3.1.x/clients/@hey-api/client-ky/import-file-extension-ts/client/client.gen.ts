@@ -148,6 +148,11 @@ export const createClient = (config: Config = {}): Client => {
         throwHttpErrors: opts.throwOnError ?? false,
         ...(opts.timeout !== undefined ? { timeout: opts.timeout } : {}),
         ...opts.kyOptions,
+        // `kyOptions.headers` is merged rather than spread in wholesale, otherwise it would silently
+        // replace headers already resolved via the `headers` option (e.g. auto-set `Content-Type`).
+        ...(opts.headers !== undefined || opts.kyOptions?.headers !== undefined
+          ? { headers: mergeHeaders(opts.headers, opts.kyOptions?.headers) }
+          : {}),
         retry: opts.retry ?? opts.kyOptions?.retry ?? 2,
       };
 
