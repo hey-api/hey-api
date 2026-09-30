@@ -1,5 +1,15 @@
 # @hey-api/json-schema-ref-parser
 
+## 1.4.5
+
+### Patch Changes
+
+- **bundler**: fix: merge multiple Swagger 2.0 definitions ([#4230](https://github.com/hey-api/hey-api/pull/4230)) ([`28b702f`](https://github.com/hey-api/hey-api/commit/28b702f4cac19590197a07f318a08370c8243486)) by [@pullfrog](https://github.com/apps/pullfrog)
+
+- **merge**: fix: use synthetic root path ([#4147](https://github.com/hey-api/hey-api/pull/4147)) ([`2953324`](https://github.com/hey-api/hey-api/commit/2953324c30830a424022da7ff7d2e5bd73d9a9c5)) by [@pullfrog](https://github.com/apps/pullfrog)
+
+- **fix**: bump js-yaml to 5.3.0 to resolve GHSA-724g-mxrg-4qvm ([#4381](https://github.com/hey-api/hey-api/pull/4381)) ([`d6ba11f`](https://github.com/hey-api/hey-api/commit/d6ba11fd9ae4f2b707454940121056fdb505235c)) by [@samjoffe](https://github.com/samjoffe)
+
 ## 1.4.4
 
 ### Patch Changes
