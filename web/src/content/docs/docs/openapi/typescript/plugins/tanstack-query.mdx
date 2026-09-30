@@ -35,6 +35,7 @@ The TanStack Query plugin for Hey API generates functions and query keys from yo
 ## Features
 
 - TanStack Query v5 support
+- Solid Query v6 RC compatibility with Solid 2
 - seamless integration with `@hey-api/openapi-ts` ecosystem
 - create query keys following the best practices
 - type-safe query options, infinite query options, and mutation options
@@ -118,6 +119,33 @@ export default {
 ```
   </TabItem>
 </Tabs>
+
+### Solid 2 and Solid Query v6
+
+The generated options are tested with `@tanstack/solid-query@6.0.0-rc.4`, `solid-js@2.0.0-rc.11`, and `@solidjs/web@2.0.0-rc.11`. Use the same `@tanstack/solid-query` plugin configuration shown above; no compatibility option is required for this combination.
+
+Pass an accessor to Solid Query's `useQuery`, `useInfiniteQuery`, and `useMutation`. Read reactive values inside that accessor so changes update the query options.
+
+```tsx
+import { useMutation, useQuery } from '@tanstack/solid-query';
+import { createSignal } from 'solid-js';
+
+import { addPetMutation, getPetByIdOptions } from './client/@tanstack/solid-query.gen';
+
+function Pet() {
+  const [petId, setPetId] = createSignal(1);
+  const query = useQuery(() =>
+    getPetByIdOptions({
+      path: { petId: petId() },
+    }),
+  );
+  const mutation = useMutation(() => addPetMutation());
+
+  // Use query and mutation in your component.
+}
+```
+
+In Solid Query v6, reading pending query data suspends into Solid 2's `Loading` boundary. The result's `data` type is non-optional; cache reads such as `queryClient.getQueryData()` can still return `undefined`.
 
 ## Output
 
