@@ -42,6 +42,10 @@
             }
           }
         }
+      },
+      "CrossCollision": {
+        "enum": ["Etc/GMT+1", "Etc/GMT+12", "Etc/GMT-1"],
+        "type": "string"
       }
     }
   }

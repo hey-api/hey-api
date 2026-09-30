@@ -54,24 +54,33 @@ function resolveEnumKey({
   return key;
 }
 
-function resolveItemsWithKeys(
+export function resolveItemsWithKeys(
   items: Required<TypeScriptFinal>['enumData']['items'],
   plugin: HeyApiTypeScriptPlugin['Instance'],
 ): Array<{ item: (typeof items)[number]; key: string }> {
   const duplicateCounts: Record<string, number> = {};
+  const usedKeys = new Set<string>();
 
   return items.map((item) => {
     const baseKey = resolveEnumKey({ baseName: item.key, duplicateAttempt: 0, plugin });
-    const duplicateAttempt = duplicateCounts[baseKey] ?? 0;
-    duplicateCounts[baseKey] = duplicateAttempt + 1;
+    let duplicateAttempt = duplicateCounts[baseKey] ?? 0;
+    let key =
+      duplicateAttempt === 0
+        ? baseKey
+        : resolveEnumKey({ baseName: item.key, duplicateAttempt, plugin });
 
-    return {
-      item,
-      key:
-        duplicateAttempt === 0
-          ? baseKey
-          : resolveEnumKey({ baseName: item.key, duplicateAttempt, plugin }),
-    };
+    // A resolved key can collide with a key that a different base name already
+    // produced (e.g. Etc/GMT-1 -> ETC_GMT_1 -> renamed to ETC_GMT_12, which
+    // Etc/GMT+12 already owns). Keep advancing the attempt until the key is free.
+    while (usedKeys.has(key)) {
+      duplicateAttempt += 1;
+      key = resolveEnumKey({ baseName: item.key, duplicateAttempt, plugin });
+    }
+
+    duplicateCounts[baseKey] = duplicateAttempt + 1;
+    usedKeys.add(key);
+
+    return { item, key };
   });
 }
 
