@@ -136,7 +136,6 @@ export const createClient = (config: Config = {}): Client => {
         body: validBody as BodyInit,
         ...(opts.cache !== undefined ? { cache: opts.cache } : {}),
         ...(opts.credentials !== undefined ? { credentials: opts.credentials } : {}),
-        ...(opts.headers !== undefined ? { headers: opts.headers } : {}),
         ...(opts.integrity !== undefined ? { integrity: opts.integrity } : {}),
         ...(opts.keepalive !== undefined ? { keepalive: opts.keepalive } : {}),
         ...(opts.method !== undefined ? { method: opts.method } : {}),
@@ -148,6 +147,9 @@ export const createClient = (config: Config = {}): Client => {
         throwHttpErrors: opts.throwOnError ?? false,
         ...(opts.timeout !== undefined ? { timeout: opts.timeout } : {}),
         ...opts.kyOptions,
+        // merged rather than spread in wholesale, otherwise `kyOptions.headers` would silently replace
+        // headers already resolved via the `headers` option (e.g. auto-set `Content-Type`).
+        headers: mergeHeaders(opts.headers, opts.kyOptions?.headers),
         retry: opts.retry ?? opts.kyOptions?.retry ?? 2,
       };
 
