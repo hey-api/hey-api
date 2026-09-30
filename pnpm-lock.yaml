@@ -140,6 +140,9 @@ importers:
       nuxt:
         specifier: 3.21.0
         version: 3.21.0(@netlify/blobs@9.1.2)(@parcel/watcher@2.5.1)(@types/node@24.13.2)(@vercel/functions@3.5.1)(@vue/compiler-sfc@3.5.34)(cac@6.7.14)(db0@0.3.4)(encoding@0.1.13)(eslint@9.39.4(jiti@2.6.1))(ioredis@5.9.2)(less@4.4.2)(lightningcss@1.32.0)(magicast@0.5.2)(optionator@0.9.4)(oxlint@1.74.0)(rolldown@1.1.2)(rollup@4.61.1)(sass@1.97.3)(terser@5.46.0)(tsx@4.21.0)(typescript@6.0.3)(vite@8.1.3(@types/node@24.13.2)(esbuild@0.28.1)(jiti@2.6.1)(less@4.4.2)(sass@1.97.3)(terser@5.46.0)(tsx@4.21.0)(yaml@2.9.0))(vue-tsc@3.2.4(typescript@6.0.3))(yaml@2.9.0)
+      solid-js:
+        specifier: 1.9.9
+        version: 1.9.9
       swr:
         specifier: 2.4.1
         version: 2.4.1(react@19.0.0)
@@ -1455,6 +1458,30 @@ importers:
       axios:
         specifier: 1.13.4
         version: 1.13.4
+      solid-js:
+        specifier: 1.9.9
+        version: 1.9.9
+      typescript:
+        specifier: 6.0.3
+        version: 6.0.3
+
+  packages/openapi-ts-tests/tanstack-query/v6:
+    devDependencies:
+      '@hey-api/openapi-ts':
+        specifier: workspace:*
+        version: link:../../../openapi-ts
+      '@solidjs/web':
+        specifier: 2.0.0-rc.11
+        version: 2.0.0-rc.11(solid-js@2.0.0-rc.11)
+      '@tanstack/solid-query':
+        specifier: 6.0.0-rc.4
+        version: 6.0.0-rc.4(@solidjs/web@2.0.0-rc.11(solid-js@2.0.0-rc.11))(solid-js@2.0.0-rc.11)
+      axios:
+        specifier: 1.13.4
+        version: 1.13.4
+      solid-js:
+        specifier: 2.0.0-rc.11
+        version: 2.0.0-rc.11
       typescript:
         specifier: 6.0.3
         version: 6.0.3
@@ -6703,6 +6730,16 @@ packages:
   '@socket.io/component-emitter@3.1.2':
     resolution: {integrity: sha512-9BCxFwvbGg/RsZK9tjXd8s4UcwR0MWeFQ1XEKIQVVvAGJyINdrqKMcTRyLoK8Rse1GjzLV9cwjWV1olXRWEXVA==}
 
+  '@solidjs/signals@2.0.0-rc.11':
+    resolution: {integrity: sha512-6nLA2NE3ZY9yh9yTXo0BnaGbIjeuJszdY3SSUFhaOpKa3nLIPxOWvisAcrhxeRCCZNX4dCTjEJTV/DxrUwaymw==}
+    engines: {node: '>=22.12.0'}
+
+  '@solidjs/web@2.0.0-rc.11':
+    resolution: {integrity: sha512-/olwnP/328cFk7DU8LWicmzaTDs+/OlqLUhYewwy3kMEoQ3Oz3QJXwA4XAZPTheU7i4ozJhxBo0pEIpXQKlNng==}
+    engines: {node: '>=22.12.0'}
+    peerDependencies:
+      solid-js: ^2.0.0-rc.11
+
   '@speed-highlight/core@1.2.14':
     resolution: {integrity: sha512-G4ewlBNhUtlLvrJTb88d2mdy2KRijzs4UhnlrOSRT4bmjh/IqNElZa3zkrZ+TC47TwtlDWzVLFADljF1Ijp5hA==}
 
@@ -6905,6 +6942,9 @@ packages:
     peerDependencies:
       preact: ^10.0.0
 
+  '@tanstack/query-core@5.101.4':
+    resolution: {integrity: sha512-gNwcvOJcRbLWPOLG/2OBm+zM+Yv+MKsXKEOWC57USuZDEsI71hEErQsiEGx5wX9rzWWkfwM0fVSPoiIFSsxfiw==}
+
   '@tanstack/query-core@5.73.3':
     resolution: {integrity: sha512-LUpsgVT3IkvOECdkQ3QD6esczSH71mAzH/LDZ2cu8j6w430v5W0JB1ulzsG8FFwFBd5fm/ePM2DFpg9TucRMgQ==}
 
@@ -6945,6 +6985,12 @@ packages:
     resolution: {integrity: sha512-hcpJpZisOXeupB2arMAtz+RDLHi/s3Pen+rNCmoAPeAzwbhTPDMpVDF/1PAbwIGWAklvp9DTxWSI9rD3K3k04A==}
     peerDependencies:
       solid-js: ^1.6.0
+
+  '@tanstack/solid-query@6.0.0-rc.4':
+    resolution: {integrity: sha512-UaXpo65Q1rEm+2LYSKNxWdtuGROByXAvI+fmR7q5j5rJDNsaBZPL/JnPz9oQM5fHOEI4QLCVpe0LP7IBgmqHmg==}
+    peerDependencies:
+      '@solidjs/web': '>=2.0.0-rc.6 <3.0.0'
+      solid-js: '>=2.0.0-rc.6 <3.0.0'
 
   '@tanstack/svelte-query@5.73.3':
     resolution: {integrity: sha512-90YScRCZT421v42pgqq+03gAEWH0cXtCjDQMmjkCW/xYg1Fvv37cmHp2X3jzv7rD/FQDi1L8dyEjpQJAldasKQ==}
@@ -12297,12 +12343,22 @@ packages:
     peerDependencies:
       seroval: ^1.0
 
+  seroval-plugins@1.6.8:
+    resolution: {integrity: sha512-N7mWAMydj89EnYTHtRpS3LBrAz3J9O6oVrqpuXuvlAHfAUG8WEKqtbAd7SBiJNY5NfCAFhSdyAh7wI4Shjqy4g==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      seroval: ^1.0
+
   seroval@1.3.2:
     resolution: {integrity: sha512-RbcPH1n5cfwKrru7v7+zrZvjLurgHhGyso3HTyGtRivGWgYjbOmGuivCQaORNELjNONoK35nj28EoWul9sb1zQ==}
     engines: {node: '>=10'}
 
   seroval@1.5.0:
     resolution: {integrity: sha512-OE4cvmJ1uSPrKorFIH9/w/Qwuvi/IMcGbv5RKgcJ/zjA/IohDLU6SVaxFN9FwajbP7nsX0dQqMDes1whk3y+yw==}
+    engines: {node: '>=10'}
+
+  seroval@1.6.8:
+    resolution: {integrity: sha512-HlSgSAkTk4EqHcje1ptJjfZi1YDv5KbhVJ/d3P7T/nAXua2VmDu+AKDX5VTdFfZf48nDkWB2TKYt0DrCSa+3wg==}
     engines: {node: '>=10'}
 
   serve-placeholder@2.0.2:
@@ -12442,6 +12498,10 @@ packages:
 
   solid-js@1.9.9:
     resolution: {integrity: sha512-A0ZBPJQldAeGCTW0YRYJmt7RCeh5rbFfPZ2aOttgYnctHE7HgKeHCBB/PVc2P7eOfmNXqMFFFoYYdm3S4dcbkA==}
+
+  solid-js@2.0.0-rc.11:
+    resolution: {integrity: sha512-qGWn8AOSL/KIwipmr1J5YZnr0LFXcQx01BlPsFuFWEiOhRstP2/E8Jf9L8mlDDNpfPDBqp3QUSVvq3xEWg3GBg==}
+    engines: {node: '>=22.12.0'}
 
   sonic-boom@4.2.0:
     resolution: {integrity: sha512-INb7TM37/mAcsGmc9hyyI6+QR3rR1zVRu36B0NeGXKnOOLiZOfER5SA+N7X7k3yUYRzLWafduTDvJAfDswwEww==}
@@ -19388,6 +19448,14 @@ snapshots:
 
   '@socket.io/component-emitter@3.1.2': {}
 
+  '@solidjs/signals@2.0.0-rc.11': {}
+
+  '@solidjs/web@2.0.0-rc.11(solid-js@2.0.0-rc.11)':
+    dependencies:
+      seroval: 1.6.8
+      seroval-plugins: 1.6.8(seroval@1.6.8)
+      solid-js: 2.0.0-rc.11
+
   '@speed-highlight/core@1.2.14': {}
 
   '@stablelib/base64@1.0.1': {}
@@ -19591,6 +19659,8 @@ snapshots:
       '@tanstack/query-core': 5.90.20
       preact: 10.28.4
 
+  '@tanstack/query-core@5.101.4': {}
+
   '@tanstack/query-core@5.73.3': {}
 
   '@tanstack/query-core@5.90.2': {}
@@ -19627,6 +19697,12 @@ snapshots:
     dependencies:
       '@tanstack/query-core': 5.90.20
       solid-js: 1.9.9
+
+  '@tanstack/solid-query@6.0.0-rc.4(@solidjs/web@2.0.0-rc.11(solid-js@2.0.0-rc.11))(solid-js@2.0.0-rc.11)':
+    dependencies:
+      '@solidjs/web': 2.0.0-rc.11(solid-js@2.0.0-rc.11)
+      '@tanstack/query-core': 5.101.4
+      solid-js: 2.0.0-rc.11
 
   '@tanstack/svelte-query@5.73.3(svelte@5.19.9)':
     dependencies:
@@ -27020,9 +27096,15 @@ snapshots:
     dependencies:
       seroval: 1.3.2
 
+  seroval-plugins@1.6.8(seroval@1.6.8):
+    dependencies:
+      seroval: 1.6.8
+
   seroval@1.3.2: {}
 
   seroval@1.5.0: {}
+
+  seroval@1.6.8: {}
 
   serve-placeholder@2.0.2:
     dependencies:
@@ -27262,6 +27344,13 @@ snapshots:
       csstype: 3.2.3
       seroval: 1.3.2
       seroval-plugins: 1.3.3(seroval@1.3.2)
+
+  solid-js@2.0.0-rc.11:
+    dependencies:
+      '@solidjs/signals': 2.0.0-rc.11
+      csstype: 3.2.3
+      seroval: 1.6.8
+      seroval-plugins: 1.6.8(seroval@1.6.8)
 
   sonic-boom@4.2.0:
     dependencies:
