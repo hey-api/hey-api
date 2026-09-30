@@ -1,5 +1,21 @@
 # @hey-api/openapi-python
 
+## 0.0.25
+
+### Patch Changes
+
+- **dependencies**: remove ansi-colors and color-support ([#4291](https://github.com/hey-api/hey-api/pull/4291)) ([`88c346f`](https://github.com/hey-api/hey-api/commit/88c346fc7de4a5f9b6d22481018c8082e6dc2fad)) by [@Norbiros](https://github.com/Norbiros)
+
+- **config**: expose `output.printer` options ([#4192](https://github.com/hey-api/hey-api/pull/4192)) ([`cb7e283`](https://github.com/hey-api/hey-api/commit/cb7e283a1c87f32e16639e1d295ed4e7aa1df1a2)) by [@mrlubos](https://github.com/mrlubos)
+
+### Updated Dependencies:
+
+- @hey-api/codegen-cli@0.1.0
+- @hey-api/json-schema-ref-parser@1.4.5
+- @hey-api/codegen-core@0.9.2
+- @hey-api/shared@0.5.1
+- @hey-api/spec-types@0.2.1
+
 ## 0.0.24
 
 ### Patch Changes
