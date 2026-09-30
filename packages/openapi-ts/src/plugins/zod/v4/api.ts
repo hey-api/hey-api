@@ -118,7 +118,10 @@ function runRequestResolver(ctx: RequestValidatorResolverContext): ArrowFunc | u
   }
 }
 
-function runResponseResolver(ctx: ResponseValidatorResolverContext): ArrowFunc | undefined {
+function runResponseResolver(
+  ctx: ResponseValidatorResolverContext,
+  isTransformer: boolean,
+): ArrowFunc | undefined {
   const validator =
     ctx.plugin.config.$resolvers?.validator ?? ctx.plugin.config['~resolvers']?.validator;
   const resolver = typeof validator === 'function' ? validator : validator?.response;
@@ -129,7 +132,7 @@ function runResponseResolver(ctx: ResponseValidatorResolverContext): ArrowFunc |
     if (statements !== undefined) {
       return $.func()
         .async()
-        .param('data')
+        .param('data', (p) => p.$if(isTransformer, (p) => p.type('unknown')))
         .do(...(statements instanceof Array ? statements : [statements]));
     }
   }
@@ -207,10 +210,10 @@ export function createRequestValidatorV4(
   return runRequestResolver(resolverCtx);
 }
 
-export function createResponseValidatorV4({
-  operation,
-  plugin,
-}: ValidatorArgs): ArrowFunc | undefined {
+export function createResponseValidatorV4(
+  { operation, plugin }: ValidatorArgs,
+  isTransformer = false,
+): ArrowFunc | undefined {
   const symbol = plugin.querySymbol(ZodContracts.operationResponses(operation.id));
   if (!symbol) return;
 
@@ -228,11 +231,11 @@ export function createResponseValidatorV4({
       z,
     },
   };
-  return runResponseResolver(resolverCtx);
+  return runResponseResolver(resolverCtx, isTransformer);
 }
 
 export function createResponseTransformerV4(ctx: ValidatorArgs): ArrowFunc | undefined {
-  return createResponseValidatorV4(ctx);
+  return createResponseValidatorV4(ctx, true);
 }
 
 export function createResponseHandlersV4(ctx: ValidatorArgs): {

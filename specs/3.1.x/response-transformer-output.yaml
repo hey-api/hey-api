@@ -1,0 +1,76 @@
+openapi: 3.1.1
+info:
+  title: Response transformer output
+  version: 1.0.0
+paths:
+  /status:
+    get:
+      operationId: getStatus
+      responses:
+        '200':
+          description: Status text
+          content:
+            text/plain:
+              schema:
+                type: string
+  /records:
+    delete:
+      operationId: deleteRecords
+      responses:
+        '204':
+          description: Records deleted
+    get:
+      operationId: getRecords
+      responses:
+        '200':
+          description: Existing record
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Record'
+                  - type: object
+                    required: [kind]
+                    properties:
+                      kind:
+                        type: string
+                        const: existing
+        '201':
+          description: Created record
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Record'
+                  - type: object
+                    required: [kind]
+                    properties:
+                      kind:
+                        type: string
+                        const: created
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [message]
+                properties:
+                  message:
+                    type: string
+                  code:
+                    type: string
+                    default: invalid_request
+components:
+  schemas:
+    Record:
+      type: object
+      properties:
+        name:
+          type: string
+          default: anonymous
+        items:
+          type: array
+          items:
+            type: string
+          default: []

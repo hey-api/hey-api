@@ -17,7 +17,9 @@ import {
 } from '../../../shared/utils/operation';
 import { createClientClass, createRegistryClass } from '../shared/class';
 import { nuxtTypeComposable, nuxtTypeDefault } from '../shared/constants';
+import { createResponseHandlers } from '../shared/handlers';
 import { operationParameters, operationReturnType, operationStatements } from '../shared/operation';
+import { operationResponseType } from '../shared/response-type';
 import type { HeyApiSdkPlugin } from '../types';
 
 export interface OperationItem {
@@ -270,6 +272,7 @@ function implementFn<T extends ReturnType<typeof $.func | typeof $.method>>(args
     context: plugin.context,
     operation,
   });
+  const responseHandlers = createResponseHandlers({ operation, plugin });
   const opParameters = operationParameters({
     isRequiredOptions,
     operation,
@@ -280,6 +283,7 @@ function implementFn<T extends ReturnType<typeof $.func | typeof $.method>>(args
     opParameters,
     operation,
     plugin,
+    responseHandlers,
   });
   const returnType = operationReturnType({ operation, plugin });
 
@@ -294,10 +298,9 @@ function implementFn<T extends ReturnType<typeof $.func | typeof $.method>>(args
           .generic(nuxtTypeDefault, (t) =>
             t.$if(
               // TODO: contract (?)
-              plugin.querySymbol({
-                category: 'type',
-                resource: 'operation',
-                resourceId: operation.id,
+              operationResponseType({
+                operation,
+                plugin,
                 role: 'response',
               }),
               (t, s) => t.extends(s).default(s),

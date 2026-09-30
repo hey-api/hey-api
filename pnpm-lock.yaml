@@ -1458,6 +1458,9 @@ importers:
       typescript:
         specifier: 6.0.3
         version: 6.0.3
+      zod:
+        specifier: 4.4.3
+        version: 4.4.3
 
   packages/openapi-ts-tests/valibot/v1:
     devDependencies:
@@ -6714,18 +6717,23 @@ packages:
 
   '@standardserver/core@0.0.32':
     resolution: {integrity: sha512-2d1EnjbTqM25A9+ry7uURfjoQfHkDoj4qBx+FulZtqI7im1j4TSKBsAwTAhko6MOzfXAeD+lLXmy6d21wjiR0w==}
+    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
 
   '@standardserver/fetch@0.0.32':
     resolution: {integrity: sha512-ipONyEOmoVfOxo+Mr6a0sT3IA98GRijUH81wA7tJaXBMLlfeV8AvGiRPZjQedZnB6AwNA/Tr3Wx7FHendQPTyw==}
+    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
 
   '@standardserver/node@0.0.32':
     resolution: {integrity: sha512-/QrX6yvM23odYp6/3lt+BSxXida4Eo8E9Sq1kuDKaJDSg20t0WEt714dBWKsf0s2api+wDq+bmz1x9LcBRRHaw==}
+    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
 
   '@standardserver/peer@0.0.32':
     resolution: {integrity: sha512-vSPxnNw3rajr/cNXIJrr5LhjyzF2p9uXxm2IAGMBf1BJExr3Gb9F1V5hdK7dVZAhoC2IhEleIlxhRlZ2m2tgtw==}
+    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
 
   '@standardserver/shared@0.0.32':
     resolution: {integrity: sha512-OTZkjAn01IBYrKC6HwcNeh1+R3D3fiXnGCRPEPfG0A0nM/he71iPxlOTfurTQq7XzveeIz2maTpmBJCYSXt8QQ==}
+    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
 
   '@stoplight/json@3.21.7':
     resolution: {integrity: sha512-xcJXgKFqv/uCEgtGlPxy3tPA+4I+ZI4vAuMJ885+ThkTHFVkC+0Fm58lA9NlsyjnkpxFh4YiQWpH+KefHdbA0A==}
@@ -8998,6 +9006,7 @@ packages:
   eslint@9.39.4:
     resolution: {integrity: sha512-XoMjdBOwe/esVgEvLmNsD3IRHkm7fbKIUGvrleloJXUZgDHig2IPWNniv+GwjyJXzuNqVjlr5+4yVUZjycJwfQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    deprecated: This version is no longer supported. Please see https://eslint.org/version-support for other options.
     hasBin: true
     peerDependencies:
       jiti: '*'

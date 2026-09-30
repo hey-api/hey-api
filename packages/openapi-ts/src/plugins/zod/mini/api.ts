@@ -119,7 +119,10 @@ function runRequestResolver(ctx: RequestValidatorResolverContext): ArrowFunc | u
   }
 }
 
-function runResponseResolver(ctx: ResponseValidatorResolverContext): ArrowFunc | undefined {
+function runResponseResolver(
+  ctx: ResponseValidatorResolverContext,
+  isTransformer: boolean,
+): ArrowFunc | undefined {
   const validator =
     ctx.plugin.config.$resolvers?.validator ?? ctx.plugin.config['~resolvers']?.validator;
   const resolver = typeof validator === 'function' ? validator : validator?.response;
@@ -130,7 +133,7 @@ function runResponseResolver(ctx: ResponseValidatorResolverContext): ArrowFunc |
     if (statements !== undefined) {
       return $.func()
         .async()
-        .param('data')
+        .param('data', (p) => p.$if(isTransformer, (p) => p.type('unknown')))
         .do(...(statements instanceof Array ? statements : [statements]));
     }
   }
@@ -208,10 +211,10 @@ export function createRequestValidatorMini(
   return runRequestResolver(resolverCtx);
 }
 
-export function createResponseValidatorMini({
-  operation,
-  plugin,
-}: ValidatorArgs): ArrowFunc | undefined {
+export function createResponseValidatorMini(
+  { operation, plugin }: ValidatorArgs,
+  isTransformer = false,
+): ArrowFunc | undefined {
   const symbol = plugin.querySymbol(ZodContracts.operationResponses(operation.id));
   if (!symbol) return;
 
@@ -229,11 +232,11 @@ export function createResponseValidatorMini({
       z,
     },
   };
-  return runResponseResolver(resolverCtx);
+  return runResponseResolver(resolverCtx, isTransformer);
 }
 
 export function createResponseTransformerMini(ctx: ValidatorArgs): ArrowFunc | undefined {
-  return createResponseValidatorMini(ctx);
+  return createResponseValidatorMini(ctx, true);
 }
 
 export function createResponseHandlersMini(ctx: ValidatorArgs): {
