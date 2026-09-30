@@ -1,5 +1,4 @@
 import type { IR } from '@hey-api/shared';
-import { statusCodeToGroup } from '@hey-api/shared';
 
 import { getTypedConfig } from '../../../../config/utils';
 import { $ } from '../../../../ts-dsl';
@@ -10,8 +9,9 @@ import type { HeyApiSdkPlugin } from '../types';
 import { isInstance } from '../v1/node';
 import { operationAuth } from './auth';
 import { nuxtTypeComposable, nuxtTypeDefault } from './constants';
-import { createResponseHandlers } from './handlers';
+import { operationResponseFormat, operationResponseType } from './response-type';
 import { getSignatureParameters } from './signature';
+import type { ResponseHandlers } from './types';
 import { createRequestValidator } from './validator';
 
 /** TODO: needs complete refactor */
@@ -48,10 +48,9 @@ export function operationOptionsType({
 
   if (isNuxtClient) {
     // TODO: contract (?)
-    const symbolResponseType = plugin.querySymbol({
-      category: 'type',
-      resource: 'operation',
-      resourceId: operation.id,
+    const symbolResponseType = operationResponseType({
+      operation,
+      plugin,
       role: 'response',
     });
     return $.type(symbolOptions)
@@ -65,10 +64,9 @@ export function operationOptionsType({
 
   if (isSse) {
     // TODO: contract (?)
-    const symbolResponseType = plugin.querySymbol({
-      category: 'type',
-      resource: 'operation',
-      resourceId: operation.id,
+    const symbolResponseType = operationResponseType({
+      operation,
+      plugin,
       role: 'response',
     });
 
@@ -160,69 +158,26 @@ export function operationParameters({
   return result;
 }
 
-/**
- * Infers `responseType` value from provided response content type. This is
- * an adapted version of `getParseAs()` from the Fetch API client.
- *
- * From Axios documentation:
- * `responseType` indicates the type of data that the server will respond with
- * options are: 'arraybuffer', 'document', 'json', 'text', 'stream'
- * browser only: 'blob'
- */
-function getResponseType(
-  contentType: string | null | undefined,
-): 'arraybuffer' | 'blob' | 'document' | 'json' | 'stream' | 'text' | undefined {
-  if (!contentType) {
-    return;
-  }
-
-  const cleanContent = contentType.split(';')[0]?.trim();
-
-  if (!cleanContent) {
-    return;
-  }
-
-  if (cleanContent.startsWith('application/json') || cleanContent.endsWith('+json')) {
-    return 'json';
-  }
-
-  // Axios does not handle form data out of the box
-  // if (cleanContent === 'multipart/form-data') {
-  //   return 'formData';
-  // }
-
-  if (
-    ['application/', 'audio/', 'image/', 'video/'].some((type) => cleanContent.startsWith(type))
-  ) {
-    return 'blob';
-  }
-
-  if (cleanContent.startsWith('text/')) {
-    return 'text';
-  }
-
-  return;
-}
-
 export function operationStatements({
   isRequiredOptions,
   opParameters,
   operation,
   plugin,
+  responseHandlers,
 }: {
   isRequiredOptions: boolean;
   opParameters: OperationParameters;
   operation: IR.OperationObject;
   plugin: HeyApiSdkPlugin['Instance'];
+  responseHandlers: ResponseHandlers;
 }): Array<ReturnType<typeof $.return | typeof $.const>> {
   const client = getClientPlugin(getTypedConfig(plugin));
   const isNuxtClient = client.name === '@hey-api/client-nuxt';
 
   // TODO: contract (?)
-  const symbolResponseType = plugin.querySymbol({
-    category: 'type',
-    resource: 'operation',
-    resourceId: operation.id,
+  const symbolResponseType = operationResponseType({
+    operation,
+    plugin,
     role: isNuxtClient ? 'response' : 'responses',
   });
   // TODO: contract (?)
@@ -338,7 +293,6 @@ export function operationStatements({
   }
 
   const requestValidator = createRequestValidator({ operation, plugin });
-  const responseHandlers = createResponseHandlers({ operation, plugin });
 
   if (requestValidator) {
     reqOptions.prop('requestValidator', requestValidator);
@@ -349,23 +303,9 @@ export function operationStatements({
   }
 
   const isSse = hasOperationSse({ operation });
-  let responseTypeValue: ReturnType<typeof getResponseType> | undefined;
-
-  for (const statusCode in operation.responses) {
-    const response = operation.responses[statusCode]!;
-
-    // try to infer `responseType` option for Axios. We don't need this in
-    // Fetch API client because it automatically detects the correct response
-    // during runtime.
-    if (!responseTypeValue && client.name === '@hey-api/client-axios') {
-      // this doesn't handle default status code for now
-      if (statusCodeToGroup({ statusCode }) === '2XX') {
-        responseTypeValue = getResponseType(response.mediaType);
-        if (responseTypeValue) {
-          reqOptions.prop('responseType', $.literal(responseTypeValue));
-        }
-      }
-    }
+  if (client.name === '@hey-api/client-axios') {
+    const responseType = operationResponseFormat(operation);
+    if (responseType) reqOptions.prop('responseType', $.literal(responseType));
   }
 
   if (responseHandlers.validator) {
@@ -504,12 +444,14 @@ export function operationReturnType({
 
   // TODO: contract (?)
   const queryType = (role: 'response' | 'responses' | 'error' | 'errors') =>
-    plugin.querySymbol({
-      category: 'type',
-      resource: 'operation',
-      resourceId: operation.id,
-      role,
-    }) ?? 'unknown';
+    (role === 'response' || role === 'responses'
+      ? operationResponseType({ operation, plugin, role })
+      : plugin.querySymbol({
+          category: 'type',
+          resource: 'operation',
+          resourceId: operation.id,
+          role,
+        })) ?? 'unknown';
 
   const requestResult = $.type(plugin.imports.RequestResult);
   const sseResult = $.type(plugin.imports.ServerSentEventsResult);

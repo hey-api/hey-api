@@ -51,6 +51,19 @@ describe(`OpenAPI ${version}`, () => {
       }),
       description: 'SSE POST endpoint is excluded from TanStack React Query mutations',
     },
+    {
+      config: createConfig({
+        input: 'type-format.yaml',
+        output: 'zod-transformer-output',
+        plugins: [
+          '@hey-api/client-fetch',
+          { compatibilityVersion: 4, name: 'zod' },
+          { name: '@hey-api/sdk', transformer: 'zod' },
+          '@tanstack/react-query',
+        ],
+      }),
+      description: 'uses Zod transformer output types in TanStack Query mutations',
+    },
   ];
 
   it.each(scenarios)('$description', async ({ config }) => {

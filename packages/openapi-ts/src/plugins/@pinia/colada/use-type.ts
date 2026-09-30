@@ -4,6 +4,7 @@ import { getTypedConfig } from '../../../config/utils';
 import { $ } from '../../../ts-dsl';
 import { getClientPlugin } from '../../@hey-api/client-core/utils';
 import { operationOptionsType } from '../../@hey-api/sdk/shared/operation';
+import { operationResponseType } from '../../@hey-api/sdk/shared/response-type';
 import type { PiniaColadaPlugin } from './types';
 
 export const useTypeData = ({
@@ -47,12 +48,6 @@ export const useTypeResponse = ({
   operation: IR.OperationObject;
   plugin: PiniaColadaPlugin['Instance'];
 }): ReturnType<typeof $.type> => {
-  // TODO: contract (?)
-  const symbolResponseType = plugin.querySymbol({
-    category: 'type',
-    resource: 'operation',
-    resourceId: operation.id,
-    role: 'response',
-  });
+  const symbolResponseType = operationResponseType({ operation, plugin, role: 'response' });
   return $.type(symbolResponseType ?? 'unknown');
 };

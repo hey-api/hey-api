@@ -1,3 +1,4 @@
+import { registerResponseTransformer } from './response-type';
 import { createResponseTransformer } from './transformer';
 import type { ResponseHandlers, ValidatorArgs } from './types';
 import { createResponseValidator } from './validator';
@@ -23,5 +24,6 @@ export function createResponseHandlers({ operation, plugin }: ValidatorArgs): Re
       validator: createResponseValidator({ operation, plugin }),
     };
   }
+  registerResponseTransformer({ operation, plugin }, handlers);
   return handlers;
 }

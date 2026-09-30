@@ -242,6 +242,53 @@ for (const zodVersion of zodVersions) {
         }),
         description: 'handles various schema types and formats',
       },
+      ...(zodVersion.compatibilityVersion === 4
+        ? [
+            {
+              config: createConfig({
+                input: 'response-transformer-output.yaml',
+                output: 'transformer-output',
+                plugins: [
+                  { compatibilityVersion: 4, name: 'zod' },
+                  { name: '@hey-api/sdk', transformer: 'zod' },
+                ],
+              }),
+              description: 'uses transformed response types and preserves error types',
+            },
+            {
+              config: createConfig({
+                input: 'response-transformer-output.yaml',
+                output: 'validator-output',
+                plugins: [
+                  { compatibilityVersion: 4, name: 'zod' },
+                  { name: '@hey-api/sdk', validator: { response: 'zod' } },
+                ],
+              }),
+              description: 'preserves response types when only validation is enabled',
+            },
+            {
+              config: createConfig({
+                input: 'response-transformer-output.yaml',
+                output: 'transformer-custom-output',
+                plugins: [
+                  {
+                    $resolvers: {
+                      validator: {
+                        response({ $ }) {
+                          return $.stmt($.return($('String').call('data').attr('length')));
+                        },
+                      },
+                    },
+                    compatibilityVersion: 4,
+                    name: 'zod',
+                  },
+                  { name: '@hey-api/sdk', transformer: 'zod' },
+                ],
+              }),
+              description: 'infers the custom response transformer return type',
+            },
+          ]
+        : []),
     ];
 
     it.each(scenarios)('$description', async ({ config }) => {

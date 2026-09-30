@@ -4,7 +4,7 @@ import { z } from 'zod/v3';
 
 import type { Client, ClientMeta, Options as Options2, RequestResult, TDataShape } from './client';
 import { client } from './client.gen';
-import type { PostFooData, PostFooResponses } from './types.gen';
+import type { PostFooData } from './types.gen';
 import { zPostFooResponse } from './zod.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
@@ -21,13 +21,21 @@ export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends 
   meta?: keyof ClientMeta extends never ? Record<string, unknown> : ClientMeta;
 };
 
-export const postFoo = <ThrowOnError extends boolean = false>(options?: Options<PostFooData, ThrowOnError>): RequestResult<PostFooResponses, unknown, ThrowOnError> => (options?.client ?? client).post<PostFooResponses, unknown, ThrowOnError>({
+const postFooResponseTransformer = async (data: unknown) => await zPostFooResponse.parseAsync(data);
+
+type PostFooTransformedResponses = {
+  200: Awaited<ReturnType<typeof postFooResponseTransformer>>;
+};
+
+export type PostFooTransformedResponse = PostFooTransformedResponses[keyof PostFooTransformedResponses];
+
+export const postFoo = <ThrowOnError extends boolean = false>(options?: Options<PostFooData, ThrowOnError>): RequestResult<PostFooTransformedResponses, unknown, ThrowOnError> => (options?.client ?? client).post<PostFooTransformedResponses, unknown, ThrowOnError>({
   requestValidator: async (data) => await z.object({
     body: z.never().optional(),
     path: z.never().optional(),
     query: z.never().optional()
   }).parseAsync(data),
-  responseTransformer: async (data) => await zPostFooResponse.parseAsync(data),
+  responseTransformer: postFooResponseTransformer,
   url: '/foo',
   ...options
 });
