@@ -126,6 +126,35 @@ export type UserConfig = Plugin.Name<'@hey-api/typescript'> &
           name?: NameTransformer;
         };
     /**
+     * Configuration for the operations index type. When enabled, a single
+     * type keyed by operation ID is exported, referencing each operation's
+     * request, response, and error types.
+     *
+     * Can be:
+     * - `boolean`: Shorthand for `{ enabled: boolean }`
+     * - `string`: Shorthand for `{ enabled: true, name: string }`
+     * - `object`: Full configuration object
+     *
+     * @default false
+     */
+    operations?:
+      | boolean
+      | string
+      | {
+          /**
+           * Whether to generate the operations index type.
+           *
+           * @default false
+           */
+          enabled?: boolean;
+          /**
+           * Name of the generated type.
+           *
+           * @default 'Operations'
+           */
+          name?: string;
+        };
+    /**
      * Configuration for request-specific types.
      *
      * Controls generation of types for request bodies, query parameters, path
@@ -295,6 +324,19 @@ export type Config = Plugin.Name<'@hey-api/typescript'> &
        * Naming pattern for generated names.
        */
       error: NameTransformer;
+    };
+    /**
+     * Configuration for the operations index type. When enabled, a single
+     * type keyed by operation ID is exported, referencing each operation's
+     * request, response, and error types.
+     */
+    operations: FeatureToggle & {
+      /**
+       * Name of the generated type.
+       *
+       * @default 'Operations'
+       */
+      name: string;
     };
     /**
      * Configuration for request-specific types.

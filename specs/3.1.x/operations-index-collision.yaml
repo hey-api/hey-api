@@ -1,0 +1,22 @@
+openapi: 3.1.0
+info:
+  title: OpenAPI 3.1.0 operations index name collision example
+  version: '1'
+paths:
+  /ping:
+    get:
+      operationId: getPing
+      responses:
+        '200':
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Operations'
+          description: OK
+components:
+  schemas:
+    Operations:
+      properties:
+        name:
+          type: string
+      type: object

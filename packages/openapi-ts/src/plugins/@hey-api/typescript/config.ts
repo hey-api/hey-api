@@ -34,6 +34,14 @@ export const defaultConfig: HeyApiTypeScriptPlugin['Config'] = {
       name: '{{name}}Errors',
     },
     includeInEntry: true,
+    operations: {
+      $coerceAny: ({ type, value }) => ({
+        enabled: Boolean(value),
+        ...(type === 'string' ? { name: value } : {}),
+      }),
+      enabled: false,
+      name: 'Operations',
+    },
     requests: {
       $coerceAny: ({ type, value }) => ({
         ...(type === 'string' || type === 'function' ? { name: value } : {}),

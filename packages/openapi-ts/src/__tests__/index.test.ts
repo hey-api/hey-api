@@ -325,4 +325,95 @@ describe('createClient', () => {
 
     expect(results.length).toBeGreaterThanOrEqual(1);
   });
+
+  const pingSpec = {
+    info: { title: 'ping-test', version: '1.0.0' },
+    openapi: '3.1.0',
+    paths: {
+      '/ping': {
+        get: {
+          operationId: 'getPing',
+          responses: {
+            200: {
+              content: {
+                'application/json': {
+                  schema: {
+                    properties: { pong: { type: 'string' } },
+                    type: 'object',
+                  },
+                },
+              },
+              description: 'ok',
+            },
+          },
+        },
+        post: {
+          operationId: 'postPing',
+          requestBody: {
+            content: {
+              'application/json': {
+                schema: { type: 'string' },
+              },
+            },
+            required: true,
+          },
+          responses: {
+            200: {
+              content: {
+                'application/json': {
+                  schema: {
+                    properties: { pong: { type: 'string' } },
+                    type: 'object',
+                  },
+                },
+              },
+              description: 'ok',
+            },
+          },
+        },
+      },
+    },
+  };
+
+  const renderFile = (results: Awaited<ReturnType<typeof createClient>>, fileName: string) =>
+    results[0]!.gen.render().find((file) => file.path.endsWith(fileName))?.content ?? '';
+
+  it('emits operations index type when operations is enabled', async () => {
+    const results = await createClient({
+      dryRun: true,
+      input: pingSpec,
+      logs: { level: 'silent' },
+      output: 'out',
+      plugins: [{ name: '@hey-api/typescript', operations: true }],
+    });
+
+    const types = renderFile(results, 'types.gen.ts');
+    expect(types).toContain('export type Operations = {');
+    expect(types).toContain('getPing: {');
+    expect(types).toContain('postPing: {');
+  });
+
+  it('renames operations index type via string shorthand', async () => {
+    const results = await createClient({
+      dryRun: true,
+      input: pingSpec,
+      logs: { level: 'silent' },
+      output: 'out',
+      plugins: [{ name: '@hey-api/typescript', operations: 'MyOperations' }],
+    });
+
+    expect(renderFile(results, 'types.gen.ts')).toContain('export type MyOperations = {');
+  });
+
+  it('omits operations index type by default', async () => {
+    const results = await createClient({
+      dryRun: true,
+      input: pingSpec,
+      logs: { level: 'silent' },
+      output: 'out',
+      plugins: ['@hey-api/typescript'],
+    });
+
+    expect(renderFile(results, 'types.gen.ts')).not.toContain('Operations');
+  });
 });
