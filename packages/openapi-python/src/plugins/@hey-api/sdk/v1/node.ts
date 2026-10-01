@@ -138,15 +138,14 @@ function implementFn<T extends ReturnType<typeof $.method>>(args: {
           $.var('params').assign(
             $(plugin.imports.buildClientParams).call(
               fieldsList,
-              ...paramNames.map((name) => $.kwarg(name, name)),
+              ...paramNames.map((name) => $.kwarg(name, $(name))),
             ),
           ),
         )
         .do(
           $('self')
-            .attr('client')
-            .attr(method)
-            .call($.literal(operation.path), $.kwarg('params', $('params') as never))
+            .attr('request_options')
+            .call($.literal(method), $.literal(operation.path), $('params'))
             .return(),
         ) as T
     );

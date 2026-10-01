@@ -17,6 +17,7 @@ export const defaultConfig: HeyApiSdkPlugin['Config'] = {
       }
       return value;
     }),
+    clientParameters: [],
     comments: true,
     examples: {
       $coerceAny: ({ value }) => ({ enabled: Boolean(value) }),

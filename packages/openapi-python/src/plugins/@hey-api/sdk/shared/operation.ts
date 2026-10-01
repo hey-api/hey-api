@@ -77,7 +77,7 @@ export function operationParameters({
   };
 
   if (plugin.config.paramsStructure === 'flat') {
-    const signature = getSignatureParameters({ operation });
+    const signature = getSignatureParameters({ operation, plugin });
     if (!signature) return result;
 
     result.bodyRef = signature.bodyRef;

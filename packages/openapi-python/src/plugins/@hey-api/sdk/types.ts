@@ -22,6 +22,28 @@ export type UserConfig = Plugin.Name<'@hey-api/python-sdk'> &
      */
     client?: PluginClientNames | boolean;
     /**
+     * Parameters the client can supply, named as the spec names them.
+     *
+     * An API that declares the same parameter on every operation, such as a
+     * header identifying the caller, otherwise requires it on every call even
+     * though its value is set once on the client. Listing it here makes it
+     * optional, so a caller passes it to override the client and otherwise
+     * leaves the client to carry it, e.g. `Client(headers={'Actor-Id': ...})`
+     * or `Client(params={'tenant': ...})`.
+     *
+     * A header is matched without regard to case, as HTTP defines it. A path
+     * parameter stays required, since its value belongs to one call's URL and
+     * the client has nothing to put in the placeholder. A body property is
+     * unaffected.
+     *
+     * Applies to `paramsStructure: 'flat'`. Under `'grouped'` a parameter
+     * belongs to a model the pydantic plugin generates, which this option
+     * does not reach.
+     *
+     * @default []
+     */
+    clientParameters?: ReadonlyArray<string>;
+    /**
      * Generate code examples for SDK operations and attach them to the
      * input source (e.g., via `x-codeSamples`).
      *
@@ -73,6 +95,8 @@ export type Config = Plugin.Name<'@hey-api/python-sdk'> &
      * @default true
      */
     client: PluginClientNames | false;
+    /** Parameters the client can supply, named as the spec names them. */
+    clientParameters: ReadonlyArray<string>;
     /**
      * Configuration for generating SDK code examples.
      */

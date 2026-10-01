@@ -1,0 +1,112 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Python SDK client parameters",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/widgets/{widget_id}": {
+      "get": {
+        "operationId": "get_widget",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/actor"
+          },
+          {
+            "in": "path",
+            "name": "widget_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/widgets": {
+      "get": {
+        "operationId": "list_widgets",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/actor"
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "tenant",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/widgets/actor-only": {
+      "get": {
+        "operationId": "count_widgets",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/actor"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/tenants/{tenant}/widgets": {
+      "get": {
+        "operationId": "list_tenant_widgets",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/actor"
+          },
+          {
+            "in": "path",
+            "name": "tenant",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "actor": {
+        "name": "Actor-Id",
+        "in": "header",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
