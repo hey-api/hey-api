@@ -34,7 +34,7 @@ export function parseV3_1_X(context: Context<OpenAPIV3_1.Document>): void {
   if (shouldFilterSpec) {
     const filters = createFilters(context.config.parser.filters, context.spec, context.logger);
     const { graph } = buildGraph(context.spec, context.logger);
-    const { resourceMetadata } = buildResourceMetadata(graph, context.logger);
+    const { resourceMetadata } = buildResourceMetadata(graph, context.logger, context.spec.openapi);
     const sets = createFilteredDependencies({
       filters,
       logger: context.logger,

@@ -147,13 +147,15 @@ export const createClient = (config: Config = {}): Client => {
       const fetchOptions = {
         ...opts,
         ...asyncDataOptions,
-        // Nuxt's method union does not include OpenAPI 3.2's QUERY method yet,
-        // but the underlying fetch implementation accepts arbitrary methods.
-        method: opts.method as any,
       };
-      return composable === 'useLazyFetch'
-        ? useLazyFetch(() => buildUrl(opts), fetchOptions)
-        : useFetch(() => buildUrl(opts), fetchOptions);
+      // Nuxt's method union does not include OpenAPI 3.2's QUERY method yet,
+      // but the underlying fetch implementation accepts arbitrary methods.
+      if (composable === 'useLazyFetch') {
+        // @ts-expect-error
+        return useLazyFetch(() => buildUrl(opts), fetchOptions);
+      }
+      // @ts-expect-error
+      return useFetch(() => buildUrl(opts), fetchOptions);
     }
 
     const handler: any = () =>

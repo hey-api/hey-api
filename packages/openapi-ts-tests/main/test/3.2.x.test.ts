@@ -10,17 +10,39 @@ const version = '3.2.x';
 const outputDir = path.join(import.meta.dirname, 'generated', version);
 
 describe(`OpenAPI ${version}`, () => {
-  const createConfig = (userConfig: UserConfig) =>
-    ({
+  const createConfig = (userConfig: UserConfig) => {
+    const input = userConfig.input instanceof Array ? userConfig.input[0] : userConfig.input;
+    const inputPath = path.join(
+      getSpecsPath(),
+      version,
+      typeof input === 'string' ? input : ((input?.path as string) ?? ''),
+    );
+    const output = userConfig.output instanceof Array ? userConfig.output[0] : userConfig.output;
+    const outputPath = path.join(
+      outputDir,
+      typeof output === 'string' ? output : ((output?.path as string) ?? ''),
+    );
+    const nameConflictResolver =
+      typeof output === 'string' ? undefined : output?.nameConflictResolver;
+    return {
+      plugins: ['@hey-api/typescript'],
       ...userConfig,
-      input: path.join(getSpecsPath(), version, userConfig.input as string),
+      input:
+        typeof userConfig.input === 'string'
+          ? inputPath
+          : {
+              ...userConfig.input,
+              path: inputPath,
+            },
       logs: {
         level: 'silent',
       },
       output: {
-        path: path.join(outputDir, userConfig.output as string),
+        nameConflictResolver,
+        path: outputPath,
       },
-    }) as const satisfies UserConfig;
+    } as const satisfies UserConfig;
+  };
 
   const scenarios = [
     {

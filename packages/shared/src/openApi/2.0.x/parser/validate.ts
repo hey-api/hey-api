@@ -2,7 +2,7 @@ import type { Logger } from '@hey-api/codegen-core';
 import type { OpenAPIV2 } from '@hey-api/spec-types';
 
 import { createOperationKey } from '../../../ir/operation';
-import { httpMethods } from '../../../openApi/shared/utils/operation';
+import { legacyHttpMethods } from '../../../openApi/shared/utils/operation';
 import type { ValidatorIssue, ValidatorResult } from '../../../openApi/shared/utils/validator';
 
 export function validateOpenApiSpec(spec: OpenAPIV2.Document, logger: Logger): ValidatorResult {
@@ -14,8 +14,8 @@ export function validateOpenApiSpec(spec: OpenAPIV2.Document, logger: Logger): V
     for (const entry of Object.entries(spec.paths)) {
       const path = entry[0] as keyof OpenAPIV2.PathsObject;
       const pathItem = entry[1] as OpenAPIV2.PathItemObject;
-      for (const method of httpMethods) {
-        if (method === 'query' || method === 'trace') {
+      for (const method of legacyHttpMethods) {
+        if (method === 'trace') {
           continue;
         }
 

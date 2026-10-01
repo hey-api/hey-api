@@ -109,3 +109,21 @@ describe('zero-length body handling', () => {
     expect(result.data).toBeDefined();
   });
 });
+
+describe('HTTP QUERY requests', () => {
+  it('sends a QUERY request', async () => {
+    const client = createClient({ baseUrl: 'https://example.com' });
+    const mockFetch = vi.fn().mockResolvedValue(
+      new Response(null, {
+        status: 204,
+      }),
+    );
+
+    const result = await client.query({
+      fetch: mockFetch,
+      url: '/search',
+    });
+
+    expect(result.request.method).toBe('QUERY');
+  });
+});

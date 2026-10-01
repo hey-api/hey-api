@@ -303,18 +303,21 @@ export class $RefParser {
 
     const merged: any = {};
 
-    // Determine spec version: prefer first occurrence of openapi, else swagger
+    // Use the newest OpenAPI dialect so operations from newer inputs remain valid.
     let chosenOpenapi: string | undefined;
     let chosenSwagger: string | undefined;
     for (const s of schemas) {
-      if (!chosenOpenapi && s && typeof (s as any).openapi === 'string') {
-        chosenOpenapi = (s as any).openapi;
+      if (s && typeof (s as any).openapi === 'string') {
+        const version = (s as any).openapi as string;
+        if (
+          !chosenOpenapi ||
+          version.localeCompare(chosenOpenapi, undefined, { numeric: true }) > 0
+        ) {
+          chosenOpenapi = version;
+        }
       }
       if (!chosenSwagger && s && typeof (s as any).swagger === 'string') {
         chosenSwagger = (s as any).swagger;
-      }
-      if (chosenOpenapi && chosenSwagger) {
-        break;
       }
     }
     if (typeof chosenOpenapi === 'string') {
@@ -558,19 +561,21 @@ export class $RefParser {
         'put',
         'trace',
       ]);
+      const [openApiMajor = 0, openApiMinor = 0] = String(schema.openapi).split('.').map(Number);
+      if (openApiMajor > 3 || (openApiMajor === 3 && openApiMinor >= 2)) {
+        HTTP_METHODS.add('query');
+      }
 
       const srcPaths = (schema.paths || {}) as Record<string, any>;
       for (const [p, item] of Object.entries(srcPaths)) {
+        const rewritten = cloneAndRewrite(item, refMap, tagMap, prefix, url.stripHash(sourcePath));
+        if (!HTTP_METHODS.has('query')) {
+          delete rewritten.query;
+        }
+
         if (merged.paths[p]) {
           const newMethods = Object.keys(item as object).filter((k) => HTTP_METHODS.has(k));
           const hasMethodConflict = newMethods.some((m) => merged.paths[p][m] !== undefined);
-          const rewritten = cloneAndRewrite(
-            item,
-            refMap,
-            tagMap,
-            prefix,
-            url.stripHash(sourcePath),
-          );
           if (hasMethodConflict) {
             const trimmed = p.startsWith('/') ? p.substring(1) : p;
             merged.paths[`/${prefix}/${trimmed}`] = rewritten;
@@ -578,13 +583,7 @@ export class $RefParser {
             Object.assign(merged.paths[p], rewritten);
           }
         } else {
-          merged.paths[p] = cloneAndRewrite(
-            item,
-            refMap,
-            tagMap,
-            prefix,
-            url.stripHash(sourcePath),
-          );
+          merged.paths[p] = rewritten;
         }
       }
     }

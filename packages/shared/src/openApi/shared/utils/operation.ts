@@ -1,9 +1,10 @@
+import { satisfies } from '../../../config/utils/dependencies';
 import type { Context } from '../../../ir/context';
 import { createOperationKey } from '../../../ir/operation';
 import { toCase } from '../../../utils/naming/naming';
 import type { State } from '../types/state';
 
-export const httpMethods = [
+export const legacyHttpMethods = [
   'delete',
   'get',
   'head',
@@ -11,9 +12,14 @@ export const httpMethods = [
   'patch',
   'post',
   'put',
-  'query',
   'trace',
 ] as const;
+
+export const httpMethods = [...legacyHttpMethods.slice(0, -1), 'query', 'trace'] as const;
+
+export function getHttpMethods(version: string): typeof httpMethods | typeof legacyHttpMethods {
+  return satisfies(version, '>=3.2.0') ? httpMethods : legacyHttpMethods;
+}
 
 /**
  * Sanitizes namespace identifiers so they are valid TypeScript identifiers of a certain form.

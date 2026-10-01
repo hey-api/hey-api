@@ -1,13 +1,14 @@
 import type { Logger } from '@hey-api/codegen-core';
+import type { OpenAPIV3_1 } from '@hey-api/spec-types';
 
 import type { ResourceMetadata } from '../../graph/meta';
-import { createFilteredDependencies, type Filters } from '../filter';
+import { createFilteredDependencies, createFilters, type Filters } from '../filter';
 
 const loggerStub = {
   timeEvent: () => ({ timeEnd: () => {} }),
 } as unknown as Logger;
 
-function createFilters(): Filters {
+function createFiltersState(): Filters {
   return {
     deprecated: true,
     operations: {
@@ -91,7 +92,7 @@ function createResourceMetadata(): ResourceMetadata {
 
 describe('createFilteredDependencies', () => {
   it('preserves schema order from resourceMetadata when no filters are applied', () => {
-    const filters = createFilters();
+    const filters = createFiltersState();
     filters.orphans = true;
 
     const resourceMetadata = createResourceMetadata();
@@ -111,7 +112,7 @@ describe('createFilteredDependencies', () => {
   });
 
   it('preserves operation order when tags.exclude filters out some operations', () => {
-    const filters = createFilters();
+    const filters = createFiltersState();
     filters.tags.exclude.add('exclude-me');
 
     const resourceMetadata = createResourceMetadata();
@@ -136,7 +137,7 @@ describe('createFilteredDependencies', () => {
   });
 
   it('keeps explicitly included schemas and their dependencies when dropping orphans', () => {
-    const filters = createFilters();
+    const filters = createFiltersState();
     filters.schemas.include.add('schema/Foo');
 
     const { schemas } = createFilteredDependencies({
@@ -149,7 +150,7 @@ describe('createFilteredDependencies', () => {
   });
 
   it('keeps explicitly included request bodies and their schema dependencies when dropping orphans', () => {
-    const filters = createFilters();
+    const filters = createFiltersState();
     filters.requestBodies.include.add('body/IncludedBody');
 
     const { requestBodies, schemas } = createFilteredDependencies({
@@ -163,7 +164,7 @@ describe('createFilteredDependencies', () => {
   });
 
   it('keeps non-deprecated operations that transitively reference deprecated schemas', () => {
-    const filters = createFilters();
+    const filters = createFiltersState();
     filters.deprecated = false;
 
     const resourceMetadata = createResourceMetadata();
@@ -191,7 +192,7 @@ describe('createFilteredDependencies', () => {
   });
 
   it('prioritizes excludes when the same schema is explicitly included and excluded', () => {
-    const filters = createFilters();
+    const filters = createFiltersState();
     filters.schemas.include.add('schema/Foo');
     filters.schemas.exclude.add('schema/Foo');
 
@@ -202,5 +203,39 @@ describe('createFilteredDependencies', () => {
     });
 
     expect(schemas).toEqual(new Set());
+  });
+});
+
+describe('createFilters', () => {
+  const createSpec = (openapi: OpenAPIV3_1.Document['openapi']): OpenAPIV3_1.Document => ({
+    info: { title: 'Test', version: '1' },
+    openapi,
+    paths: {
+      '/search': {
+        query: {
+          responses: {},
+        },
+      },
+    },
+  });
+
+  it('ignores QUERY operations before OpenAPI 3.2', () => {
+    const filters = createFilters(
+      { operations: { include: ['/QUERY/'] } },
+      createSpec('3.1.0'),
+      loggerStub,
+    );
+
+    expect(filters.operations.include).toEqual(new Set());
+  });
+
+  it('collects QUERY operations in OpenAPI 3.2', () => {
+    const filters = createFilters(
+      { operations: { include: ['/QUERY/'] } },
+      createSpec('3.2.0'),
+      loggerStub,
+    );
+
+    expect(filters.operations.include).toEqual(new Set(['operation/QUERY /search']));
   });
 });
