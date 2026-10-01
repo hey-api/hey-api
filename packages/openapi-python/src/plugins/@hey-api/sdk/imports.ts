@@ -9,6 +9,12 @@ export function sdkImports(plugin: PluginInstance) {
   const factory = plugin.symbolFactory;
 
   return {
+    AsyncClient: factory.register('AsyncClient', {
+      external: clientModule,
+      meta: {
+        resource: 'client.AsyncClient',
+      },
+    }),
     Client: factory.register('Client', {
       external: clientModule,
       meta: {

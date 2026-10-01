@@ -12,6 +12,7 @@ const outputDir = path.join(getTempSnapshotsPath(), namespace);
 const snapshotsDir = path.join(getSnapshotsPath(), namespace);
 
 const specPath = path.join(getSpecsPath(), '3.1.x', 'opencode.yaml');
+const asyncSpecPath = path.join(getSpecsPath(), '3.1.x', 'python-async.json');
 
 describe(`Python SDK: ${namespace}`, () => {
   const createConfig = createSdkConfig({
@@ -26,6 +27,18 @@ describe(`Python SDK: ${namespace}`, () => {
         plugins: ['@hey-api/python-sdk'],
       }),
       description: 'default',
+    },
+    {
+      config: createConfig({
+        input: asyncSpecPath,
+        output: 'async',
+        plugins: [
+          'pydantic',
+          { asyncMode: true, name: '@hey-api/client-httpx' },
+          '@hey-api/python-sdk',
+        ],
+      }),
+      description: 'async client-httpx',
     },
   ];
 
