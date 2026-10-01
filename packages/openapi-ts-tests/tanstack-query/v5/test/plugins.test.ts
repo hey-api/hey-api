@@ -197,6 +197,21 @@ for (const version of versions) {
       {
         config: createConfig({
           input: 'full.yaml',
+          output: 'response-style-fields',
+          plugins: [
+            {
+              name: '@tanstack/react-query',
+              responseStyle: 'fields',
+            },
+            '@hey-api/client-fetch',
+          ],
+        }),
+        description:
+          'generate Fetch API client with TanStack React Query plugin using responseStyle: fields',
+      },
+      {
+        config: createConfig({
+          input: 'full.yaml',
           output: 'full-config',
           plugins: [
             {
