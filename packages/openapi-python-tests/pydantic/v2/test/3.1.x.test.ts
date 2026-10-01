@@ -31,6 +31,13 @@ describe(`OpenAPI ${version}`, () => {
     },
     {
       config: createConfig({
+        input: 'python-enum-member-names.json',
+        output: 'python-enum-member-names',
+      }),
+      description: 'Python enum member names',
+    },
+    {
+      config: createConfig({
         input: 'discriminator-all-of.yaml',
         output: 'discriminator-all-of',
       }),

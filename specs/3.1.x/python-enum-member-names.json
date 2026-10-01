@@ -1,0 +1,20 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Python enum member names",
+    "version": "1.0.0"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "Reaction": {
+        "type": "string",
+        "enum": ["+1", "-1", "1-10", "", "#tag", "foo@bar", "@", "🔥"]
+      },
+      "Magnitude": {
+        "type": "number",
+        "enum": [1e21]
+      }
+    }
+  }
+}

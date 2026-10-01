@@ -4,6 +4,7 @@ import { pathToJsonPointer, toCase } from '@hey-api/shared';
 
 import type { EnumMember } from '../../../../py-dsl';
 import { $ } from '../../../../py-dsl';
+import { safeRuntimeName } from '../../../../py-dsl/utils/name';
 import { $ as $$ } from '../../dsl';
 import type { EnumResolverContext } from '../../resolvers';
 import type { PydanticType } from '../../shared/types';
@@ -20,9 +21,10 @@ function toEnumMemberName(value: boolean | number | string): string {
     return toCase(String(value), 'SCREAMING_SNAKE_CASE');
   }
   if (typeof value === 'number') {
-    return `VALUE_${value}`.replace(/-/g, '_NEG_').replace(/\./g, '_DOT_');
+    return safeRuntimeName(`VALUE_${value}`.replace(/-/g, '_NEG_').replace(/\./g, '_DOT_'));
   }
-  return toCase(value, 'SCREAMING_SNAKE_CASE');
+  const name = toCase(value, 'SCREAMING_SNAKE_CASE');
+  return safeRuntimeName(/^[A-Z_]/.test(name) ? name : `VALUE_${name || 'EMPTY'}`);
 }
 
 function itemsNode(ctx: EnumResolverContext): {
