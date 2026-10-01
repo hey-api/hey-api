@@ -1,0 +1,136 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Python SDK multipart",
+    "version": "1.0.0"
+  },
+  "components": {
+    "schemas": {
+      "BinaryImage": { "type": "string", "format": "binary" },
+      "Tags": { "type": "array", "items": { "type": "string" } },
+      "UploadMetadata": {
+        "type": "object",
+        "required": ["label"],
+        "properties": { "label": { "type": "string" } }
+      },
+      "ImageUpload": {
+        "type": "object",
+        "required": ["image"],
+        "properties": {
+          "image": { "type": "string", "format": "binary" },
+          "caption": { "type": "string" }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/images": {
+      "post": {
+        "operationId": "upload_image",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": ["image"],
+                "properties": {
+                  "image": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "caption": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Uploaded"
+          }
+        }
+      }
+    },
+    "/images/ref": {
+      "post": {
+        "operationId": "upload_image_ref",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": { "$ref": "#/components/schemas/ImageUpload" }
+            }
+          }
+        },
+        "responses": { "204": { "description": "Uploaded" } }
+      }
+    },
+    "/images/batch": {
+      "post": {
+        "operationId": "upload_images",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": ["images"],
+                "properties": {
+                  "images": {
+                    "type": "array",
+                    "items": { "$ref": "#/components/schemas/BinaryImage" }
+                  },
+                  "caption": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "204": { "description": "Uploaded" } }
+      }
+    },
+    "/fields": {
+      "post": {
+        "operationId": "upload_fields",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "count",
+                  "enabled",
+                  "metadata",
+                  "options",
+                  "tags",
+                  "counts",
+                  "flags",
+                  "records"
+                ],
+                "properties": {
+                  "count": { "type": "integer" },
+                  "enabled": { "type": "boolean" },
+                  "metadata": { "$ref": "#/components/schemas/UploadMetadata" },
+                  "options": { "type": "object", "additionalProperties": true },
+                  "tags": { "type": "array", "items": { "type": "string" } },
+                  "counts": { "type": "array", "items": { "type": "integer" } },
+                  "flags": { "type": "array", "items": { "type": "boolean" } },
+                  "records": {
+                    "type": "array",
+                    "items": { "type": "object", "additionalProperties": true }
+                  },
+                  "labels": { "$ref": "#/components/schemas/Tags" }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "204": { "description": "Sent" } }
+      }
+    }
+  }
+}

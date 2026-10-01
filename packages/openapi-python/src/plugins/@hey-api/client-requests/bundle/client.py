@@ -1,6 +1,8 @@
+import json
 from typing import Any, Optional
-import httpx
+from urllib.parse import quote
 
+import httpx
 
 EXTRA_PREFIXES_MAP = {
     "$body_": "json",
@@ -10,15 +12,15 @@ EXTRA_PREFIXES_MAP = {
 }
 
 
-def build_client_params(fields: list[dict[str, Any]], **kwargs) -> dict[str, Any]:
+def build_client_params(fields: list[dict[str, Any]], /, **kwargs) -> dict[str, Any]:
     """Build client parameters from flat keyword arguments.
 
     Args:
-        fields: List of field configurations with 'in', 'key', and optional 'map'.
+        fields: List of field configurations with 'in', 'key', optional 'map', 'array' and 'binary'.
         **kwargs: Flat parameters passed to the SDK method.
 
     Returns:
-        Dict suitable for httpx client methods: {params: {...}, headers: {...}, json: Any}
+        Dict suitable for httpx client methods, including multipart files when needed.
     """
     result: dict[str, Any] = {}
 
@@ -29,6 +31,8 @@ def build_client_params(fields: list[dict[str, Any]], **kwargs) -> dict[str, Any
             key_map[key] = {
                 "in": field.get("in"),
                 "map": field.get("map", key),
+                "array": field.get("array", False),
+                "binary": field.get("binary", False),
             }
 
     for key, value in kwargs.items():
@@ -40,9 +44,22 @@ def build_client_params(fields: list[dict[str, Any]], **kwargs) -> dict[str, Any
         if field:
             in_slot = field["in"]
             map_key = field["map"]
-            slot = "json" if in_slot == "body" else in_slot
+            if in_slot == "multipart":
+                files = result.setdefault("files", [])
+                if not field["binary"] and hasattr(value, "model_dump"):
+                    value = value.model_dump(mode="json", by_alias=True)
+                values = value if field["array"] else [value]
+                for item in values:
+                    if not field["binary"]:
+                        if hasattr(item, "model_dump"):
+                            item = item.model_dump(mode="json", by_alias=True)
+                        if not isinstance(item, str):
+                            item = json.dumps(item, ensure_ascii=False, separators=(",", ":"))
+                    files.append((map_key, (map_key if field["binary"] else None, item)))
+                continue
+            slot = {"body": "json", "query": "params"}.get(in_slot, in_slot)
 
-            if in_slot == "body":
+            if in_slot == "body" and map_key == "body":
                 result[slot] = value
             else:
                 if slot not in result:
@@ -61,8 +78,8 @@ def build_client_params(fields: list[dict[str, Any]], **kwargs) -> dict[str, Any
                     result["params"] = {}
                 result["params"][key] = value
 
-    for slot in list(result.keys()):
-        if not result[slot]:
+    for slot in ("headers", "params", "path"):
+        if slot in result and not result[slot]:
             del result[slot]
 
     return result
@@ -85,6 +102,25 @@ class BaseClient:
     def request(self, method: str, url: str, **kwargs) -> httpx.Response:
         """Make an HTTP request."""
         return self._client.request(method, url, **kwargs)
+
+    def request_options(
+        self,
+        method: str,
+        url: str,
+        options: Optional[dict[str, Any]] = None,
+        **kwargs,
+    ) -> httpx.Response:
+        """Make a request after substituting path parameters and serializing Pydantic JSON bodies."""
+        request_options = dict(options or {})
+        path = request_options.pop("path", {})
+        for key, value in path.items():
+            url = url.replace(f"{{{key}}}", quote(str(value), safe=""))
+
+        body = request_options.get("json")
+        if hasattr(body, "model_dump"):
+            request_options["json"] = body.model_dump(mode="json", by_alias=True)
+
+        return self.request(method, url, **request_options, **kwargs)
 
     def get(self, url: str, **kwargs) -> httpx.Response:
         """Make a GET request."""

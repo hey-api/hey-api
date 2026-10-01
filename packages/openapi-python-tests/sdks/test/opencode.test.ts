@@ -1,3 +1,4 @@
+import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -12,6 +13,8 @@ const outputDir = path.join(getTempSnapshotsPath(), namespace);
 const snapshotsDir = path.join(getSnapshotsPath(), namespace);
 
 const specPath = path.join(getSpecsPath(), '3.1.x', 'opencode.yaml');
+const parametersSpecPath = path.join(getSpecsPath(), '3.1.x', 'python-parameters.json');
+const multipartSpecPath = path.join(getSpecsPath(), '3.1.x', 'python-multipart.json');
 
 describe(`Python SDK: ${namespace}`, () => {
   const createConfig = createSdkConfig({
@@ -26,6 +29,22 @@ describe(`Python SDK: ${namespace}`, () => {
         plugins: ['@hey-api/python-sdk'],
       }),
       description: 'default',
+    },
+    {
+      config: createConfig({
+        input: parametersSpecPath,
+        output: 'flat',
+        plugins: ['pydantic', { name: '@hey-api/python-sdk', paramsStructure: 'flat' }],
+      }),
+      description: 'flat parameters',
+    },
+    {
+      config: createConfig({
+        input: multipartSpecPath,
+        output: 'multipart',
+        plugins: ['pydantic', { name: '@hey-api/python-sdk', paramsStructure: 'flat' }],
+      }),
+      description: 'multipart',
     },
   ];
 
@@ -49,4 +68,25 @@ describe(`Python SDK: ${namespace}`, () => {
     },
     15_000,
   );
+
+  it('sends binary, scalar, object, and repeated parts as multipart', async () => {
+    const config = createConfig({
+      input: multipartSpecPath,
+      output: 'multipart_runtime',
+      plugins: ['pydantic', { name: '@hey-api/python-sdk', paramsStructure: 'flat' }],
+    });
+    await createClient(config);
+
+    execFileSync(
+      'uv',
+      [
+        'run',
+        '--locked',
+        'python',
+        path.join(import.meta.dirname, 'multipart-runtime.py'),
+        outputDir,
+      ],
+      { cwd: path.resolve(import.meta.dirname, '../../../..') },
+    );
+  }, 30_000);
 });

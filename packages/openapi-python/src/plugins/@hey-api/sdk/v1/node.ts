@@ -124,6 +124,12 @@ function implementFn<T extends ReturnType<typeof $.method>>(args: {
       const fieldDict = $.dict();
       fieldDict.entry($.literal('in'), $.literal(field.in));
       fieldDict.entry($.literal('key'), $.literal(field.key));
+      if (field.array) {
+        fieldDict.entry($.literal('array'), $.literal(true));
+      }
+      if (field.binary) {
+        fieldDict.entry($.literal('binary'), $.literal(true));
+      }
       if (field.map) {
         fieldDict.entry($.literal('map'), $.literal(field.map));
       }
@@ -138,15 +144,14 @@ function implementFn<T extends ReturnType<typeof $.method>>(args: {
           $.var('params').assign(
             $(plugin.imports.buildClientParams).call(
               fieldsList,
-              ...paramNames.map((name) => $.kwarg(name, name)),
+              ...paramNames.map((name) => $.kwarg(name, $(name))),
             ),
           ),
         )
         .do(
           $('self')
-            .attr('client')
-            .attr(method)
-            .call($.literal(operation.path), $.kwarg('params', $('params') as never))
+            .attr('request_options')
+            .call($.literal(method), $.literal(operation.path), $('params'))
             .return(),
         ) as T
     );

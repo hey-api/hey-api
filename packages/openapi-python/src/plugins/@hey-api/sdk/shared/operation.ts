@@ -8,6 +8,8 @@ import { getSignatureParameters } from './signature';
 type OperationParameters = {
   bodyRef?: string;
   fields: Array<{
+    array?: boolean;
+    binary?: boolean;
     in: string;
     key: string;
     map?: string;
@@ -27,8 +29,24 @@ const PYTHON_BUILTIN_TYPES: Record<string, string> = {
 function schemaToPythonType(
   schema: IR.SchemaObject,
   plugin: HeyApiSdkPlugin['Instance'],
+  multipart: boolean,
 ): ReturnType<typeof $.expr | typeof $.subscript> | Symbol {
   if (schema.$ref) {
+    if (multipart) {
+      const resolved = plugin.context.resolveIrRef<IR.SchemaObject>(schema.$ref);
+      const item = resolved.items?.[0];
+      const resolvedItem = item?.$ref
+        ? plugin.context.resolveIrRef<IR.SchemaObject>(item.$ref)
+        : item;
+      if (
+        (resolved.type === 'string' && resolved.format === 'binary') ||
+        (resolved.type === 'array' &&
+          resolvedItem?.type === 'string' &&
+          resolvedItem.format === 'binary')
+      ) {
+        return schemaToPythonType(resolved, plugin, multipart);
+      }
+    }
     // TODO: contract (?)
     return plugin.referenceSymbol({
       category: 'schema',
@@ -36,17 +54,22 @@ function schemaToPythonType(
     });
   }
 
+  // Other body formats still use json=, which cannot serialize bytes.
+  if (multipart && schema.type === 'string' && schema.format === 'binary') {
+    return $('bytes');
+  }
+
   if (schema.type === 'array') {
     const itemsSchema = schema.items?.[0];
     const itemType = itemsSchema
-      ? schemaToPythonType(itemsSchema, plugin)
+      ? schemaToPythonType(itemsSchema, plugin, multipart)
       : plugin.imports.typing.Any;
     return $('list').slice(itemType);
   }
 
   if (schema.type === 'object' || schema.additionalProperties) {
     if (schema.additionalProperties && typeof schema.additionalProperties === 'object') {
-      const valueType = schemaToPythonType(schema.additionalProperties, plugin);
+      const valueType = schemaToPythonType(schema.additionalProperties, plugin, multipart);
       return $('dict').slice('str', valueType);
     }
     return $('dict').slice('str', plugin.imports.typing.Any);
@@ -55,7 +78,7 @@ function schemaToPythonType(
   if (schema.type === 'tuple') {
     const itemsSchema = schema.items;
     const itemTypes = itemsSchema
-      ? itemsSchema.map((item) => schemaToPythonType(item, plugin))
+      ? itemsSchema.map((item) => schemaToPythonType(item, plugin, multipart))
       : [];
     return $('tuple').slice(...itemTypes);
   }
@@ -77,7 +100,11 @@ export function operationParameters({
   };
 
   if (plugin.config.paramsStructure === 'flat') {
-    const signature = getSignatureParameters({ operation });
+    const signature = getSignatureParameters({
+      operation,
+      resolveSchema: (schema) =>
+        schema.$ref ? plugin.context.resolveIrRef<IR.SchemaObject>(schema.$ref) : schema,
+    });
     if (!signature) return result;
 
     result.bodyRef = signature.bodyRef;
@@ -88,7 +115,11 @@ export function operationParameters({
     );
 
     for (const [paramName, param] of paramEntries) {
-      const type = schemaToPythonType(param.schema, plugin);
+      const type = schemaToPythonType(
+        param.schema,
+        plugin,
+        param.in === 'body' && operation.body?.type === 'form-data',
+      );
 
       if (param.isRequired) {
         result.parameters.push($.param(paramName).type(type));
