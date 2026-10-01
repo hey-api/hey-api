@@ -1,0 +1,18 @@
+openapi: 3.1.1
+info:
+  title: OpenAPI 3.1.1 sdk method container conflict example
+  version: 1
+paths:
+  /v1/widgets:
+    get:
+      operationId: widgets
+      summary: List Widgets
+      tags:
+        - widgets
+  /v1/widgets/gadgets:
+    get:
+      operationId: widgets.gadgets.list
+      summary: List Widget Gadgets
+      tags:
+        - widgets
+        - widgetGadgets

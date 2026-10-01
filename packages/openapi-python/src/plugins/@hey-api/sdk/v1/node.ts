@@ -61,13 +61,26 @@ function createFnSymbol(
 function childToNode(
   resource: StructureNode,
   plugin: HeyApiSdkPlugin['Instance'],
+  usedNames: Set<string>,
 ): ReadonlyArray<ReturnType<typeof $.method>> {
   // TODO: contract (self)
   const refChild = plugin.referenceSymbol(createShellMeta(resource));
-  const memberNameStr = toCase(
+  const originalMemberNameStr = toCase(
     refChild.name,
     plugin.config.operations.methodName.casing ?? 'camelCase',
   );
+  // avoid collisions with sibling operation methods of the same name
+  let memberNameStr = originalMemberNameStr;
+  if (usedNames.has(memberNameStr)) {
+    let index = 2;
+    let attempt = `${memberNameStr}${index}`;
+    while (usedNames.has(attempt)) {
+      index += 1;
+      attempt = `${memberNameStr}${index}`;
+    }
+    memberNameStr = attempt;
+  }
+  usedNames.add(memberNameStr);
   const memberName = plugin.symbol(memberNameStr);
 
   return [
@@ -185,6 +198,8 @@ export function toNode(
   const shell = model.shell.define(model);
   const node = shell.node as ReturnType<typeof $.class | typeof $.func>;
 
+  const memberNames = new Set<string>();
+
   let index = 0;
   for (const item of model.itemsFrom<OperationItem>(source)) {
     const { operation } = item.data;
@@ -192,8 +207,10 @@ export function toNode(
       // TODO: function?
     } else {
       if (index > 0 || node.hasBody) node.newline();
+      const fnSymbol = createFnSymbol(plugin, item);
+      memberNames.add(fnSymbol.name);
       const method = implementFn({
-        node: $.method(createFnSymbol(plugin, item), (m) =>
+        node: $.method(fnSymbol, (m) =>
           attachComment({
             node: m,
             operation,
@@ -214,7 +231,7 @@ export function toNode(
       // TODO: function?
     } else {
       if (node.hasBody) node.newline();
-      node.do(...childToNode(child, plugin));
+      node.do(...childToNode(child, plugin, memberNames));
     }
   }
 

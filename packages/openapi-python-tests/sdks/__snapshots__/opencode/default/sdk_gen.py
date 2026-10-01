@@ -437,7 +437,7 @@ class Vcs(Client):
         return self.client.post("/vcs/apply")
 
     @cached_property
-    def diff(self) -> Diff:
+    def diff2(self) -> Diff:
         return Diff(client=self.client)
 
 
