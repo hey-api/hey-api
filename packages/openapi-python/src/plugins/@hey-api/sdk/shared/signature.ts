@@ -1,6 +1,8 @@
 import type { IR } from '@hey-api/shared';
 import { refToName, toCase } from '@hey-api/shared';
 
+import { safeRuntimeName } from '../../../../py-dsl/utils/name';
+
 type Location = keyof IR.ParametersObject | 'body';
 
 type SignatureParameter = {
@@ -24,6 +26,15 @@ type Signature = {
   fields: Field[];
   parameters: SignatureParameters;
 };
+
+// `X-Foo` and `X_Foo` both convert to `x_foo`, so a taken name gets a suffix.
+function toPythonName(name: string, taken: SignatureParameters): string {
+  let pythonName = safeRuntimeName(toCase(name, 'snake_case'));
+  while (Object.hasOwn(taken, pythonName)) {
+    pythonName = `${pythonName}_`;
+  }
+  return pythonName;
+}
 
 export function getSignatureParameters({
   operation,
@@ -85,7 +96,10 @@ export function getSignatureParameters({
       for (const key in parameters) {
         const parameter = parameters[key]!;
         const originalName = parameter.name;
-        const name = conflicts.has(originalName) ? `${location}_${originalName}` : originalName;
+        const name = toPythonName(
+          conflicts.has(originalName) ? `${location}_${originalName}` : originalName,
+          signatureParameters,
+        );
         const signatureParameter: SignatureParameter = {
           in: location,
           isRequired: parameter.required ?? false,
@@ -117,7 +131,10 @@ export function getSignatureParameters({
       const properties = operation.body.schema.properties;
       for (const originalName in properties) {
         const property = properties[originalName]!;
-        const name = conflicts.has(originalName) ? `${location}_${originalName}` : originalName;
+        const name = toPythonName(
+          conflicts.has(originalName) ? `${location}_${originalName}` : originalName,
+          signatureParameters,
+        );
         const signatureParameter: SignatureParameter = {
           in: location,
           isRequired: operation.body.schema.required?.includes(originalName) ?? false,
@@ -137,7 +154,10 @@ export function getSignatureParameters({
     } else if (operation.body.schema.$ref) {
       const value = refToName(operation.body.schema.$ref);
       const originalName = toCase(value, 'snake_case');
-      const name = conflicts.has(originalName) ? `${location}_${originalName}` : originalName;
+      const name = toPythonName(
+        conflicts.has(originalName) ? `${location}_${originalName}` : originalName,
+        signatureParameters,
+      );
       bodyRef = toCase(value, 'PascalCase');
       const signatureParameter: SignatureParameter = {
         in: location,
