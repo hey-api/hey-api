@@ -2,15 +2,17 @@
 
 from typing import Any, Literal, TypeAlias, Union
 
-from pydantic import BaseModel, Field, RootModel
+from pydantic import BaseModel, ConfigDict, Field, RootModel
 
 
 class VehicleDto(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     type: str = Field(..., alias="$type")
     id: int
 
 
 class CarDto_(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     model_name: str = Field(..., alias="modelName")
     type: Literal["Car"] = Field(..., alias="$type")
 
@@ -19,6 +21,7 @@ CarDto: TypeAlias = Any
 
 
 class VolvoDto_(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     seatbelt_count: int = Field(..., alias="seatbeltCount")
     type: Literal["Volvo"] = Field(..., alias="$type")
 

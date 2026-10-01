@@ -2,16 +2,18 @@
 
 from typing import Any, Literal, TypeAlias, Union
 
-from pydantic import BaseModel, Field, RootModel
+from pydantic import BaseModel, ConfigDict, Field, RootModel
 
 
 class BlogPostDto(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     type: Literal["BlogPost"] = Field(..., alias="$type")
     id: int
     title: str
 
 
 class BlogPostWithImageDto_(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     image_url: str = Field(..., alias="imageUrl")
     type: Literal["BlogPostWithImage"] = Field(..., alias="$type")
 

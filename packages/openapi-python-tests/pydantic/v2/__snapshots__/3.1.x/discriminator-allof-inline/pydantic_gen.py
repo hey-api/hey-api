@@ -2,15 +2,17 @@
 
 from typing import Any, Literal, Optional, TypeAlias, Union
 
-from pydantic import BaseModel, Field, RootModel
+from pydantic import BaseModel, ConfigDict, Field, RootModel
 
 
 class Foo(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     type: str = Field(..., alias="$type")
     foo: Optional[str] = None
 
 
 class Bar_(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     type: Literal["FooBar"] = Field(..., alias="$type")
     bar: Optional[str] = None
 
@@ -19,6 +21,7 @@ Bar: TypeAlias = Any
 
 
 class Baz_(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     baz: Optional[str] = None
     type: Literal["FooBaz"] = Field(..., alias="$type")
 
@@ -27,6 +30,7 @@ Baz: TypeAlias = Any
 
 
 class Qux_(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     qux: Optional[str] = None
     type: Literal["BarQux"] = Field(..., alias="$type")
 

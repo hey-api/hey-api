@@ -2,14 +2,16 @@
 
 from typing import Annotated, Any, Literal, TypeAlias, Union
 
-from pydantic import BaseModel, Field, RootModel
+from pydantic import BaseModel, ConfigDict, Field, RootModel
 
 
 class AnimalPayload(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     type_discriminator: str = Field(..., alias="typeDiscriminator")
 
 
 class DogPayload_(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     breed: str
     can_fetch: bool = Field(..., alias="canFetch")
     display_breed: str = Field(..., alias="displayBreed")
@@ -20,6 +22,7 @@ DogPayload: TypeAlias = Any
 
 
 class CatPayload_(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     breed: str
     lives_remaining: int = Field(..., alias="livesRemaining")
     display_breed: str = Field(..., alias="displayBreed")
@@ -41,10 +44,12 @@ class CreatePetResponse(BaseModel):
 
 
 class AnimalPayloadWritable(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     type_discriminator: str = Field(..., alias="typeDiscriminator")
 
 
 class DogPayloadWritable_(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     breed: str
     can_fetch: bool = Field(..., alias="canFetch")
     type_discriminator: Literal["dog"] = Field(..., alias="typeDiscriminator")
@@ -54,6 +59,7 @@ DogPayloadWritable: TypeAlias = Any
 
 
 class CatPayloadWritable_(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     breed: str
     lives_remaining: int = Field(..., alias="livesRemaining")
     type_discriminator: Literal["cat"] = Field(..., alias="typeDiscriminator")

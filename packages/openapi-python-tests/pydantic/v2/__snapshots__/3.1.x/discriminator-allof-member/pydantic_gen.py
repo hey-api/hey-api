@@ -3,7 +3,7 @@
 from datetime import datetime
 from typing import Any, TypeAlias, Union
 
-from pydantic import BaseModel, Field, RootModel
+from pydantic import BaseModel, ConfigDict, Field, RootModel
 
 
 class UserNotificationDeleteContentBase(BaseModel):
@@ -11,6 +11,7 @@ class UserNotificationDeleteContentBase(BaseModel):
 
 
 class UserNotificationDeleteContentError_(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     finished_at: datetime = Field(..., alias="finishedAt")
     error: str
 
@@ -19,6 +20,7 @@ UserNotificationDeleteContentError: TypeAlias = Any
 
 
 class UserNotificationDeleteContentRunning_(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     started_at: datetime = Field(..., alias="startedAt")
 
 
@@ -26,6 +28,7 @@ UserNotificationDeleteContentRunning: TypeAlias = Any
 
 
 class UserNotificationDeleteContentSuccess_(BaseModel):
+    model_config = ConfigDict(populate_by_name=True)
     finished_at: datetime = Field(..., alias="finishedAt")
 
 
