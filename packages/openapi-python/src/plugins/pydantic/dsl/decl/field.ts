@@ -5,7 +5,7 @@ import type { py } from '../../../../py-compiler';
 import type { MaybePyDsl } from '../../../../py-dsl';
 import { $, KwargPyDsl, PyDsl } from '../../../../py-dsl';
 import { OptionalMixin } from '../../../../py-dsl/mixins/optional';
-import { safeKeywordName } from '../../../../py-dsl/utils/name';
+import { safeFieldName } from '../../../../py-dsl/utils/name';
 import type { PydanticPlugin } from '../../types';
 import type { PydanticConstrainedTypeDsl } from '../expr/constrained-type';
 import type { PydanticFieldConstraints } from '../expr/constraints';
@@ -39,7 +39,7 @@ export class PydanticFieldDsl extends Mixed {
     this.plugin = plugin;
 
     const snaked = applyNaming(this._wireName, { casing: 'snake_case' });
-    this._pythonName = safeKeywordName(snaked);
+    this._pythonName = safeFieldName(snaked);
     this.name.set(plugin.symbol(this._pythonName));
   }
 

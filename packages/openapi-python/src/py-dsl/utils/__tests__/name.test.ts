@@ -1,4 +1,4 @@
-import { safeRuntimeName } from '../name';
+import { safeFieldName, safeRuntimeName } from '../name';
 
 describe('safeRuntimeName', () => {
   const scenarios = [
@@ -24,5 +24,26 @@ describe('safeRuntimeName', () => {
 
   it.each(scenarios)('transforms $name -> $output', ({ name, output }) => {
     expect(safeRuntimeName(name)).toEqual(output);
+  });
+});
+
+describe('safeFieldName', () => {
+  const scenarios = [
+    // Pydantic rejects a leading underscore, so a prefix it accepts is used
+    { name: '2fa', output: 'field_2fa' },
+    { name: '123', output: 'field_123' },
+    { name: '$schema', output: 'field_schema' },
+
+    // A name already legal for a field is left as the identifier sanitizer made it
+    { name: 'foo', output: 'foo' },
+    { name: 'foo-bar', output: 'foo_bar' },
+    { name: 'class', output: 'class_' },
+
+    // A name the spec itself starts with an underscore keeps the prefix too
+    { name: '_private', output: 'field_private' },
+  ] as const;
+
+  it.each(scenarios)('transforms $name -> $output', ({ name, output }) => {
+    expect(safeFieldName(name)).toEqual(output);
   });
 });

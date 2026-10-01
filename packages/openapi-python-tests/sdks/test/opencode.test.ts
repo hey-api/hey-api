@@ -12,6 +12,7 @@ const outputDir = path.join(getTempSnapshotsPath(), namespace);
 const snapshotsDir = path.join(getSnapshotsPath(), namespace);
 
 const specPath = path.join(getSpecsPath(), '3.1.x', 'opencode.yaml');
+const fieldNamesSpecPath = path.join(getSpecsPath(), '3.1.x', 'python-field-names.json');
 
 describe(`Python SDK: ${namespace}`, () => {
   const createConfig = createSdkConfig({
@@ -26,6 +27,14 @@ describe(`Python SDK: ${namespace}`, () => {
         plugins: ['@hey-api/python-sdk'],
       }),
       description: 'default',
+    },
+    {
+      config: createConfig({
+        input: fieldNamesSpecPath,
+        output: 'field-names',
+        plugins: ['@hey-api/python-sdk'],
+      }),
+      description: 'field names',
     },
   ];
 

@@ -57,3 +57,17 @@ export function safeRuntimeName(name: string): string {
 export function safeKeywordName(name: string): string {
   return safeName(name, reserved.keywords);
 }
+
+/**
+ * A name Pydantic accepts as a field.
+ *
+ * Pydantic reserves a leading underscore for a private attribute and raises
+ * `NameError` while the class body executes, which aborts the import of the
+ * whole module. `safeKeywordName` prefixes an underscore when a name cannot
+ * start with its first character, such as a wire name beginning with a digit,
+ * so a field needs a prefix Pydantic accepts instead.
+ */
+export function safeFieldName(name: string): string {
+  const safe = safeKeywordName(name);
+  return safe.startsWith('_') ? `field${safe}` : safe;
+}
