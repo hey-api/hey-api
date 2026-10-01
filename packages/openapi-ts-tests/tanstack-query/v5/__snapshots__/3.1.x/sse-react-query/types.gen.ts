@@ -4,6 +4,24 @@ export type ClientOptions = {
   baseUrl: `${string}://${string}` | (string & {});
 };
 
+export type CreateEventData = {
+  body: {
+    name: string;
+  };
+  path?: never;
+  query?: never;
+  url: '/events';
+};
+
+export type CreateEventResponses = {
+  /**
+   * Created
+   */
+  201: string;
+};
+
+export type CreateEventResponse = CreateEventResponses[keyof CreateEventResponses];
+
 export type SubscribeToEventStreamData = {
   body?: never;
   path?: never;

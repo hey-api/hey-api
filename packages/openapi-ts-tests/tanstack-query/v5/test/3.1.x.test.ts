@@ -47,9 +47,16 @@ describe(`OpenAPI ${version}`, () => {
       config: createConfig({
         input: 'sse-post.yaml',
         output: 'sse-react-query',
-        plugins: ['@hey-api/client-fetch', '@tanstack/react-query'],
+        plugins: [
+          '@hey-api/client-fetch',
+          {
+            name: '@tanstack/react-query',
+            useMutation: true,
+          },
+        ],
       }),
-      description: 'SSE POST endpoint is excluded from TanStack React Query mutations',
+      description:
+        'generates mutation hooks for JSON POST endpoints and excludes SSE POST endpoints',
     },
   ];
 

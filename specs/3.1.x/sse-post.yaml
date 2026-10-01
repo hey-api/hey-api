@@ -3,6 +3,28 @@ info:
   title: SSE POST test
   version: 1.0.0
 paths:
+  /events:
+    post:
+      operationId: createEvent
+      summary: Create event
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+              required:
+                - name
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: string
   /events/subscribe:
     post:
       operationId: subscribeToEventStream
