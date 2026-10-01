@@ -56,6 +56,91 @@ describe('deduplicateSchema', () => {
         logicalOperator: 'or',
       },
     },
+    {
+      description: 'keeps the composition metadata when every member was `unknown`',
+      result: {
+        description: 'A collection of things.',
+      },
+      schema: {
+        description: 'A collection of things.',
+        items: [
+          {
+            type: 'unknown',
+          },
+        ],
+        logicalOperator: 'and',
+      },
+    },
+    {
+      description: 'leaves `unknown` members of a union alone',
+      result: {
+        items: [
+          {
+            $ref: '#/components/schemas/things',
+          },
+          {
+            type: 'unknown',
+          },
+        ],
+        logicalOperator: 'or',
+      },
+      schema: {
+        items: [
+          {
+            $ref: '#/components/schemas/things',
+          },
+          {
+            type: 'unknown',
+          },
+        ],
+        logicalOperator: 'or',
+      },
+    },
+    {
+      description: 'keeps `unknown` items of a tuple',
+      result: {
+        items: [
+          {
+            type: 'string',
+          },
+          {
+            type: 'unknown',
+          },
+        ],
+        logicalOperator: 'and',
+        type: 'tuple',
+      },
+      schema: {
+        items: [
+          {
+            type: 'string',
+          },
+          {
+            type: 'unknown',
+          },
+        ],
+        logicalOperator: 'and',
+        type: 'tuple',
+      },
+    },
+    {
+      description: 'drops `unknown` members from an intersection',
+      result: {
+        $ref: '#/components/schemas/things',
+      },
+      schema: {
+        items: [
+          {
+            $ref: '#/components/schemas/things',
+          },
+          {
+            description: 'A collection of things.',
+            type: 'unknown',
+          },
+        ],
+        logicalOperator: 'and',
+      },
+    },
   ];
 
   it.each(scenarios)('$description', ({ detectFormat, result, schema }) => {

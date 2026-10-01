@@ -18,6 +18,15 @@ export function deduplicateSchema<T extends IR.SchemaObject>({
   const typeIds: Array<string> = [];
 
   for (const item of schema.items) {
+    // an `unknown` member adds no constraints to an intersection, drop it.
+    // dropping it unconditionally is what lets the composition's own metadata
+    // survive: keeping a lone one lifts it, and the `result.type === 'unknown'`
+    // branch below then discards the whole schema. tuple items are positional,
+    // dropping one would change the arity
+    if (schema.logicalOperator === 'and' && schema.type !== 'tuple' && item.type === 'unknown') {
+      continue;
+    }
+
     // skip nested schemas for now, handle if necessary
     if ((!item.type && item.items) || schema.type === 'tuple') {
       uniqueItems.push(item);

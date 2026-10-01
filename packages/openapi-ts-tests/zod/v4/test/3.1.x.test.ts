@@ -242,6 +242,13 @@ for (const zodVersion of zodVersions) {
         }),
         description: 'handles various schema types and formats',
       },
+      {
+        config: createConfig({
+          input: 'composition-annotation-only.yaml',
+          output: 'composition-annotation-only',
+        }),
+        description: 'drops annotation-only allOf members',
+      },
     ];
 
     it.each(scenarios)('$description', async ({ config }) => {
