@@ -47,6 +47,7 @@ export { ensureDirSync } from './fs';
 export { getSpec } from './getSpec';
 export { Context } from './ir/context';
 export { IntentContext } from './ir/intents';
+export { mediaTypeToIrMediaType } from './ir/mediaType';
 export {
   createOperationKey,
   hasOperationDataRequired,
