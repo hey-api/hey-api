@@ -1,3 +1,4 @@
+import type { NodeName } from '@hey-api/codegen-core';
 import { buildSymbolIn, pathToName } from '@hey-api/shared';
 
 import type { DocLines } from '../../../py-dsl/layout/doc';
@@ -70,6 +71,9 @@ export function exportAst({
       .$if(plugin.config.strict, (m) => m.config({ extra: 'forbid' }))
       .$if(node.config, (m, c) => m.config(c))
       .fields(...node.fields);
+    for (const baseClass of node.baseClasses ?? []) {
+      model.extends(baseClass.type as NodeName);
+    }
     plugin.node(model);
     return;
   }

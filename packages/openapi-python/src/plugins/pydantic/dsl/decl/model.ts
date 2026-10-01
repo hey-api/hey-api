@@ -65,9 +65,12 @@ export class PydanticModelDsl extends Mixed {
     );
     const mergedKwargs = [...baseKwargs, ...this._configKwargs.map(([k, v]) => $.kwarg(k, v))];
 
+    // When explicit bases are given (e.g. from a composed `allOf` member),
+    // they already derive from BaseModel, so it must not be listed again:
+    // Python's MRO rejects listing BaseModel ahead of one of its subclasses.
     const cls = $.class(this.name)
       // plugin.querySymbol(BASE_MODEL_META)!
-      .extends(plugin.imports.BaseModel, ...this._bases)
+      .extends(...(this._bases.length ? this._bases : [plugin.imports.BaseModel]))
       .$if(this.$docs(), (c, v) => c.doc(v))
       .$if(this._configKwargs.length, (c) =>
         c.do(

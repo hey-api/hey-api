@@ -106,6 +106,13 @@ describe(`OpenAPI ${version}`, () => {
       }),
       description: 'Discriminator One Of',
     },
+    {
+      config: createConfig({
+        input: 'python-response-composition.json',
+        output: 'python-response-composition',
+      }),
+      description: 'Python Response Composition',
+    },
   ];
 
   it.each(scenarios)('$description', async ({ config }) => {

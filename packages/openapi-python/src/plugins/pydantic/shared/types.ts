@@ -38,5 +38,11 @@ export interface PydanticModelConfig {
 export type PydanticNode =
   | { kind: 'alias'; type: ReturnType<typeof $.constrainedType> }
   | { kind: 'enum'; members: Array<EnumMember> }
-  | { config?: PydanticModelConfig; fields: Array<ReturnType<typeof $.field>>; kind: 'model' }
+  | {
+      /** Additional base classes to inherit from (e.g. from a composed `allOf` member). */
+      baseClasses?: Array<ReturnType<typeof $.constrainedType>>;
+      config?: PydanticModelConfig;
+      fields: Array<ReturnType<typeof $.field>>;
+      kind: 'model';
+    }
   | { discriminator?: string; kind: 'rootModel'; type: ReturnType<typeof $.constrainedType> };
