@@ -121,6 +121,10 @@ export function filterSpec({
   if (spec.paths) {
     for (const entry of Object.entries(spec.paths)) {
       const path = entry[0] as keyof OpenAPIV3_1.PathsObject;
+      if ((path as string).startsWith('x-')) {
+        continue;
+      }
+
       const pathItem = entry[1] as OpenAPIV3_1.PathItemObject;
 
       for (const method of httpMethods) {
@@ -135,9 +139,41 @@ export function filterSpec({
         }
       }
 
-      // remove paths that have no operations left
-      if (!Object.keys(pathItem).length) {
+      // remove paths that have no operations left. A `$ref` path item is
+      // left alone since its operations live in the referenced object,
+      // which isn't resolved here.
+      if (!pathItem.$ref && !httpMethods.some((method) => method in pathItem)) {
         delete spec.paths[path];
+      }
+    }
+  }
+
+  if (spec.webhooks) {
+    for (const entry of Object.entries(spec.webhooks)) {
+      const name = entry[0];
+      if (name.startsWith('x-')) {
+        continue;
+      }
+
+      const webhook = entry[1] as OpenAPIV3_1.PathItemObject;
+
+      for (const method of httpMethods) {
+        const operation = webhook[method];
+        if (!operation) {
+          continue;
+        }
+
+        const key = addNamespace('operation', createOperationKey({ method, path: name }));
+        if (!operations.has(key)) {
+          delete webhook[method];
+        }
+      }
+
+      // remove webhooks that have no operations left. A `$ref` webhook is
+      // left alone since its operations live in the referenced object,
+      // which isn't resolved here.
+      if (!webhook.$ref && !httpMethods.some((method) => method in webhook)) {
+        delete spec.webhooks[name];
       }
     }
   }

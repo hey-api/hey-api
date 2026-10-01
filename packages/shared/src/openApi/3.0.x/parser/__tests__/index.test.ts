@@ -142,4 +142,43 @@ describe('parseV3_0_X', () => {
     parseV3_0_X(context);
     expect(context.ir.components?.requestBodies?.['body/special~name']).toBeDefined();
   });
+
+  it('does not error when filtering drops every operation on a path that has path-level parameters', () => {
+    const spec: OpenAPIV3.Document = {
+      components: {
+        parameters: {
+          SharedParam: {
+            in: 'query',
+            name: 'shared',
+            schema: { type: 'string' },
+          },
+        },
+      },
+      info: { title: 'Test', version: '1' },
+      openapi: '3.0.3',
+      paths: {
+        '/v1/bar': {
+          get: {
+            responses: { '200': { description: 'ok' } },
+          },
+          parameters: [{ $ref: '#/components/parameters/SharedParam' }],
+        },
+        '/v1/foo': {
+          get: {
+            responses: { '200': { description: 'ok' } },
+          },
+        },
+      },
+    };
+    const context = createContext(spec);
+    context.config.parser.filters = {
+      operations: {
+        include: ['GET /v1/foo'],
+      },
+    };
+
+    expect(() => parseV3_0_X(context)).not.toThrow();
+    expect(context.spec.paths?.['/v1/bar']).toBeUndefined();
+    expect(context.spec.paths?.['/v1/foo']).toBeDefined();
+  });
 });

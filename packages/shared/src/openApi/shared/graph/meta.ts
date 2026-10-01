@@ -84,6 +84,23 @@ export function buildResourceMetadata(
     return dependencies;
   };
 
+  // Path/webhook-level `parameters` (#/paths/{path}/parameters,
+  // #/webhooks/{name}/parameters) are not operation nodes, but their
+  // dependencies must be attributed to every operation under that path or
+  // webhook so filtering doesn't treat them as orphans.
+  const pathParameterDependencies = new Map<string, Set<string>>();
+  const webhookParameterDependencies = new Map<string, Set<string>>();
+  for (const pointer of graph.nodes.keys()) {
+    const path = jsonPointerToPath(pointer);
+    if (path.length === 3 && path[2] === 'parameters') {
+      if (path[0] === 'paths') {
+        pathParameterDependencies.set(path[1]!, getDependencies(pointer));
+      } else if (path[0] === 'webhooks') {
+        webhookParameterDependencies.set(path[1]!, getDependencies(pointer));
+      }
+    }
+  }
+
   // Process each node to find top-level resources
   for (const [pointer, nodeInfo] of graph.nodes) {
     // const node = nodeInfo.node as Record<string, unknown>;
@@ -135,7 +152,32 @@ export function buildResourceMetadata(
           path: operationPath,
         });
         resourceMetadata.operations.set(addNamespace('operation', operationKey), {
-          dependencies: getDependencies(pointer),
+          dependencies: new Set([
+            ...getDependencies(pointer),
+            ...(pathParameterDependencies.get(path[1]!) ?? []),
+          ]),
+          deprecated: nodeInfo.deprecated ?? false,
+          tags: nodeInfo.tags ?? new Set(),
+        });
+      }
+      continue;
+    }
+
+    // OpenAPI 3.1 webhooks
+    if (path[0] === 'webhooks') {
+      if (path.length === 3 && httpMethods.includes(path[2] as (typeof httpMethods)[number])) {
+        // Operation: #/webhooks/{name}/{method}
+        const method = path[path.length - 1]!;
+        const webhookName = path[1]!;
+        const operationKey = createOperationKey({
+          method,
+          path: webhookName,
+        });
+        resourceMetadata.operations.set(addNamespace('operation', operationKey), {
+          dependencies: new Set([
+            ...getDependencies(pointer),
+            ...(webhookParameterDependencies.get(webhookName) ?? []),
+          ]),
           deprecated: nodeInfo.deprecated ?? false,
           tags: nodeInfo.tags ?? new Set(),
         });

@@ -201,6 +201,31 @@ function collectFiltersSetFromRegExpsOpenApiV3({
     }
   }
 
+  if (
+    (excludeOperations.regexps.length || includeOperations.regexps.length) &&
+    'webhooks' in spec &&
+    spec.webhooks
+  ) {
+    for (const entry of Object.entries(spec.webhooks)) {
+      const name = entry[0];
+      const webhook = entry[1] as OpenAPIV3_1.PathItemObject;
+      for (const method of httpMethods) {
+        const operation = webhook[method];
+        if (!operation) {
+          continue;
+        }
+
+        const key = createOperationKey({ method, path: name });
+        if (excludeOperations.regexps.some((regexp) => regexp.test(key))) {
+          excludeOperations.set.add(addNamespace('operation', key));
+        }
+        if (includeOperations.regexps.some((regexp) => regexp.test(key))) {
+          includeOperations.set.add(addNamespace('operation', key));
+        }
+      }
+    }
+  }
+
   if (spec.components) {
     if (
       (excludeParameters.regexps.length || includeParameters.regexps.length) &&
