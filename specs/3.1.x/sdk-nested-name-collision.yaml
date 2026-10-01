@@ -1,0 +1,23 @@
+openapi: 3.1.1
+info:
+  title: OpenAPI 3.1.1 sdk nested name collision example
+  version: 1
+paths:
+  /gadgets/{gadgetId}/widgets:
+    get:
+      operationId: gadgets.widgets.list
+      summary: List Gadget Widgets
+      parameters:
+        - name: gadgetId
+          in: path
+          required: true
+          schema:
+            type: string
+            description: Gadget ID
+  /widgets:
+    get:
+      operationId: widgets.list
+      summary: List Widgets
+    post:
+      operationId: widgets.create
+      summary: Create Widget

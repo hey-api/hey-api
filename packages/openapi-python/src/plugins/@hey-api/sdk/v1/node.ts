@@ -95,6 +95,8 @@ export function createShell(plugin: HeyApiSdkPlugin['Instance']): StructureShell
         ),
         {
           meta: createShellMeta(node),
+          // Shallower resources win name collisions, so the top-level class keeps the plain name regardless of generation order.
+          priority: -node.getPath().length,
         },
       );
 
