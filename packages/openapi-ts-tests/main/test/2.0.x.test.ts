@@ -249,6 +249,13 @@ describe(`OpenAPI ${version}`, () => {
     },
     {
       config: createConfig({
+        input: 'nullable-enum.yaml',
+        output: 'nullable-enum',
+      }),
+      description: 'handles a nullable enum (x-nullable alongside enum)',
+    },
+    {
+      config: createConfig({
         input: 'exclude-deprecated.yaml',
         output: 'exclude-deprecated',
         parser: {

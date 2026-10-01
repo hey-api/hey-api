@@ -1430,11 +1430,11 @@ export const fakeTypesRequest = (options?: Options): Omit<TypesData, 'url'> => {
       parameterObject: f.datatype.boolean() ? {} : null,
       parameterArray: f.datatype.boolean() ? f.helpers.multiple(() => f.string.sample()) : null,
       parameterDictionary: f.datatype.boolean() ? {} : null,
-      parameterEnum: f.helpers.arrayElement([
+      parameterEnum: f.datatype.boolean() ? f.helpers.arrayElement([
         'Success',
         'Warning',
         'Error'
-      ])
+      ]) : null
     }
   };
 };

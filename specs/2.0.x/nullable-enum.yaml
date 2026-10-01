@@ -1,0 +1,17 @@
+swagger: '2.0'
+info:
+  title: nullable enum
+  version: 1.0.0
+paths: {}
+definitions:
+  Widget:
+    type: object
+    required:
+      - status
+    properties:
+      status:
+        type: string
+        enum:
+          - confirmed
+          - discarded
+        x-nullable: true

@@ -1295,11 +1295,11 @@ export const zTypesQuery = z.object({
   parameterObject: z._default(z.nullable(z.record(z.string(), z.unknown())), null),
   parameterArray: z.nullable(z.array(z.string())),
   parameterDictionary: z.nullable(z.record(z.string(), z.unknown())),
-  parameterEnum: z.enum([
+  parameterEnum: z.nullable(z.enum([
     'Success',
     'Warning',
     'Error'
-  ])
+  ]))
 });
 
 export const zTypesResponse = z.union([
