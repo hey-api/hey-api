@@ -23,7 +23,7 @@ The Pydantic plugin for Hey API generates models from your OpenAPI spec, fully c
 
 - Pydantic v2 support
 - seamless integration with `@hey-api/openapi-python` ecosystem
-- Pydantic models for requests, responses, and reusable definitions
+- Pydantic models for requests, responses, error responses, and reusable definitions
 - minimal learning curve thanks to extending the underlying technology
 
 ## Installation
@@ -160,6 +160,38 @@ export default {
 </Tabs>
 
 You can customize the naming and casing pattern for `responses` schemas using the `.name` and `.case` options.
+
+## Errors
+
+A single Pydantic model is generated for an endpoint's 4xx and 5xx responses, so you can validate an error body against a model instead of a raw dict. If the endpoint describes several error shapes, the generated model is a deduplicated union of them.
+
+<Tabs>
+  <TabItem label="example">
+```py title="pydantic_gen.py"
+class ListWidgetsError(RootModel[Union[NotFoundProblem, ServerProblem]]):
+    root: Union[NotFoundProblem, ServerProblem]
+```
+  </TabItem>
+  <TabItem label="config">
+```js {8} title="openapi-python.config.ts"
+export default {
+  input: 'hey-api/backend', // sign up at app.heyapi.dev
+  output: 'src/client',
+  plugins: [
+    // ...other plugins
+    {
+      name: 'pydantic',
+      errors: true,
+    },
+  ],
+};
+```
+  </TabItem>
+</Tabs>
+
+You can customize the naming and casing pattern for `errors` schemas using the `.error` and `.case` options, and set `errors: false` to skip them.
+
+Two shapes are left out. `@hey-api/typescript` also generates a status-code-keyed map alongside the union. As a Pydantic model every status would be a required field, while a response carries one, so no payload could validate against it. An error response with no content is dropped from the union, because an `Any` member absorbs the schemas declared alongside it, and an endpoint whose errors are all untyped gets no model.
 
 ## Definitions
 

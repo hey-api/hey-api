@@ -29,7 +29,7 @@ export type UserConfig = Plugin.Name<'pydantic'> &
      *
      * Can be:
      * - `boolean`: Shorthand for `{ enabled: boolean }`
-     * - `string` or `function`: Shorthand for `{ name: string | function }`
+     * - `string` or `function`: Shorthand for `{ error: string | function }`
      * - `object`: Full configuration object
      *
      * @default true
@@ -67,6 +67,43 @@ export type UserConfig = Plugin.Name<'pydantic'> &
      */
     enums?: 'enum' | 'literal';
     /**
+     * Generate a Pydantic model for an operation's 4xx and 5xx responses, so
+     * a caller can validate an error body against a model instead of a dict.
+     *
+     * Can be:
+     * - `boolean`: Shorthand for `{ enabled: boolean }`
+     * - `string` or `function`: Shorthand for `{ error: string | function }`
+     * - `object`: Full configuration object
+     *
+     * @default true
+     */
+    errors?:
+      | boolean
+      | NameTransformer
+      | {
+          /**
+           * Casing convention for generated names.
+           *
+           * @default 'PascalCase'
+           */
+          case?: Casing;
+          /**
+           * Whether this feature is enabled.
+           *
+           * Set to `false` to skip generating error models entirely.
+           *
+           * @default true
+           */
+          enabled?: boolean;
+          /**
+           * Naming pattern for the deduplicated union of an operation's
+           * error types.
+           *
+           * @default '{{name}}Error'
+           */
+          error?: NameTransformer;
+        };
+    /**
      * How to render field constraints.
      *
      * - `'field'`: `foo: Optional[int] = Field(default=None, ge=0, le=100)`
@@ -92,7 +129,7 @@ export type UserConfig = Plugin.Name<'pydantic'> &
      *
      * Can be:
      * - `boolean`: Shorthand for `{ enabled: boolean }`
-     * - `string` or `function`: Shorthand for `{ name: string | function }`
+     * - `string` or `function`: Shorthand for `{ error: string | function }`
      * - `object`: Full configuration object
      *
      * @default true
@@ -106,7 +143,7 @@ export type UserConfig = Plugin.Name<'pydantic'> &
            *
            * Can be:
            * - `boolean`: Shorthand for `{ enabled: boolean }`
-           * - `string` or `function`: Shorthand for `{ name: string | function }`
+           * - `string` or `function`: Shorthand for `{ error: string | function }`
            * - `object`: Full configuration object
            *
            * @default true
@@ -151,7 +188,7 @@ export type UserConfig = Plugin.Name<'pydantic'> &
            *
            * Can be:
            * - `boolean`: Shorthand for `{ enabled: boolean }`
-           * - `string` or `function`: Shorthand for `{ name: string | function }`
+           * - `string` or `function`: Shorthand for `{ error: string | function }`
            * - `object`: Full configuration object
            *
            * @default true
@@ -190,7 +227,7 @@ export type UserConfig = Plugin.Name<'pydantic'> &
            *
            * Can be:
            * - `boolean`: Shorthand for `{ enabled: boolean }`
-           * - `string` or `function`: Shorthand for `{ name: string | function }`
+           * - `string` or `function`: Shorthand for `{ error: string | function }`
            * - `object`: Full configuration object
            *
            * @default true
@@ -223,7 +260,7 @@ export type UserConfig = Plugin.Name<'pydantic'> &
            *
            * Can be:
            * - `boolean`: Shorthand for `{ enabled: boolean }`
-           * - `string` or `function`: Shorthand for `{ name: string | function }`
+           * - `string` or `function`: Shorthand for `{ error: string | function }`
            * - `object`: Full configuration object
            *
            * @default true
@@ -260,7 +297,7 @@ export type UserConfig = Plugin.Name<'pydantic'> &
      *
      * Can be:
      * - `boolean`: Shorthand for `{ enabled: boolean }`
-     * - `string` or `function`: Shorthand for `{ name: string | function }`
+     * - `string` or `function`: Shorthand for `{ error: string | function }`
      * - `object`: Full configuration object
      *
      * @default true
@@ -309,7 +346,7 @@ export type UserConfig = Plugin.Name<'pydantic'> &
      *
      * Can be:
      * - `boolean`: Shorthand for `{ enabled: boolean }`
-     * - `string` or `function`: Shorthand for `{ name: string | function }`
+     * - `string` or `function`: Shorthand for `{ error: string | function }`
      * - `object`: Full configuration object
      *
      * @default true
@@ -350,6 +387,13 @@ export type Config = Plugin.Name<'pydantic'> &
     definitions: NamingOptions & FeatureToggle;
     /** How to generate enum types. */
     enums: 'enum' | 'literal';
+    /** Configuration for error-response-specific Pydantic models. */
+    errors: FeatureToggle & {
+      /** Casing convention for generated names. */
+      case: Casing;
+      /** Naming pattern for the deduplicated union of an operation's error types. */
+      error: NameTransformer;
+    };
     /** How to render field constraints. */
     fieldStyle: 'annotated' | 'field';
     /** Model type to generate. */
