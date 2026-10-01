@@ -445,10 +445,12 @@ describe('createSseClient', () => {
   });
 
   it('stops retrying after sseMaxRetryAttempts is reached', async () => {
+    const errors = [new Error('first failure'), new Error('second failure')];
     let attempt = 0;
     fetchMock.mockImplementation(async () => {
+      const error = errors[attempt]!;
       attempt++;
-      throw new Error('fail');
+      throw error;
     });
 
     const onError = vi.fn();
@@ -463,16 +465,20 @@ describe('createSseClient', () => {
     const result = await iter.next();
 
     expect(result.done).toBe(true);
-    expect(onError).toHaveBeenCalledTimes(2); // once per failed attempt
+    expect(onError.mock.calls).toEqual([
+      [errors[0], { attempt: 1, willRetry: true }],
+      [errors[1], { attempt: 2, willRetry: false }],
+    ]);
     expect(attempt).toBe(2);
   });
 
   it('applies exponential backoff between retries', async () => {
+    const errors = [new Error('first failure'), new Error('second failure')];
     let attempt = 0;
 
     fetchMock.mockImplementation(() => {
       attempt++;
-      if (attempt < 3) throw new Error('fail');
+      if (attempt < 3) throw errors[attempt - 1];
       return Promise.resolve({
         body: makeStream(['data: ok\n\n']),
         ok: true,
@@ -493,15 +499,19 @@ describe('createSseClient', () => {
     const ev = await iter.next();
 
     expect(ev.value).toBe('ok');
-    expect(onError).toHaveBeenCalledTimes(2);
+    expect(onError.mock.calls).toEqual([
+      [errors[0], { attempt: 1, willRetry: true }],
+      [errors[1], { attempt: 2, willRetry: true }],
+    ]);
     expect(attempt).toBe(3);
   });
 
   it('does not retry when sseMaxRetryAttempts is 0', async () => {
+    const error = new Error('fail');
     let attempt = 0;
     fetchMock.mockImplementation(async () => {
       attempt++;
-      throw new Error('fail');
+      throw error;
     });
 
     const onError = vi.fn();
@@ -515,8 +525,58 @@ describe('createSseClient', () => {
     const result = await iter.next();
 
     expect(result.done).toBe(true);
-    expect(onError).toHaveBeenCalledTimes(1);
+    expect(onError).toHaveBeenCalledWith(error, {
+      attempt: 1,
+      willRetry: false,
+    });
     expect(attempt).toBe(1);
+  });
+
+  it('does not retry or sleep when an attempt errors after aborting', async () => {
+    const controller = new AbortController();
+    const error = new Error('aborted');
+    fetchMock.mockImplementation(async () => {
+      controller.abort();
+      throw error;
+    });
+
+    const onError = vi.fn();
+    const sleep = vi.fn(async () => {});
+    const { stream } = createSseClient({
+      onSseError: onError,
+      signal: controller.signal,
+      sseSleepFn: sleep,
+      url: 'http://localhost/sse',
+    });
+
+    const result = await stream[Symbol.asyncIterator]().next();
+
+    expect(result.done).toBe(true);
+    expect(onError).toHaveBeenCalledWith(error, {
+      attempt: 1,
+      willRetry: false,
+    });
+    expect(sleep).not.toHaveBeenCalled();
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('supports onSseError callbacks with only the error parameter', async () => {
+    const error = new Error('fail');
+    fetchMock.mockRejectedValue(error);
+
+    const errors: Array<unknown> = [];
+    const onError = (error: unknown) => {
+      errors.push(error);
+    };
+    const { stream } = createSseClient({
+      onSseError: onError,
+      sseMaxRetryAttempts: 1,
+      url: 'http://localhost/sse',
+    });
+
+    await stream[Symbol.asyncIterator]().next();
+
+    expect(errors).toEqual([error]);
   });
 
   it('calls responseValidator before yielding JSON', async () => {
