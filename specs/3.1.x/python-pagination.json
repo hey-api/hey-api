@@ -1,0 +1,328 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Python SDK pagination",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/widgets": {
+      "get": {
+        "operationId": "list_widgets",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "status",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "cursor",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WidgetList"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/gadgets": {
+      "get": {
+        "operationId": "list_gadgets",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GadgetList"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/things": {
+      "get": {
+        "operationId": "list_things",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "cursor",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ThingList"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sprockets": {
+      "get": {
+        "operationId": "list_sprockets",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "cursor",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SprocketList"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cogs": {
+      "get": {
+        "operationId": "list_cogs",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "in": "query",
+            "name": "page_size",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CogList"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pulleys": {
+      "get": {
+        "operationId": "list_pulleys",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "in": "query",
+            "name": "page_size",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PulleyList"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Widget": {
+        "type": "object",
+        "properties": {
+          "widget_id": {
+            "type": "string"
+          }
+        },
+        "required": ["widget_id"]
+      },
+      "WidgetList": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Widget"
+            }
+          },
+          "has_more": {
+            "type": "boolean"
+          },
+          "next_cursor": {
+            "type": "string"
+          }
+        }
+      },
+      "Gadget": {
+        "type": "object",
+        "properties": {
+          "gadget_id": {
+            "type": "string"
+          }
+        },
+        "required": ["gadget_id"]
+      },
+      "GadgetList": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Gadget"
+            }
+          }
+        }
+      },
+      "Thing": {
+        "type": "object",
+        "properties": {
+          "thing_id": {
+            "type": "string"
+          }
+        },
+        "required": ["thing_id"]
+      },
+      "ThingList": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Thing"
+            }
+          },
+          "next_cursor": {
+            "type": "string"
+          }
+        }
+      },
+      "Sprocket": {
+        "type": "object",
+        "properties": {
+          "sprocket_id": {
+            "type": "string"
+          }
+        },
+        "required": ["sprocket_id"]
+      },
+      "SprocketList": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Sprocket"
+            }
+          },
+          "has_more": {
+            "type": "boolean"
+          },
+          "next_cursor": {
+            "type": "string"
+          }
+        }
+      },
+      "Cog": {
+        "type": "object",
+        "properties": {
+          "cog_id": {
+            "type": "string"
+          }
+        },
+        "required": ["cog_id"]
+      },
+      "CogList": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Cog"
+            }
+          },
+          "has_more": {
+            "type": "boolean"
+          },
+          "page": {
+            "type": "integer"
+          }
+        }
+      },
+      "Pulley": {
+        "type": "object",
+        "properties": {
+          "pulley_id": {
+            "type": "string"
+          }
+        },
+        "required": ["pulley_id"]
+      },
+      "PulleyList": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Pulley"
+            }
+          },
+          "has_more": {
+            "type": "boolean"
+          }
+        }
+      }
+    }
+  }
+}

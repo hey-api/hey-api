@@ -68,6 +68,7 @@ export const defaultConfig: HeyApiSdkPlugin['Config'] = {
       strategy: 'single',
       strategyDefaultTag: 'default',
     },
+    pagination: false,
     paramsStructure: 'grouped',
   },
   dependencies: ['pydantic'],

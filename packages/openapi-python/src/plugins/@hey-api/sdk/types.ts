@@ -45,6 +45,40 @@ export type UserConfig = Plugin.Name<'@hey-api/python-sdk'> &
      */
     operations?: Exclude<OperationsStrategy, 'flat'> | UserOperationsConfig;
     /**
+     * Return a page from a list operation, instead of the response model.
+     *
+     * A page yields the items of the operation's first response and then the
+     * items of each page after it, so a caller writes
+     * `for widget in sdk.widgets.list()` rather than a loop that carries the
+     * cursor itself.
+     *
+     * The request parameter that continues the list is read from the spec,
+     * through the parser's pagination keywords. The response fields cannot be
+     * derived, so name them here. The whole option is off unless set, because
+     * a wrong guess would silently return one page.
+     *
+     * @default false
+     */
+    pagination?:
+      | false
+      | {
+          /** Response field reporting whether another page exists. */
+          hasMore: string;
+          /** Response field holding the items of the page. */
+          items: string;
+          /**
+           * Response field holding the value that requests the next page, for
+           * an operation whose continuation parameter is a cursor.
+           */
+          nextCursor?: string;
+          /**
+           * Response field holding the number of the page it answers, for an
+           * operation whose continuation parameter is a page number. The page
+           * after this one is that number plus one.
+           */
+          pageNumber?: string;
+        };
+    /**
      * Define how request parameters are structured in generated SDK methods.
      *
      * - `'flat'` merges parameters into a single object.
@@ -81,6 +115,10 @@ export type Config = Plugin.Name<'@hey-api/python-sdk'> &
      * Define the structure of generated SDK operations.
      */
     operations: OperationsConfig;
+    /** Return a page from a list operation, instead of the response model. */
+    pagination:
+      | false
+      | { hasMore: string; items: string; nextCursor?: string; pageNumber?: string };
     /**
      * Define how request parameters are structured in generated SDK methods.
      *

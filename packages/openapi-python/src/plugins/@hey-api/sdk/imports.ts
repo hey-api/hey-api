@@ -15,6 +15,12 @@ export function sdkImports(plugin: PluginInstance) {
         resource: 'client.Client',
       },
     }),
+    Page: factory.register('Page', {
+      external: clientModule,
+      meta: {
+        resource: 'client.Page',
+      },
+    }),
     buildClientParams: factory.register('build_client_params', {
       external: clientModule,
       meta: {

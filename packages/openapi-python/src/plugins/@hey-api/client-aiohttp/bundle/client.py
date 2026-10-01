@@ -1,6 +1,9 @@
-from typing import Any, Optional
+from collections.abc import Callable, Iterator
+from typing import Any, Generic, Optional, TypeVar
 import httpx
 
+
+T = TypeVar("T")
 
 EXTRA_PREFIXES_MAP = {
     "$body_": "json",
@@ -126,3 +129,56 @@ class Client(BaseClient):
 def create_client(base_url: Optional[str] = None, **kwargs) -> Client:
     """Create a new HTTP client instance."""
     return Client(base_url=base_url, **kwargs)
+
+
+class Page(Generic[T]):
+    """One page of a list endpoint, and every page after it.
+
+    Iterating a page yields its own items and then the items of each page that
+    follows, requesting one page at a time:
+
+        for widget in sdk.widgets.list():
+            ...
+
+    Read `items` instead to stay on this page.
+    """
+
+    def __init__(
+        self,
+        items: list[T],
+        has_more: Optional[bool],
+        fetch: Callable[..., "Page[T]"],
+        kwargs: dict[str, Any],
+        next_params: dict[str, Any],
+    ):
+        self.items = items
+        self.has_more = has_more
+        self._fetch = fetch
+        self._kwargs = kwargs
+        self._next_params = next_params
+
+    def next_page(self) -> "Optional[Page[T]]":
+        """The page after this one, or None when this is the last.
+
+        A page follows when the response carried a value to ask for it. Some
+        APIs report `has_more` and some leave it out, so it ends paging only
+        when it says so, rather than when it is absent.
+        """
+        if self.has_more is False:
+            return None
+        if not any(value is not None for value in self._next_params.values()):
+            return None
+        return self._fetch(**self._kwargs, **self._next_params)
+
+    def __iter__(self) -> Iterator[T]:
+        page: Optional[Page[T]] = self
+        seen: list[dict[str, Any]] = []
+        while page is not None:
+            yield from page.items
+            if page._next_params in seen:
+                raise RuntimeError(
+                    f"The API asked for the same page twice ({page._next_params}) "
+                    f"while still reporting more, so paging would not end."
+                )
+            seen.append(page._next_params)
+            page = page.next_page()

@@ -1,5 +1,39 @@
 import type { PyNode } from './nodes/base';
+import type { PyBinaryExpression, PyBinaryOperator } from './nodes/expressions/binary';
 import { PyNodeKind } from './nodes/kinds';
+
+// How tightly each operator binds, following Python's own table. A higher
+// number binds more tightly.
+const binaryPrecedences: Record<PyBinaryOperator, number> = {
+  '!=': 4,
+  '%': 10,
+  '&': 7,
+  '*': 10,
+  '**': 11,
+  '+': 9,
+  '-': 9,
+  '/': 10,
+  '//': 10,
+  '<': 4,
+  '<<': 8,
+  '<=': 4,
+  '==': 4,
+  '>': 4,
+  '>=': 4,
+  '>>': 8,
+  '^': 6,
+  and: 2,
+  in: 4,
+  is: 4,
+  'is not': 4,
+  'not in': 4,
+  or: 1,
+  '|': 5,
+};
+
+function binaryPrecedence(operator: PyBinaryOperator): number {
+  return binaryPrecedences[operator];
+}
 
 export type QuoteStyle = 'single' | 'double';
 export type QuoteFallback = 'avoid-escape' | 'escape';
@@ -131,6 +165,25 @@ export function createPrinter(options?: PyPrinterOptions): PyPrinter {
     return indentUnit.repeat(indentLevel) + line;
   }
 
+  // Python reads `a or b + c` as `a or (b + c)`, so an operand that binds
+  // more loosely than the operator above it keeps the grouping its tree
+  // describes. An operand that binds at least as tightly needs no
+  // parentheses, and adding them anyway would rewrite every expression that
+  // already prints correctly.
+  function operand(node: PyNode, parent: PyBinaryExpression, side: 'left' | 'right'): string {
+    const formatted = formatNode(node);
+    if (node.kind !== PyNodeKind.BinaryExpression) return formatted;
+
+    const inner = binaryPrecedence(node.operator);
+    const outer = binaryPrecedence(parent.operator);
+    // `**` binds right to left, every other operator here left to right, so
+    // an operand of equal precedence needs parentheses on the side the
+    // operator does not associate towards.
+    const associatesAway = parent.operator === '**' ? side === 'left' : side === 'right';
+    const needsParens = inner < outer || (inner === outer && associatesAway);
+    return needsParens ? `(${formatted})` : formatted;
+  }
+
   function formatNode(node: PyNode): string {
     const parts: Array<string> = [];
 
@@ -171,7 +224,9 @@ export function createPrinter(options?: PyPrinterOptions): PyPrinter {
         break;
 
       case PyNodeKind.BinaryExpression:
-        parts.push(`${formatNode(node.left)} ${node.operator} ${formatNode(node.right)}`);
+        parts.push(
+          `${operand(node.left, node, 'left')} ${node.operator} ${operand(node.right, node, 'right')}`,
+        );
         break;
 
       case PyNodeKind.Block:
