@@ -178,5 +178,26 @@ describe('getOutput', () => {
 
       expect(output.module.extension).toBeUndefined();
     });
+
+    it('should enable gitAttributes by default', () => {
+      const output = getOutput({
+        output: {
+          path: tmpDir,
+        },
+      });
+
+      expect(output.gitAttributes).toBe(true);
+    });
+
+    it('should allow disabling gitAttributes', () => {
+      const output = getOutput({
+        output: {
+          gitAttributes: false,
+          path: tmpDir,
+        },
+      });
+
+      expect(output.gitAttributes).toBe(false);
+    });
   });
 });

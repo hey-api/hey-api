@@ -4,6 +4,11 @@ export { getInput } from './config/input/input';
 export { compileInputPath, logInputPaths } from './config/input/path';
 export type { Input, UserInput, UserWatch, Watch } from './config/input/types';
 export { getLogs } from './config/logs';
+export type {
+  GitAttributesOptions,
+  WriteOutputGitAttributesOptions,
+} from './config/output/gitAttributes';
+export { renderGitAttributes, writeOutputGitAttributes } from './config/output/gitAttributes';
 export type { PostProcessor, UserPostProcessor } from './config/output/postprocess';
 export { postprocessOutput } from './config/output/postprocess';
 export { sourceConfig } from './config/output/source/config';

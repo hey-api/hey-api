@@ -428,4 +428,32 @@ export default {
 Setting `clean` to `false` may result in broken output. Ensure you typecheck your code.
 :::
 
+## Git Attributes
+
+When you commit generated clients to your repository, GitHub can treat those files as generated code so they stay out of language stats and pull request diffs.
+
+By default, we write a `.gitattributes` file into your output folder. It marks suffixed generated files and entry files with `linguist-generated` and `-diff`. When `source` is enabled, the copied spec file is included without `-diff`. If you store hand-written files in the output folder (`clean: false`), set `gitAttributes: false` or keep those files outside the generated tree.
+
+```js {4} title="openapi-ts.config.ts"
+export default {
+  input: 'hey-api/backend', // sign up at app.heyapi.dev
+  output: {
+    gitAttributes: true,
+    path: 'src/client',
+  },
+};
+```
+
+Set `gitAttributes` to `false` to skip writing this file.
+
+```js {4} title="openapi-ts.config.ts"
+export default {
+  input: 'hey-api/backend', // sign up at app.heyapi.dev
+  output: {
+    gitAttributes: false,
+    path: 'src/client',
+  },
+};
+```
+
 <Examples />
