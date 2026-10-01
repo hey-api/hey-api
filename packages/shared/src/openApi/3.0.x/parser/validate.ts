@@ -15,6 +15,10 @@ export function validateOpenApiSpec(spec: OpenAPIV3.Document, logger: Logger): V
       const path = entry[0] as keyof OpenAPIV3.PathsObject;
       const pathItem = entry[1] as OpenAPIV3.PathItemObject;
       for (const method of httpMethods) {
+        if (method === 'query') {
+          continue;
+        }
+
         const operation = pathItem[method];
         if (!operation) {
           continue;

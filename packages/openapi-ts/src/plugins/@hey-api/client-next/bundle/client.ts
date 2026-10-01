@@ -242,6 +242,7 @@ export const createClient = (config: Config = {}): Client => {
     patch: makeMethodFn('PATCH'),
     post: makeMethodFn('POST'),
     put: makeMethodFn('PUT'),
+    query: makeMethodFn('QUERY'),
     request,
     setConfig,
     sse: {
@@ -253,6 +254,7 @@ export const createClient = (config: Config = {}): Client => {
       patch: makeSseFn('PATCH'),
       post: makeSseFn('POST'),
       put: makeSseFn('PUT'),
+      query: makeSseFn('QUERY'),
       trace: makeSseFn('TRACE'),
     },
     trace: makeMethodFn('TRACE'),

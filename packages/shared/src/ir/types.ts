@@ -84,6 +84,7 @@ interface IRPathItemObject {
   patch?: IROperationObject;
   post?: IROperationObject;
   put?: IROperationObject;
+  query?: IROperationObject;
   trace?: IROperationObject;
 }
 

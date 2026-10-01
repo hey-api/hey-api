@@ -51,6 +51,7 @@ const defaultGetKind: Required<Required<Hooks>['operations']>['getKind'] = (oper
     case 'put':
       return ['mutation'];
     case 'get':
+    case 'query':
       return ['query'];
     default:
       return;

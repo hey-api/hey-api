@@ -29,7 +29,7 @@ export interface Document extends SpecExtensions {
   /**
    * **REQUIRED**. This string MUST be the {@link https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#versions version number} of the OpenAPI Specification that the OpenAPI document uses. The `openapi` field SHOULD be used by tooling to interpret the OpenAPI document. This is _not_ related to the API {@link https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#infoVersion `info.version`} string.
    */
-  openapi: '3.1.0' | '3.1.1' | '3.1.2';
+  openapi: '3.1.0' | '3.1.1' | '3.1.2' | '3.2.0';
   /**
    * The available paths and operations for the API.
    */
@@ -1345,6 +1345,10 @@ export interface PathItemObject extends SpecExtensions {
    * A definition of a PUT operation on this path.
    */
   put?: OperationObject;
+  /**
+   * A definition of a QUERY operation on this path. This field is available in OpenAPI 3.2 and later.
+   */
+  query?: OperationObject;
   /**
    * An alternative `server` array to service all operations in this path.
    */

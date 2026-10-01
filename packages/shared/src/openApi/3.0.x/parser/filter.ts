@@ -124,6 +124,10 @@ export function filterSpec({
       const pathItem = entry[1] as OpenAPIV3.PathItemObject;
 
       for (const method of httpMethods) {
+        if (method === 'query') {
+          continue;
+        }
+
         const operation = pathItem[method];
         if (!operation) {
           continue;

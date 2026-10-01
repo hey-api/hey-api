@@ -11,6 +11,7 @@ export const httpMethods = [
   'patch',
   'post',
   'put',
+  'query',
   'trace',
 ] as const;
 

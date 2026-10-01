@@ -12,12 +12,12 @@ export const irTopLevelKinds = [
 export type IrTopLevelKind = (typeof irTopLevelKinds)[number];
 
 const irPatterns: Record<IrTopLevelKind, RegExp> = {
-  operation: /^#\/paths\/[^/]+\/(get|put|post|delete|options|head|patch|trace)$/,
+  operation: /^#\/paths\/[^/]+\/(get|put|post|delete|options|head|patch|query|trace)$/,
   parameter: /^#\/components\/parameters\/[^/]+$/,
   requestBody: /^#\/components\/requestBodies\/[^/]+$/,
   schema: /^#\/components\/schemas\/[^/]+$/,
   server: /^#\/servers\/(\d+|[^/]+)$/,
-  webhook: /^#\/webhooks\/[^/]+\/(get|put|post|delete|options|head|patch|trace)$/,
+  webhook: /^#\/webhooks\/[^/]+\/(get|put|post|delete|options|head|patch|query|trace)$/,
 };
 
 // Every pattern in `irPatterns` requires a fixed literal prefix. Checking the

@@ -15,7 +15,7 @@ export function validateOpenApiSpec(spec: OpenAPIV2.Document, logger: Logger): V
       const path = entry[0] as keyof OpenAPIV2.PathsObject;
       const pathItem = entry[1] as OpenAPIV2.PathItemObject;
       for (const method of httpMethods) {
-        if (method === 'trace') {
+        if (method === 'query' || method === 'trace') {
           continue;
         }
 

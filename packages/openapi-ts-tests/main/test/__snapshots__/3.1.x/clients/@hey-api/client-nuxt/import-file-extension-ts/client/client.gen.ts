@@ -144,9 +144,16 @@ export const createClient = (config: Config = {}): Client => {
       watch(bodyParams, (changed) => {
         body.value = serializeBody(changed);
       });
+      const fetchOptions = {
+        ...opts,
+        ...asyncDataOptions,
+        // Nuxt's method union does not include OpenAPI 3.2's QUERY method yet,
+        // but the underlying fetch implementation accepts arbitrary methods.
+        method: opts.method as any,
+      };
       return composable === 'useLazyFetch'
-        ? useLazyFetch(() => buildUrl(opts), { ...opts, ...asyncDataOptions })
-        : useFetch(() => buildUrl(opts), { ...opts, ...asyncDataOptions });
+        ? useLazyFetch(() => buildUrl(opts), fetchOptions)
+        : useFetch(() => buildUrl(opts), fetchOptions);
     }
 
     const handler: any = () =>
@@ -201,6 +208,7 @@ export const createClient = (config: Config = {}): Client => {
     patch: makeMethodFn('PATCH'),
     post: makeMethodFn('POST'),
     put: makeMethodFn('PUT'),
+    query: makeMethodFn('QUERY'),
     request,
     setConfig,
     sse: {
@@ -212,6 +220,7 @@ export const createClient = (config: Config = {}): Client => {
       patch: makeSseFn('PATCH'),
       post: makeSseFn('POST'),
       put: makeSseFn('PUT'),
+      query: makeSseFn('QUERY'),
       trace: makeSseFn('TRACE'),
     },
     trace: makeMethodFn('TRACE'),
