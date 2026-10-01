@@ -63,7 +63,14 @@ export const useServiceWithEmptyTagGetQueryData = () => {
   return (options: Options<ServiceWithEmptyTagData> | undefined) => queryClient.getQueryData<unknown>(serviceWithEmptyTagOptions(options).queryKey);
 };
 
-export const useServiceWithEmptyTagQuery = (options?: Options<ServiceWithEmptyTagData>) => useQuery(serviceWithEmptyTagOptions(options));
+type UseQueryParams<TFactory extends (...args: any) => any> = NonNullable<Parameters<TFactory>[0]> & {
+  queryOptions?: Partial<Omit<ReturnType<TFactory>, 'queryKey' | 'queryFn'>>;
+};
+
+export const useServiceWithEmptyTagQuery = (options?: UseQueryParams<typeof serviceWithEmptyTagOptions>) => {
+  const { queryOptions, ...sdkOptions } = options ?? {};
+  return useQuery({ ...serviceWithEmptyTagOptions(sdkOptions), ...queryOptions });
+};
 
 export const useServiceWithEmptyTagSetQueryData = () => {
   const queryClient = useQueryClient();
@@ -180,7 +187,10 @@ export const useGetCallWithoutParametersAndResponseGetQueryData = () => {
   return (options: Options<GetCallWithoutParametersAndResponseData> | undefined) => queryClient.getQueryData<unknown>(getCallWithoutParametersAndResponseOptions(options).queryKey);
 };
 
-export const useGetCallWithoutParametersAndResponseQuery = (options?: Options<GetCallWithoutParametersAndResponseData>) => useQuery(getCallWithoutParametersAndResponseOptions(options));
+export const useGetCallWithoutParametersAndResponseQuery = (options?: UseQueryParams<typeof getCallWithoutParametersAndResponseOptions>) => {
+  const { queryOptions, ...sdkOptions } = options ?? {};
+  return useQuery({ ...getCallWithoutParametersAndResponseOptions(sdkOptions), ...queryOptions });
+};
 
 export const useGetCallWithoutParametersAndResponseSetQueryData = () => {
   const queryClient = useQueryClient();
@@ -325,7 +335,10 @@ export const useCallWithDefaultParametersGetQueryData = () => {
   return (options: Options<CallWithDefaultParametersData>) => queryClient.getQueryData<unknown>(callWithDefaultParametersOptions(options).queryKey);
 };
 
-export const useCallWithDefaultParametersQuery = (options: Options<CallWithDefaultParametersData>) => useQuery(callWithDefaultParametersOptions(options));
+export const useCallWithDefaultParametersQuery = (options: UseQueryParams<typeof callWithDefaultParametersOptions>) => {
+  const { queryOptions, ...sdkOptions } = options;
+  return useQuery({ ...callWithDefaultParametersOptions(sdkOptions), ...queryOptions });
+};
 
 export const useCallWithDefaultParametersSetQueryData = () => {
   const queryClient = useQueryClient();
@@ -413,7 +426,10 @@ export const useDuplicateName2GetQueryData = () => {
   return (options: Options<DuplicateName2Data> | undefined) => queryClient.getQueryData<unknown>(duplicateName2Options(options).queryKey);
 };
 
-export const useDuplicateName2Query = (options?: Options<DuplicateName2Data>) => useQuery(duplicateName2Options(options));
+export const useDuplicateName2Query = (options?: UseQueryParams<typeof duplicateName2Options>) => {
+  const { queryOptions, ...sdkOptions } = options ?? {};
+  return useQuery({ ...duplicateName2Options(sdkOptions), ...queryOptions });
+};
 
 export const useDuplicateName2SetQueryData = () => {
   const queryClient = useQueryClient();
@@ -482,7 +498,10 @@ export const useCallWithNoContentResponseGetQueryData = () => {
   return (options: Options<CallWithNoContentResponseData> | undefined) => queryClient.getQueryData<unknown>(callWithNoContentResponseOptions(options).queryKey);
 };
 
-export const useCallWithNoContentResponseQuery = (options?: Options<CallWithNoContentResponseData>) => useQuery(callWithNoContentResponseOptions(options));
+export const useCallWithNoContentResponseQuery = (options?: UseQueryParams<typeof callWithNoContentResponseOptions>) => {
+  const { queryOptions, ...sdkOptions } = options ?? {};
+  return useQuery({ ...callWithNoContentResponseOptions(sdkOptions), ...queryOptions });
+};
 
 export const useCallWithNoContentResponseSetQueryData = () => {
   const queryClient = useQueryClient();
@@ -513,7 +532,10 @@ export const useCallWithResponseAndNoContentResponseGetQueryData = () => {
   return (options: Options<CallWithResponseAndNoContentResponseData> | undefined) => queryClient.getQueryData<CallWithResponseAndNoContentResponseResponse>(callWithResponseAndNoContentResponseOptions(options).queryKey);
 };
 
-export const useCallWithResponseAndNoContentResponseQuery = (options?: Options<CallWithResponseAndNoContentResponseData>) => useQuery(callWithResponseAndNoContentResponseOptions(options));
+export const useCallWithResponseAndNoContentResponseQuery = (options?: UseQueryParams<typeof callWithResponseAndNoContentResponseOptions>) => {
+  const { queryOptions, ...sdkOptions } = options ?? {};
+  return useQuery({ ...callWithResponseAndNoContentResponseOptions(sdkOptions), ...queryOptions });
+};
 
 export const useCallWithResponseAndNoContentResponseSetQueryData = () => {
   const queryClient = useQueryClient();
@@ -544,7 +566,10 @@ export const useDummyAGetQueryData = () => {
   return (options: Options<DummyAData> | undefined) => queryClient.getQueryData<unknown>(dummyAOptions(options).queryKey);
 };
 
-export const useDummyAQuery = (options?: Options<DummyAData>) => useQuery(dummyAOptions(options));
+export const useDummyAQuery = (options?: UseQueryParams<typeof dummyAOptions>) => {
+  const { queryOptions, ...sdkOptions } = options ?? {};
+  return useQuery({ ...dummyAOptions(sdkOptions), ...queryOptions });
+};
 
 export const useDummyASetQueryData = () => {
   const queryClient = useQueryClient();
@@ -575,7 +600,10 @@ export const useDummyBGetQueryData = () => {
   return (options: Options<DummyBData> | undefined) => queryClient.getQueryData<unknown>(dummyBOptions(options).queryKey);
 };
 
-export const useDummyBQuery = (options?: Options<DummyBData>) => useQuery(dummyBOptions(options));
+export const useDummyBQuery = (options?: UseQueryParams<typeof dummyBOptions>) => {
+  const { queryOptions, ...sdkOptions } = options ?? {};
+  return useQuery({ ...dummyBOptions(sdkOptions), ...queryOptions });
+};
 
 export const useDummyBSetQueryData = () => {
   const queryClient = useQueryClient();
@@ -606,7 +634,10 @@ export const useCallWithResponseGetQueryData = () => {
   return (options: Options<CallWithResponseData> | undefined) => queryClient.getQueryData<CallWithResponseResponse>(callWithResponseOptions(options).queryKey);
 };
 
-export const useCallWithResponseQuery = (options?: Options<CallWithResponseData>) => useQuery(callWithResponseOptions(options));
+export const useCallWithResponseQuery = (options?: UseQueryParams<typeof callWithResponseOptions>) => {
+  const { queryOptions, ...sdkOptions } = options ?? {};
+  return useQuery({ ...callWithResponseOptions(sdkOptions), ...queryOptions });
+};
 
 export const useCallWithResponseSetQueryData = () => {
   const queryClient = useQueryClient();
@@ -675,7 +706,10 @@ export const useCollectionFormatGetQueryData = () => {
   return (options: Options<CollectionFormatData>) => queryClient.getQueryData<unknown>(collectionFormatOptions(options).queryKey);
 };
 
-export const useCollectionFormatQuery = (options: Options<CollectionFormatData>) => useQuery(collectionFormatOptions(options));
+export const useCollectionFormatQuery = (options: UseQueryParams<typeof collectionFormatOptions>) => {
+  const { queryOptions, ...sdkOptions } = options;
+  return useQuery({ ...collectionFormatOptions(sdkOptions), ...queryOptions });
+};
 
 export const useCollectionFormatSetQueryData = () => {
   const queryClient = useQueryClient();
@@ -706,7 +740,10 @@ export const useTypesGetQueryData = () => {
   return (options: Options<TypesData>) => queryClient.getQueryData<TypesResponse>(typesOptions(options).queryKey);
 };
 
-export const useTypesQuery = (options: Options<TypesData>) => useQuery(typesOptions(options));
+export const useTypesQuery = (options: UseQueryParams<typeof typesOptions>) => {
+  const { queryOptions, ...sdkOptions } = options;
+  return useQuery({ ...typesOptions(sdkOptions), ...queryOptions });
+};
 
 export const useTypesSetQueryData = () => {
   const queryClient = useQueryClient();
@@ -737,7 +774,10 @@ export const useComplexTypesGetQueryData = () => {
   return (options: Options<ComplexTypesData>) => queryClient.getQueryData<ComplexTypesResponse>(complexTypesOptions(options).queryKey);
 };
 
-export const useComplexTypesQuery = (options: Options<ComplexTypesData>) => useQuery(complexTypesOptions(options));
+export const useComplexTypesQuery = (options: UseQueryParams<typeof complexTypesOptions>) => {
+  const { queryOptions, ...sdkOptions } = options;
+  return useQuery({ ...complexTypesOptions(sdkOptions), ...queryOptions });
+};
 
 export const useComplexTypesSetQueryData = () => {
   const queryClient = useQueryClient();

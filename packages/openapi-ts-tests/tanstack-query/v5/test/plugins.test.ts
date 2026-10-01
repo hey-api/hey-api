@@ -215,6 +215,21 @@ for (const version of versions) {
         description:
           'generate Fetch API client with TanStack React Query plugin with optional fields',
       },
+      {
+        config: createConfig({
+          input: 'full.yaml',
+          output: 'useQuery-enabled',
+          plugins: [
+            {
+              name: '@tanstack/react-query',
+              useQuery: true,
+            },
+            '@hey-api/client-fetch',
+          ],
+        }),
+        description:
+          'generate Fetch API client with TanStack React Query plugin with useQuery enabled',
+      },
     ];
 
     it.each(scenarios)('$description', async ({ config }) => {
