@@ -112,8 +112,6 @@ export async function createClient(
       }
     }
 
-    if (inputError) return [];
-
     throw error;
   }
 }
