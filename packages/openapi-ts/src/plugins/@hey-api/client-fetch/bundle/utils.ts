@@ -169,17 +169,12 @@ export const mergeConfigs = (a: Config, b: Config): Config => {
   if (config.baseUrl?.endsWith('/')) {
     config.baseUrl = config.baseUrl.substring(0, config.baseUrl.length - 1);
   }
-  config.headers = mergeHeaders(a.headers, b.headers);
+  config.headers = mergeHeadersToObject(a.headers, b.headers);
   return config;
 };
 
-const headersEntries = (headers: Headers): Array<[string, string]> => {
-  const entries: Array<[string, string]> = [];
-  headers.forEach((value, key) => {
-    entries.push([key, value]);
-  });
-  return entries;
-};
+const headersEntries = (headers: Config['headers']): Array<[string, unknown]> =>
+  headers instanceof Headers ? Array.from(headers.entries()) : Object.entries(headers || {});
 
 export const mergeHeaders = (
   ...headers: Array<Required<Config>['headers'] | undefined>
@@ -190,9 +185,9 @@ export const mergeHeaders = (
       continue;
     }
 
-    const iterator = header instanceof Headers ? headersEntries(header) : Object.entries(header);
+    const entries = headersEntries(header);
 
-    for (const [key, value] of iterator) {
+    for (const [key, value] of entries) {
       if (value === null) {
         mergedHeaders.delete(key);
       } else if (Array.isArray(value)) {
@@ -210,6 +205,32 @@ export const mergeHeaders = (
     }
   }
   return mergedHeaders;
+};
+
+export const mergeHeadersToObject = (
+  headersA: Config['headers'],
+  headersB: Config['headers'],
+): Record<string, unknown> => {
+  const entriesA = headersEntries(headersA);
+  const entriesB = headersEntries(headersB);
+
+  if (!entriesA.length && !entriesB.length) {
+    return {};
+  }
+
+  // unlike `mergeHeaders`, both objects are truly merged
+  // duplicate keys are combined into arrays instead of overwritten
+  return [...entriesA, ...entriesB].reduce(
+    (obj, [key, value]) => {
+      if (obj[key]) {
+        obj[key] = [obj[key], value].flat();
+      } else {
+        obj[key] = value;
+      }
+      return obj;
+    },
+    {} as Record<string, unknown>,
+  );
 };
 
 type ErrInterceptor<Err, Res, Req, Options> = (

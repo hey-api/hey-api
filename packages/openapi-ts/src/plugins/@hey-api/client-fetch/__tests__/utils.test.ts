@@ -1,6 +1,6 @@
 import type { Auth } from '../../client-core/bundle/auth';
 import type { Client } from '../bundle/types';
-import { buildUrl, getParseAs, setAuthParams } from '../bundle/utils';
+import { buildUrl, getParseAs, mergeHeadersToObject, setAuthParams } from '../bundle/utils';
 
 describe('buildUrl', () => {
   const scenarios: Array<{
@@ -279,5 +279,50 @@ describe('setAuthParams', () => {
     expect(headers.get('baz')).toBe('Bearer foo');
     expect(headers.get('fiz')).toBe('buz');
     expect(Object.keys(query).length).toBe(0);
+  });
+});
+
+describe('mergeHeadersToObject', () => {
+  it('merges multiple headers to an object without converting everyting to a string', () => {
+    const headers = new Headers();
+
+    headers.append('set-cookie', 'a=b');
+    headers.append('set-cookie', 'c=d');
+    headers.set('x-some-header', 'something');
+
+    const date = new Date();
+    const url = new URL('https://heyapi.dev/');
+    const urls = [url, url];
+
+    expect(
+      mergeHeadersToObject(headers, {
+        nullEntry: null,
+        undefinedEntry: undefined,
+        'x-some-header': 123,
+      }),
+    ).toEqual({
+      nullEntry: null,
+      // set-cookie is combined into an array with two entries
+      'set-cookie': ['a=b', 'c=d'],
+      undefinedEntry: undefined,
+      'x-some-header': ['something', 123],
+    });
+
+    expect(
+      mergeHeadersToObject(
+        {
+          date,
+          url,
+          urls,
+        },
+        {
+          urls: null,
+        },
+      ),
+    ).toEqual({
+      date,
+      url,
+      urls: [...urls, null],
+    });
   });
 });

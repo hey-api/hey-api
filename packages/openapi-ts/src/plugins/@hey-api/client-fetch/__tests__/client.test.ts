@@ -538,3 +538,59 @@ describe('error interceptor for fetch exceptions', () => {
     expect(result.error).toBe(abortError);
   });
 });
+
+describe('request validator', () => {
+  it('receives expected parameters', async () => {
+    const client = createClient({ baseUrl: 'https://example.com' });
+
+    const mockHeaders = new Headers();
+    mockHeaders.append('content-length', '0');
+    mockHeaders.append('set-cookie', 'a=b');
+    mockHeaders.append('set-cookie', '1=2');
+    const mockResponse = new Response(null, {
+      headers: mockHeaders,
+      status: 200,
+    });
+    const mockFetch: MockFetch = vi.fn().mockRejectedValue(mockResponse);
+    const mockRequestValidator = vi.fn();
+    const body = {
+      testBody: new ReadableStream(),
+      testBodyDate: new Date(),
+    };
+    const headers = {
+      testHeader: 'header',
+      testHeaderArr: ['123', 'abc'],
+      testHeaderBlob: new Blob([]),
+    };
+    const path = {
+      testPath: 'path',
+      testPathUrl: new URL('https://heyapi.dev/'),
+    };
+    const query = {
+      testQuery: 123,
+      testQueryRegex: /something/,
+    };
+    await client.request({
+      body,
+      fetch: mockFetch,
+      headers,
+      method: 'GET',
+      path,
+      query,
+      async requestValidator(data) {
+        mockRequestValidator(data);
+      },
+      url: '/test',
+    });
+
+    expect(mockRequestValidator).toHaveBeenCalledExactlyOnceWith(
+      // path, query, headers and body must retain their full shape and must not be serialized
+      expect.objectContaining({
+        body: expect.objectContaining(body),
+        headers: expect.objectContaining(headers),
+        path: expect.objectContaining(path),
+        query: expect.objectContaining(query),
+      }),
+    );
+  });
+});

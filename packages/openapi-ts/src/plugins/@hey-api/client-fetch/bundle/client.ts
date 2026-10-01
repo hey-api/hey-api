@@ -9,6 +9,7 @@ import {
   getParseAs,
   mergeConfigs,
   mergeHeaders,
+  mergeHeadersToObject,
   setAuthParams,
 } from './utils';
 
@@ -37,20 +38,25 @@ export const createClient = (config: Config = {}): Client => {
   >(
     options: RequestOptions<TData, TResponseStyle, ThrowOnError, Url>,
   ) => {
-    const opts = {
+    const optsForValidation = {
       ..._config,
       ...options,
       fetch: options.fetch ?? _config.fetch ?? globalThis.fetch,
-      headers: mergeHeaders(_config.headers, options.headers),
+      headers: mergeHeadersToObject(_config.headers, options.headers),
       serializedBody: undefined as string | undefined,
+    };
+
+    if (optsForValidation.requestValidator) {
+      await optsForValidation.requestValidator(optsForValidation);
+    }
+
+    const opts = {
+      ...optsForValidation,
+      headers: mergeHeaders(_config.headers, options.headers),
     };
 
     if (opts.security) {
       await setAuthParams(opts);
-    }
-
-    if (opts.requestValidator) {
-      await opts.requestValidator(opts);
     }
 
     if (opts.body !== undefined && opts.bodySerializer) {
