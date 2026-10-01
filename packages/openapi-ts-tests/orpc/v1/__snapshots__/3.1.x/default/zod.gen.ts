@@ -39,6 +39,11 @@ export const zCreatePostInput = z.object({
   status: z.enum(['draft', 'published']).optional().default('draft')
 });
 
+export const zError = z.object({
+  type: z.url(),
+  title: z.string()
+});
+
 export const zGetUsersQuery = z.object({
   limit: z.int().optional().default(10),
   offset: z.int().optional().default(0)
@@ -126,3 +131,8 @@ export const zGetPostByIdQuery = z.object({
  * Post found
  */
 export const zGetPostByIdResponse = zPost;
+
+/**
+ * Internal server error
+ */
+export const zGetPostById500Response = zError;

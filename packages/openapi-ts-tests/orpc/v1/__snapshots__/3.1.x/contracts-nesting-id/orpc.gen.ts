@@ -3,7 +3,7 @@
 import { oc } from '@orpc/contract';
 import * as z from 'zod';
 
-import { zCreatePostBody, zCreatePostHeaders, zCreatePostResponse, zCreateUserBody, zCreateUserResponse, zDeleteUserHeaders, zDeleteUserPath, zDeleteUserResponse, zGetPostByIdPath, zGetPostByIdQuery, zGetPostByIdResponse, zGetPostsQuery, zGetPostsResponse, zGetUserByIdPath, zGetUserByIdResponse, zGetUsersQuery, zGetUsersResponse, zUpdateUserBody, zUpdateUserPath, zUpdateUserResponse } from './zod.gen';
+import { zCreatePostBody, zCreatePostHeaders, zCreatePostResponse, zCreateUserBody, zCreateUserResponse, zDeleteUserHeaders, zDeleteUserPath, zDeleteUserResponse, zGetPostById500Response, zGetPostByIdPath, zGetPostByIdQuery, zGetPostByIdResponse, zGetPostsQuery, zGetPostsResponse, zGetUserByIdPath, zGetUserByIdResponse, zGetUsersQuery, zGetUsersResponse, zUpdateUserBody, zUpdateUserPath, zUpdateUserResponse } from './zod.gen';
 
 /**
  * Get all users
@@ -110,7 +110,11 @@ export const getPostById = oc.route({
   path: '/posts/{postId}',
   summary: 'Get a post by ID',
   tags: ['posts']
-}).input(z.object({ params: zGetPostByIdPath, query: zGetPostByIdQuery.optional() })).output(zGetPostByIdResponse);
+}).input(z.object({ params: zGetPostByIdPath, query: zGetPostByIdQuery.optional() })).output(zGetPostByIdResponse).errors({ POST_NOT_FOUND: { status: 404, message: 'Post not found' } }).errors({ INTERNAL_SERVER_ERROR: {
+    status: 500,
+    message: 'Internal server error',
+    data: zGetPostById500Response
+  } });
 
 export const posts = {
   getPosts,

@@ -39,6 +39,11 @@ export const vCreatePostInput = v.object({
   status: v.optional(v.picklist(['draft', 'published']), 'draft')
 });
 
+export const vError = v.object({
+  type: v.pipe(v.string(), v.url()),
+  title: v.string()
+});
+
 export const vGetUsersQuery = v.object({
   limit: v.optional(v.pipe(v.number(), v.integer()), 10),
   offset: v.optional(v.pipe(v.number(), v.integer()), 0)
@@ -126,3 +131,8 @@ export const vGetPostByIdQuery = v.object({
  * Post found
  */
 export const vGetPostByIdResponse = vPost;
+
+/**
+ * Internal server error
+ */
+export const vGetPostById500Response = vError;
