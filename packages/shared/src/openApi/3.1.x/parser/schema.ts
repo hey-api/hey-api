@@ -317,6 +317,12 @@ function parseArray({
 
     if (!schemaItems.length && schema.maxItems && schema.maxItems === schema.minItems) {
       schemaItems = Array(schema.maxItems).fill(irItemsSchema);
+    } else if ('$ref' in schema.items) {
+      // 3.1 lets `$ref` carry siblings, so `items` may hold both a reference and a
+      // composition. The reference wins: lifting the parsed item schema would drop the
+      // array. Checked on the source schema because `parseRef` inlines a non-component
+      // ref and returns no `$ref` to test.
+      schemaItems.push(irItemsSchema);
     } else {
       const ofArray = schema.items.allOf || schema.items.anyOf || schema.items.oneOf;
       if (ofArray && ofArray.length > 1 && !getSchemaTypes(schema.items).includes('null')) {
