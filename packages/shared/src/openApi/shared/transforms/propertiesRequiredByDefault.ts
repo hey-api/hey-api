@@ -75,7 +75,9 @@ export function propertiesRequiredByDefaultTransform({ spec }: { spec: unknown }
         nodeInfo.node &&
         typeof nodeInfo.node === 'object' &&
         'type' in nodeInfo.node &&
-        nodeInfo.node.type === 'object' &&
+        // OpenAPI 3.1 expresses a nullable object as `type: ['object', 'null']`
+        (nodeInfo.node.type === 'object' ||
+          (Array.isArray(nodeInfo.node.type) && nodeInfo.node.type.includes('object'))) &&
         'properties' in nodeInfo.node &&
         nodeInfo.node.properties &&
         typeof nodeInfo.node.properties === 'object' &&
