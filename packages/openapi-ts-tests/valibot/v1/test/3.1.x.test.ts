@@ -153,6 +153,14 @@ describe(`OpenAPI ${version}`, () => {
     },
     {
       config: createConfig({
+        input: 'discriminator-one-of-pydantic-default.yaml',
+        output: 'discriminator-one-of-pydantic-default',
+      }),
+      description:
+        'extends discriminated union members when discriminator has const+default (Pydantic/FastAPI)',
+    },
+    {
+      config: createConfig({
         input: 'time-format.yaml',
         output: 'time-format',
       }),
