@@ -170,6 +170,9 @@ export const mergeConfigs = (a: Config, b: Config): Config => {
     config.baseUrl = config.baseUrl.substring(0, config.baseUrl.length - 1);
   }
   config.headers = mergeHeaders(a.headers, b.headers);
+  if (a.kyOptions && b.kyOptions) {
+    config.kyOptions = { ...a.kyOptions, ...b.kyOptions };
+  }
   return config;
 };
 

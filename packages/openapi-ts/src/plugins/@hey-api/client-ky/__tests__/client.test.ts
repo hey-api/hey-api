@@ -617,6 +617,224 @@ describe('retry configuration', () => {
       }),
     );
   });
+
+  it('omits retry when unset so ky instance defaults survive', async () => {
+    const mockResponse = new Response(JSON.stringify({ success: true }), {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      status: 200,
+    });
+
+    const mockKy = vi.fn().mockResolvedValue(mockResponse);
+
+    await client.get({
+      ky: mockKy as Partial<KyInstance> as KyInstance,
+      url: '/test',
+    });
+
+    expect(mockKy.mock.calls[0]![1]).not.toHaveProperty('retry');
+  });
+
+  it('passes kyOptions.retry to ky when top-level retry is unset', async () => {
+    const mockResponse = new Response(JSON.stringify({ success: true }), {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      status: 200,
+    });
+
+    const mockKy = vi.fn().mockResolvedValue(mockResponse);
+
+    await client.get({
+      ky: mockKy as Partial<KyInstance> as KyInstance,
+      kyOptions: {
+        retry: { limit: 5, retryOnTimeout: true },
+      },
+      url: '/test',
+    });
+
+    expect(mockKy).toHaveBeenCalledWith(
+      expect.any(Request),
+      expect.objectContaining({
+        retry: { limit: 5, retryOnTimeout: true },
+      }),
+    );
+  });
+
+  it('prefers top-level retry over kyOptions.retry', async () => {
+    const mockResponse = new Response(JSON.stringify({ success: true }), {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      status: 200,
+    });
+
+    const mockKy = vi.fn().mockResolvedValue(mockResponse);
+
+    await client.get({
+      ky: mockKy as Partial<KyInstance> as KyInstance,
+      kyOptions: {
+        retry: { limit: 5 },
+      },
+      retry: 3,
+      url: '/test',
+    });
+
+    expect(mockKy).toHaveBeenCalledWith(
+      expect.any(Request),
+      expect.objectContaining({
+        retry: 3,
+      }),
+    );
+  });
+
+  it('prefers per-request kyOptions.retry over client-level retry', async () => {
+    const mockResponse = new Response(JSON.stringify({ success: true }), {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      status: 200,
+    });
+
+    const mockKy = vi.fn().mockResolvedValue(mockResponse);
+
+    const clientWithRetry = createClient({
+      baseUrl: 'https://example.com',
+      retry: 2,
+    });
+
+    await clientWithRetry.get({
+      ky: mockKy as Partial<KyInstance> as KyInstance,
+      kyOptions: {
+        retry: { limit: 5 },
+      },
+      url: '/test',
+    });
+
+    expect(mockKy).toHaveBeenCalledWith(
+      expect.any(Request),
+      expect.objectContaining({
+        retry: { limit: 5 },
+      }),
+    );
+  });
+
+  it('falls back to client-level retry when request does not specify one', async () => {
+    const mockResponse = new Response(JSON.stringify({ success: true }), {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      status: 200,
+    });
+
+    const mockKy = vi.fn().mockResolvedValue(mockResponse);
+
+    const clientWithRetry = createClient({
+      baseUrl: 'https://example.com',
+      kyOptions: {
+        retry: { limit: 4 },
+      },
+    });
+
+    await clientWithRetry.get({
+      ky: mockKy as Partial<KyInstance> as KyInstance,
+      url: '/test',
+    });
+
+    expect(mockKy).toHaveBeenCalledWith(
+      expect.any(Request),
+      expect.objectContaining({
+        retry: { limit: 4 },
+      }),
+    );
+  });
+});
+
+describe('redirect configuration', () => {
+  const client = createClient({ baseUrl: 'https://example.com' });
+
+  it('omits redirect when unset so ky instance defaults survive', async () => {
+    const mockResponse = new Response(JSON.stringify({ success: true }), {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      status: 200,
+    });
+
+    const mockKy = vi.fn().mockResolvedValue(mockResponse);
+
+    await client.get({
+      ky: mockKy as Partial<KyInstance> as KyInstance,
+      url: '/test',
+    });
+
+    expect(mockKy.mock.calls[0]![1]).not.toHaveProperty('redirect');
+  });
+
+  it('passes redirect to ky when set', async () => {
+    const mockResponse = new Response(JSON.stringify({ success: true }), {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      status: 200,
+    });
+
+    const mockKy = vi.fn().mockResolvedValue(mockResponse);
+
+    await client.get({
+      ky: mockKy as Partial<KyInstance> as KyInstance,
+      redirect: 'error',
+      url: '/test',
+    });
+
+    expect(mockKy).toHaveBeenCalledWith(
+      expect.any(Request),
+      expect.objectContaining({
+        redirect: 'error',
+      }),
+    );
+  });
+});
+
+describe('setConfig kyOptions merging', () => {
+  it('merges kyOptions instead of replacing them', async () => {
+    const mockResponse = new Response(JSON.stringify({ success: true }), {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      status: 200,
+    });
+
+    const mockKy = vi.fn().mockResolvedValue(mockResponse);
+
+    const client = createClient({
+      baseUrl: 'https://example.com',
+      kyOptions: { context: { foo: 'bar' } },
+    });
+
+    client.setConfig({
+      kyOptions: { fetch: globalThis.fetch },
+    });
+
+    expect(client.getConfig().kyOptions).toEqual({
+      context: { foo: 'bar' },
+      fetch: globalThis.fetch,
+    });
+
+    await client.get({
+      ky: mockKy as Partial<KyInstance> as KyInstance,
+      url: '/test',
+    });
+
+    expect(mockKy).toHaveBeenCalledWith(
+      expect.any(Request),
+      expect.objectContaining({
+        context: { foo: 'bar' },
+        fetch: globalThis.fetch,
+      }),
+    );
+  });
 });
 
 describe('responseStyle configuration', () => {
