@@ -18,7 +18,7 @@
     "@astrojs/starlight-docsearch": "0.7.0",
     "@astrojs/vercel": "11.0.4",
     "@hey-api/starlight-llms-txt": "0.10.2",
-    "astro": "7.1.6",
+    "astro": "7.2.8",
     "mdast-util-mdx-jsx": "3.2.0",
     "resend": "6.17.1",
     "starlight-theme-flexoki": "0.2.2",
