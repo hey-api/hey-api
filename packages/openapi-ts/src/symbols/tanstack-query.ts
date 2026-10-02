@@ -33,6 +33,9 @@ export function TANSTACK_QUERY(plugin: PluginInstance) {
     queryOptions: plugin.symbol('queryOptions', {
       external: plugin.name,
     }),
+    skipToken: plugin.symbol('skipToken', {
+      external: plugin.name,
+    }),
     useMutation: plugin.symbol('useMutation', {
       external: plugin.name,
     }),

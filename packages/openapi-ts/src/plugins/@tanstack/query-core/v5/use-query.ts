@@ -25,11 +25,14 @@ export function createUseQuery({
 
   const symbolUseQueryFn = plugin.symbol(applyNaming(operation.id, plugin.config.useQuery));
 
+  const symbolSkipToken = $(plugin.imports.skipToken);
+
   const isRequiredOptions = isOperationOptionsRequired({
     context: plugin.context,
     operation,
   });
   const typeData = useTypeData({ operation, plugin });
+  const sdkParamType = $.type.or(typeData, $.type.query(symbolSkipToken));
   // TODO: contract (self)
   const symbolQueryOptionsFn = plugin.referenceSymbol({
     artifact: plugin.name,
@@ -43,7 +46,7 @@ export function createUseQuery({
     .$if(plugin.config.comments && createOperationComment(operation), (c, v) => c.doc(v))
     .assign(
       $.func()
-        .param(optionsParamName, (p) => p.required(isRequiredOptions).type(typeData))
+        .param(optionsParamName, (p) => p.required(isRequiredOptions).type(sdkParamType))
         .do(
           $(plugin.imports.useQuery).call($(symbolQueryOptionsFn).call(optionsParamName)).return(),
         ),

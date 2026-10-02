@@ -10,6 +10,7 @@ import {
 } from '../../../shared/utils/operation';
 import { createQueryKeyFunction, createQueryKeyType, queryKeyStatement } from '../query-key';
 import { handleMeta } from '../shared/meta';
+import { createUnwrapSkipTokenFunction } from '../shared/unwrap-skip-token';
 import { useTypeData, useTypeError, useTypeResponse } from '../shared/use-type';
 import type { PluginInstance } from '../types';
 
@@ -41,6 +42,17 @@ export function createQueryOptions({
     createQueryKeyFunction({ plugin });
   }
 
+  if (
+    // TODO: contract (self)
+    !plugin.querySymbol({
+      artifact: plugin.name,
+      category: 'utility',
+      resource: 'unwrapSkipToken',
+    })
+  ) {
+    createUnwrapSkipTokenFunction({ plugin });
+  }
+
   const symbolQueryKey = plugin.symbol(applyNaming(operation.id, plugin.config.queryKeys));
   const node = queryKeyStatement({
     isInfinite: false,
@@ -51,6 +63,16 @@ export function createQueryOptions({
   plugin.node(node);
 
   const typeResponse = useTypeResponse({ operation, plugin });
+
+  const symbolSkipToken = $(plugin.imports.skipToken);
+  const symbolUnwrapSkipToken = plugin.referenceSymbol({
+    artifact: plugin.name,
+    category: 'utility',
+    resource: 'unwrapSkipToken',
+  });
+  const unwrappedName = 'unwrapped';
+  const unwrappedRef = $(unwrappedName);
+  const unwrappedCall = $(symbolUnwrapSkipToken).call(optionsParamName);
 
   const awaitSdkFn = $.lazy((ctx) =>
     ctx
@@ -64,7 +86,7 @@ export function createQueryOptions({
       )
       .call(
         $.object()
-          .spread(optionsParamName)
+          .spread(unwrappedRef)
           .spread($('queryKey').attr(0))
           .prop('signal', $('signal'))
           .prop('throwOnError', $.literal(true)),
@@ -79,17 +101,24 @@ export function createQueryOptions({
     statements.push($.const().object('data').assign(awaitSdkFn), $.return('data'));
   }
 
+  const asyncQueryFn = $.func()
+    .async()
+    .param((p) => p.object('queryKey', 'signal'))
+    .do(...statements);
+
+  const typeData = useTypeData({ operation, plugin });
+
   const queryOptionsObj = $.object()
     .pretty()
     .prop(
       'queryFn',
-      $.func()
-        .async()
-        .param((p) => p.object('queryKey', 'signal'))
-        .do(...statements),
+      $.ternary($(optionsParamName).eq(symbolSkipToken))
+        .do(symbolSkipToken)
+        .otherwise(asyncQueryFn),
     )
     .prop('queryKey', $(symbolQueryKey).call(optionsParamName))
     .$if(handleMeta(plugin, operation, 'queryOptions'), (o, v) => o.prop('meta', v));
+  const paramType = $.type.or(typeData, $.type.query(symbolSkipToken));
 
   const symbolQueryOptionsFn = plugin.symbol(
     applyNaming(operation.id, plugin.config.queryOptions),
@@ -109,10 +138,9 @@ export function createQueryOptions({
     .$if(plugin.config.comments && createOperationComment(operation), (c, v) => c.doc(v))
     .assign(
       $.func()
-        .param(optionsParamName, (p) =>
-          p.required(isRequiredOptions).type(useTypeData({ operation, plugin })),
-        )
+        .param(optionsParamName, (p) => p.required(isRequiredOptions).type(paramType))
         .do(
+          $.const(unwrappedName).assign(unwrappedCall),
           $(plugin.imports.queryOptions)
             .call(queryOptionsObj)
             .generics(
