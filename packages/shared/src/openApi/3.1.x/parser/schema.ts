@@ -253,6 +253,10 @@ function parseSchemaMeta({
     irSchema.maxLength = schema.maxLength;
   }
 
+  if (schema.maxProperties !== undefined) {
+    irSchema.maxProperties = schema.maxProperties;
+  }
+
   if (schema.minimum !== undefined) {
     irSchema.minimum = schema.minimum;
   }
@@ -263,6 +267,10 @@ function parseSchemaMeta({
 
   if (schema.minLength !== undefined) {
     irSchema.minLength = schema.minLength;
+  }
+
+  if (schema.minProperties !== undefined) {
+    irSchema.minProperties = schema.minProperties;
   }
 
   if (schema.pattern) {

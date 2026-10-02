@@ -10,6 +10,41 @@ function isRecordShaped(schema: IR.SchemaObject | undefined): boolean {
   return !hasProperties && Boolean(schema.additionalProperties);
 }
 
+function hasPropertyCountConstraints({
+  resolveIrRef,
+  schema,
+  visited = new Set<IR.SchemaObject>(),
+}: {
+  resolveIrRef: (ref: string) => IR.SchemaObject | undefined;
+  schema: IR.SchemaObject | undefined;
+  visited?: Set<IR.SchemaObject>;
+}): boolean {
+  if (!schema || visited.has(schema)) return false;
+  visited.add(schema);
+
+  if (schema.minProperties !== undefined || schema.maxProperties !== undefined) {
+    return true;
+  }
+
+  if (schema.$ref) {
+    return hasPropertyCountConstraints({
+      resolveIrRef,
+      schema: resolveIrRef(schema.$ref),
+      visited,
+    });
+  }
+
+  if (schema.logicalOperator === 'and' && schema.items?.length === 1) {
+    return hasPropertyCountConstraints({
+      resolveIrRef,
+      schema: schema.items[0],
+      visited,
+    });
+  }
+
+  return false;
+}
+
 export function shouldFallBackToUnion({
   childResults,
   parentSchema,
@@ -35,6 +70,21 @@ export function shouldFallBackToUnion({
       resolved = plugin.context.resolveIrRef<IR.SchemaObject>(ref);
     } catch {
       continue;
+    }
+
+    if (
+      hasPropertyCountConstraints({
+        resolveIrRef: (propertyRef) => {
+          try {
+            return plugin.context.resolveIrRef<IR.SchemaObject>(propertyRef);
+          } catch {
+            return;
+          }
+        },
+        schema: resolved,
+      })
+    ) {
+      return true;
     }
 
     if (
