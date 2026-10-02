@@ -65,7 +65,8 @@ export type UserConfig = Plugin.Name<'@hey-api/sdk'> &
      */
     paramsStructure?: 'flat' | 'grouped';
     /**
-     * **This feature works only with the Fetch client**
+     * **Supported by the Angular, Fetch, Ky and Ofetch clients.** The Axios,
+     * Next and Nuxt clients always return the fields shape and ignore this.
      *
      * Should we return only data or multiple fields (data, error, response, etc.)?
      *
@@ -223,7 +224,8 @@ export type Config = Plugin.Name<'@hey-api/sdk'> &
     /** Define how request parameters are structured in generated SDK methods. */
     paramsStructure: 'flat' | 'grouped';
     /**
-     * **This feature works only with the Fetch client**
+     * **Supported by the Angular, Fetch, Ky and Ofetch clients.** The Axios,
+     * Next and Nuxt clients always return the fields shape and ignore this.
      *
      * Should we return only data or multiple fields (data, error, response, etc.)?
      *

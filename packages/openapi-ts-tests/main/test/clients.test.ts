@@ -79,6 +79,19 @@ for (const client of clients) {
       },
       {
         config: createConfig({
+          output: 'sdk-response-style-data',
+          plugins: [
+            client,
+            {
+              name: '@hey-api/sdk',
+              responseStyle: 'data',
+            },
+          ],
+        }),
+        description: 'SDK with responseStyle data',
+      },
+      {
+        config: createConfig({
           output: 'base-url-false',
           plugins: [
             {

@@ -172,6 +172,70 @@ for (const version of versions) {
       },
       {
         config: createConfig({
+          input: 'sdk-instance.yaml',
+          output: 'response-style-data-axios',
+          plugins: [
+            '@pinia/colada',
+            '@hey-api/client-axios',
+            {
+              name: '@hey-api/sdk',
+              responseStyle: 'data',
+            },
+          ],
+        }),
+        description:
+          'generate Pinia Colada options that do not unwrap responseStyle data for a client without responseStyle support',
+      },
+      {
+        config: createConfig({
+          input: 'sdk-instance.yaml',
+          output: 'response-style-data-fetch',
+          plugins: [
+            '@pinia/colada',
+            '@hey-api/client-fetch',
+            {
+              name: '@hey-api/sdk',
+              responseStyle: 'data',
+            },
+          ],
+        }),
+        description:
+          'generate Pinia Colada options that unwrap responseStyle data for a client with responseStyle support',
+      },
+      {
+        config: createConfig({
+          input: 'sdk-instance.yaml',
+          output: 'response-style-data-axios',
+          plugins: [
+            'swr',
+            '@hey-api/client-axios',
+            {
+              name: '@hey-api/sdk',
+              responseStyle: 'data',
+            },
+          ],
+        }),
+        description:
+          'generate an SWR hook that does not unwrap responseStyle data for a client without responseStyle support',
+      },
+      {
+        config: createConfig({
+          input: 'sdk-instance.yaml',
+          output: 'response-style-data-fetch',
+          plugins: [
+            'swr',
+            '@hey-api/client-fetch',
+            {
+              name: '@hey-api/sdk',
+              responseStyle: 'data',
+            },
+          ],
+        }),
+        description:
+          'generate an SWR hook that unwraps responseStyle data for a client with responseStyle support',
+      },
+      {
+        config: createConfig({
           output: 'default',
           plugins: ['@angular/common', '@hey-api/client-angular'],
         }),

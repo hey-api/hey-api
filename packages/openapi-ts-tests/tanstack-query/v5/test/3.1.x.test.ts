@@ -51,6 +51,38 @@ describe(`OpenAPI ${version}`, () => {
       }),
       description: 'SSE POST endpoint is excluded from TanStack React Query mutations',
     },
+    {
+      config: createConfig({
+        input: 'full.yaml',
+        output: 'response-style-data-axios',
+        plugins: [
+          '@hey-api/client-axios',
+          '@tanstack/react-query',
+          {
+            name: '@hey-api/sdk',
+            responseStyle: 'data',
+          },
+        ],
+      }),
+      description:
+        'query, mutation and infinite query options do not unwrap responseStyle data for a client without responseStyle support',
+    },
+    {
+      config: createConfig({
+        input: 'full.yaml',
+        output: 'response-style-data-fetch',
+        plugins: [
+          '@hey-api/client-fetch',
+          '@tanstack/react-query',
+          {
+            name: '@hey-api/sdk',
+            responseStyle: 'data',
+          },
+        ],
+      }),
+      description:
+        'query, mutation and infinite query options unwrap responseStyle data for a client with responseStyle support',
+    },
   ];
 
   it.each(scenarios)('$description', async ({ config }) => {

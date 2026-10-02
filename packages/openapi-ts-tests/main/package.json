@@ -29,6 +29,7 @@
     "nuxt": "3.14.1592",
     "ofetch": "1.5.1",
     "rxjs": "7.8.2",
+    "swr": "2.4.1",
     "temporal-polyfill": "1.0.1",
     "tinyexec": "1.2.4",
     "tslib": "2.8.1",

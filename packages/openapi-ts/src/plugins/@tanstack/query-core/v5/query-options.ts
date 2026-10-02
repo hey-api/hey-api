@@ -1,8 +1,10 @@
 import type { IR } from '@hey-api/shared';
 import { applyNaming } from '@hey-api/shared';
 
+import { getTypedConfig } from '../../../../config/utils';
 import type { TsDsl } from '../../../../ts-dsl';
 import { $ } from '../../../../ts-dsl';
+import { clientSupportsResponseStyle } from '../../../@hey-api/client-core/utils';
 import {
   createOperationComment,
   hasOperationSse,
@@ -73,7 +75,10 @@ export function createQueryOptions({
   );
 
   const statements: Array<TsDsl<any>> = [];
-  if (plugin.getPluginOrThrow('@hey-api/sdk').config.responseStyle === 'data') {
+  if (
+    plugin.getPluginOrThrow('@hey-api/sdk').config.responseStyle === 'data' &&
+    clientSupportsResponseStyle(getTypedConfig(plugin))
+  ) {
     statements.push($.return(awaitSdkFn));
   } else {
     statements.push($.const().object('data').assign(awaitSdkFn), $.return('data'));

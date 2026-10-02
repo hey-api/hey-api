@@ -322,7 +322,10 @@ export class TypeScriptRenderer implements Renderer {
           const group = e.group;
           if (group.kind === 'namespace') {
             group.imports = [];
-          } else {
+          } else if (group.kind === 'named') {
+            // A default/namespace import carries its own `isTypeOnly` and has no
+            // named specifiers, so `group.imports` is empty by design here. Recomputing
+            // from an empty array would vacuously flip it to type-only.
             const isTypeOnly = !group.imports.find((imp) => !imp.isTypeOnly);
             if (isTypeOnly) {
               group.isTypeOnly = true;

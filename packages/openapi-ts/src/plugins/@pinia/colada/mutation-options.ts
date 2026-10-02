@@ -3,7 +3,7 @@ import { applyNaming } from '@hey-api/shared';
 
 import { getTypedConfig } from '../../../config/utils';
 import { $ } from '../../../ts-dsl';
-import { getClientPlugin } from '../../@hey-api/client-core/utils';
+import { clientSupportsResponseStyle, getClientPlugin } from '../../@hey-api/client-core/utils';
 import { createOperationComment } from '../../shared/utils/operation';
 import { handleMeta } from './meta';
 import type { PiniaColadaPlugin } from './types';
@@ -43,7 +43,10 @@ export function createMutationOptions({
 
   const statements: Array<ReturnType<typeof $.var | typeof $.return>> = [];
 
-  if (plugin.getPluginOrThrow('@hey-api/sdk').config.responseStyle === 'data') {
+  if (
+    plugin.getPluginOrThrow('@hey-api/sdk').config.responseStyle === 'data' &&
+    clientSupportsResponseStyle(getTypedConfig(plugin))
+  ) {
     statements.push($.return(awaitSdkFn));
   } else {
     statements.push($.const().object('data').assign(awaitSdkFn), $.return('data'));

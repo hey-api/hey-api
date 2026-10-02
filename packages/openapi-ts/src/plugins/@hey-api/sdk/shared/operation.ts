@@ -3,7 +3,7 @@ import { statusCodeToGroup } from '@hey-api/shared';
 
 import { getTypedConfig } from '../../../../config/utils';
 import { $ } from '../../../../ts-dsl';
-import { getClientPlugin } from '../../../@hey-api/client-core/utils';
+import { clientSupportsResponseStyle, getClientPlugin } from '../../../@hey-api/client-core/utils';
 import { hasOperationSse } from '../../../shared/utils/operation';
 import type { Field, Fields } from '../../client-core/bundle/params';
 import type { HeyApiSdkPlugin } from '../types';
@@ -372,7 +372,10 @@ export function operationStatements({
     reqOptions.prop('responseValidator', responseHandlers.validator);
   }
 
-  if (plugin.config.responseStyle === 'data') {
+  if (
+    plugin.config.responseStyle === 'data' &&
+    clientSupportsResponseStyle(getTypedConfig(plugin))
+  ) {
     reqOptions.prop('responseStyle', $.literal(plugin.config.responseStyle));
   }
 
@@ -479,8 +482,10 @@ export function operationStatements({
               .generic(symbolErrorType ?? 'unknown')
               .generic('ThrowOnError'),
         )
-        .$if(plugin.config.responseStyle === 'data', (f) =>
-          f.generic($.type.literal(plugin.config.responseStyle)),
+        .$if(
+          plugin.config.responseStyle === 'data' &&
+            clientSupportsResponseStyle(getTypedConfig(plugin)),
+          (f) => f.generic($.type.literal(plugin.config.responseStyle)),
         ),
     ),
   );
@@ -517,10 +522,10 @@ export function operationReturnType({
   if (isNuxt) {
     const inner = requestResult
       .generic(nuxtTypeComposable)
-      .generic($.type.or(queryType('response'), nuxtTypeDefault));
-    return isSse
-      ? $.type('Promise').generic(sseResult.generic(inner.generic('unknown')))
-      : inner.generic(nuxtTypeDefault);
+      .generic($.type.or(queryType('response'), nuxtTypeDefault))
+      // RequestResult's third parameter is TError, which is what the call passes
+      .generic(queryType('error'));
+    return isSse ? $.type('Promise').generic(sseResult.generic(inner)) : inner;
   }
 
   if (isSse) {
@@ -531,7 +536,8 @@ export function operationReturnType({
     .generic(queryType('responses'))
     .generic(queryType('errors'))
     .generic('ThrowOnError')
-    .$if(plugin.config.responseStyle === 'data', (t) =>
-      t.generic($.type.literal(plugin.config.responseStyle)),
+    .$if(
+      plugin.config.responseStyle === 'data' && clientSupportsResponseStyle(getTypedConfig(plugin)),
+      (t) => t.generic($.type.literal(plugin.config.responseStyle)),
     );
 }
