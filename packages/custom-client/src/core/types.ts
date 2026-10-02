@@ -15,6 +15,7 @@ export interface Client<RequestFn = never, Config = unknown, MethodFn = never, B
   patch: MethodFn;
   post: MethodFn;
   put: MethodFn;
+  query: MethodFn;
   request: RequestFn;
   setConfig: (config: Config) => Config;
   trace: MethodFn;
@@ -48,7 +49,17 @@ export interface Config {
    *
    * {@link https://developer.mozilla.org/docs/Web/API/fetch#method See more}
    */
-  method?: 'CONNECT' | 'DELETE' | 'GET' | 'HEAD' | 'OPTIONS' | 'PATCH' | 'POST' | 'PUT' | 'TRACE';
+  method?:
+    | 'CONNECT'
+    | 'DELETE'
+    | 'GET'
+    | 'HEAD'
+    | 'OPTIONS'
+    | 'PATCH'
+    | 'POST'
+    | 'PUT'
+    | 'QUERY'
+    | 'TRACE';
   /**
    * A function for serializing request query parameters. By default, arrays
    * will be exploded in form style, objects will be exploded in deepObject

@@ -1,5 +1,6 @@
 import type { OpenAPIV3_1 } from '@hey-api/spec-types';
 
+import { satisfies } from '../../../config/utils/dependencies';
 import type { Context } from '../../../ir/context';
 import { buildResourceMetadata } from '../../../openApi/shared/graph/meta';
 import { transformOpenApiSpec } from '../../../openApi/shared/transforms';
@@ -33,7 +34,7 @@ export function parseV3_1_X(context: Context<OpenAPIV3_1.Document>): void {
   if (shouldFilterSpec) {
     const filters = createFilters(context.config.parser.filters, context.spec, context.logger);
     const { graph } = buildGraph(context.spec, context.logger);
-    const { resourceMetadata } = buildResourceMetadata(graph, context.logger);
+    const { resourceMetadata } = buildResourceMetadata(graph, context.logger, context.spec.openapi);
     const sets = createFilteredDependencies({
       filters,
       logger: context.logger,
@@ -261,6 +262,24 @@ export function parseV3_1_X(context: Context<OpenAPIV3_1.Document>): void {
             source: parametersArrayToObject({
               context,
               parameters: finalPathItem.put.parameters,
+            }),
+            target: operationArgs.operation.parameters,
+          }),
+        },
+      });
+    }
+
+    if (satisfies(context.spec.openapi, '>=3.2.0') && finalPathItem.query) {
+      parsePathOperation({
+        ...operationArgs,
+        method: 'query',
+        operation: {
+          ...operationArgs.operation,
+          ...finalPathItem.query,
+          parameters: mergeParametersObjects({
+            source: parametersArrayToObject({
+              context,
+              parameters: finalPathItem.query.parameters,
             }),
             target: operationArgs.operation.parameters,
           }),

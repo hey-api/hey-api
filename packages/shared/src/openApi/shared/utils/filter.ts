@@ -5,7 +5,7 @@ import type { Parser } from '../../../config/parser/types';
 import { createOperationKey } from '../../../ir/operation';
 import type { OpenApi } from '../../../openApi/types';
 import type { ResourceMetadata } from '../graph/meta';
-import { httpMethods } from './operation';
+import { getHttpMethods, legacyHttpMethods } from './operation';
 
 type FilterNamespace = 'body' | 'operation' | 'parameter' | 'response' | 'schema' | 'unknown';
 
@@ -132,7 +132,7 @@ function collectFiltersSetFromRegExpsOpenApiV2({
     for (const entry of Object.entries(spec.paths)) {
       const path = entry[0] as keyof OpenAPIV3_1.PathsObject;
       const pathItem = entry[1] as OpenAPIV3_1.PathItemObject;
-      for (const method of httpMethods) {
+      for (const method of legacyHttpMethods) {
         const operation = pathItem[method];
         if (!operation) {
           continue;
@@ -184,7 +184,7 @@ function collectFiltersSetFromRegExpsOpenApiV3({
     for (const entry of Object.entries(spec.paths)) {
       const path = entry[0] as keyof OpenAPIV3_1.PathsObject;
       const pathItem = entry[1] as OpenAPIV3_1.PathItemObject;
-      for (const method of httpMethods) {
+      for (const method of getHttpMethods(spec.openapi)) {
         const operation = pathItem[method];
         if (!operation) {
           continue;

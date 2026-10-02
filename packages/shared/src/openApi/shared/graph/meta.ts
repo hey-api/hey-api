@@ -4,7 +4,7 @@ import type { Graph } from '../../../graph';
 import { createOperationKey } from '../../../ir/operation';
 import { jsonPointerToPath } from '../../../utils/ref';
 import { addNamespace, stringToNamespace } from '../utils/filter';
-import { httpMethods } from '../utils/operation';
+import { getHttpMethods } from '../utils/operation';
 
 export type ResourceMetadata = {
   operations: Map<
@@ -52,6 +52,7 @@ export type ResourceMetadata = {
 export function buildResourceMetadata(
   graph: Graph,
   logger: Logger,
+  version: string,
 ): {
   resourceMetadata: ResourceMetadata;
 } {
@@ -83,6 +84,8 @@ export function buildResourceMetadata(
     }
     return dependencies;
   };
+
+  const httpMethods: ReadonlyArray<string> = getHttpMethods(version);
 
   // Process each node to find top-level resources
   for (const [pointer, nodeInfo] of graph.nodes) {

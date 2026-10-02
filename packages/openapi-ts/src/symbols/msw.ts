@@ -8,7 +8,6 @@ export function MSW(factory: SymbolFactory) {
     }),
     HttpHandler: factory.register('HttpHandler', {
       external: 'msw',
-      kind: 'type',
     }),
     HttpResponse: factory.register('HttpResponse', {
       external: 'msw',

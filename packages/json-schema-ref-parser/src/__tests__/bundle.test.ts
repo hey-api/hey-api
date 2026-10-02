@@ -750,6 +750,92 @@ describe('bundle', () => {
       expect(merged.paths[prefixedKey!].get).toBeDefined();
     });
 
+    it('adds prefix to path when OpenAPI 3.2 QUERY methods conflict', async () => {
+      const refParser = new $RefParser();
+      const createSpec = (title: string, operationId: string) => ({
+        info: { title, version: '1.0.0' },
+        openapi: '3.2.0',
+        paths: {
+          '/search': {
+            query: {
+              operationId,
+              responses: { '200': { description: 'Success' } },
+            },
+          },
+        },
+      });
+
+      const merged = (await refParser.bundleMany({
+        pathOrUrlOrSchemas: [
+          createSpec('Spec 1', 'searchFirst'),
+          createSpec('Spec 2', 'searchSecond'),
+        ],
+      })) as any;
+
+      const pathKeys = Object.keys(merged.paths);
+      expect(pathKeys).toHaveLength(2);
+      expect(merged.paths['/search'].query.operationId).toMatch(/searchFirst$/);
+      const prefixedKey = pathKeys.find((key) => key !== '/search');
+      expect(prefixedKey).toBeDefined();
+      expect(merged.paths[prefixedKey!].query.operationId).toMatch(/searchSecond$/);
+    });
+
+    it.each(['3.1.0', 'invalid'])(
+      'does not treat QUERY as an operation for OpenAPI version %s',
+      async (openapi) => {
+        const refParser = new $RefParser();
+        const createSpec = (title: string, operationId: string) => ({
+          info: { title, version: '1.0.0' },
+          openapi,
+          paths: {
+            '/search': {
+              query: {
+                operationId,
+                responses: { '200': { description: 'Success' } },
+              },
+            },
+          },
+        });
+
+        const merged = (await refParser.bundleMany({
+          pathOrUrlOrSchemas: [
+            createSpec('Spec 1', 'searchFirst'),
+            createSpec('Spec 2', 'searchSecond'),
+          ],
+        })) as any;
+
+        expect(Object.keys(merged.paths)).toEqual(['/search']);
+      },
+    );
+
+    it.each([
+      ['before', ['3.1.0', '3.2.0']],
+      ['after', ['3.2.0', '3.1.0']],
+    ])(
+      'preserves the first version and does not activate a pre-3.2 QUERY field merged %s 3.2',
+      async (_, versions) => {
+        const refParser = new $RefParser();
+        const specs = versions.map((openapi) => ({
+          info: { title: `OpenAPI ${openapi}`, version: '1.0.0' },
+          openapi,
+          paths: {
+            '/search': {
+              query: {
+                operationId: openapi === '3.2.0' ? 'validSearch' : 'ignoredSearch',
+                responses: { '200': { description: 'Success' } },
+              },
+            },
+          },
+        }));
+
+        const merged = (await refParser.bundleMany({ pathOrUrlOrSchemas: specs })) as any;
+
+        expect(merged.openapi).toBe(versions[0]);
+        expect(Object.keys(merged.paths)).toEqual(['/search']);
+        expect(merged.paths['/search'].query.operationId).toMatch(/validSearch$/);
+      },
+    );
+
     it('merges Swagger 2.0 definitions from multiple inputs', async () => {
       // regression test for https://github.com/hey-api/hey-api/issues/4112
       const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'json-schema-ref-parser-'));

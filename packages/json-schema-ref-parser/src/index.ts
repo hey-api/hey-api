@@ -17,6 +17,38 @@ interface ResolvedInput {
   type: 'file' | 'json' | 'url';
 }
 
+const LEGACY_HTTP_METHODS: ReadonlySet<string> = new Set([
+  'delete',
+  'get',
+  'head',
+  'options',
+  'patch',
+  'post',
+  'put',
+  'trace',
+]);
+
+function supportsQueryMethod(openApiVersion: unknown): boolean {
+  if (typeof openApiVersion !== 'string') {
+    return false;
+  }
+
+  const match = /^(\d+)\.(\d+)(?:\.|$)/.exec(openApiVersion);
+  if (!match) {
+    return false;
+  }
+
+  const major = Number(match[1]);
+  const minor = Number(match[2]);
+
+  // QUERY became a Path Item operation in OpenAPI 3.2. Unknown versions use legacy behavior.
+  return major > 3 || (major === 3 && minor >= 2);
+}
+
+function isHttpMethod(method: string, querySupported: boolean): boolean {
+  return LEGACY_HTTP_METHODS.has(method) || (querySupported && method === 'query');
+}
+
 export function getResolvedInput({
   pathOrUrlOrSchema,
 }: {
@@ -548,29 +580,20 @@ export class $RefParser {
         );
       }
 
-      const HTTP_METHODS = new Set([
-        'delete',
-        'get',
-        'head',
-        'options',
-        'patch',
-        'post',
-        'put',
-        'trace',
-      ]);
+      const querySupported = supportsQueryMethod(schema.openapi);
 
       const srcPaths = (schema.paths || {}) as Record<string, any>;
       for (const [p, item] of Object.entries(srcPaths)) {
+        const rewritten = cloneAndRewrite(item, refMap, tagMap, prefix, url.stripHash(sourcePath));
+        if (!querySupported) {
+          delete rewritten.query;
+        }
+
         if (merged.paths[p]) {
-          const newMethods = Object.keys(item as object).filter((k) => HTTP_METHODS.has(k));
-          const hasMethodConflict = newMethods.some((m) => merged.paths[p][m] !== undefined);
-          const rewritten = cloneAndRewrite(
-            item,
-            refMap,
-            tagMap,
-            prefix,
-            url.stripHash(sourcePath),
+          const newMethods = Object.keys(item as object).filter((method) =>
+            isHttpMethod(method, querySupported),
           );
+          const hasMethodConflict = newMethods.some((m) => merged.paths[p][m] !== undefined);
           if (hasMethodConflict) {
             const trimmed = p.startsWith('/') ? p.substring(1) : p;
             merged.paths[`/${prefix}/${trimmed}`] = rewritten;
@@ -578,13 +601,7 @@ export class $RefParser {
             Object.assign(merged.paths[p], rewritten);
           }
         } else {
-          merged.paths[p] = cloneAndRewrite(
-            item,
-            refMap,
-            tagMap,
-            prefix,
-            url.stripHash(sourcePath),
-          );
+          merged.paths[p] = rewritten;
         }
       }
     }

@@ -383,6 +383,36 @@ describe('serialized request body handling', () => {
   );
 });
 
+describe('HTTP QUERY requests', () => {
+  it('sends a QUERY request with query parameters and a body', async () => {
+    const client = createClient({ baseUrl: 'https://example.com' });
+    const mockResponse = new Response(JSON.stringify({ success: true }), {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      status: 200,
+    });
+    const mockFetch: MockFetch = vi.fn().mockResolvedValueOnce(mockResponse);
+
+    const result = await client.query({
+      body: { term: 'audit' },
+      bodySerializer: JSON.stringify,
+      fetch: mockFetch,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      query: {
+        limit: 10,
+      },
+      url: '/search',
+    });
+
+    expect(result.request!.method).toBe('QUERY');
+    expect(result.request!.url).toBe('https://example.com/search?limit=10');
+    await expect(result.request!.text()).resolves.toBe('{"term":"audit"}');
+  });
+});
+
 describe('request interceptor', () => {
   const client = createClient({ baseUrl: 'https://example.com' });
 

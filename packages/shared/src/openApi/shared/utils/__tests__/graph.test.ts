@@ -1,3 +1,4 @@
+import { buildResourceMetadata } from '../../graph/meta';
 import { buildGraph } from '../graph';
 
 // simple logger stub for buildGraph
@@ -62,5 +63,24 @@ describe('buildGraph', () => {
 
     expect(Array.from(graph.subtreeDependencies.get(a)!).sort()).toEqual([b].sort());
     expect(Array.from(graph.transitiveDependencies.get(a)!).sort()).toEqual([b].sort());
+  });
+
+  it('classifies QUERY as an operation only in OpenAPI 3.2', () => {
+    const spec = {
+      paths: {
+        '/search': {
+          query: {
+            responses: {},
+          },
+        },
+      },
+    };
+    const { graph } = buildGraph(spec, loggerStub);
+
+    const v31 = buildResourceMetadata(graph, loggerStub, '3.1.0').resourceMetadata;
+    const v32 = buildResourceMetadata(graph, loggerStub, '3.2.0').resourceMetadata;
+
+    expect(v31.operations).toEqual(new Map());
+    expect(v32.operations.has('operation/QUERY /search')).toBe(true);
   });
 });

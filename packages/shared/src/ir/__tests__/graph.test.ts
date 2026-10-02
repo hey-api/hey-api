@@ -18,8 +18,10 @@ describe('matchIrPointerToGroup', () => {
     ['#/servers/foo', undefined, { kind: 'server', matched: true }],
     ['#/paths/~1users/get', undefined, { kind: 'operation', matched: true }],
     ['#/paths/~1users/post', 'operation', { kind: 'operation', matched: true }],
+    ['#/paths/~1users/query', 'operation', { kind: 'operation', matched: true }],
     ['#/webhooks/foo/get', undefined, { kind: 'webhook', matched: true }],
     ['#/webhooks/foo/patch', 'webhook', { kind: 'webhook', matched: true }],
+    ['#/webhooks/foo/query', 'webhook', { kind: 'webhook', matched: true }],
     ['#/not/a/top/level', undefined, { matched: false }],
     ['#/components/unknown/Foo', undefined, { matched: false }],
   ];

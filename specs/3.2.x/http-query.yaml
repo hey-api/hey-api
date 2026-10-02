@@ -1,0 +1,47 @@
+openapi: 3.2.0
+info:
+  title: HTTP QUERY example
+  version: 1.0.0
+paths:
+  /search:
+    query:
+      operationId: search
+      parameters:
+        - in: query
+          name: limit
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchInput'
+      responses:
+        '200':
+          description: Search results
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SearchResult'
+components:
+  schemas:
+    SearchInput:
+      type: object
+      required:
+        - term
+      properties:
+        term:
+          type: string
+    SearchResult:
+      type: object
+      required:
+        - id
+        - title
+      properties:
+        id:
+          type: string
+        title:
+          type: string
