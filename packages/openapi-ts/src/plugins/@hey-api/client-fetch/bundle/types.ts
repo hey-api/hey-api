@@ -213,4 +213,4 @@ export type Options<
   RequestOptions<TResponse, TResponseStyle, ThrowOnError>,
   'body' | 'path' | 'query' | 'url'
 > &
-  ([TData] extends [never] ? unknown : Omit<TData, 'url'>);
+  ([TData] extends [never] ? unknown : Omit<TData, 'url' | 'method'>);

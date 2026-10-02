@@ -155,7 +155,18 @@ export function irOperationRequestToAst({
     .arrow()
     .$if(usesFaker, (f) => f.param('options', (p) => p.optional().type('Options')))
     .$if(typeSymbol, (f) =>
-      f.returns($.type.expr('Omit').generic($.type(typeSymbol!)).generic($.type.literal('url'))),
+      f.returns(
+        $.type
+          .expr('Omit')
+          .generic($.type(typeSymbol!))
+          .generic(
+            // mocks never contain a method value, so omit the field when the
+            // typescript plugin emits it in request types
+            plugin.getPlugin('@hey-api/typescript')?.config.requests.method
+              ? $.type.or($.type.literal('url'), $.type.literal('method'))
+              : $.type.literal('url'),
+          ),
+      ),
     )
     .$if(
       usesAccessor,

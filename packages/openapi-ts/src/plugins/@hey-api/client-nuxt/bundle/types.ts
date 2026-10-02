@@ -177,7 +177,7 @@ export type Options<
   ResT = unknown,
   DefaultT = undefined,
 > = OmitKeys<RequestOptions<TComposable, ResT, DefaultT>, 'body' | 'path' | 'query' | 'url'> &
-  ([TData] extends [never] ? unknown : WithRefs<Omit<TData, 'url'>>);
+  ([TData] extends [never] ? unknown : WithRefs<Omit<TData, 'url' | 'method'>>);
 
 type FetchOptions<TData> = Omit<UseFetchOptions<TData, TData>, keyof AsyncDataOptions<TData>>;
 

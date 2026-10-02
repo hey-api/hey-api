@@ -325,4 +325,102 @@ describe('createClient', () => {
 
     expect(results.length).toBeGreaterThanOrEqual(1);
   });
+
+  const pingSpec = {
+    info: { title: 'ping-test', version: '1.0.0' },
+    openapi: '3.1.0',
+    paths: {
+      '/ping': {
+        get: {
+          operationId: 'getPing',
+          responses: {
+            200: {
+              content: {
+                'application/json': {
+                  schema: {
+                    properties: { pong: { type: 'string' } },
+                    type: 'object',
+                  },
+                },
+              },
+              description: 'ok',
+            },
+          },
+        },
+        post: {
+          operationId: 'postPing',
+          requestBody: {
+            content: {
+              'application/json': {
+                schema: { type: 'string' },
+              },
+            },
+            required: true,
+          },
+          responses: {
+            200: {
+              content: {
+                'application/json': {
+                  schema: {
+                    properties: { pong: { type: 'string' } },
+                    type: 'object',
+                  },
+                },
+              },
+              description: 'ok',
+            },
+          },
+        },
+      },
+    },
+  };
+
+  const renderFile = (results: Awaited<ReturnType<typeof createClient>>, fileName: string) =>
+    results[0]!.gen.render().find((file) => file.path.endsWith(fileName))?.content ?? '';
+
+  it('emits method literal in request types when requests.method is enabled', async () => {
+    const results = await createClient({
+      dryRun: true,
+      input: pingSpec,
+      logs: { level: 'silent' },
+      output: 'out',
+      plugins: [{ name: '@hey-api/typescript', requests: { method: true } }],
+    });
+
+    const types = renderFile(results, 'types.gen.ts');
+    expect(types).toContain("method: 'get';");
+    expect(types).toContain("method: 'post';");
+  });
+
+  it('omits method from request types by default', async () => {
+    const results = await createClient({
+      dryRun: true,
+      input: pingSpec,
+      logs: { level: 'silent' },
+      output: 'out',
+      plugins: ['@hey-api/typescript'],
+    });
+
+    expect(renderFile(results, 'types.gen.ts')).not.toContain('method:');
+  });
+
+  it('gates faker mock return types on requests.method', async () => {
+    const enabled = await createClient({
+      dryRun: true,
+      input: pingSpec,
+      logs: { level: 'silent' },
+      output: 'out',
+      plugins: [{ name: '@hey-api/typescript', requests: { method: true } }, '@faker-js/faker'],
+    });
+    expect(renderFile(enabled, 'faker.gen.ts')).toContain("Omit<PostPingData, 'url' | 'method'>");
+
+    const disabled = await createClient({
+      dryRun: true,
+      input: pingSpec,
+      logs: { level: 'silent' },
+      output: 'out',
+      plugins: ['@hey-api/typescript', '@faker-js/faker'],
+    });
+    expect(renderFile(disabled, 'faker.gen.ts')).toContain("Omit<PostPingData, 'url'>");
+  });
 });

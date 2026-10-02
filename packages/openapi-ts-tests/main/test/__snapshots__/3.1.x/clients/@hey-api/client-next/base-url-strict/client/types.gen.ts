@@ -169,4 +169,4 @@ export type Options<
   ThrowOnError extends boolean = boolean,
   TResponse = unknown,
 > = OmitKeys<RequestOptions<TResponse, ThrowOnError>, 'body' | 'path' | 'query' | 'url'> &
-  ([TData] extends [never] ? unknown : Omit<TData, 'url'>);
+  ([TData] extends [never] ? unknown : Omit<TData, 'url' | 'method'>);

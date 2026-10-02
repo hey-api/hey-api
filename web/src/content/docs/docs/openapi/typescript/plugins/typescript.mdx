@@ -54,6 +54,43 @@ export type AddPetData = {
 
 You can customize the naming and casing pattern for `requests` types using the `.name` and `.case` options.
 
+### HTTP method
+
+If you consume the generated types with your own HTTP client, you may want each request type to carry its HTTP method. Set `requests.method` to `true` to include the method as a literal type.
+
+```js {8-10} title="openapi-ts.config.ts"
+export default {
+  input: 'hey-api/backend', // sign up at app.heyapi.dev
+  output: 'src/client',
+  plugins: [
+    // ...other plugins
+    {
+      name: '@hey-api/typescript',
+      requests: {
+        method: true,
+      },
+    },
+  ],
+};
+```
+
+```ts title="types.gen.ts"
+export type AddPetData = {
+  body: {
+    id?: number;
+    name: string;
+  };
+  method: 'post';
+  path?: never;
+  query?: never;
+  url: '/pets';
+};
+```
+
+:::note
+If you pair this option with a custom client copied from an older template, update its `Options` type to omit the new field: `Omit<TData, 'url' | 'method'>`.
+:::
+
 ## Responses
 
 A single type is generated for all endpoint's responses.
