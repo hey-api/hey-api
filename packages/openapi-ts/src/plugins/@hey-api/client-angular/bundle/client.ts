@@ -6,8 +6,8 @@ import {
   provideAppInitializer,
   runInInjectionContext,
 } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { firstValueFrom, fromEvent } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
 
 import { createSseClient } from '../../client-core/bundle/serverSentEvents';
 import type { HttpMethod } from '../../client-core/bundle/types';
@@ -141,11 +141,24 @@ export const createClient = (config: Config = {}): Client => {
         }
       }
 
-      result.response = await firstValueFrom(
-        opts
-          .httpClient!.request(req)
-          .pipe(filter((event) => event.type === HttpEventType.Response)),
-      );
+      if (opts.signal?.aborted) {
+        throw opts.signal.reason;
+      }
+
+      const response$ = opts
+        .httpClient!.request(req)
+        .pipe(filter((event) => event.type === HttpEventType.Response));
+
+      try {
+        result.response = await firstValueFrom(
+          opts.signal ? response$.pipe(takeUntil(fromEvent(opts.signal, 'abort'))) : response$,
+        );
+      } catch (error) {
+        if (opts.signal?.aborted) {
+          throw opts.signal.reason;
+        }
+        throw error;
+      }
 
       for (const fn of interceptors.response.fns) {
         if (fn) {
