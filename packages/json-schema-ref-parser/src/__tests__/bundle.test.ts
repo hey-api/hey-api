@@ -780,30 +780,33 @@ describe('bundle', () => {
       expect(merged.paths[prefixedKey!].query.operationId).toMatch(/searchSecond$/);
     });
 
-    it('does not treat QUERY as an operation before OpenAPI 3.2', async () => {
-      const refParser = new $RefParser();
-      const createSpec = (title: string, operationId: string) => ({
-        info: { title, version: '1.0.0' },
-        openapi: '3.1.0',
-        paths: {
-          '/search': {
-            query: {
-              operationId,
-              responses: { '200': { description: 'Success' } },
+    it.each(['3.1.0', 'invalid'])(
+      'does not treat QUERY as an operation for OpenAPI version %s',
+      async (openapi) => {
+        const refParser = new $RefParser();
+        const createSpec = (title: string, operationId: string) => ({
+          info: { title, version: '1.0.0' },
+          openapi,
+          paths: {
+            '/search': {
+              query: {
+                operationId,
+                responses: { '200': { description: 'Success' } },
+              },
             },
           },
-        },
-      });
+        });
 
-      const merged = (await refParser.bundleMany({
-        pathOrUrlOrSchemas: [
-          createSpec('Spec 1', 'searchFirst'),
-          createSpec('Spec 2', 'searchSecond'),
-        ],
-      })) as any;
+        const merged = (await refParser.bundleMany({
+          pathOrUrlOrSchemas: [
+            createSpec('Spec 1', 'searchFirst'),
+            createSpec('Spec 2', 'searchSecond'),
+          ],
+        })) as any;
 
-      expect(Object.keys(merged.paths)).toEqual(['/search']);
-    });
+        expect(Object.keys(merged.paths)).toEqual(['/search']);
+      },
+    );
 
     it.each([
       ['before', ['3.1.0', '3.2.0']],
