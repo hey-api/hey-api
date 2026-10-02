@@ -167,13 +167,13 @@ export function createSseClient<TData = unknown>({
 
               for (const line of lines) {
                 if (line.startsWith('data:')) {
-                  dataLines.push(line.replace(/^data:\s*/, ''));
+                  dataLines.push(line.replace(/^data: ?/, ''));
                 } else if (line.startsWith('event:')) {
-                  eventName = line.replace(/^event:\s*/, '');
+                  eventName = line.replace(/^event: ?/, '');
                 } else if (line.startsWith('id:')) {
-                  lastEventId = line.replace(/^id:\s*/, '');
+                  lastEventId = line.replace(/^id: ?/, '');
                 } else if (line.startsWith('retry:')) {
-                  const parsed = Number.parseInt(line.replace(/^retry:\s*/, ''), 10);
+                  const parsed = Number.parseInt(line.replace(/^retry: ?/, ''), 10);
                   if (!Number.isNaN(parsed)) {
                     retryDelay = parsed;
                   }
