@@ -156,7 +156,7 @@ export const getParseAs = (
   const cleanContent = contentType.split(';')[0]?.trim();
 
   if (!cleanContent) {
-    return;
+    return undefined;
   }
 
   if (cleanContent.startsWith('application/json') || cleanContent.endsWith('+json')) {
@@ -177,7 +177,7 @@ export const getParseAs = (
     return 'text';
   }
 
-  return;
+  return undefined;
 };
 
 export async function setAuthParams(
