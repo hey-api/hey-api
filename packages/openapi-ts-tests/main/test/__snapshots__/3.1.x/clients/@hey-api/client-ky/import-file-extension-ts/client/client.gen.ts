@@ -5,7 +5,7 @@ import ky, { isHTTPError } from 'ky';
 
 import { createSseClient } from '../core/serverSentEvents.gen.ts';
 import type { HttpMethod } from '../core/types.gen.ts';
-import { getValidRequestBody } from '../core/utils.gen.ts';
+import { createHttpMethodMap, getValidRequestBody } from '../core/utils.gen.ts';
 import type { Client, Config, RequestOptions, ResolvedRequestOptions } from './types.gen.ts';
 import type { Middleware } from './utils.gen.ts';
 import {
@@ -334,31 +334,11 @@ export const createClient = (config: Config = {}): Client => {
 
   return {
     buildUrl: _buildUrl,
-    connect: makeMethodFn('CONNECT'),
-    delete: makeMethodFn('DELETE'),
-    get: makeMethodFn('GET'),
+    ...createHttpMethodMap(makeMethodFn),
     getConfig,
-    head: makeMethodFn('HEAD'),
     interceptors,
-    options: makeMethodFn('OPTIONS'),
-    patch: makeMethodFn('PATCH'),
-    post: makeMethodFn('POST'),
-    put: makeMethodFn('PUT'),
-    query: makeMethodFn('QUERY'),
     request,
     setConfig,
-    sse: {
-      connect: makeSseFn('CONNECT'),
-      delete: makeSseFn('DELETE'),
-      get: makeSseFn('GET'),
-      head: makeSseFn('HEAD'),
-      options: makeSseFn('OPTIONS'),
-      patch: makeSseFn('PATCH'),
-      post: makeSseFn('POST'),
-      put: makeSseFn('PUT'),
-      query: makeSseFn('QUERY'),
-      trace: makeSseFn('TRACE'),
-    },
-    trace: makeMethodFn('TRACE'),
+    sse: createHttpMethodMap(makeSseFn),
   } as Client;
 };

@@ -7,6 +7,7 @@ import {
   serializeObjectParam,
   serializePrimitiveParam,
 } from './pathSerializer.gen';
+import type { HttpMethod } from './types.gen';
 
 export interface PathSerializer {
   path: Record<string, unknown>;
@@ -14,6 +15,21 @@ export interface PathSerializer {
 }
 
 export const PATH_PARAM_RE: RegExp = /\{[^{}]+\}/g;
+
+export const createHttpMethodMap = <MethodFn>(
+  createMethodFn: (method: Uppercase<HttpMethod>) => MethodFn,
+): Record<HttpMethod, MethodFn> => ({
+  connect: createMethodFn('CONNECT'),
+  delete: createMethodFn('DELETE'),
+  get: createMethodFn('GET'),
+  head: createMethodFn('HEAD'),
+  options: createMethodFn('OPTIONS'),
+  patch: createMethodFn('PATCH'),
+  post: createMethodFn('POST'),
+  put: createMethodFn('PUT'),
+  query: createMethodFn('QUERY'),
+  trace: createMethodFn('TRACE'),
+});
 
 export const defaultPathSerializer = ({ path, url: _url }: PathSerializer): string => {
   let url = _url;

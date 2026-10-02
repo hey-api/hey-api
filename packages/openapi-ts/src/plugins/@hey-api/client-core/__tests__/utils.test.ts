@@ -1,4 +1,21 @@
-import { getValidRequestBody } from '../../client-core/bundle/utils';
+import { createHttpMethodMap, getValidRequestBody } from '../../client-core/bundle/utils';
+
+describe('createHttpMethodMap', () => {
+  it('creates a function for every supported HTTP method', () => {
+    expect(createHttpMethodMap((method) => method)).toEqual({
+      connect: 'CONNECT',
+      delete: 'DELETE',
+      get: 'GET',
+      head: 'HEAD',
+      options: 'OPTIONS',
+      patch: 'PATCH',
+      post: 'POST',
+      put: 'PUT',
+      query: 'QUERY',
+      trace: 'TRACE',
+    });
+  });
+});
 
 describe('getValidRequestBody', () => {
   const noBodySerializer = [
