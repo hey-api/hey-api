@@ -144,9 +144,10 @@ export const createClient = (config: Config = {}): Client => {
       watch(bodyParams, (changed) => {
         body.value = serializeBody(changed);
       });
+      const {url, baseURL, query, ...cleanedOpts} = opts;
       return composable === 'useLazyFetch'
-        ? useLazyFetch(() => buildUrl(opts), { ...opts, ...asyncDataOptions })
-        : useFetch(() => buildUrl(opts), { ...opts, ...asyncDataOptions });
+        ? useLazyFetch(() => buildUrl(opts), { ...cleanedOpts, ...asyncDataOptions })
+        : useFetch(() => buildUrl(opts), { ...cleanedOpts, ...asyncDataOptions });
     }
 
     const handler: any = () =>
