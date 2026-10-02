@@ -96,13 +96,6 @@ export async function getSpec({
           url: resolvedInput.path,
         });
 
-        if (request.response.status >= 300) {
-          return {
-            error: 'not-ok',
-            response: request.response,
-          };
-        }
-
         response = request.response;
       } catch (error) {
         const message = error instanceof Error ? error.message : String(error);
