@@ -1433,7 +1433,8 @@ export const fakeTypesRequest = (options?: Options): Omit<TypesData, 'url'> => {
       parameterEnum: f.helpers.arrayElement([
         'Success',
         'Warning',
-        'Error'
+        'Error',
+        null
       ])
     }
   };

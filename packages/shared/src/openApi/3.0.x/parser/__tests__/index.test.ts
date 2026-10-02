@@ -142,4 +142,27 @@ describe('parseV3_0_X', () => {
     parseV3_0_X(context);
     expect(context.ir.components?.requestBodies?.['body/special~name']).toBeDefined();
   });
+
+  it('preserves enum nullability when `nullable` is true but `enum` has no literal `null` value', () => {
+    const spec: OpenAPIV3.Document = {
+      components: {
+        schemas: {
+          Foo: {
+            enum: ['foo', 'bar'],
+            nullable: true,
+            type: 'string',
+          },
+        },
+      },
+      info: { title: 'Test', version: '1' },
+      openapi: '3.0.3',
+      paths: {},
+    };
+    const context = createContext(spec);
+    parseV3_0_X(context);
+    expect(context.ir.components?.schemas?.Foo?.items).toContainEqual({
+      const: null,
+      type: 'null',
+    });
+  });
 });

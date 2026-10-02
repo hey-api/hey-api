@@ -6,4 +6,8 @@ export const vFoo = v.nullable(v.picklist(['foo', 'bar']));
 
 export const vBar = v.picklist(['foo', 'bar']);
 
-export const vBaz = v.picklist(['foo', 'bar']);
+export const vBaz = v.nullable(v.picklist(['foo', 'bar']));
+
+export const vQux = v.object({
+  value: v.nullish(v.picklist(['foo', 'bar']))
+});
