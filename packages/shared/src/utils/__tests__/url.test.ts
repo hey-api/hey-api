@@ -1,4 +1,17 @@
-import { parseUrl } from '../url';
+import { getBaseUrl, parseUrl } from '../url';
+
+describe('getBaseUrl', () => {
+  it.each([
+    { expected: undefined, url: '/' },
+    { expected: '/v1', url: '/v1' },
+    { expected: '/v1', url: '/v1/' },
+    { expected: 'https://foo.com/v1', url: 'https://foo.com/v1' },
+    { expected: 'foo.com', url: 'foo.com' },
+    { expected: undefined, url: 'https://{id}.foo.com/v1' },
+  ])('getBaseUrl($url) -> $expected', ({ expected, url }) => {
+    expect(getBaseUrl(true, { servers: [{ url }] })).toEqual(expected);
+  });
+});
 
 describe('parseUrl', () => {
   it.each([
