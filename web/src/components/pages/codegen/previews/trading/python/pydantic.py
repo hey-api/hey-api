@@ -1,8 +1,13 @@
-from pydantic import BaseModel, AwareDatetime
+"""Module for application logic."""
 from typing import Literal
 from uuid import UUID
 
+from pydantic import AwareDatetime, BaseModel
+
+
 class Order(BaseModel):
+    """Represent order."""
+
     id: UUID
     symbol: str
     side: Literal['buy', 'sell']

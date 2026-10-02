@@ -99,6 +99,7 @@ def build_wheel(binary_path: Path, platform_tag: str, dist_dir: Path) -> None:
 
 
 def main() -> None:
+    """Implement main."""
     build_dir = Path(__file__).parent.parent / "build"
     dist_dir = Path(__file__).parent / "dist"
     dist_dir.mkdir(exist_ok=True)

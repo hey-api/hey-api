@@ -2,14 +2,14 @@
 
 import os
 import platform
-from pathlib import Path
 import signal
 import subprocess
 import sys
+from pathlib import Path
 
 
 def _get_binary_path() -> str:
-    """Returns the path to the bundled openapi-python binary."""
+    """Return the path to the bundled openapi-python binary."""
     bin_dir = Path(__file__).parent / "bin"
     system = platform.system().lower()
     machine = platform.machine().lower()
@@ -42,6 +42,7 @@ def _get_binary_path() -> str:
 
 
 def main() -> int:
+    """Implement main."""
     try:
         binary = _get_binary_path()
     except (FileNotFoundError, RuntimeError) as exc:

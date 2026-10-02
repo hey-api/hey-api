@@ -1,4 +1,5 @@
 # import httpx
+"""Module for application logic."""
 from gen.python import OpenCode
 
 # def log_request(request):
@@ -7,6 +8,7 @@ from gen.python import OpenCode
 # client = httpx.Client(event_hooks={"request": [log_request]})
 
 def run():
+    """Implement run."""
     client = OpenCode()
     print(client)
     # client.tui.publish(

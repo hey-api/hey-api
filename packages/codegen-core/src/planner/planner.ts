@@ -462,7 +462,11 @@ export class Planner {
     const { file, node, scope, scopesToUpdate, symbol } = args;
     if (this.cacheResolvedNames.has(symbol.id)) return;
 
-    const baseName = symbol.name;
+    let baseName = symbol.name;
+    // Guard: handle symbols with empty names (can occur with certain OpenAPI specs)
+    if (!baseName || baseName.trim() === '') {
+      baseName = `unnamed_symbol_${symbol.id}`;
+    }
     let finalName =
       node?.nameSanitizer?.(baseName) ?? symbol.node?.nameSanitizer?.(baseName) ?? baseName;
     let attempt = 1;

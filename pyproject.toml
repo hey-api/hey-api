@@ -16,6 +16,7 @@ warn_unused_configs = true
 [tool.ruff]
 line-length = 120
 target-version = "py39"
+exclude = ["**/__snapshots__/**"]
 
 [tool.ruff.format]
 exclude = ["**/__snapshots__/**"]

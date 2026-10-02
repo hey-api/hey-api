@@ -1,6 +1,7 @@
+"""Module for application logic."""
 from typing import Any, Optional
-import httpx
 
+import httpx
 
 EXTRA_PREFIXES_MAP = {
     "$body_": "json",
@@ -19,6 +20,7 @@ def build_client_params(fields: list[dict[str, Any]], **kwargs) -> dict[str, Any
 
     Returns:
         Dict suitable for httpx client methods: {params: {...}, headers: {...}, json: Any}
+
     """
     result: dict[str, Any] = {}
 
@@ -72,6 +74,7 @@ class BaseClient:
     """Base HTTP client using httpx that SDK classes extend."""
 
     def __init__(self, client: Optional[httpx.Client] = None, base_url: Optional[str] = None, **kwargs):
+        """Initialize the instance."""
         if client is not None:
             self._client = client
         else:

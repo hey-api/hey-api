@@ -1,3 +1,4 @@
+"""Module for application logic."""
 from client import Client, CreateOrderData
 
 client = Client()
