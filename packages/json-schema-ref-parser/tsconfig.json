@@ -4,8 +4,7 @@
     "composite": true,
     "lib": ["ES2022", "DOM"],
     "outDir": "dist",
-    "rootDir": "src",
     "types": ["vitest/globals"]
   },
-  "include": ["src"]
+  "include": ["src", "tsdown.config.ts"]
 }

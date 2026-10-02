@@ -3,9 +3,8 @@
   "compilerOptions": {
     "composite": true,
     "outDir": "dist",
-    "rootDir": "src",
     "types": ["vitest/globals", "node"]
   },
-  "include": ["src"],
+  "include": ["src", "tsdown.config.ts"],
   "references": [{ "path": "../types" }]
 }
