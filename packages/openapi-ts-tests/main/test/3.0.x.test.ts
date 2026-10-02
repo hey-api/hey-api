@@ -47,6 +47,19 @@ describe(`OpenAPI ${version}`, () => {
   const scenarios = [
     {
       config: createConfig({
+        input: 'enum-collision.json',
+        output: 'enum-collision',
+        plugins: [
+          {
+            enums: 'typescript',
+            name: '@hey-api/typescript',
+          },
+        ],
+      }),
+      description: 'handles enum name collisions',
+    },
+    {
+      config: createConfig({
         input: 'external.yaml',
         output: 'external',
       }),

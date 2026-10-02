@@ -1,0 +1,15 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Enum Collision API",
+    "version": "1.0.0"
+  },
+  "components": {
+    "schemas": {
+      "Zone": {
+        "type": "string",
+        "enum": ["Etc/GMT+1", "Etc/GMT+12", "Etc/GMT-1"]
+      }
+    }
+  }
+}

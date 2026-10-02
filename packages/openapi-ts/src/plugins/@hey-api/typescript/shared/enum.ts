@@ -59,18 +59,28 @@ function resolveItemsWithKeys(
   plugin: HeyApiTypeScriptPlugin['Instance'],
 ): Array<{ item: (typeof items)[number]; key: string }> {
   const duplicateCounts: Record<string, number> = {};
+  const allocatedKeys = new Set<string>();
 
   return items.map((item) => {
     const baseKey = resolveEnumKey({ baseName: item.key, duplicateAttempt: 0, plugin });
-    const duplicateAttempt = duplicateCounts[baseKey] ?? 0;
+    let duplicateAttempt = duplicateCounts[baseKey] ?? 0;
+
+    let key =
+      duplicateAttempt === 0
+        ? baseKey
+        : resolveEnumKey({ baseName: item.key, duplicateAttempt, plugin });
+
+    while (allocatedKeys.has(key)) {
+      duplicateAttempt++;
+      key = resolveEnumKey({ baseName: item.key, duplicateAttempt, plugin });
+    }
+
     duplicateCounts[baseKey] = duplicateAttempt + 1;
+    allocatedKeys.add(key);
 
     return {
       item,
-      key:
-        duplicateAttempt === 0
-          ? baseKey
-          : resolveEnumKey({ baseName: item.key, duplicateAttempt, plugin }),
+      key,
     };
   });
 }
