@@ -9,7 +9,7 @@ import {
   runInInjectionContext,
 } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { filter, tap } from 'rxjs/operators';
 
 import { createSseClient } from '../core/serverSentEvents.gen.ts';
 import type { HttpMethod } from '../core/types.gen.ts';
@@ -89,9 +89,13 @@ export const createClient = (config: Config = {}): Client => {
 
     const url = buildUrl(opts as Config & RequestOptions);
 
+    const reportProgress =
+      opts.reportProgress ?? Boolean(opts.onUploadProgress || opts.onDownloadProgress);
+
     const req = new HttpRequest<unknown>(opts.method ?? 'GET', url, getValidRequestBody(opts), {
       redirect: 'follow',
       ...opts,
+      reportProgress,
     });
 
     return { opts, req, url };
@@ -144,9 +148,16 @@ export const createClient = (config: Config = {}): Client => {
       }
 
       result.response = await firstValueFrom(
-        opts
-          .httpClient!.request(req)
-          .pipe(filter((event) => event.type === HttpEventType.Response)),
+        opts.httpClient!.request(req).pipe(
+          tap((event) => {
+            if (event.type === HttpEventType.UploadProgress) {
+              opts.onUploadProgress?.(event);
+            } else if (event.type === HttpEventType.DownloadProgress) {
+              opts.onDownloadProgress?.(event);
+            }
+          }),
+          filter((event) => event.type === HttpEventType.Response),
+        ),
       );
 
       for (const fn of interceptors.response.fns) {
