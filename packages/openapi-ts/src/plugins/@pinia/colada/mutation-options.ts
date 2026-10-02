@@ -66,7 +66,9 @@ export function createMutationOptions({
   );
   const statement = $.const(symbolMutationOptions)
     .export()
-    .$if(plugin.config.comments && createOperationComment(operation), (c, v) => c.doc(v))
+    .$if(plugin.config.comments && createOperationComment(operation), (c, v) =>
+      c.styledDoc(v, plugin.config.commentsStyle),
+    )
     .assign(
       $.func()
         .param(options, (p) => p.optional().type($.type('Partial').generic(typeData)))

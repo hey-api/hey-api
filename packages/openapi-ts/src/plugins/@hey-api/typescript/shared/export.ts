@@ -57,7 +57,9 @@ export function exportAst({
   const node = $.type
     .alias(symbol)
     .export()
-    .$if(plugin.config.comments && createSchemaComment(schema), (t, v) => t.doc(v))
+    .$if(plugin.config.comments && createSchemaComment(schema), (t, v) =>
+      t.styledDoc(v, plugin.config.commentsStyle),
+    )
     .type(final.type);
   plugin.node(node);
 }

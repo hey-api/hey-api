@@ -10,6 +10,7 @@ export const defaultConfig: HeyApiTypeScriptPlugin['Config'] = {
     $cascade: ['case'],
     case: 'PascalCase',
     comments: true,
+    commentsStyle: 'default',
     definitions: {
       $coerceAny: ({ type, value }) => ({
         ...(type === 'string' || type === 'function' ? { name: value } : {}),

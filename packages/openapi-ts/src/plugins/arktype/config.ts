@@ -11,6 +11,7 @@ export const defaultConfig: ArktypePlugin['Config'] = {
     $cascade: ['case', 'types'],
     case: 'PascalCase',
     comments: true,
+    commentsStyle: 'default',
     definitions: {
       $coerceAny: ({ type, value }) => ({
         enabled: Boolean(value),

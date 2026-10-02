@@ -118,6 +118,19 @@ for (const version of versions) {
       },
       {
         config: createConfig({
+          output: 'compact-comments',
+          plugins: [
+            {
+              commentsStyle: 'compact',
+              name: '@hey-api/typescript',
+            },
+            '@hey-api/client-fetch',
+          ],
+        }),
+        description: 'compact comments',
+      },
+      {
+        config: createConfig({
           input: 'sdk-nested-classes.yaml',
           output: 'sdk-nested-classes',
           plugins: [

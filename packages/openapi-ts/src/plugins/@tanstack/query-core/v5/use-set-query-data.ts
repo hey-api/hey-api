@@ -68,7 +68,9 @@ export function createUseSetQueryData({
 
   const statement = $.const(symbolUseSetQueryData)
     .export()
-    .$if(plugin.config.comments && createOperationComment(operation), (c, v) => c.doc(v))
+    .$if(plugin.config.comments && createOperationComment(operation), (c, v) =>
+      c.styledDoc(v, plugin.config.commentsStyle),
+    )
     .assign(
       $.func().do(
         $.const(queryClientVar).assign($(plugin.imports.useQueryClient).call()),

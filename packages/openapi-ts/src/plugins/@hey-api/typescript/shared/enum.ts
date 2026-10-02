@@ -114,14 +114,18 @@ export function exportEnumAst({
 
     const objectNode = $.const(symbolObject)
       .export()
-      .$if(plugin.config.comments && createSchemaComment(schema), (c, v) => c.doc(v))
+      .$if(plugin.config.comments && createSchemaComment(schema), (c, v) =>
+        c.styledDoc(v, plugin.config.commentsStyle),
+      )
       .assign(
         $.object(
           ...itemsWithKeys
             .filter(({ item }) => filteredItems.includes(item))
             .map(({ item, key }) =>
               $.prop({ kind: 'prop' as const, name: key })
-                .$if(plugin.config.comments && createSchemaComment(item.schema), (p, v) => p.doc(v))
+                .$if(plugin.config.comments && createSchemaComment(item.schema), (p, v) =>
+                  p.styledDoc(v, plugin.config.commentsStyle),
+                )
                 .value($.fromValue(item.schema.const)),
             ),
         ).as('const'),
@@ -143,7 +147,9 @@ export function exportEnumAst({
     const node = $.type
       .alias(symbol)
       .export()
-      .$if(plugin.config.comments && createSchemaComment(schema), (t, v) => t.doc(v))
+      .$if(plugin.config.comments && createSchemaComment(schema), (t, v) =>
+        t.styledDoc(v, plugin.config.commentsStyle),
+      )
       .type($.type(symbolObject).idx($.type(symbolObject).typeofType().keyof()).typeofType());
     plugin.node(node);
     return true;
@@ -167,14 +173,19 @@ export function exportEnumAst({
         schema,
       }),
     );
+
     const enumNode = $.enum(symbol)
       .export()
-      .$if(plugin.config.comments && createSchemaComment(schema), (e, v) => e.doc(v))
+      .$if(plugin.config.comments && createSchemaComment(schema), (e, v) =>
+        e.styledDoc(v, plugin.config.commentsStyle),
+      )
       .const(mode === 'typescript-const')
       .members(
         ...itemsWithKeys.map(({ item, key }) =>
           $.member(key)
-            .$if(plugin.config.comments && createSchemaComment(item.schema), (m, v) => m.doc(v))
+            .$if(plugin.config.comments && createSchemaComment(item.schema), (m, v) =>
+              m.styledDoc(v, plugin.config.commentsStyle),
+            )
             .value($.fromValue(item.schema.const)),
         ),
       );

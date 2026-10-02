@@ -22,7 +22,9 @@ export function exportAst({
 }): void {
   const statement = $.const(symbol)
     .export()
-    .$if(plugin.config.comments && createSchemaComment(schema), (c, v) => c.doc(v))
+    .$if(plugin.config.comments && createSchemaComment(schema), (c, v) =>
+      c.styledDoc(v, plugin.config.commentsStyle),
+    )
     // .type(
     //   ast.typeName
     //     ? (tsc.propertyAccessExpression({

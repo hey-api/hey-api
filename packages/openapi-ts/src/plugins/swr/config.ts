@@ -17,6 +17,7 @@ export const defaultConfig: SwrPlugin['Config'] = {
     },
     case: 'camelCase',
     comments: true,
+    commentsStyle: 'default',
     includeInEntry: false,
     infiniteQueryKeys: {
       $coerceAny: ({ type, value }) => ({

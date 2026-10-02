@@ -9,6 +9,7 @@ export const defaultConfig: MswPlugin['Config'] = {
     $dependencies: ['source'],
     baseUrl: '*',
     comments: true,
+    commentsStyle: 'default',
     includeInEntry: false,
     responseFallback: 'error',
     source: coerce((value) => {

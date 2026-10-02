@@ -11,6 +11,7 @@ export const defaultConfig: ValibotPlugin['Config'] = {
     $cascade: ['case'],
     case: 'camelCase',
     comments: true,
+    commentsStyle: 'default',
     definitions: {
       $coerceAny: ({ type, value }) => ({
         enabled: Boolean(value),

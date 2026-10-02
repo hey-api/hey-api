@@ -12,7 +12,7 @@ import type { PydanticResolvers } from './resolvers';
 
 export type UserConfig = Plugin.Name<'pydantic'> &
   Plugin.Hooks &
-  Plugin.UserComments &
+  Omit<Plugin.UserComments, 'commentsStyle'> &
   Plugin.UserExports &
   PydanticResolvers & {
     /**
@@ -341,7 +341,7 @@ export type UserConfig = Plugin.Name<'pydantic'> &
 
 export type Config = Plugin.Name<'pydantic'> &
   Plugin.Hooks &
-  Plugin.Comments &
+  Omit<Plugin.Comments, 'commentsStyle'> &
   Plugin.Exports &
   PydanticResolvers & {
     /** Casing convention for generated names. */

@@ -10,6 +10,7 @@ import type { AngularCommonPlugin } from './types';
 export const defaultConfig: AngularCommonPlugin['Config'] = {
   config: {
     comments: true,
+    commentsStyle: 'default',
     httpRequests: {
       $cascade: ['strategy'],
       $coerceAny: ({ type, value }) => ({

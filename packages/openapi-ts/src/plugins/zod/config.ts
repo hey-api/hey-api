@@ -14,6 +14,7 @@ export const defaultConfig: ZodPlugin['Config'] = {
     $cascade: ['case', 'types'],
     case: 'camelCase',
     comments: true,
+    commentsStyle: 'default',
     compatibilityVersion: coerce((value, context) => {
       const packageName = 'zod';
       const version = (context as PluginContext).package.getVersion(packageName);

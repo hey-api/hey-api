@@ -70,7 +70,9 @@ export function createSetQueryData({
 
   const statement = $.const(symbolSetQueryData)
     .export()
-    .$if(plugin.config.comments && createOperationComment(operation), (c, v) => c.doc(v))
+    .$if(plugin.config.comments && createOperationComment(operation), (c, v) =>
+      c.styledDoc(v, plugin.config.commentsStyle),
+    )
     .assign(
       $.func()
         .param(queryClientParam, (p) => p.type($.type(symbolQueryClient)))

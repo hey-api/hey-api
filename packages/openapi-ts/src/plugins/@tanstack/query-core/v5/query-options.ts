@@ -106,7 +106,9 @@ export function createQueryOptions({
   // TODO: AxiosError<PutSubmissionMetaError>
   const statement = $.const(symbolQueryOptionsFn)
     .export(plugin.config.queryOptions.exported)
-    .$if(plugin.config.comments && createOperationComment(operation), (c, v) => c.doc(v))
+    .$if(plugin.config.comments && createOperationComment(operation), (c, v) =>
+      c.styledDoc(v, plugin.config.commentsStyle),
+    )
     .assign(
       $.func()
         .param(optionsParamName, (p) =>

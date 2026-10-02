@@ -84,6 +84,7 @@ export const defaultConfig: HeyApiSdkPlugin['Config'] = {
       return value;
     }),
     comments: true,
+    commentsStyle: 'default',
     examples: {
       $coerceAny: ({ value }) => ({ enabled: Boolean(value) }),
       enabled: false,

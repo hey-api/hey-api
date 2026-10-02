@@ -79,7 +79,9 @@ function createHandlerNode({
 
   const handlerFunc = $.func(symbol)
     .export()
-    .$if(plugin.config.comments && getOperationComment(operation), (f, v) => f.doc(v))
+    .$if(plugin.config.comments && getOperationComment(operation), (f, v) =>
+      f.styledDoc(v, plugin.config.commentsStyle),
+    )
     .param(symbolResponse, (p) => p.optional().type(responseParamType))
     .param(symbolOptions, (p) =>
       p.optional().type(

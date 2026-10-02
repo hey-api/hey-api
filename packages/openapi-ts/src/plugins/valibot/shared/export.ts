@@ -41,7 +41,9 @@ export function exportAst({
   );
   const statement = $.const(symbol)
     .export()
-    .$if(plugin.config.comments && createSchemaComment(schema), (c, v) => c.doc(v))
+    .$if(plugin.config.comments && createSchemaComment(schema), (c, v) =>
+      c.styledDoc(v, plugin.config.commentsStyle),
+    )
     .$if(final.typeName, (c) => c.type($.type(plugin.imports.v).attr(final.typeName!)))
     .assign(pipesToNode(final.pipes, plugin));
   plugin.node(statement);
