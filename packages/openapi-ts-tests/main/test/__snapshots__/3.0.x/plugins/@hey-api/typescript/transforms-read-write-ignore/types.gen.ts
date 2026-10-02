@@ -46,6 +46,18 @@ export type Corge = {
   };
 };
 
+export type GraultAudit = {
+  approvable: boolean;
+};
+
+export type GraultDetail = {
+  readonly editable: boolean;
+};
+
+export type Grault = {
+  detail?: GraultDetail;
+} & GraultAudit;
+
 export type PostFooReadWriteData = {
   body: FooReadWrite;
   path?: never;

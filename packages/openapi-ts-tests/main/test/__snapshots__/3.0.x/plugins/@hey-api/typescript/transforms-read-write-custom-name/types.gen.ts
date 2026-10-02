@@ -12,6 +12,14 @@ export type QuxAllRead = {
   readonly baz?: string;
 };
 
+export type GraultAudit = {
+  approvable: boolean;
+};
+
+export type GraultDetail = {
+  readonly editable: boolean;
+};
+
 export type ReadableFooReadWrite = ReadableBarRead;
 
 export type WritableFooReadWrite = WritableBarRead & {
@@ -62,6 +70,12 @@ export type WritableCorge = {
     baz?: boolean;
   };
 };
+
+export type ReadableGrault = {
+  detail?: GraultDetail;
+} & GraultAudit;
+
+export type WritableGrault = GraultAudit;
 
 export type PostFooReadWriteData = {
   body: WritableFooReadWrite;

@@ -125,3 +125,28 @@ components:
             baz:
               type: boolean
               readOnly: true
+    GraultAudit:
+      type: object
+      required:
+        - approvable
+      properties:
+        approvable:
+          type: boolean
+    GraultDetail:
+      type: object
+      required:
+        - editable
+      properties:
+        editable:
+          type: boolean
+          readOnly: true
+    Grault:
+      allOf:
+        - type: object
+          properties:
+            detail:
+              $ref: '#/components/schemas/GraultDetail'
+        # $ref with an ignorable `type` sibling (OpenAPI 3.0) — must survive the
+        # read/write split even though the member has no structural keywords
+        - type: object
+          $ref: '#/components/schemas/GraultAudit'

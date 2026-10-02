@@ -127,7 +127,7 @@ function insertSplitSchemasIntoSpec({
  * @param scope - The scope to exclude ('readOnly' or 'writeOnly')
  * @returns boolean - Whether the schema should be removed from its parent
  */
-function pruneSchemaByScope(
+export function pruneSchemaByScope(
   graph: Graph,
   schema: unknown,
   scope: 'readOnly' | 'writeOnly',
@@ -267,9 +267,14 @@ function pruneSchemaByScope(
         }
       }
     }
-    // After all removals, if this is type: object and has no structural fields, remove it
+    // After all removals, if this is type: object and has no structural fields, remove it.
+    // A schema that still carries a $ref is not empty: `{ type: 'object', $ref: ... }`
+    // (a $ref with an ignorable sibling, common in OpenAPI 3.0 documents) must be kept —
+    // if the referenced schema were exclusively the excluded scope, the $ref handling
+    // above would already have stripped it.
     if (
       (schema as Record<string, unknown>).type === 'object' &&
+      !('$ref' in schema) &&
       !childSchemaRelationships.some(([keyword]) => keyword in schema)
     ) {
       return true;
