@@ -142,4 +142,43 @@ describe('parseV3_0_X', () => {
     parseV3_0_X(context);
     expect(context.ir.components?.requestBodies?.['body/special~name']).toBeDefined();
   });
+
+  it('produces a null union for a nullable sibling on $ref', () => {
+    const spec: OpenAPIV3.Document = {
+      components: {
+        schemas: {
+          Bar: {
+            properties: {
+              id: { type: 'string' },
+            },
+            type: 'object',
+          },
+          Foo: {
+            properties: {
+              sibling: {
+                $ref: '#/components/schemas/Bar',
+                nullable: true,
+              } as OpenAPIV3.ReferenceObject,
+              wrapped: {
+                allOf: [{ $ref: '#/components/schemas/Bar' }],
+                nullable: true,
+              },
+            },
+            type: 'object',
+          },
+        },
+      },
+      info: { title: 'Test', version: '1' },
+      openapi: '3.0.3',
+      paths: {},
+    };
+    const context = createContext(spec);
+    parseV3_0_X(context);
+    const properties = context.ir.components?.schemas?.['Foo']?.properties;
+    expect(properties?.['sibling']).toEqual(properties?.['wrapped']);
+    expect(properties?.['sibling']).toEqual({
+      items: [{ $ref: '#/components/schemas/Bar' }, { type: 'null' }],
+      logicalOperator: 'or',
+    });
+  });
 });

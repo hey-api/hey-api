@@ -541,6 +541,13 @@ describe(`OpenAPI ${version}`, () => {
     },
     {
       config: createConfig({
+        input: 'nullable-ref.json',
+        output: 'nullable-ref',
+      }),
+      description: 'handles nullable sibling on $ref',
+    },
+    {
+      config: createConfig({
         input: 'exclude-deprecated.yaml',
         output: 'exclude-deprecated',
         parser: {

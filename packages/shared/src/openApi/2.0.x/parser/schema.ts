@@ -764,6 +764,21 @@ export function schemaToIrSchema({
   }
 
   if (schema.$ref) {
+    // an `x-nullable: true` sibling next to `$ref` must produce the same
+    // `| null` union as the equivalent allOf wrapper form
+    // `{ allOf: [{ $ref }], 'x-nullable': true }`
+    if (schema['x-nullable']) {
+      const { $ref, ...remaining } = schema;
+      return parseAllOf({
+        context,
+        schema: {
+          ...remaining,
+          allOf: [{ $ref }],
+        } as SchemaWithRequired<OpenAPIV2.SchemaObject, 'allOf'>,
+        state,
+      });
+    }
+
     return parseRef({
       context,
       schema: schema as SchemaWithRequired<OpenAPIV2.SchemaObject, '$ref'>,

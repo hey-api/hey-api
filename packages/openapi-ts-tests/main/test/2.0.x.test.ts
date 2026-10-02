@@ -66,6 +66,13 @@ describe(`OpenAPI ${version}`, () => {
     },
     {
       config: createConfig({
+        input: 'nullable-ref.json',
+        output: 'nullable-ref',
+      }),
+      description: 'handles x-nullable sibling on $ref',
+    },
+    {
+      config: createConfig({
         input: 'enum-names-values.json',
         output: 'enum-names-values',
       }),
