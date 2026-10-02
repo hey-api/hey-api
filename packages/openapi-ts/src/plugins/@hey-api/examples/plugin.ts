@@ -1,4 +1,4 @@
-import { toCase } from '@hey-api/shared';
+import { httpMethods, toCase } from '@hey-api/shared';
 
 import { $ } from '../../../ts-dsl';
 import type { HeyApiExamplesPlugin } from './types';
@@ -65,14 +65,14 @@ export const handler: HeyApiExamplesPlugin['Handler'] = ({ plugin }) => {
 
   for (const [, pathItem] of Object.entries(spec.paths)) {
     for (const [key, operation] of Object.entries(pathItem)) {
-      if (key.startsWith('x-')) {
-        continue;
-      }
-      if ('parameters' in operation || 'summary' in operation || 'description' in operation) {
+      // path items contain non-operation members (`parameters`, `summary`,
+      // `servers`, `x-` extensions, ...) whose values may be primitives —
+      // only iterate HTTP methods so property checks below are safe
+      if (!httpMethods.includes(key as (typeof httpMethods)[number])) {
         continue;
       }
 
-      if (!('responses' in operation) || !operation.responses) {
+      if (!operation.responses) {
         continue;
       }
 
