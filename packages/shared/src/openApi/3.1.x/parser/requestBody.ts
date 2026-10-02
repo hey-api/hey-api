@@ -2,6 +2,7 @@ import type { OpenAPIV3_1 } from '@hey-api/spec-types';
 
 import type { Context } from '../../../ir/context';
 import type { IR } from '../../../ir/types';
+import { selectContent } from '../../../openApi/shared/utils/content';
 import { refToName } from '../../../utils/ref';
 import { mediaTypeObjects } from './mediaType';
 import { schemaToIrSchema } from './schema';
@@ -17,8 +18,10 @@ function requestBodyToIrRequestBody({
 }): IR.RequestBodyObject {
   // TODO: parser - fix
   const contents = mediaTypeObjects({ content: requestBody.content });
-  // TODO: add support for multiple content types, for now prefer JSON
-  const content = contents.find((content) => content.type === 'json') || contents[0];
+  const content = selectContent({
+    contents,
+    preferred: context.config.parser.content.preferred.requests,
+  });
   const schema = content ? content.schema : undefined;
 
   const finalSchema: OpenAPIV3_1.SchemaObject = {

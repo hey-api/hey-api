@@ -3,6 +3,7 @@ import type { OpenAPIV3_1 } from '@hey-api/spec-types';
 import type { Context } from '../../../ir/context';
 import type { IR } from '../../../ir/types';
 import type { State } from '../../../openApi/shared/types/state';
+import { selectContent } from '../../../openApi/shared/utils/content';
 import type { httpMethods } from '../../../openApi/shared/utils/operation';
 import { operationToId } from '../../../openApi/shared/utils/operation';
 import { contentToSchema, mediaTypeObjects } from './mediaType';
@@ -109,8 +110,10 @@ function operationToIrOperation({
         ? context.resolveRef<OpenAPIV3_1.RequestBodyObject>(operation.requestBody.$ref)
         : operation.requestBody;
     const contents = mediaTypeObjects({ content: requestBody.content });
-    // TODO: add support for multiple content types, for now prefer JSON
-    const content = contents.find((content) => content.type === 'json') || contents[0];
+    const content = selectContent({
+      contents,
+      preferred: context.config.parser.content.preferred.requests,
+    });
 
     if (content) {
       const pagination = paginationField({
@@ -161,8 +164,10 @@ function operationToIrOperation({
     const responseObject =
       '$ref' in response ? context.resolveRef<OpenAPIV3_1.ResponseObject>(response.$ref) : response;
     const contents = mediaTypeObjects({ content: responseObject.content });
-    // TODO: add support for multiple content types, for now prefer JSON
-    const content = contents.find((content) => content.type === 'json') || contents[0];
+    const content = selectContent({
+      contents,
+      preferred: context.config.parser.content.preferred.responses,
+    });
 
     if (content) {
       irOperation.responses[name] = {

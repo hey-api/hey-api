@@ -9,6 +9,7 @@ const createContext = () =>
   ({
     config: {
       parser: {
+        content: { preferred: {} },
         pagination: {
           keywords: ['after', 'before', 'cursor', 'offset', 'page', 'start'],
         },

@@ -73,6 +73,27 @@ describe(`OpenAPI ${version}`, () => {
     },
     {
       config: createConfig({
+        input: 'multiple-media-types.yaml',
+        output: 'multiple-media-types',
+        plugins: ['@hey-api/client-fetch', '@hey-api/typescript', '@hey-api/sdk'],
+      }),
+      description: 'handles multiple media types with default selection',
+    },
+    {
+      config: createConfig({
+        input: 'multiple-media-types.yaml',
+        output: 'multiple-media-types-preferred-text',
+        parser: {
+          content: {
+            preferred: ['text/plain'],
+          },
+        },
+        plugins: ['@hey-api/client-fetch', '@hey-api/typescript', '@hey-api/sdk'],
+      }),
+      description: 'prefers text/plain via content.preferred shorthand',
+    },
+    {
+      config: createConfig({
         input: 'enum-names-values.json',
         output: 'enum-names-values-javascript-SCREAMING_SNAKE_CASE',
         plugins: [

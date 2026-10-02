@@ -3,6 +3,7 @@ import type { OpenAPIV3 } from '@hey-api/spec-types';
 import type { Context } from '../../../ir/context';
 import { getPaginationKeywordsRegExp } from '../../../ir/pagination';
 import type { SchemaType } from '../../../openApi/shared/types/schema';
+import { selectContent } from '../../../openApi/shared/utils/content';
 import { mediaTypeObjects } from './mediaType';
 import { getSchemaType } from './schema';
 
@@ -45,8 +46,10 @@ export function paginationField({
       if (!refSchema) {
         // parameter or body
         const contents = mediaTypeObjects({ content: ref.content });
-        // TODO: add support for multiple content types, for now prefer JSON
-        const content = contents.find((content) => content.type === 'json') || contents[0];
+        const content = selectContent({
+          contents,
+          preferred: context.config.parser.content.preferred.requests,
+        });
         if (content?.schema) {
           refSchema = content.schema;
         }

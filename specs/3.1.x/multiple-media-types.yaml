@@ -1,0 +1,49 @@
+openapi: 3.1.0
+info:
+  title: OpenAPI 3.1.0 multiple media types example
+  version: '1'
+paths:
+  /documents:
+    post:
+      operationId: createDocument
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/Document'
+          'multipart/form-data':
+            schema:
+              properties:
+                file:
+                  format: binary
+                  type: string
+                name:
+                  type: string
+              type: object
+          'text/plain':
+            schema:
+              type: string
+          'application/octet-stream':
+            schema:
+              format: binary
+              type: string
+        required: true
+      responses:
+        '200':
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Document'
+            'text/plain':
+              schema:
+                type: string
+          description: OK
+components:
+  schemas:
+    Document:
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+      type: object

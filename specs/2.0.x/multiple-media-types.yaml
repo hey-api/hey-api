@@ -1,0 +1,32 @@
+swagger: 2.0
+info:
+  title: OpenAPI 2.0 multiple media types example
+  version: 1
+paths:
+  /documents:
+    post:
+      consumes:
+        - application/json
+        - text/plain
+      produces:
+        - application/json
+        - text/plain
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Document'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Document'
+definitions:
+  Document:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+    type: object

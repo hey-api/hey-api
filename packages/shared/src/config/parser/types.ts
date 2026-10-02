@@ -6,7 +6,48 @@ import type { Patch } from './patch';
 
 export type EnumsMode = 'inline' | 'root';
 
+/**
+ * Ordered media type preference. Entries are matched in order against the
+ * available media types; the first match wins. Strings match the media type
+ * exactly, ignoring parameters such as `; charset=utf-8` and casing. Regular
+ * expressions are tested against the full media type. When nothing matches,
+ * we fall back to the default behavior: prefer JSON, then the first defined
+ * media type.
+ */
+export type ContentPreference = ReadonlyArray<string | RegExp>;
+
 export type UserParser = {
+  /**
+   * Configuration for handling `content` maps with multiple media types.
+   */
+  content?: {
+    /**
+     * Controls which media type is selected when an input defines multiple
+     * `content` entries.
+     *
+     * Can be:
+     * - `array`: Shorthand applying to parameters, requests, and responses
+     * - `object`: Per-context configuration
+     *
+     * @default undefined
+     */
+    preferred?:
+      | ContentPreference
+      | {
+          /**
+           * Preference for `parameter.content` selection.
+           */
+          parameters?: ContentPreference;
+          /**
+           * Preference for request body selection.
+           */
+          requests?: ContentPreference;
+          /**
+           * Preference for response selection.
+           */
+          responses?: ContentPreference;
+        };
+  };
   /**
    * Filters can be used to select a subset of your input before it's passed
    * to plugins.
@@ -204,6 +245,29 @@ export type UserParser = {
 };
 
 export type Parser = {
+  /**
+   * Configuration for handling `content` maps with multiple media types.
+   */
+  content: {
+    /**
+     * Controls which media type is selected when an input defines multiple
+     * `content` entries.
+     */
+    preferred: {
+      /**
+       * Preference for `parameter.content` selection.
+       */
+      parameters?: ContentPreference;
+      /**
+       * Preference for request body selection.
+       */
+      requests?: ContentPreference;
+      /**
+       * Preference for response selection.
+       */
+      responses?: ContentPreference;
+    };
+  };
   /**
    * Filters can be used to select a subset of your input before it's passed
    * to plugins.

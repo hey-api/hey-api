@@ -2,6 +2,7 @@ import type { OpenAPIV3_1 } from '@hey-api/spec-types';
 
 import type { Context } from '../../../ir/context';
 import type { IR } from '../../../ir/types';
+import { selectContent } from '../../../openApi/shared/utils/content';
 import { refToName } from '../../../utils/ref';
 import { mediaTypeObjects } from './mediaType';
 import { paginationField } from './pagination';
@@ -99,8 +100,10 @@ function parameterToIrParameter({
 
   if (!schema) {
     const contents = mediaTypeObjects({ content: parameter.content });
-    // TODO: add support for multiple content types, for now prefer JSON
-    const content = contents.find((content) => content.type === 'json') || contents[0];
+    const content = selectContent({
+      contents,
+      preferred: context.config.parser.content.preferred.parameters,
+    });
     if (content) {
       schema = content.schema;
     }

@@ -325,4 +325,110 @@ describe('createClient', () => {
 
     expect(results.length).toBeGreaterThanOrEqual(1);
   });
+
+  const multipleMediaTypesSpec = {
+    info: { title: 'multiple-media-types-test', version: '1.0.0' },
+    openapi: '3.1.0',
+    paths: {
+      '/documents': {
+        post: {
+          operationId: 'createDocument',
+          requestBody: {
+            content: {
+              'application/json': {
+                schema: {
+                  properties: { name: { type: 'string' } },
+                  type: 'object',
+                },
+              },
+              'multipart/form-data': {
+                schema: {
+                  properties: {
+                    file: { format: 'binary', type: 'string' },
+                    name: { type: 'string' },
+                  },
+                  type: 'object',
+                },
+              },
+              'text/plain': {
+                schema: { type: 'string' },
+              },
+            },
+            required: true,
+          },
+          responses: {
+            200: {
+              content: {
+                'application/json': {
+                  schema: {
+                    properties: { id: { type: 'string' } },
+                    type: 'object',
+                  },
+                },
+              },
+              description: 'ok',
+            },
+          },
+        },
+      },
+    },
+  };
+
+  const renderFile = (results: Awaited<ReturnType<typeof createClient>>, fileName: string) =>
+    results[0]!.gen.render().find((file) => file.path.endsWith(fileName))?.content ?? '';
+
+  it('selects JSON media type by default', async () => {
+    const results = await createClient({
+      dryRun: true,
+      input: multipleMediaTypesSpec,
+      logs: { level: 'silent' },
+      output: 'out',
+      plugins: ['@hey-api/client-fetch', '@hey-api/typescript', '@hey-api/sdk'],
+    });
+
+    const sdk = renderFile(results, 'sdk.gen.ts');
+    expect(sdk).toContain("'Content-Type': 'application/json'");
+    expect(sdk).not.toContain('formDataBodySerializer');
+  });
+
+  it('selects media type from content.preferred', async () => {
+    const results = await createClient({
+      dryRun: true,
+      input: multipleMediaTypesSpec,
+      logs: { level: 'silent' },
+      output: 'out',
+      parser: {
+        content: {
+          preferred: {
+            requests: ['multipart/form-data'],
+          },
+        },
+      },
+      plugins: ['@hey-api/client-fetch', '@hey-api/typescript', '@hey-api/sdk'],
+    });
+
+    const sdk = renderFile(results, 'sdk.gen.ts');
+    expect(sdk).toContain('formDataBodySerializer');
+    expect(sdk).toContain("'Content-Type': null");
+  });
+
+  it('applies the content.preferred array shorthand to all contexts', async () => {
+    const results = await createClient({
+      dryRun: true,
+      input: multipleMediaTypesSpec,
+      logs: { level: 'silent' },
+      output: 'out',
+      parser: {
+        content: {
+          preferred: ['text/plain'],
+        },
+      },
+      plugins: ['@hey-api/client-fetch', '@hey-api/typescript', '@hey-api/sdk'],
+    });
+
+    const sdk = renderFile(results, 'sdk.gen.ts');
+    expect(sdk).toContain("'Content-Type': 'text/plain'");
+    expect(sdk).toContain('bodySerializer: null');
+    expect(renderFile(results, 'types.gen.ts')).toContain('body: string;');
+  });
 });

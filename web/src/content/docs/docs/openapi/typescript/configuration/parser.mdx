@@ -504,6 +504,45 @@ export default {
 If a transformed schema name conflicts with an existing schema, the rename is skipped for that schema to prevent overwrites. The original name is preserved.
 :::
 
+## Content
+
+When an operation defines multiple media types for a request body, response, or parameter, we select one of them. By default, we prefer a JSON media type, then the first defined entry.
+
+You can control this selection with `content.preferred` — an ordered list of media types. Each entry is matched in order against the available media types; the first match wins. Strings match the media type exactly, ignoring parameters such as `; charset=utf-8` and casing. Regular expressions are tested against the full media type. When nothing matches, we fall back to the default behavior, so setting this option never changes output for operations it doesn't match.
+
+<Tabs>
+  <TabItem label="requests">
+```js {6-10} title="openapi-ts.config.ts"
+export default {
+  input: 'hey-api/backend', // sign up at app.heyapi.dev
+  output: 'src/client',
+  parser: {
+    content: {
+      preferred: {
+        requests: ['multipart/form-data'],
+      },
+    },
+  },
+};
+```
+  </TabItem>
+  <TabItem label="everywhere">
+```js {6-8} title="openapi-ts.config.ts"
+export default {
+  input: 'hey-api/backend', // sign up at app.heyapi.dev
+  output: 'src/client',
+  parser: {
+    content: {
+      preferred: ['text/plain'],
+    },
+  },
+};
+```
+  </TabItem>
+</Tabs>
+
+The array shorthand applies to requests, responses, and parameters. Use the object form to configure each context separately with the `requests`, `responses`, and `parameters` keys.
+
 ## Pagination
 
 Paginated operations are detected by having a pagination keyword in its parameters or request body. By default, we consider the following to be pagination keywords: `after`, `before`, `cursor`, `offset`, `page`, and `start`.
