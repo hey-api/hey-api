@@ -1,5 +1,6 @@
 import type { OpenAPIV3_1 } from '@hey-api/spec-types';
 
+import { satisfies } from '../../../config/utils/dependencies';
 import type { Context } from '../../../ir/context';
 import { mergeParametersObjects } from '../../../openApi/shared/utils/parameter';
 import { parseWebhookOperation } from './operation';
@@ -167,6 +168,24 @@ export function parseWebhooks({
             source: parametersArrayToObject({
               context,
               parameters: finalWebhook.put.parameters,
+            }),
+            target: operationArgs.operation.parameters,
+          }),
+        },
+      });
+    }
+
+    if (satisfies(context.spec.openapi, '>=3.2.0') && finalWebhook.query) {
+      parseWebhookOperation({
+        ...operationArgs,
+        method: 'query',
+        operation: {
+          ...operationArgs.operation,
+          ...finalWebhook.query,
+          parameters: mergeParametersObjects({
+            source: parametersArrayToObject({
+              context,
+              parameters: finalWebhook.query.parameters,
             }),
             target: operationArgs.operation.parameters,
           }),

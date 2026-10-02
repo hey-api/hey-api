@@ -38,6 +38,54 @@ function createContext(spec: OpenAPIV3_1.Document) {
 }
 
 describe('parseV3_1_X', () => {
+  it('parses QUERY operations from OpenAPI 3.2 paths and webhooks', () => {
+    const queryOperation: OpenAPIV3_1.OperationObject = {
+      responses: {
+        200: { description: 'Success' },
+      },
+    };
+    const spec: OpenAPIV3_1.Document = {
+      info: { title: 'Test', version: '1' },
+      openapi: '3.2.0',
+      paths: {
+        '/search': { query: queryOperation },
+      },
+      webhooks: {
+        search: { query: queryOperation },
+      },
+    };
+    const context = createContext(spec);
+
+    parseV3_1_X(context);
+
+    expect(context.ir.paths?.['/search']?.query).toBeDefined();
+    expect(context.ir.webhooks?.search?.query).toBeDefined();
+  });
+
+  it('ignores QUERY operations before OpenAPI 3.2', () => {
+    const queryOperation: OpenAPIV3_1.OperationObject = {
+      responses: {
+        200: { description: 'Success' },
+      },
+    };
+    const spec: OpenAPIV3_1.Document = {
+      info: { title: 'Test', version: '1' },
+      openapi: '3.1.0',
+      paths: {
+        '/search': { query: queryOperation },
+      },
+      webhooks: {
+        search: { query: queryOperation },
+      },
+    };
+    const context = createContext(spec);
+
+    parseV3_1_X(context);
+
+    expect(context.ir.paths?.['/search']?.query).toBeUndefined();
+    expect(context.ir.webhooks?.search?.query).toBeUndefined();
+  });
+
   it('encodes $ref for schema name containing /', () => {
     const spec: OpenAPIV3_1.Document = {
       components: {

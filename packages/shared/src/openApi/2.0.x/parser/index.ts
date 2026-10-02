@@ -34,7 +34,7 @@ export function parseV2_0_X(context: Context<OpenAPIV2.Document>): void {
   if (shouldFilterSpec) {
     const filters = createFilters(context.config.parser.filters, context.spec, context.logger);
     const { graph } = buildGraph(context.spec, context.logger);
-    const { resourceMetadata } = buildResourceMetadata(graph, context.logger);
+    const { resourceMetadata } = buildResourceMetadata(graph, context.logger, context.spec.swagger);
     const sets = createFilteredDependencies({
       filters,
       logger: context.logger,

@@ -1654,6 +1654,106 @@ describe('patchOpenApiSpec', () => {
         expect(fn).toHaveBeenCalledWith('post', '/bar', spec.paths!['/bar']?.post);
       });
 
+      it('bulk callback receives QUERY operations in OpenAPI 3.2', async () => {
+        const fn = vi.fn();
+        const spec: OpenApi.V3_1_X = {
+          ...specMetadataV3,
+          openapi: '3.2.0',
+          paths: {
+            '/search': {
+              query: {
+                responses: {},
+              },
+            },
+          },
+        };
+
+        await patchOpenApiSpec({
+          patchOptions: {
+            operations: fn,
+          },
+          spec,
+        });
+
+        expect(fn).toHaveBeenCalledOnce();
+        expect(fn).toHaveBeenCalledWith('query', '/search', spec.paths!['/search']?.query);
+      });
+
+      it('bulk callback receives QUERY operations after OpenAPI 3.2.0', async () => {
+        const fn = vi.fn();
+        const spec: OpenApi.V3_1_X = {
+          ...specMetadataV3,
+          openapi: '3.2.1' as OpenApi.V3_1_X['openapi'],
+          paths: {
+            '/search': {
+              query: {
+                responses: {},
+              },
+            },
+          },
+        };
+
+        await patchOpenApiSpec({
+          patchOptions: {
+            operations: fn,
+          },
+          spec,
+        });
+
+        expect(fn).toHaveBeenCalledWith('query', '/search', spec.paths!['/search']?.query);
+      });
+
+      it('preserves the callback order when patching multiple operations', async () => {
+        const fn = vi.fn();
+        const spec: OpenApi.V3_1_X = {
+          ...specMetadataV3,
+          paths: {
+            '/search': {
+              delete: { responses: {} },
+              get: { responses: {} },
+              patch: { responses: {} },
+              post: { responses: {} },
+              put: { responses: {} },
+              trace: { responses: {} },
+            },
+          },
+        };
+
+        await patchOpenApiSpec({ patchOptions: { operations: fn }, spec });
+
+        expect(fn.mock.calls.map(([method]) => method)).toEqual([
+          'get',
+          'put',
+          'post',
+          'delete',
+          'patch',
+          'trace',
+        ]);
+      });
+
+      it('bulk callback ignores QUERY operations before OpenAPI 3.2', async () => {
+        const fn = vi.fn();
+        const spec: OpenApi.V3_1_X = {
+          ...specMetadataV3,
+          paths: {
+            '/search': {
+              query: {
+                responses: {},
+              },
+            },
+          },
+        };
+
+        await patchOpenApiSpec({
+          patchOptions: {
+            operations: fn,
+          },
+          spec,
+        });
+
+        expect(fn).not.toHaveBeenCalled();
+      });
+
       it('bulk callback can inject operationId based on path patterns', async () => {
         const spec: OpenApi.V3_1_X = {
           ...specMetadataV3,

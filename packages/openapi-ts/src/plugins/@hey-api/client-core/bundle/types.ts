@@ -10,6 +10,7 @@ export type HttpMethod =
   | 'patch'
   | 'post'
   | 'put'
+  | 'query'
   | 'trace';
 
 export type Client<

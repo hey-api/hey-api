@@ -77,6 +77,68 @@ function createHandlerNode({
 
   const hasResponse = response.example !== undefined;
 
+  const handlerPath = $.template(
+    $(symbolOptions)
+      .attr('baseUrl')
+      .optional()
+      .coalesce($.literal(baseUrl ?? '')),
+  ).add(sanitizePath(operation.path));
+  const resolverInfo =
+    operation.method === 'query'
+      ? $('info').as($.type('Parameters').generic($(symbolResponse).typeofType()).idx(0))
+      : $('info');
+  const handlerResolver = $.func()
+    .param('info')
+    .do(
+      $.if($.typeofExpr(symbolResponse).eq($.literal('function'))).do(
+        $(symbolResponse).call(resolverInfo).return(),
+      ),
+      $.const('body').assign(
+        $(symbolResponse)
+          .attr('body')
+          .optional()
+          .$if(hasResponse, (c) => c.coalesce($.fromValue(response.example))),
+      ),
+      $.if($('body').neq($('undefined'))).do(
+        createHttpResponse({
+          plugin,
+          response,
+          symbol: symbolResponse,
+        }).return(),
+      ),
+    )
+    .$if(!hasResponse, (f) =>
+      f.$if(
+        plugin.config.responseFallback === 'error',
+        (f) =>
+          f.do(
+            $.if(
+              $(symbolOptions).attr('responseFallback').optional().eq($.literal('passthrough')),
+            ).do($.return()),
+            notImplementedResponse.return(),
+          ),
+        (f) =>
+          f.do(
+            $.if($(symbolOptions).attr('responseFallback').optional().eq($.literal('error'))).do(
+              notImplementedResponse.return(),
+            ),
+          ),
+      ),
+    );
+  const handler =
+    operation.method === 'query'
+      ? $.new(
+          plugin.imports.HttpHandler,
+          $.literal('QUERY'),
+          handlerPath,
+          handlerResolver,
+          symbolOptions,
+        )
+      : $(symbolHttp)
+          .attr(operation.method)
+          .call(handlerPath, handlerResolver, symbolOptions)
+          .generics(paramsType, bodyType);
+
   const handlerFunc = $.func(symbol)
     .export()
     .$if(plugin.config.comments && getOperationComment(operation), (f, v) => f.doc(v))
@@ -91,62 +153,7 @@ function createHandlerNode({
       ),
     )
     .returns(plugin.imports.HttpHandler)
-    .do(
-      $(symbolHttp)
-        .attr(operation.method)
-        .call(
-          $.template(
-            $(symbolOptions)
-              .attr('baseUrl')
-              .optional()
-              .coalesce($.literal(baseUrl ?? '')),
-          ).add(sanitizePath(operation.path)),
-          $.func()
-            .param('info')
-            .do(
-              $.if($.typeofExpr(symbolResponse).eq($.literal('function'))).do(
-                $(symbolResponse).call('info').return(),
-              ),
-              $.const('body').assign(
-                $(symbolResponse)
-                  .attr('body')
-                  .optional()
-                  .$if(hasResponse, (c) => c.coalesce($.fromValue(response.example))),
-              ),
-              $.if($('body').neq($('undefined'))).do(
-                createHttpResponse({
-                  plugin,
-                  response,
-                  symbol: symbolResponse,
-                }).return(),
-              ),
-            )
-            .$if(!hasResponse, (f) =>
-              f.$if(
-                plugin.config.responseFallback === 'error',
-                (f) =>
-                  f.do(
-                    $.if(
-                      $(symbolOptions)
-                        .attr('responseFallback')
-                        .optional()
-                        .eq($.literal('passthrough')),
-                    ).do($.return()),
-                    notImplementedResponse.return(),
-                  ),
-                (f) =>
-                  f.do(
-                    $.if(
-                      $(symbolOptions).attr('responseFallback').optional().eq($.literal('error')),
-                    ).do(notImplementedResponse.return()),
-                  ),
-              ),
-            ),
-          symbolOptions,
-        )
-        .generics(paramsType, bodyType)
-        .return(),
-    );
+    .do(handler.return());
   plugin.node(handlerFunc);
   return symbol;
 }

@@ -1,6 +1,7 @@
 import path from 'node:path';
 
 import { Logger } from '@hey-api/codegen-core';
+import type { OpenAPIV3_1 } from '@hey-api/spec-types';
 
 import { getSpecsPath, specFileToJson } from '../../../__tests__/utils';
 import type { ValidatorResult } from '../../../shared/utils/validator';
@@ -86,5 +87,57 @@ describe('validate', () => {
     const result = validateOpenApiSpec(spec, logger);
     expect(result.valid).toBe(valid);
     expect(result.issues).toEqual(issues);
+  });
+
+  it('ignores QUERY operations before OpenAPI 3.2', () => {
+    const spec: OpenAPIV3_1.Document = {
+      info: { title: 'Test', version: '1' },
+      openapi: '3.1.0',
+      paths: {
+        '/real': {
+          get: {
+            operationId: 'search',
+            responses: {},
+          },
+        },
+        '/search': {
+          query: {
+            operationId: 'search',
+            responses: {},
+          },
+        },
+      },
+    };
+
+    const result = validateOpenApiSpec(spec, new Logger());
+
+    expect(result).toEqual({ issues: [], valid: true });
+  });
+
+  it('validates QUERY operations in OpenAPI 3.2', () => {
+    const spec: OpenAPIV3_1.Document = {
+      info: { title: 'Test', version: '1' },
+      openapi: '3.2.0',
+      paths: {
+        '/real': {
+          get: {
+            operationId: 'search',
+            responses: {},
+          },
+        },
+        '/search': {
+          query: {
+            operationId: 'search',
+            responses: {},
+          },
+        },
+      },
+    };
+
+    const result = validateOpenApiSpec(spec, new Logger());
+
+    expect(result.valid).toBe(false);
+    expect(result.issues).toHaveLength(1);
+    expect(result.issues[0]?.path).toEqual(['paths', '/search', 'query', 'operationId']);
   });
 });

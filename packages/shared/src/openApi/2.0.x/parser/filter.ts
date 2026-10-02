@@ -3,7 +3,7 @@ import type { OpenAPIV2 } from '@hey-api/spec-types';
 
 import { createOperationKey } from '../../../ir/operation';
 import { addNamespace, removeNamespace } from '../../../openApi/shared/utils/filter';
-import { httpMethods } from '../../../openApi/shared/utils/operation';
+import { legacyHttpMethods } from '../../../openApi/shared/utils/operation';
 
 /**
  * Replace source spec with filtered version.
@@ -52,7 +52,7 @@ export function filterSpec({
       const path = entry[0] as keyof OpenAPIV2.PathsObject;
       const pathItem = entry[1] as OpenAPIV2.PathItemObject;
 
-      for (const method of httpMethods) {
+      for (const method of legacyHttpMethods) {
         // @ts-expect-error
         const operation = pathItem[method] as OpenAPIV2.OperationObject;
         if (!operation) {

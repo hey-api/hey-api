@@ -1,4 +1,5 @@
 import type { Patch } from '../../../config/parser/patch';
+import { satisfies } from '../../../config/utils/dependencies';
 import type { OpenApi } from '../../../openApi/types';
 
 export async function patchOpenApiSpec({
@@ -163,7 +164,7 @@ export async function patchOpenApiSpec({
       // Bulk callback: iterate all operations
       for (const [path, pathItem] of Object.entries(spec.paths)) {
         if (!pathItem || typeof pathItem !== 'object') continue;
-        for (const method of [
+        const methods = [
           'get',
           'put',
           'post',
@@ -171,8 +172,10 @@ export async function patchOpenApiSpec({
           'options',
           'head',
           'patch',
+          ...(satisfies(spec.openapi, '>=3.2.0') ? (['query'] as const) : []),
           'trace',
-        ]) {
+        ] as const;
+        for (const method of methods) {
           const operation = pathItem[method as keyof typeof pathItem];
           if (!operation || typeof operation !== 'object') continue;
           await patchOptions.operations(method, path, operation as any);

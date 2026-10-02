@@ -3,7 +3,7 @@ import { reactive, ref, toValue, watch } from 'vue';
 
 import { createSseClient } from '../../client-core/bundle/serverSentEvents';
 import type { HttpMethod } from '../../client-core/bundle/types';
-import { getValidRequestBody } from '../../client-core/bundle/utils';
+import { createHttpMethodMap, getValidRequestBody } from '../../client-core/bundle/utils';
 import type { Client, Config, RequestOptions } from './types';
 import {
   buildUrl,
@@ -142,9 +142,18 @@ export const createClient = (config: Config = {}): Client => {
       watch(bodyParams, (changed) => {
         body.value = serializeBody(changed);
       });
-      return composable === 'useLazyFetch'
-        ? useLazyFetch(() => buildUrl(opts), { ...opts, ...asyncDataOptions })
-        : useFetch(() => buildUrl(opts), { ...opts, ...asyncDataOptions });
+      const fetchOptions = {
+        ...opts,
+        ...asyncDataOptions,
+      };
+      // Nuxt's method union does not include OpenAPI 3.2's QUERY method yet,
+      // but the underlying fetch implementation accepts arbitrary methods.
+      if (composable === 'useLazyFetch') {
+        // @ts-expect-error
+        return useLazyFetch(() => buildUrl(opts), fetchOptions);
+      }
+      // @ts-expect-error
+      return useFetch(() => buildUrl(opts), fetchOptions);
     }
 
     const handler: any = () =>
@@ -190,28 +199,10 @@ export const createClient = (config: Config = {}): Client => {
 
   return {
     buildUrl: _buildUrl,
-    connect: makeMethodFn('CONNECT'),
-    delete: makeMethodFn('DELETE'),
-    get: makeMethodFn('GET'),
+    ...createHttpMethodMap(makeMethodFn),
     getConfig,
-    head: makeMethodFn('HEAD'),
-    options: makeMethodFn('OPTIONS'),
-    patch: makeMethodFn('PATCH'),
-    post: makeMethodFn('POST'),
-    put: makeMethodFn('PUT'),
     request,
     setConfig,
-    sse: {
-      connect: makeSseFn('CONNECT'),
-      delete: makeSseFn('DELETE'),
-      get: makeSseFn('GET'),
-      head: makeSseFn('HEAD'),
-      options: makeSseFn('OPTIONS'),
-      patch: makeSseFn('PATCH'),
-      post: makeSseFn('POST'),
-      put: makeSseFn('PUT'),
-      trace: makeSseFn('TRACE'),
-    },
-    trace: makeMethodFn('TRACE'),
+    sse: createHttpMethodMap(makeSseFn),
   } as Client;
 };

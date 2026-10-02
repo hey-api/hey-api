@@ -155,6 +155,7 @@ export const createClient = (config: Config = {}): Client => {
     patch: (options) => request({ ...options, method: 'PATCH' }),
     post: (options) => request({ ...options, method: 'POST' }),
     put: (options) => request({ ...options, method: 'PUT' }),
+    query: (options) => request({ ...options, method: 'QUERY' }),
     request,
     setConfig,
     trace: (options) => request({ ...options, method: 'TRACE' }),
