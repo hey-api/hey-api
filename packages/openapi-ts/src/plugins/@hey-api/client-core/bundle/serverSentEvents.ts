@@ -1,4 +1,5 @@
 import type { Config } from './types';
+import { toRequestInit } from './utils';
 
 export type ServerSentEventsOptions<TData = unknown> = Omit<RequestInit, 'method'> &
   Pick<Config, 'method' | 'responseTransformer' | 'responseValidator'> & {
@@ -114,13 +115,13 @@ export function createSseClient<TData = unknown>({
       }
 
       try {
-        const requestInit: RequestInit = {
+        const requestInit: RequestInit = toRequestInit({
           redirect: 'follow',
           ...options,
           body: options.serializedBody,
           headers,
           signal,
-        };
+        });
         let request = new Request(url, requestInit);
         if (onRequest) {
           request = await onRequest(url, requestInit);
