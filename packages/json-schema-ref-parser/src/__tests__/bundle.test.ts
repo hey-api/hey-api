@@ -805,39 +805,11 @@ describe('bundle', () => {
       expect(Object.keys(merged.paths)).toEqual(['/search']);
     });
 
-    it('promotes the merged dialect when a later input uses OpenAPI 3.2', async () => {
-      const refParser = new $RefParser();
-      const merged = (await refParser.bundleMany({
-        pathOrUrlOrSchemas: [
-          {
-            info: { title: 'OpenAPI 3.1', version: '1.0.0' },
-            openapi: '3.1.0',
-            paths: {},
-          },
-          {
-            info: { title: 'OpenAPI 3.2', version: '1.0.0' },
-            openapi: '3.2.0',
-            paths: {
-              '/search': {
-                query: {
-                  operationId: 'search',
-                  responses: { '200': { description: 'Success' } },
-                },
-              },
-            },
-          },
-        ],
-      })) as any;
-
-      expect(merged.openapi).toBe('3.2.0');
-      expect(merged.paths['/search'].query.operationId).toMatch(/search$/);
-    });
-
     it.each([
       ['before', ['3.1.0', '3.2.0']],
       ['after', ['3.2.0', '3.1.0']],
     ])(
-      'does not activate a pre-3.2 QUERY field merged %s a valid operation',
+      'preserves the first version and does not activate a pre-3.2 QUERY field merged %s 3.2',
       async (_, versions) => {
         const refParser = new $RefParser();
         const specs = versions.map((openapi) => ({
@@ -855,7 +827,7 @@ describe('bundle', () => {
 
         const merged = (await refParser.bundleMany({ pathOrUrlOrSchemas: specs })) as any;
 
-        expect(merged.openapi).toBe('3.2.0');
+        expect(merged.openapi).toBe(versions[0]);
         expect(Object.keys(merged.paths)).toEqual(['/search']);
         expect(merged.paths['/search'].query.operationId).toMatch(/validSearch$/);
       },

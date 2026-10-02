@@ -303,21 +303,18 @@ export class $RefParser {
 
     const merged: any = {};
 
-    // Use the newest OpenAPI dialect so operations from newer inputs remain valid.
+    // Determine spec version: prefer first occurrence of openapi, else swagger
     let chosenOpenapi: string | undefined;
     let chosenSwagger: string | undefined;
     for (const s of schemas) {
-      if (s && typeof (s as any).openapi === 'string') {
-        const version = (s as any).openapi as string;
-        if (
-          !chosenOpenapi ||
-          version.localeCompare(chosenOpenapi, undefined, { numeric: true }) > 0
-        ) {
-          chosenOpenapi = version;
-        }
+      if (!chosenOpenapi && s && typeof (s as any).openapi === 'string') {
+        chosenOpenapi = (s as any).openapi;
       }
       if (!chosenSwagger && s && typeof (s as any).swagger === 'string') {
         chosenSwagger = (s as any).swagger;
+      }
+      if (chosenOpenapi && chosenSwagger) {
+        break;
       }
     }
     if (typeof chosenOpenapi === 'string') {
