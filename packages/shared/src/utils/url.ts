@@ -34,7 +34,9 @@ export function getBaseUrl(config: string | number | boolean, ir: IR.Model): str
   if (baseUrl.includes('{')) return;
   const url = parseUrl(baseUrl);
   if (url.protocol && url.host) return baseUrl;
-  if (baseUrl !== '/' && baseUrl.startsWith('/')) {
+  // '/' would turn request paths into protocol-relative URLs ('//path')
+  if (baseUrl === '/') return;
+  if (baseUrl.startsWith('/')) {
     return baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
   }
   return baseUrl;
