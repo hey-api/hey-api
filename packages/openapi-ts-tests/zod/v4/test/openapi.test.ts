@@ -55,6 +55,46 @@ for (const version of versions) {
           }),
           description: 'handles various schema types and formats',
         },
+        {
+          config: createConfig({
+            input: 'full.yaml',
+            output: 'resolvers-ctx-path',
+            plugins: [
+              {
+                $resolvers: (() => {
+                  const pathResolver = (ctx: {
+                    $: any;
+                    path: { '~ref': ReadonlyArray<string | number> };
+                    symbols: any;
+                  }): undefined =>
+                    ctx
+                      .$(ctx.symbols.z)
+                      .attr(`${ctx.path['~ref'].join('_')}`)
+                      .call();
+                  return {
+                    array: pathResolver,
+                    boolean: pathResolver,
+                    enum: pathResolver,
+                    intersection: pathResolver,
+                    never: pathResolver,
+                    null: pathResolver,
+                    number: pathResolver,
+                    object: pathResolver,
+                    string: pathResolver,
+                    tuple: pathResolver,
+                    undefined: pathResolver,
+                    union: pathResolver,
+                    unknown: pathResolver,
+                    void: pathResolver,
+                  };
+                })(),
+                compatibilityVersion: zodVersion.compatibilityVersion,
+                name: 'zod',
+              },
+            ],
+          }),
+          description: 'generate schemas according to resolver ctx paths',
+        },
       ];
 
       it.each(scenarios)('$description', async ({ config }) => {

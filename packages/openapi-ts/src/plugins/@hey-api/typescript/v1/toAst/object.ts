@@ -1,6 +1,5 @@
-import { ref } from '@hey-api/codegen-core';
 import type { IR } from '@hey-api/shared';
-import { deduplicateSchema } from '@hey-api/shared';
+import { childContext, deduplicateSchema } from '@hey-api/shared';
 
 import { $ } from '../../../../../ts-dsl';
 import { createSchemaComment } from '../../../../shared/utils/schema';
@@ -8,13 +7,13 @@ import type { ObjectResolverContext } from '../../resolvers';
 import type { Type } from '../../shared/types';
 
 function shapeNode(ctx: ObjectResolverContext): ReturnType<typeof $.type.object> {
-  const { plugin, schema, walk } = ctx;
+  const { path, plugin, schema, walk } = ctx;
   const shape = $.type.object();
   const required = schema.required ?? [];
 
   for (const name in schema.properties) {
     const property = schema.properties[name]!;
-    const propertyResult = walk(property, { path: ref([]), plugin });
+    const propertyResult = walk(property, childContext({ path, plugin }, 'properties', name));
     const isRequired = required.includes(name);
     shape.prop(name, (p) =>
       p
@@ -29,7 +28,7 @@ function shapeNode(ctx: ObjectResolverContext): ReturnType<typeof $.type.object>
 }
 
 function baseNode(ctx: ObjectResolverContext): Type {
-  const { plugin, schema, walk } = ctx;
+  const { path, plugin, schema, walk } = ctx;
   const shape = shapeNode(ctx);
   const required = schema.required ?? [];
   let indexSchemas: Array<IR.SchemaObject> = [];
@@ -85,12 +84,15 @@ function baseNode(ctx: ObjectResolverContext): Type {
           ? indexSchemas[0]!
           : deduplicateSchema({ schema: { items: indexSchemas, logicalOperator: 'or' } });
 
-      const indexType = walk(unionSchema, { path: ref([]), plugin }).type;
+      const indexType = walk(
+        unionSchema,
+        childContext({ path, plugin }, 'additionalProperties'),
+      ).type;
 
       if (schema.propertyNames?.$ref) {
         const propertyNamesResult = walk(
           { $ref: schema.propertyNames.$ref },
-          { path: ref([]), plugin },
+          childContext({ path, plugin }, 'propertyNames'),
         );
         return $.type.mapped('key').key(propertyNamesResult.type).optional().type(indexType);
       }
