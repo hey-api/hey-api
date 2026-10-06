@@ -11,6 +11,7 @@ import { isInstance } from '../v1/node';
 import { operationAuth } from './auth';
 import { nuxtTypeComposable, nuxtTypeDefault } from './constants';
 import { createResponseHandlers } from './handlers';
+import { getResponseType, isResponseTypeSupported } from './response-type';
 import { getSignatureParameters } from './signature';
 import { createRequestValidator } from './validator';
 
@@ -158,50 +159,6 @@ export function operationParameters({
   );
 
   return result;
-}
-
-/**
- * Infers `responseType` value from provided response content type. This is
- * an adapted version of `getParseAs()` from the Fetch API client.
- *
- * From Axios documentation:
- * `responseType` indicates the type of data that the server will respond with
- * options are: 'arraybuffer', 'document', 'json', 'text', 'stream'
- * browser only: 'blob'
- */
-function getResponseType(
-  contentType: string | null | undefined,
-): 'arraybuffer' | 'blob' | 'document' | 'json' | 'stream' | 'text' | undefined {
-  if (!contentType) {
-    return;
-  }
-
-  const cleanContent = contentType.split(';')[0]?.trim();
-
-  if (!cleanContent) {
-    return;
-  }
-
-  if (cleanContent.startsWith('application/json') || cleanContent.endsWith('+json')) {
-    return 'json';
-  }
-
-  // Axios does not handle form data out of the box
-  // if (cleanContent === 'multipart/form-data') {
-  //   return 'formData';
-  // }
-
-  if (
-    ['application/', 'audio/', 'image/', 'video/'].some((type) => cleanContent.startsWith(type))
-  ) {
-    return 'blob';
-  }
-
-  if (cleanContent.startsWith('text/')) {
-    return 'text';
-  }
-
-  return;
 }
 
 export function operationStatements({
@@ -354,14 +311,15 @@ export function operationStatements({
   for (const statusCode in operation.responses) {
     const response = operation.responses[statusCode]!;
 
-    // try to infer `responseType` option for Axios. We don't need this in
-    // Fetch API client because it automatically detects the correct response
-    // during runtime.
-    if (!responseTypeValue && client.name === '@hey-api/client-axios') {
+    // try to infer `responseType` option for clients that need it. We don't
+    // need this in Fetch API client because it automatically detects the
+    // correct response during runtime. Angular SSE requests don't go through
+    // `HttpRequest`, so the option would have no effect there.
+    if (!responseTypeValue && !(isSse && client.name === '@hey-api/client-angular')) {
       // this doesn't handle default status code for now
       if (statusCodeToGroup({ statusCode }) === '2XX') {
         responseTypeValue = getResponseType(response.mediaType);
-        if (responseTypeValue) {
+        if (responseTypeValue && isResponseTypeSupported(client.name, responseTypeValue)) {
           reqOptions.prop('responseType', $.literal(responseTypeValue));
         }
       }

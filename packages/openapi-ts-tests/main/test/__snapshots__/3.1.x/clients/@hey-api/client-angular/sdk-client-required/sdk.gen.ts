@@ -156,7 +156,11 @@ export const uploadFile = <ThrowOnError extends boolean = false>(options: Option
   }
 });
 
-export const fileResponse = <ThrowOnError extends boolean = false>(options: Options<FileResponseData, ThrowOnError>): RequestResult<FileResponseResponses, unknown, ThrowOnError> => options.client.get<FileResponseResponses, unknown, ThrowOnError>({ url: '/api/v{api-version}/file/{id}', ...options });
+export const fileResponse = <ThrowOnError extends boolean = false>(options: Options<FileResponseData, ThrowOnError>): RequestResult<FileResponseResponses, unknown, ThrowOnError> => options.client.get<FileResponseResponses, unknown, ThrowOnError>({
+  responseType: 'blob',
+  url: '/api/v{api-version}/file/{id}',
+  ...options
+});
 
 export const complexTypes = <ThrowOnError extends boolean = false>(options: Options<ComplexTypesData, ThrowOnError>): RequestResult<ComplexTypesResponses, ComplexTypesErrors, ThrowOnError> => options.client.get<ComplexTypesResponses, ComplexTypesErrors, ThrowOnError>({
   querySerializer: { parameters: { parameterObject: { object: { style: 'form' } } } },

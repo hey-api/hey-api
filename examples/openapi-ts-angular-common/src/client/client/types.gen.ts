@@ -52,6 +52,12 @@ export interface Config<T extends ClientOptions = ClientOptions>
    * @default 'fields'
    */
   responseStyle?: ResponseStyle;
+  /**
+   * The expected response type of the server. Angular defaults to `'json'`.
+   *
+   * {@link https://angular.dev/api/common/http/HttpRequest#responseType See more}
+   */
+  responseType?: 'arraybuffer' | 'blob' | 'json' | 'text';
 
   /**
    * Throw an error instead of returning it in the response?

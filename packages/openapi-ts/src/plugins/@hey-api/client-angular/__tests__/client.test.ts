@@ -1,5 +1,6 @@
 import type { HttpClient } from '@angular/common/http';
-import { HttpContext, HttpHeaders } from '@angular/common/http';
+import { HttpContext, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { of } from 'rxjs';
 
 import { createClient } from '../bundle/client';
 
@@ -124,6 +125,40 @@ describe('context', () => {
     });
 
     expect(request.context).toBe(context);
+  });
+});
+
+describe('responseType', () => {
+  const client = createClient({ baseUrl: 'https://example.com' });
+  const httpClient = vi.fn() as Partial<HttpClient> as HttpClient;
+
+  it('forwards a provided responseType to the resulting HttpRequest', () => {
+    const request = client.requestOptions({ httpClient, responseType: 'blob', url: '/test' });
+
+    expect(request.responseType).toBe('blob');
+  });
+
+  it('defaults to json when no responseType is provided', () => {
+    const request = client.requestOptions({ httpClient, url: '/test' });
+
+    expect(request.responseType).toBe('json');
+  });
+});
+
+describe('binary response', () => {
+  it('returns the Blob body untouched and sends a blob request', async () => {
+    const blob = new Blob(['content']);
+    const httpClient = {
+      request: vi.fn().mockReturnValue(of(new HttpResponse({ body: blob }))),
+    } as Partial<HttpClient> as HttpClient;
+    const client = createClient({ baseUrl: 'https://example.com', httpClient });
+
+    const result = await client.get({ responseType: 'blob', url: '/export' });
+
+    expect(result.data).toBe(blob);
+    expect(vi.mocked(httpClient.request).mock.calls[0]![0]).toMatchObject({
+      responseType: 'blob',
+    });
   });
 });
 
