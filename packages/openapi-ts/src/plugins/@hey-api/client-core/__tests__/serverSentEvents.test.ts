@@ -72,6 +72,29 @@ describe('createSseClient', () => {
     expect(result).toEqual(['hello']);
   });
 
+  it('removes only the single space after the field colon', async () => {
+    fetchMock.mockResolvedValue({
+      body: makeStream(['id:  1\nevent:  test\ndata:  world\n\n']),
+      ok: true,
+    });
+
+    const onEvent = vi.fn();
+    const { stream } = createSseClient({
+      onSseEvent: onEvent,
+      url: 'http://localhost/sse',
+    });
+    const result: Array<any> = [];
+    for await (const ev of stream) result.push(ev);
+
+    expect(result).toEqual([' world']);
+    expect(onEvent).toHaveBeenCalledWith({
+      data: ' world',
+      event: ' test',
+      id: ' 1',
+      retry: 3000,
+    });
+  });
+
   it('calls onSseError when response not ok', async () => {
     fetchMock.mockResolvedValue({
       ok: false,
