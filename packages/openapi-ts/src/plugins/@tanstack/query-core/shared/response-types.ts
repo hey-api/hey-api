@@ -1,8 +1,6 @@
-import type { AnalysisContext } from '@hey-api/codegen-core';
-import ts from 'typescript';
-
+import { ts } from '../../../../ts-compiler';
 import { $ } from '../../../../ts-dsl';
-import type { MaybeTsDsl, TypeTsDsl } from '../../../../ts-dsl/base';
+import type { TypeTsDsl } from '../../../../ts-dsl/base';
 import { TsDsl } from '../../../../ts-dsl/base';
 import type { PluginInstance } from '../types';
 
@@ -12,45 +10,11 @@ const ERROR_RESULT = 'ErrorResult';
 const STYLE_PARAM = 'TStyle';
 
 /**
- * Escape hatch DSL for conditional types, which the DSL doesn't natively
- * support. Renders `TStyle extends 'fields' ? trueType : falseType`. The
- * branch types are kept as DSL values and only lowered to AST at render
- * time so that symbol references inside them resolve correctly.
- */
-class ConditionalOnFieldsTsDsl extends TsDsl<ts.TypeNode> {
-  readonly '~dsl' = 'ConditionalOnFieldsTsDsl';
-
-  constructor(
-    private readonly _trueType: MaybeTsDsl<ts.TypeNode>,
-    private readonly _falseType: MaybeTsDsl<ts.TypeNode>,
-  ) {
-    super();
-  }
-
-  override analyze(ctx: AnalysisContext): void {
-    super.analyze(ctx);
-    ctx.analyze(this._trueType);
-    ctx.analyze(this._falseType);
-  }
-
-  override toAst() {
-    return ts.factory.createConditionalTypeNode(
-      ts.factory.createTypeReferenceNode(STYLE_PARAM),
-      ts.factory.createLiteralTypeNode(ts.factory.createStringLiteral('fields')),
-      this.$node(this._trueType) as ts.TypeNode,
-      this.$node(this._falseType) as ts.TypeNode,
-    );
-  }
-}
-
-/**
  * Builds a conditional type node:
  * `TStyle extends 'fields' ? trueType : falseType`.
  */
-const conditionalOnFields = (
-  trueType: MaybeTsDsl<ts.TypeNode>,
-  falseType: MaybeTsDsl<ts.TypeNode>,
-): ConditionalOnFieldsTsDsl => new ConditionalOnFieldsTsDsl(trueType, falseType);
+const conditionalOnFields = (trueType: TypeTsDsl, falseType: TypeTsDsl) =>
+  $.type.ternary(STYLE_PARAM).extends($.type.literal('fields')).do(trueType).otherwise(falseType);
 
 const styleUnion = () => $.type.or($.type.literal('data'), $.type.literal('fields'));
 

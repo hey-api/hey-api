@@ -5,17 +5,17 @@ import { client } from './client.gen';
 import type { CallToTestOrderOfParamsData, CallWithDefaultOptionalParametersData, CallWithDefaultParametersData, CallWithDescriptionsData, CallWithDuplicateResponsesData, CallWithDuplicateResponsesErrors, CallWithDuplicateResponsesResponses, CallWithNoContentResponseData, CallWithNoContentResponseResponses, CallWithParametersData, CallWithResponseAndNoContentResponseData, CallWithResponseAndNoContentResponseResponses, CallWithResponseData, CallWithResponseResponses, CallWithResponsesData, CallWithResponsesErrors, CallWithResponsesResponses, CallWithResultFromHeaderData, CallWithResultFromHeaderErrors, CallWithResultFromHeaderResponses, CallWithWeirdParameterNamesData, CollectionFormatData, ComplexTypesData, ComplexTypesErrors, ComplexTypesResponses, DeleteCallWithoutParametersAndResponseData, DummyAData, DummyAResponses, DummyBData, DummyBResponses, DuplicateName2Data, DuplicateName3Data, DuplicateName4Data, DuplicateNameData, FooWowData, FooWowResponses, GetCallWithoutParametersAndResponseData, HeadCallWithoutParametersAndResponseData, NonAsciiæøåÆøÅöôêÊ字符串Data, NonAsciiæøåÆøÅöôêÊ字符串Responses, OptionsCallWithoutParametersAndResponseData, PatchApiVbyApiVersionNoTagData, PatchApiVbyApiVersionNoTagResponses, PatchCallWithoutParametersAndResponseData, PostApiVbyApiVersionBodyData, PostApiVbyApiVersionBodyErrors, PostApiVbyApiVersionBodyResponses, PostCallWithoutParametersAndResponseData, PutCallWithoutParametersAndResponseData, ServiceWithEmptyTagData, TestErrorCodeData, TestErrorCodeErrors, TestErrorCodeResponses, TypesData, TypesResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
-    /**
-     * You can provide a client instance returned by `createClient()` instead of
-     * individual options. This might be also useful if you want to implement a
-     * custom client.
-     */
-    client?: Client;
-    /**
-     * You can pass arbitrary values through the `meta` object. This can be
-     * used to access values that aren't defined as part of the SDK function.
-     */
-    meta?: keyof ClientMeta extends never ? Record<string, unknown> : ClientMeta;
+  /**
+   * You can provide a client instance returned by `createClient()` instead of
+   * individual options. This might be also useful if you want to implement a
+   * custom client.
+   */
+  client?: Client;
+  /**
+   * You can pass arbitrary values through the `meta` object. This can be
+   * used to access values that aren't defined as part of the SDK function.
+   */
+  meta?: keyof ClientMeta extends never ? Record<string, unknown> : ClientMeta;
 };
 
 export const serviceWithEmptyTag = <ThrowOnError extends boolean = false>(options?: Options<ServiceWithEmptyTagData, ThrowOnError>): RequestResult<unknown, unknown, ThrowOnError> => (options?.client ?? client).get<unknown, unknown, ThrowOnError>({ url: '/api/v{api-version}/no+tag', ...options });
@@ -43,18 +43,18 @@ export const callWithDescriptions = <ThrowOnError extends boolean = false>(optio
 export const callWithParameters = <ThrowOnError extends boolean = false>(options: Options<CallWithParametersData, ThrowOnError>): RequestResult<unknown, unknown, ThrowOnError> => (options.client ?? client).post<unknown, unknown, ThrowOnError>({ url: '/api/v{api-version}/parameters/{parameterPath}', ...options });
 
 export const callWithWeirdParameterNames = <ThrowOnError extends boolean = false>(options: Options<CallWithWeirdParameterNamesData, ThrowOnError>): RequestResult<unknown, unknown, ThrowOnError> => (options.client ?? client).post<unknown, unknown, ThrowOnError>({
-    url: '/api/v{api-version}/parameters/{parameter.path.1}/{parameter-path-2}/{PARAMETER-PATH-3}',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+  url: '/api/v{api-version}/parameters/{parameter.path.1}/{parameter-path-2}/{PARAMETER-PATH-3}',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
 
 export const callWithDefaultParameters = <ThrowOnError extends boolean = false>(options: Options<CallWithDefaultParametersData, ThrowOnError>): RequestResult<unknown, unknown, ThrowOnError> => (options.client ?? client).get<unknown, unknown, ThrowOnError>({
-    querySerializer: { parameters: { parameterModel: { object: { explode: false, style: 'form' } } } },
-    url: '/api/v{api-version}/defaults',
-    ...options
+  querySerializer: { parameters: { parameterModel: { object: { explode: false, style: 'form' } } } },
+  url: '/api/v{api-version}/defaults',
+  ...options
 });
 
 export const callWithDefaultOptionalParameters = <ThrowOnError extends boolean = false>(options?: Options<CallWithDefaultOptionalParametersData, ThrowOnError>): RequestResult<unknown, unknown, ThrowOnError> => (options?.client ?? client).post<unknown, unknown, ThrowOnError>({ url: '/api/v{api-version}/defaults', ...options });
@@ -84,26 +84,26 @@ export const callWithDuplicateResponses = <ThrowOnError extends boolean = false>
 export const callWithResponses = <ThrowOnError extends boolean = false>(options?: Options<CallWithResponsesData, ThrowOnError>): RequestResult<CallWithResponsesResponses, CallWithResponsesErrors, ThrowOnError> => (options?.client ?? client).put<CallWithResponsesResponses, CallWithResponsesErrors, ThrowOnError>({ url: '/api/v{api-version}/response', ...options });
 
 export const collectionFormat = <ThrowOnError extends boolean = false>(options: Options<CollectionFormatData, ThrowOnError>): RequestResult<unknown, unknown, ThrowOnError> => (options.client ?? client).get<unknown, unknown, ThrowOnError>({
-    querySerializer: { parameters: {
-            parameterArrayCSV: { array: { explode: false } },
-            parameterArraySSV: { array: { explode: false } },
-            parameterArrayTSV: { array: { explode: false } },
-            parameterArrayPipes: { array: { explode: false } }
-        } },
-    url: '/api/v{api-version}/collectionFormat',
-    ...options
+  querySerializer: { parameters: {
+      parameterArrayCSV: { array: { explode: false } },
+      parameterArraySSV: { array: { explode: false } },
+      parameterArrayTSV: { array: { explode: false } },
+      parameterArrayPipes: { array: { explode: false } }
+    } },
+  url: '/api/v{api-version}/collectionFormat',
+  ...options
 });
 
 export const types = <ThrowOnError extends boolean = false>(options: Options<TypesData, ThrowOnError>): RequestResult<TypesResponses, unknown, ThrowOnError> => (options.client ?? client).get<TypesResponses, unknown, ThrowOnError>({
-    querySerializer: { parameters: { parameterArray: { array: { explode: false } }, parameterDictionary: { object: { explode: false, style: 'form' } } } },
-    url: '/api/v{api-version}/types',
-    ...options
+  querySerializer: { parameters: { parameterArray: { array: { explode: false } }, parameterDictionary: { object: { explode: false, style: 'form' } } } },
+  url: '/api/v{api-version}/types',
+  ...options
 });
 
 export const complexTypes = <ThrowOnError extends boolean = false>(options: Options<ComplexTypesData, ThrowOnError>): RequestResult<ComplexTypesResponses, ComplexTypesErrors, ThrowOnError> => (options.client ?? client).get<ComplexTypesResponses, ComplexTypesErrors, ThrowOnError>({
-    querySerializer: { parameters: { parameterObject: { object: { explode: false, style: 'form' } }, parameterReference: { object: { explode: false, style: 'form' } } } },
-    url: '/api/v{api-version}/complex',
-    ...options
+  querySerializer: { parameters: { parameterObject: { object: { explode: false, style: 'form' } }, parameterReference: { object: { explode: false, style: 'form' } } } },
+  url: '/api/v{api-version}/complex',
+  ...options
 });
 
 export const callWithResultFromHeader = <ThrowOnError extends boolean = false>(options?: Options<CallWithResultFromHeaderData, ThrowOnError>): RequestResult<CallWithResultFromHeaderResponses, CallWithResultFromHeaderErrors, ThrowOnError> => (options?.client ?? client).post<CallWithResultFromHeaderResponses, CallWithResultFromHeaderErrors, ThrowOnError>({ url: '/api/v{api-version}/header', ...options });
@@ -118,10 +118,10 @@ export const nonAsciiæøåÆøÅöôêÊ字符串 = <ThrowOnError extends boole
  * Body should not be unknown
  */
 export const postApiVbyApiVersionBody = <ThrowOnError extends boolean = false>(options: Options<PostApiVbyApiVersionBodyData, ThrowOnError>): RequestResult<PostApiVbyApiVersionBodyResponses, PostApiVbyApiVersionBodyErrors, ThrowOnError> => (options.client ?? client).post<PostApiVbyApiVersionBodyResponses, PostApiVbyApiVersionBodyErrors, ThrowOnError>({
-    url: '/api/v{api-version}/body',
-    ...options,
-    headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
-    }
+  url: '/api/v{api-version}/body',
+  ...options,
+  headers: {
+    'Content-Type': 'application/json',
+    ...options.headers
+  }
 });
