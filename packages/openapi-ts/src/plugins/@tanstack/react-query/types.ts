@@ -374,6 +374,17 @@ export type UserConfig = Plugin.Name<'@tanstack/react-query'> &
           name?: NameTransformer;
         };
     /**
+     * Shape of the value returned from generated `queryFn`/`mutationFn`.
+     *
+     * - `'data'` (default) — returns parsed body only, throws raw error.
+     * - `'fields'` — returns `{ data, request, response }` on success and throws
+     *   `{ error, request, response }` on failure, giving access to HTTP status,
+     *   headers, and request metadata.
+     *
+     * @default 'data'
+     */
+    responseStyle?: 'data' | 'fields';
+    /**
      * Configuration for generated `setQueryData` helpers.
      *
      * When enabled, generates a helper per query operation that wraps
@@ -606,6 +617,8 @@ export type Config = Plugin.Name<'@tanstack/react-query'> &
         /** Custom function to generate metadata for the operation. */
         meta: (operation: IR.OperationObject) => Record<string, unknown>;
       };
+    /** Shape of the value returned from generated `queryFn`/`mutationFn`. */
+    responseStyle: 'data' | 'fields';
     /** Resolved configuration for generated `setQueryData` helpers. */
     setQueryData: NamingOptions & FeatureToggle;
     /** Configuration for generated React Query hook variant of `getQueryData`. */

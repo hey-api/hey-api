@@ -87,6 +87,7 @@ export const defaultConfig: TanStackReactQueryPlugin['Config'] = {
       meta: defaultMeta,
       name: '{{name}}Options',
     },
+    responseStyle: 'data',
     setQueryData: {
       $coerceAny: ({ type, value }) => ({
         enabled: Boolean(value),
