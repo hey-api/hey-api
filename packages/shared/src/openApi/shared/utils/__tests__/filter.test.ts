@@ -203,4 +203,49 @@ describe('createFilteredDependencies', () => {
 
     expect(schemas).toEqual(new Set());
   });
+
+  it('keeps a path-level parameter referenced only through an operation dependency when dropping orphans', () => {
+    const filters = createFilters();
+
+    const resourceMetadata = createResourceMetadata();
+    // simulates a path-level `parameters` $ref merged into the operation's
+    // dependencies by buildResourceMetadata
+    resourceMetadata.operations
+      .get('operation/GET /v1/foo')!
+      .dependencies.add('parameter/SharedParam');
+    resourceMetadata.parameters.set('parameter/SharedParam', {
+      dependencies: new Set(),
+      deprecated: false,
+    });
+
+    const { parameters } = createFilteredDependencies({
+      filters,
+      logger: loggerStub,
+      resourceMetadata,
+    });
+
+    expect(parameters.has('parameter/SharedParam')).toBe(true);
+  });
+
+  it('excludes an operation that depends on an explicitly excluded path-level parameter', () => {
+    const filters = createFilters();
+    filters.parameters.exclude.add('parameter/SharedParam');
+
+    const resourceMetadata = createResourceMetadata();
+    resourceMetadata.operations
+      .get('operation/GET /v1/foo')!
+      .dependencies.add('parameter/SharedParam');
+    resourceMetadata.parameters.set('parameter/SharedParam', {
+      dependencies: new Set(),
+      deprecated: false,
+    });
+
+    const { operations } = createFilteredDependencies({
+      filters,
+      logger: loggerStub,
+      resourceMetadata,
+    });
+
+    expect(operations.has('operation/GET /v1/foo')).toBe(false);
+  });
 });

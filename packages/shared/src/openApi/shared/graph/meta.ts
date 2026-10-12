@@ -2,7 +2,7 @@ import type { Logger } from '@hey-api/codegen-core';
 
 import type { Graph } from '../../../graph';
 import { createOperationKey } from '../../../ir/operation';
-import { jsonPointerToPath } from '../../../utils/ref';
+import { jsonPointerToPath, pathToJsonPointer } from '../../../utils/ref';
 import { addNamespace, stringToNamespace } from '../utils/filter';
 import { httpMethods } from '../utils/operation';
 
@@ -84,6 +84,27 @@ export function buildResourceMetadata(
     return dependencies;
   };
 
+  // Path/webhook-level `parameters` (#/paths/{path}/parameters,
+  // #/webhooks/{name}/parameters) are not operation nodes, but their
+  // dependencies must be attributed to every operation under that path or
+  // webhook so filtering doesn't treat them as orphans. Computed lazily and
+  // cached per path/webhook, since the pointer is derivable directly from
+  // the operation's own path segment — no need to pre-scan every graph node
+  // looking for it, and no need to recompute it for each sibling method.
+  const pathParameterDependenciesCache = new Map<string, Set<string>>();
+  const getPathLevelParameterDependencies = (
+    kind: 'paths' | 'webhooks',
+    name: string,
+  ): Set<string> => {
+    const cacheKey = `${kind}/${name}`;
+    let dependencies = pathParameterDependenciesCache.get(cacheKey);
+    if (!dependencies) {
+      dependencies = getDependencies(pathToJsonPointer([kind, name, 'parameters']));
+      pathParameterDependenciesCache.set(cacheKey, dependencies);
+    }
+    return dependencies;
+  };
+
   // Process each node to find top-level resources
   for (const [pointer, nodeInfo] of graph.nodes) {
     // const node = nodeInfo.node as Record<string, unknown>;
@@ -135,7 +156,32 @@ export function buildResourceMetadata(
           path: operationPath,
         });
         resourceMetadata.operations.set(addNamespace('operation', operationKey), {
-          dependencies: getDependencies(pointer),
+          dependencies: new Set([
+            ...getDependencies(pointer),
+            ...getPathLevelParameterDependencies('paths', operationPath),
+          ]),
+          deprecated: nodeInfo.deprecated ?? false,
+          tags: nodeInfo.tags ?? new Set(),
+        });
+      }
+      continue;
+    }
+
+    // OpenAPI 3.1 webhooks
+    if (path[0] === 'webhooks') {
+      if (path.length === 3 && httpMethods.includes(path[2] as (typeof httpMethods)[number])) {
+        // Operation: #/webhooks/{name}/{method}
+        const method = path[path.length - 1]!;
+        const webhookName = path[1]!;
+        const operationKey = createOperationKey({
+          method,
+          path: webhookName,
+        });
+        resourceMetadata.operations.set(addNamespace('operation', operationKey), {
+          dependencies: new Set([
+            ...getDependencies(pointer),
+            ...getPathLevelParameterDependencies('webhooks', webhookName),
+          ]),
           deprecated: nodeInfo.deprecated ?? false,
           tags: nodeInfo.tags ?? new Set(),
         });
