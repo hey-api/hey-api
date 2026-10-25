@@ -33,7 +33,7 @@ export const getAuthToken = async (
   const token = typeof callback === 'function' ? await callback(auth) : callback;
 
   if (!token) {
-    return;
+    return undefined;
   }
 
   if (auth.scheme === 'bearer') {

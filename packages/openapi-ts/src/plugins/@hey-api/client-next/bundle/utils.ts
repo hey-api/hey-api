@@ -153,7 +153,7 @@ export const getParseAs = (contentType: string | null): Exclude<Config['parseAs'
   const cleanContent = contentType.split(';')[0]?.trim();
 
   if (!cleanContent) {
-    return;
+    return undefined;
   }
 
   if (cleanContent.startsWith('application/json') || cleanContent.endsWith('+json')) {
@@ -174,7 +174,7 @@ export const getParseAs = (contentType: string | null): Exclude<Config['parseAs'
     return 'text';
   }
 
-  return;
+  return undefined;
 };
 
 const checkForExistence = (
