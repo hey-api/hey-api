@@ -60,7 +60,7 @@
     "play:py": "python ./dev/playground.py"
   },
   "devDependencies": {
-    "@arethetypeswrong/core": "0.18.4",
+    "@arethetypeswrong/core": "0.18.5",
     "@changesets/cli": "2.31.0",
     "@changesets/get-github-info": "0.8.0",
     "@changesets/parse": "0.4.3",
