@@ -67,7 +67,7 @@
     "@changesets/types": "6.1.0",
     "@hey-api/custom-client": "workspace:*",
     "@hey-api/openapi-ts": "workspace:*",
-    "@tsdown/exe": "0.22.3",
+    "@tsdown/exe": "0.23.5",
     "@types/node": "24.13.2",
     "@typescript/native-preview": "7.0.0-dev.20260704.1",
     "@vitest/coverage-v8": "4.1.9",
