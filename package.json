@@ -69,7 +69,7 @@
     "@hey-api/openapi-ts": "workspace:*",
     "@tsdown/exe": "0.22.3",
     "@types/node": "24.13.2",
-    "@typescript/native-preview": "7.0.0-dev.20260704.1",
+    "@typescript/native-preview": "7.0.0-dev.20260707.2",
     "@vitest/coverage-v8": "4.1.9",
     "eslint-plugin-simple-import-sort": "12.1.1",
     "eslint-plugin-sort-destructure-keys": "3.0.0",
